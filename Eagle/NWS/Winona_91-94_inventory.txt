@@ -1,0 +1,35 @@
+STATION NAME                   COOPID  WBANID  ELEM  YEAR  # OF MONTHS (DATA ROWS) AVAILABLE
+-----------------------------  ------  ------  ----  ----  ------------------------------------
+WINONA                         219067   99999   PRCP  1990  3
+WINONA                         219067   99999   SNOW  1990  3
+WINONA                         219067   99999   SNWD  1990  2
+WINONA                         219067   99999   TMAX  1990  3
+WINONA                         219067   99999   TMIN  1990  3
+WINONA                         219067   99999   TOBS  1990  3
+WINONA                         219067   99999   PRCP  1991  11
+WINONA                         219067   99999   SNOW  1991  11
+WINONA                         219067   99999   SNWD  1991  7
+WINONA                         219067   99999   TMAX  1991  11
+WINONA                         219067   99999   TMIN  1991  11
+WINONA                         219067   99999   TOBS  1991  11
+WINONA                         219067   99999   PRCP  1992  12
+WINONA                         219067   99999   SNOW  1992  12
+WINONA                         219067   99999   SNWD  1992  10
+WINONA                         219067   99999   TMAX  1992  12
+WINONA                         219067   99999   TMIN  1992  12
+WINONA                         219067   99999   TOBS  1992  12
+WINONA                         219067   99999   PRCP  1993  11
+WINONA                         219067   99999   SNOW  1993  11
+WINONA                         219067   99999   SNWD  1993  8
+WINONA                         219067   99999   TMAX  1993  11
+WINONA                         219067   99999   TMIN  1993  11
+WINONA                         219067   99999   TOBS  1993  11
+WINONA                         219067   99999   PRCP  1994  8
+WINONA                         219067   99999   SNOW  1994  8
+WINONA                         219067   99999   SNWD  1994  5
+WINONA                         219067   99999   TMAX  1994  8
+WINONA                         219067   99999   TMIN  1994  8
+WINONA                         219067   99999   TOBS  1994  9
+Total Data Rows: 258
+Total Station-Years: 5
+
