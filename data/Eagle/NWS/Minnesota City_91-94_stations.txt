@@ -1,0 +1,4 @@
+COOPID  WBANID  STATION NAME                   COUNTRY                          STATE  COUNTY                          CLIMATE DIVISION  LATITUDE  LONGITUDE  ELEVATION
+------  ------  -----------------------------  -------------------------------  -----  ------------------------------  ----------------  --------  ---------  ---------
+215488  99999   MINNESOTA CITY DAM 5           UNITED STATES                    MN     WINONA                          09               44:09      -91:48     670   
+

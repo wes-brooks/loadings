@@ -1,0 +1,9 @@
+         1 s totalwater totalwater        1   0.2595000000E+01
+         2 s totalwater totalwater        1   0.1975000000E+01
+         4 t theisen theisen     0.2219212454E+02
+         5 s tmax tmax        1   0.8550000000E+02
+        10 s p60max p60max        1   0.8250000000E+00
+        20 t NONE NONE     0.2162616667E+03
+        21 t NONE NONE     0.1210774000E+04
+        11 t NONE NONE     0.1137300000E+03
+         3 t NONE NONE     0.1176862222E+04

@@ -1,0 +1,139 @@
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2011 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ Choose one of the following options:
+ 1. Read the warranty disclaimer
+ 2. Fit a model
+ 3. Convert data to other formats
+ 4. Create a batch input file
+ 5. Rank and select regressor variables
+ Input your choice:  Batch job
+ Input 1 for model fitting, 2 for importance scoring, 3 for data conversion: 
+           1
+ Output file is ../../../output/eagle/guide.txt
+  
+ Input 1 for single tree, 2 for ensemble of trees:            1
+ Input 1 for classification, 2 for regression:            2
+ Choose type of regression model:
+1=linear, 2=quantile, 3=Poisson, 4=proportional hazards,
+5=multiresponse data,6=longitudinal data with T variables:  1
+ Input 1 for linear, 2 least median of squares:            1
+ Choose complexity of model to use at each node:
+0: stepwise linear, 1: multiple linear, 2: best polynomial, 3: constant,
+4: stepwise simple ANCOVA:  3
+ Input 1 for interaction tests, 2 to skip them:            1
+ Input 1 to prune by CV, 2 for no pruning:            1
+  
+ Input name of data description file (max 100 chars; enclose within
+ quotes if it contains spaces):  ./no_snow.txt
+ Reading data description file ...
+ Training sample file: 
+ C:\Users\wrbrooks\git\loadings\data\Eagle\eaglecreek_nosnow.csv
+ Missing value code: na
+ Warning: N variables changed to S
+ Warning: B variables changed to C
+ Dependent variable is sstormtot
+ Length of longest data entry = 12
+ Total number of cases =         301
+ Cat. var. in column    #levels (incl. missing)    #missing values
+                  22                          1                  0
+                  23                          2                  0
+                  24                          2                  0
+                  25                          2                  0
+ Checking data ...
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        301          0         58       27        0        0       19        0        4
+ No weight variable in data file
+ Number of cases used for training =          301
+ Number of cases excluded due to zero weight or missing D-values =            0
+ Default number of cross-validations =           10
+ Input 1 to accept the default, 2 to change it:            1
+ Input tree selection method:            1
+ Input number of SEs for pruning:   0.100000000000000     
+ Choose a split point selection method for numerical variables:
+ Choose 1 to use faster method based on sample quantiles
+ Choose 2 to use exhaustive search
+Input 1 or 2:  2
+ Default max number of split levels =           10
+ Input 1 to accept this value, 2 to change it:            1
+ Smallest possible node sample size =            5
+ Input 1 to accept this value, 2 to change it:            1
+Input 2 for LaTeX tree diagrams, 1 to skip them:  2
+ Input file name to store LaTeX code: ../../../output/eagle/tree.tex
+ Warning: LaTeX file is overwritten
+ Input 1 for vertical tree, 2 for sideways tree:            1
+ Input 1 to include node numbers, 2 to omit them:            1
+ Input 1 to number all nodes, 2 to number leaves only:            2
+ Choose a color for the leaf nodes:
+ (1) white
+ (2) lightgray
+ (3) gray
+ (4) darkgray
+ (5) black
+ (6) yellow
+ (7) red
+ (8) blue
+ (9) green
+ (10) magenta
+ (11) cyan
+ Input your choice:            6
+ You can store the variables and/or values used to split and fit in a file
+ Choose 1 to skip this step, 2 to store split and fit variables,
+ 3 to store split variables and their values
+ Input your choice:            3
+ Variable usage file name: ../../../output/eagle/splits.txt
+ Warning: file is overwritten
+ Input 2 to save predicted values and node IDs; 1 otherwise:            1
+ Input 2 to save terminal node IDs for importance scoring later; 1 otherwise: 
+           1
+ Constructing main tree ...
+ Number of terminal nodes of largest tree =          35
+ Performing cross-validation:
+ Finished cross-validation iteration           1
+ Finished cross-validation iteration           2
+ Finished cross-validation iteration           3
+ Finished cross-validation iteration           4
+ Finished cross-validation iteration           5
+ Finished cross-validation iteration           6
+ Finished cross-validation iteration           7
+ Finished cross-validation iteration           8
+ Finished cross-validation iteration           9
+ Finished cross-validation iteration          10
+  
+ Pruning main tree.  Please wait.
+ Results of subtree sequence
+ Trees based on mean with naive SE are marked with * and **
+ Tree based on mean with bootstrap SE is marked with --
+ Trees based on median with finite bootstrap SE are marked with + and ++
+    Subtree        #Terminal nodes
+      1                    34
+      2                    33
+      3                    31
+      4                    30
+      5                    29
+      6                    27
+      7                    25
+      8                    22
+      9                    21
+     10*                   20
+     11                    19
+     12                    17
+     13                    15
+     14                    14
+     15+                   12
+     16                    10
+     17                     7
+     18                     6
+     19**                   5
+     20                     3
+     21++                   2
+     22                     1
+ ** tree same as -- tree
+  
+ LaTeX code for tree is in file: ../../../output/eagle/tree.tex
+ Results are stored in file ../../../output/eagle/guide.txt
+ Elapsed time in seconds:   0.5772037    

@@ -1,0 +1,8 @@
+Excel formula for turning start date into julian date (year and month are already provided)
+=AC2-DATE(YEAR(AC2)-1,12,31)
+
+Transformations on julian date: sine and cosine. done in Excel at the same time as the julian date is computed.
+
+Look in code directory (../code) for split.py, which separates each data set into snow events and non-snow events. Right now it is hard-coded for the eaglecreek data
+
+'Aggregate' is the file that stores data for all the creeks.

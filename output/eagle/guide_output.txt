@@ -1,0 +1,510 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 05/23/11 at 15:16
+  
+ Least squares regression tree
+ No truncation of predicted values
+ Pruning by cross-validation
+ Data description file: ./linear.txt
+ Training sample file: 
+ C:\Users\wrbrooks\git\loadings\data\Eagle\eaglecreek_nosnow.csv
+ Missing value code: na
+ Dependent variable is sstormtot
+ Piecewise linear model
+ Length of longest data entry = 12
+ Number of dummy variables created =  3
+  
+ Summary information (without x variables)
+ d=dependent, b=split and fit cat variable using 0-1 dummies, c=split-only categorical,
+ n=split and fit numerical, f=fit-only numerical, s=split-only numerical, w=weight
+ For categorical variables, #categories include one for missing values
+ Column  Variable          Variable  Minimum      Maximum    Number of     Number
+ number    name              type     value        value     categories    missing
+       4  theisen               n   1.0100E-01   4.8300E+00
+       5  p5max                 n   3.6000E-02   6.5760E+00
+       6  p10max                n   2.4000E-02   3.7920E+00
+       7  p15max                n   2.0000E-02   3.5120E+00
+       8  p30max                n  -9.0000E+00   2.7260E+00
+       9  p60max                n  -9.0000E+00   2.0500E+00
+      10  ei                    n  -9.0000E+00   9.1785E+01
+      11  duration              n   4.1700E-01   1.4975E+02
+      12  intense               n   3.0000E-03   6.8400E-01
+      13  ap1day                n   0.0000E+00   8.6900E-01                    35
+      14  ap2day                n   0.0000E+00   2.5090E+00                     3
+      15  ap3day                n   0.0000E+00   2.8980E+00                     5
+      16  tmax                  n   3.3000E+01   9.5000E+01                     5
+      17  tmin                  n  -6.0000E+00   7.2000E+01                     5
+      18  tmean                 n   2.2000E+01   8.3000E+01                     5
+      22  p                     b                                   1
+      23  s                     b                                   2
+      24  m                     b                                   2
+      25  eventtype             b                                   2
+      28  sinJulian             n  -9.9977E-01   9.9992E-01
+      29  cosJulian             n  -9.9996E-01   1.0000E+00
+      42  sstormtot             d   0.0000E+00   3.2059E+03
+      50  meltwater             n   0.0000E+00   7.2000E-01                    18
+      51  totalwater            n   1.0000E-01   4.8300E+00                    18
+   =================== Constructed variables ===================
+      52  s=S                   f   0.0000E+00   1.0000E+00
+      53  m=M                   f   0.0000E+00   1.0000E+00
+      54  event=2               f   0.0000E+00   1.0000E+00
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        301          0         58       27       19        0        0        4        0
+ No weight variable in data file
+ Number of cases used for training =  301
+ Number of cases excluded due to zero weight or missing D-values =  0
+  
+ Interaction tests on all variables
+ Pruning by v-fold cross-validation, with v =  10
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  10
+ Minimum node size =  5
+ Number of SE's for pruned tree =   5.0000E-01
+  
+ Size and CV MSE and SE of subtrees:
+  Tree   #Tnodes  Mean MSE   SE(Mean)    BSE(Mean)  Median MSE  BSE(Median)
+    1       35   6.796E+04   1.992E+04   1.621E+04   6.931E+04   1.856E+04
+    2       32   6.796E+04   1.992E+04   1.621E+04   6.931E+04   1.856E+04
+    3       28   6.796E+04   1.992E+04   1.621E+04   6.931E+04   1.856E+04
+    4       26   6.796E+04   1.992E+04   1.621E+04   6.931E+04   1.856E+04
+    5       21   6.796E+04   1.992E+04   1.621E+04   6.931E+04   1.856E+04
+    6       18   6.796E+04   1.992E+04   1.621E+04   6.931E+04   1.856E+04
+    7**     15   6.796E+04   1.992E+04   1.621E+04   6.931E+04   1.856E+04
+    8       14   2.338E+05   8.594E+04   6.262E+04   1.484E+05   4.889E+04
+    9       13   2.338E+05   8.594E+04   6.262E+04   1.484E+05   4.889E+04
+   10       12   2.350E+05   8.594E+04   6.227E+04   1.484E+05   4.862E+04
+   11       11   2.543E+05   8.818E+04   6.067E+04   1.467E+05   7.101E+04
+   12        9   2.494E+05   8.817E+04   6.201E+04   1.464E+05   7.116E+04
+   13        8   1.138E+06   9.062E+05   8.634E+05   1.466E+05   2.278E+05
+   14        7   1.138E+06   9.062E+05   8.636E+05   1.465E+05   2.279E+05
+   15        4   1.138E+06   9.062E+05   8.636E+05   1.441E+05   2.281E+05
+   16        2   7.169E+05   4.858E+05   4.544E+05   1.479E+05   1.471E+05
+   17++      1   2.554E+05   1.689E+05   1.686E+05   4.750E+04   5.508E+04
+  
+ 0-SE tree based on mean is marked with *
+ 0-SE tree based on median with bootstrap SE is marked with +
+ Selected-SE tree based on mean using naive SE is marked with **
+ Selected-SE tree based on mean using bootstrap SE is marked with --
+ Selected-SE tree based on median and bootstrap SE is marked with ++
+ ** tree same as -- tree
+ + tree same as ++ tree
+ * tree same as ** tree
+ * tree same as -- tree
+  
+ Following tree is based on mean CV with naive SE estimate.
+  
+ Structure of final tree. Each terminal node is marked with a T.
+  
+ D-mean is mean of sstormtot in the node
+ Cases fit give the number of cases used to fit node
+ MSE and R^2 are based on all cases in node
+        Node    Total    Cases Matrix    Node      Node      Node    Split      Interacting
+        label   cases      fit  rank    D-mean     MSE       R^2     variable   variable
+           1      301      243    23  8.276E+01  7.784E+04  0.2619 totalwater           
+           2      269      215    23  2.085E+01  4.741E+03  0.1760 ei         ap1day    
+           4      195      150    23  1.423E+01  4.963E+03  0.0875 sinJulian            
+           8      147      115    22  2.817E+00  5.567E+01  0.5604 totalwater           
+          16       11       11     1  1.747E+00  9.493E+00  0.0000 duration             
+          32T       6        6     1  3.567E-01  3.125E-01  0.0000                      
+          33T       5        5     1  3.416E+00  1.540E+01  0.0000                      
+          17      136      115    22  2.904E+00  5.936E+01  0.5635 totalwater           
+          34      104       88    21  1.004E+00  8.278E+00  0.2887 cosJulian            
+          68T      30       27    19  2.409E+00  6.805E+00  0.8076 ap2day               
+          69       74       61    21  4.339E-01  7.173E-01  0.1947 p30max               
+         138T      37       30    21  4.968E-01  8.148E-01  0.3079                      
+         139       37       31    19  3.711E-01  2.335E-01  0.6086 duration             
+         278T       5        5     1  2.800E-02  8.560E-04  0.0000                      
+         279T      32       27    19  4.247E-01  1.214E-01  0.8184 duration             
+          35T      32       27    22  9.079E+00  5.296E+01  0.8920 p15max               
+           9       48       35    23  4.917E+01  1.572E+04  0.2175 s                    
+          18       40       31    21  5.182E+01  1.680E+04  0.2929 ap1day               
+          36T       6        6     1  1.588E+01  6.445E+02  0.0000                      
+          37       34       31    21  5.817E+01  1.445E+04  0.4759 duration             
+          74T      29       27    20  6.645E+01  1.250E+04  0.6075 ap3day               
+          75T       5        5     1  1.010E+01  8.244E+01  0.0000                      
+          19T       8        8     1  3.588E+01  1.511E+03  0.0000                      
+           5       74       65    19  3.832E+01  2.631E+03  0.5731 tmax                 
+          10T      34       28    19  3.196E+01  8.748E+02  0.8601 p60max               
+          11       40       37    19  4.372E+01  1.750E+03  0.7093 cosJulian            
+          22T      10       10     1  1.265E+01  7.274E+02  0.0000                      
+          23T      30       28    19  5.408E+01  1.378E+03  0.8127 ap1day               
+           3T      32       28    20  6.032E+02  2.869E+05  0.5522 p30max               
+  
+ Number of terminal nodes of final tree: 15
+ Total number of nodes of final tree:    29
+  
+ Regression tree:
+  
+  Node 1: totalwater <=    1.80500
+    Node 2: ei <=    1.95800
+      Node 4: sinJulian <=    0.82120
+        Node 8: totalwater = na
+          Node 16: duration <=   28.20850
+            Node 32: sstormtot-mean =   0.35667
+          Node 16: duration >   28.20850
+            Node 33: sstormtot-mean =   3.41600
+        Node 8: totalwater /= na
+          Node 17: totalwater <=    0.52500
+            Node 34: cosJulian <=   -0.85205
+              Node 68: sstormtot-mean =   2.40933
+            Node 34: cosJulian >   -0.85205
+              Node 69: p30max <=    0.16900
+                Node 138: sstormtot-mean =   0.49676
+              Node 69: p30max >    0.16900
+                Node 139: duration <=    1.54150
+                  Node 278: sstormtot-mean =  2.80000E-02
+                Node 139: duration >    1.54150
+                  Node 279: sstormtot-mean =   0.42469
+          Node 17: totalwater >    0.52500
+            Node 35: sstormtot-mean =   9.07937
+      Node 4: sinJulian >    0.82120
+        Node 9: s = 0
+          Node 18: ap1day = na
+            Node 36: sstormtot-mean =  15.88500
+          Node 18: ap1day /= na
+            Node 37: duration <=   52.58300
+              Node 74: sstormtot-mean =  66.45379
+            Node 37: duration >   52.58300
+              Node 75: sstormtot-mean =  10.10200
+        Node 9: s = S
+          Node 19: sstormtot-mean =  35.88125
+    Node 2: ei >    1.95800
+      Node 5: tmax <=   81.50000
+        Node 10: sstormtot-mean =  31.96324
+      Node 5: tmax >   81.50000
+        Node 11: cosJulian <=   -0.90878
+          Node 22: sstormtot-mean =  12.64800
+        Node 11: cosJulian >   -0.90878
+          Node 23: sstormtot-mean =  54.08000
+  Node 1: totalwater >    1.80500
+    Node 3: sstormtot-mean =  6.03178E+02
+ 
+ ***************************************************************
+ In the following the predictor node mean is mean of complete cases
+ Regression coefficients are computed from the complete cases
+  
+ Node 1: Intermediate node
+ A case goes into Node 2 if totalwater <=  1.8050000E+00
+           totalwater  mean =  8.5834E-01
+ ----------------------------
+ Node 2: Intermediate node
+ A case goes into Node 4 if ei <=  1.9580000E+00
+                   ei  mean =  2.1238E+00
+ ----------------------------
+ Node 4: Intermediate node
+ A case goes into Node 8 if sinJulian <=  8.2120271E-01
+            sinJulian  mean = -4.3018E-03
+ ----------------------------
+ Node 8: Intermediate node
+ A case goes into Node 16 if totalwater = na
+           totalwater  mean =  4.1478E-01
+ ----------------------------
+ Node 16: Intermediate node
+ A case goes into Node 32 if duration <=  2.8208500E+01
+             duration  mean =  2.7205E+01
+ ----------------------------
+ Node 32: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       3.5667E-01        1.43 0.2130                                    
+ Predicted mean =  0.356666666666667     
+ ----------------------------
+ Node 33: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       3.4160E+00        1.74 0.3435                                    
+ Predicted mean =   3.41600000000000     
+ ----------------------------
+ Node 17: Intermediate node
+ A case goes into Node 34 if totalwater <=  5.2500000E-01
+           totalwater  mean =  4.1478E-01
+ ----------------------------
+ Node 34: Intermediate node
+ A case goes into Node 68 if cosJulian <= -8.5204596E-01
+            cosJulian  mean = -3.8181E-01
+ ----------------------------
+ Node 68: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant      -3.8586E+01       -0.74 0.4819                                    
+ theisen        1.1772E+03        2.38 0.0442    1.1400E-01    2.9433E-01    5.1100E-01
+ p5max          4.5157E-01        0.02 0.9838    1.2000E-01    5.8400E-01    1.2600E+00
+ p10max         4.3312E+01        0.94 0.3750    1.0800E-01    5.0300E-01    1.1220E+00
+ p15max        -6.0801E+01       -0.93 0.3802    8.0000E-02    4.1587E-01    9.5200E-01
+ p30max        -7.0625E+01       -1.08 0.3114    4.4000E-02    2.9613E-01    6.0600E-01
+ p60max         4.5252E-01        0.49 0.6385   -9.0000E+00   -7.2933E-01    3.0900E-01
+ ei             2.6749E+01        1.47 0.1789    2.4000E-02    6.5833E-01    1.6840E+00
+ duration      -4.1656E-01       -1.92 0.0904    5.0000E-01    9.3083E+00    4.5500E+01
+ intense        6.4943E+00        0.15 0.8819    4.0000E-03    7.8233E-02    3.9000E-01
+ ap1day         1.7599E+01        0.26 0.7990    0.0000E+00    1.1429E-02    1.0200E-01
+ ap2day        -2.4368E+01       -1.82 0.1058    0.0000E+00    1.0980E-01    5.4100E-01
+ ap3day         1.7677E+01        2.71 0.0267    0.0000E+00    2.8073E-01    1.1530E+00
+ tmax          -6.4426E-01       -0.50 0.6281    7.3000E+01    8.4071E+01    9.4000E+01
+ tmin          -5.1123E-01       -0.61 0.5595    4.8000E+01    5.9821E+01    7.0000E+01
+ tmean          1.2746E+00        0.62 0.5542    6.3000E+01    7.2250E+01    8.0000E+01
+ sinJulian     -8.1980E-01       -0.09 0.9292   -5.1606E-01    3.2999E-03    4.8627E-01
+ cosJulian     -4.4990E+01       -1.09 0.3071   -9.9996E-01   -9.6388E-01   -8.5655E-01
+ totalwater    -1.1835E+03       -2.39 0.0436    1.1000E-01    2.9433E-01    5.1000E-01
+ Predicted mean if regression function is inapplicable due to missing values =
+  0.103333333333333     
+ ----------------------------
+ Node 69: Intermediate node
+ A case goes into Node 138 if p30max <=  1.6900000E-01
+               p30max  mean =  1.9527E-01
+ ----------------------------
+ Node 138: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant      -7.7415E-01       -0.35 0.7355                                    
+ theisen        3.7541E+01        0.77 0.4599    1.0100E-01    2.6219E-01    5.1500E-01
+ p5max          2.7808E+01        1.45 0.1801    7.2000E-02    1.6054E-01    2.6400E-01
+ p10max        -2.2564E+01       -0.77 0.4620    6.0000E-02    1.3670E-01    2.2200E-01
+ p15max        -3.5653E+01       -0.91 0.3880    4.0000E-02    1.2454E-01    2.1200E-01
+ p30max         5.2339E+01        1.07 0.3111    2.8000E-02    1.0184E-01    1.6800E-01
+ p60max         6.0730E+00        0.36 0.7250    2.3000E-02    8.0946E-02    1.5200E-01
+ ei            -7.4882E+00       -0.76 0.4651    1.2000E-02    1.4954E-01    4.9300E-01
+ duration      -2.5629E-02       -0.61 0.5578    2.6670E+00    1.6063E+01    6.1333E+01
+ intense        1.1364E+01        0.56 0.5898    7.0000E-03    2.1162E-02    5.9000E-02
+ ap1day        -1.8931E+00       -0.45 0.6652    0.0000E+00    1.0700E-02    1.9000E-01
+ ap2day         7.9207E-01        1.02 0.3365    0.0000E+00    1.4046E-01    1.3360E+00
+ ap3day         3.3326E-01        0.62 0.5480    0.0000E+00    3.6469E-01    1.9870E+00
+ tmax           6.8115E-02        1.25 0.2417    3.6000E+01    6.1649E+01    8.9000E+01
+ tmin           8.0396E-02        1.22 0.2525   -2.0000E+00    3.5919E+01    6.4000E+01
+ tmean         -1.7069E-01       -1.46 0.1790    2.2000E+01    4.9000E+01    7.3000E+01
+ sinJulian      9.1866E-02        0.16 0.8735   -9.9925E-01   -5.3495E-01    8.0648E-01
+ cosJulian      1.1973E-01        0.18 0.8615   -8.4754E-01    1.3131E-01    1.0000E+00
+ meltwater      5.6231E+01        0.66 0.5266    0.0000E+00    4.8649E-03    1.0000E-01
+ totalwater    -3.4234E+01       -0.73 0.4864    1.0000E-01    2.6784E-01    5.2000E-01
+ s=S           -1.9275E+00       -0.30 0.7684    0.0000E+00    5.4054E-02    1.0000E+00
+ Predicted mean if regression function is inapplicable due to missing values =
+   1.12285714285714     
+ ----------------------------
+ Node 139: Intermediate node
+ A case goes into Node 278 if duration <=  1.5415000E+00
+             duration  mean =  8.9009E+00
+ ----------------------------
+ Node 278: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       2.8000E-02        1.91 0.3086                                    
+ Predicted mean =  2.800000000000000E-002
+ ----------------------------
+ Node 279: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant      -3.5046E+00       -1.01 0.3426                                    
+ theisen        1.0453E+02        1.05 0.3264    1.1600E-01    3.1022E-01    4.5500E-01
+ p5max          1.6612E+01        3.20 0.0125    2.2800E-01    6.0525E-01    1.8600E+00
+ p10max        -2.8006E+01       -3.60 0.0070    2.1000E-01    5.0231E-01    1.5180E+00
+ p15max         2.1072E+01        2.23 0.0560    2.1200E-01    4.2337E-01    1.0720E+00
+ p30max        -1.3108E+01       -0.62 0.5526    1.7000E-01    2.8375E-01    5.5000E-01
+ p60max         1.6732E+01        1.55 0.1608    9.3000E-02    1.8784E-01    3.3500E-01
+ ei            -4.6539E+00       -0.88 0.4066    1.4700E-01    6.4181E-01    1.5730E+00
+ duration      -9.6440E-02       -1.94 0.0877    1.7500E+00    1.0172E+01    2.5000E+01
+ intense       -2.7874E+01       -3.34 0.0102    1.2000E-02    4.6438E-02    1.7200E-01
+ ap1day         4.9090E+01        1.98 0.0828    0.0000E+00    4.3667E-03    4.9000E-02
+ ap2day        -1.8347E+00       -1.14 0.2876    0.0000E+00    8.3187E-02    5.7400E-01
+ ap3day         8.6737E-01        1.94 0.0885    0.0000E+00    3.9077E-01    2.3760E+00
+ tmax          -1.7869E-01       -1.90 0.0945    4.7000E+01    7.7967E+01    9.1000E+01
+ tmin          -1.8306E-01       -2.29 0.0515    2.6000E+01    5.2433E+01    7.2000E+01
+ tmean          3.6003E-01        2.11 0.0680    3.7000E+01    6.5100E+01    8.1000E+01
+ sinJulian      8.6813E-01        2.28 0.0521   -9.9888E-01   -4.0749E-01    7.8565E-01
+ cosJulian     -2.9398E-01       -0.30 0.7735   -8.4754E-01   -4.4210E-01    9.4132E-01
+ totalwater    -8.8860E+01       -0.93 0.3772    1.2000E-01    3.1094E-01    4.6000E-01
+ Predicted mean if regression function is inapplicable due to missing values =
+  0.246000000000000     
+ ----------------------------
+ Node 35: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       7.5213E+01        0.77 0.4769                                    
+ theisen        8.3245E+03        0.76 0.4817    2.3400E-01    7.5488E-01    1.5810E+00
+ p5max          1.2628E+02        0.34 0.7492    7.2000E-02    4.6313E-01    1.2840E+00
+ p10max        -4.0801E+02       -0.63 0.5539    4.8000E-02    3.9131E-01    9.7200E-01
+ p15max         2.1124E+01        0.04 0.9711    4.8000E-02    3.3600E-01    8.2800E-01
+ p30max         3.8162E+02        0.26 0.8066    4.4000E-02    2.5000E-01    5.4400E-01
+ p60max        -2.4880E+02       -0.33 0.7553    3.8000E-02    1.8987E-01    3.0400E-01
+ ei             6.8854E+01        1.52 0.1878    4.4000E-02    1.1600E+00    1.9510E+00
+ duration      -1.9589E+00       -1.37 0.2304    6.0830E+00    2.9531E+01    9.6250E+01
+ intense       -1.5587E+03       -1.04 0.3479    3.0000E-03    3.9406E-02    1.0400E-01
+ ap1day         3.4347E+03        0.83 0.4437    0.0000E+00    3.8519E-03    8.9000E-02
+ ap2day        -1.9156E+01       -0.08 0.9416    0.0000E+00    1.1962E-01    9.3200E-01
+ ap3day         2.5544E+01        0.14 0.8918    0.0000E+00    1.8234E-01    1.6430E+00
+ tmax           2.3801E+00        0.71 0.5090    3.3000E+01    6.6562E+01    9.1000E+01
+ tmin           9.3210E-01        0.45 0.6715    3.0000E+00    4.1625E+01    6.9000E+01
+ tmean         -3.0403E+00       -0.60 0.5754    2.4000E+01    5.5281E+01    8.0000E+01
+ sinJulian     -5.1488E+00       -0.20 0.8468   -9.8131E-01   -3.4353E-01    8.0648E-01
+ cosJulian      3.5057E+01        0.53 0.6212   -9.9907E-01   -1.0021E-01    9.8802E-01
+ meltwater      7.8588E+03        0.75 0.4845    0.0000E+00    8.5000E-02    6.8000E-01
+ totalwater    -8.3457E+03       -0.76 0.4827    5.3000E-01    8.4000E-01    1.6300E+00
+ m=M            2.3917E+02        0.85 0.4345    0.0000E+00    1.8750E-01    1.0000E+00
+ s=S           -1.7237E+02       -0.69 0.5225    0.0000E+00    6.2500E-02    1.0000E+00
+ Predicted mean if regression function is inapplicable due to missing values =
+   1.86600000000000     
+ ----------------------------
+ Node 9: Intermediate node
+ A case goes into Node 18 if s = 0
+                    s  mode = 0
+ ----------------------------
+ Node 18: Intermediate node
+ A case goes into Node 36 if ap1day = na
+               ap1day  mean =  3.2265E-02
+ ----------------------------
+ Node 36: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       1.5885E+01        1.40 0.2206                                    
+ Predicted mean =   15.8850000000000     
+ ----------------------------
+ Node 37: Intermediate node
+ A case goes into Node 74 if duration <=  5.2583000E+01
+             duration  mean =  2.5596E+01
+ ----------------------------
+ Node 74: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant      -6.0350E+01       -0.45 0.6654                                    
+ theisen       -1.3801E+03       -0.95 0.3738    1.0800E-01    4.0438E-01    1.1250E+00
+ p5max         -5.6651E+02       -1.95 0.0925    4.8000E-02    2.6483E-01    7.3200E-01
+ p10max         1.1290E+03        1.62 0.1493    3.6000E-02    2.3793E-01    6.3600E-01
+ p15max        -4.7527E+02       -0.73 0.4899    3.2000E-02    2.1779E-01    5.1200E-01
+ p30max        -1.7975E+02       -0.38 0.7138   -9.0000E+00   -1.4779E-01    3.4000E-01
+ p60max         1.4743E+02        0.30 0.7741   -9.0000E+00   -1.8648E-01    2.8100E-01
+ ei            -3.4961E+01       -0.85 0.4234   -9.0000E+00    1.3097E-01    1.8070E+00
+ duration      -2.3178E+00       -3.27 0.0136    4.1700E-01    1.7966E+01    4.8833E+01
+ intense       -1.7592E+03       -3.66 0.0081    9.0000E-03    3.8724E-02    3.8900E-01
+ ap1day         7.2389E+02        2.14 0.0697    0.0000E+00    6.6897E-03    6.2000E-02
+ ap2day        -1.5737E+01       -0.74 0.4823    0.0000E+00    1.7466E-01    1.4330E+00
+ ap3day         1.8327E+01        1.08 0.3151    0.0000E+00    3.3662E-01    2.8980E+00
+ tmax           8.0216E-01        0.71 0.5032    4.0000E+01    6.4552E+01    8.7000E+01
+ tmin           1.7275E+00        1.01 0.3453    1.8000E+01    3.6069E+01    5.0000E+01
+ tmean         -1.4042E+00       -0.55 0.5980    3.3000E+01    5.0310E+01    6.7000E+01
+ sinJulian      3.3736E+01        0.25 0.8105    8.4062E-01    9.5194E-01    9.9925E-01
+ cosJulian      6.6911E+01        3.30 0.0131   -5.1974E-01   -9.2348E-02    5.4163E-01
+ meltwater     -3.6378E+02       -0.26 0.8040    0.0000E+00    1.4815E-02    4.0000E-01
+ totalwater     1.6284E+03        1.13 0.2963    1.1000E-01    4.3222E-01    1.1300E+00
+ Predicted mean if regression function is inapplicable due to missing values =
+   456.200000000000     
+ ----------------------------
+ Node 75: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       1.0102E+01        2.23 0.2563                                    
+ Predicted mean =   10.1020000000000     
+ ----------------------------
+ Node 19: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       3.5881E+01        2.44 0.0446                                    
+ Predicted mean =   35.8812500000000     
+ ----------------------------
+ Node 5: Intermediate node
+ A case goes into Node 10 if tmax <=  8.1500000E+01
+                 tmax  mean =  7.8507E+01
+ ----------------------------
+ Node 10: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       3.1788E+01        0.13 0.8982                                    
+ theisen        1.2470E+04        1.53 0.1612    3.6200E-01    1.0702E+00    1.7830E+00
+ p5max          1.1186E+02        0.68 0.5155    3.3600E-01    1.2272E+00    3.9600E+00
+ p10max        -2.9273E+02       -0.90 0.3901    3.2400E-01    1.0147E+00    3.0300E+00
+ p15max         5.1605E+02        1.20 0.2609    3.2000E-01    8.8365E-01    2.3400E+00
+ p30max        -1.0796E+03       -2.47 0.0354    2.7000E-01    6.4335E-01    1.4360E+00
+ p60max         5.8127E+02        1.06 0.3176    2.3500E-01    4.3694E-01    1.0540E+00
+ ei             2.6284E+01        1.07 0.3123    1.9650E+00    4.9939E+00    2.1742E+01
+ duration       2.2622E+00        1.15 0.2792    1.0830E+00    2.7961E+01    1.0308E+02
+ intense        6.6439E+01        0.31 0.7602    8.0000E-03    9.0147E-02    6.8400E-01
+ ap1day        -2.6969E+03       -1.41 0.1923    0.0000E+00    5.7857E-03    1.0300E-01
+ ap2day        -8.3903E+01       -1.04 0.3257    0.0000E+00    1.1261E-01    1.3010E+00
+ ap3day         5.4086E+01        0.91 0.3884    0.0000E+00    2.3909E-01    1.4790E+00
+ tmax           1.3177E+01        1.89 0.0906    4.4000E+01    6.8939E+01    8.1000E+01
+ tmin           1.2331E+01        1.91 0.0879    1.1000E+01    4.3394E+01    6.1000E+01
+ tmean         -2.4870E+01       -1.89 0.0914    3.4000E+01    5.6242E+01    7.0000E+01
+ sinJulian     -3.5083E+00       -0.12 0.9044   -9.9977E-01    2.1124E-01    9.9992E-01
+ cosJulian      7.7234E-01        0.01 0.9895   -9.9967E-01   -3.4485E-01    8.2392E-01
+ totalwater    -1.2545E+04       -1.53 0.1594    3.6000E-01    1.0697E+00    1.7800E+00
+ Predicted mean if regression function is inapplicable due to missing values =
+   10.5600000000000     
+ ----------------------------
+ Node 11: Intermediate node
+ A case goes into Node 22 if cosJulian <= -9.0878397E-01
+            cosJulian  mean = -7.2682E-01
+ ----------------------------
+ Node 22: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant       1.2648E+01        1.41 0.1930                                    
+ Predicted mean =   12.6480000000000     
+ ----------------------------
+ Node 23: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant      -6.7451E+02       -1.05 0.3195                                    
+ theisen        2.4534E+03        0.41 0.6929    4.5500E-01    1.0956E+00    1.8030E+00
+ p5max         -7.5696E+01       -0.71 0.4974    5.0400E-01    1.6600E+00    3.8760E+00
+ p10max         8.9703E+01        0.51 0.6211    4.3800E-01    1.4806E+00    3.6360E+00
+ p15max         4.6982E+01        0.26 0.8044    4.1200E-01    1.2908E+00    3.4040E+00
+ p30max        -2.5083E+02       -1.08 0.3088    3.6400E-01    9.1553E-01    1.9780E+00
+ p60max        -2.4786E-01        0.00 0.9989    2.5900E-01    5.7427E-01    1.0540E+00
+ ei             2.4892E+01        1.88 0.0934    2.0160E+00    8.0796E+00    2.1724E+01
+ duration       6.7481E-01        0.47 0.6497    3.0000E+00    2.4678E+01    7.9250E+01
+ intense        8.7848E+01        0.25 0.8094    1.4000E-02    9.4800E-02    3.6900E-01
+ ap1day         6.7384E+02        1.87 0.0946    0.0000E+00    1.5286E-02    1.3200E-01
+ ap2day        -1.3715E+02       -2.38 0.0410    0.0000E+00    1.9323E-01    2.5090E+00
+ ap3day         5.7850E+01        0.96 0.3606    0.0000E+00    3.7270E-01    2.8240E+00
+ tmax           1.0153E+01        1.99 0.0783    8.2000E+01    8.5800E+01    9.3000E+01
+ tmin           6.6312E+00        1.31 0.2234    3.3000E+01    5.6200E+01    6.7000E+01
+ tmean         -4.5797E+00       -0.47 0.6469    5.6000E+01    7.0500E+01    7.9000E+01
+ sinJulian      3.2443E+01        0.60 0.5630   -9.8293E-01   -1.9400E-01    9.7601E-01
+ cosJulian      1.9103E+02        0.88 0.4016   -9.0519E-01   -6.4792E-01   -1.8400E-01
+ totalwater    -2.5749E+03       -0.43 0.6788    4.6000E-01    1.0967E+00    1.8000E+00
+ Predicted mean if regression function is inapplicable due to missing values =
+   158.175000000000     
+ ----------------------------
+ Node 3: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val        Min          Mean          Max
+ Constant      -2.9967E+03       -1.37 0.2083                                    
+ theisen       -1.0503E+04       -0.24 0.8189    1.6570E+00    2.5596E+00    4.8300E+00
+ p5max         -2.4719E+03       -1.62 0.1435    2.6400E-01    1.7310E+00    4.1400E+00
+ p10max         4.7256E+03        1.41 0.1952    2.5200E-01    1.5397E+00    3.7920E+00
+ p15max        -2.5471E+02       -0.12 0.9104    2.4800E-01    1.3842E+00    3.5120E+00
+ p30max        -2.9510E+03       -1.92 0.0911    2.0200E-01    1.0593E+00    2.7260E+00
+ p60max        -5.2783E+02       -0.29 0.7805    1.7600E-01    7.5616E-01    2.0500E+00
+ ei             1.9327E+01        0.56 0.5892    2.2300E+00    2.0750E+01    9.1785E+01
+ duration      -4.4511E+00       -0.76 0.4711    7.0000E+00    4.6021E+01    1.4975E+02
+ intense        2.7523E+03        1.03 0.3338    1.7000E-02    9.9000E-02    4.0400E-01
+ ap1day        -5.9526E+03       -0.46 0.6574    0.0000E+00    6.9643E-03    8.4000E-02
+ ap2day        -1.1292E+00        0.00 0.9978    0.0000E+00    2.2116E-01    1.9850E+00
+ ap3day        -2.2193E+02       -0.69 0.5101    0.0000E+00    3.9666E-01    1.9920E+00
+ tmax           2.8877E+01        0.48 0.6442    3.8000E+01    7.9500E+01    9.1000E+01
+ tmin           2.1470E+01        0.36 0.7283    1.1000E+01    4.9250E+01    6.6000E+01
+ tmean          4.4227E+00        0.05 0.9644    2.3000E+01    6.4344E+01    7.7000E+01
+ sinJulian      8.8235E+02        2.02 0.0780   -9.9326E-01   -1.0239E-01    9.9925E-01
+ cosJulian      6.2619E+02        0.69 0.5121   -9.9996E-01   -5.9414E-01    4.9751E-01
+ meltwater     -1.1072E+04       -0.26 0.8049    0.0000E+00    8.7500E-03    2.8000E-01
+ totalwater     1.0841E+04        0.24 0.8131    1.8100E+00    2.5688E+00    4.8300E+00
+ Predicted mean if regression function is inapplicable due to missing values =
+   1410.53250000000     
+ ----------------------------
+  
+ LaTeX code for tree is in file: ../../../output/eagle/tree.tex
+ 
+ Proportion of variance (R-squared) explained by tree model =  .6964
+ 
+ Elapsed time in seconds:   0.9516061    

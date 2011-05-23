@@ -1,0 +1,32 @@
+ \documentclass[12pt]{article}
+ %File creation date: 05/23/11  at 15:23
+ \usepackage{pstricks,pst-node,pst-tree}
+ \usepackage{geometry}
+ \usepackage{lscape}
+ \pagestyle{empty}
+ \begin{document}
+ %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 2.60}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.98}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 4 }~{\textit{22.19}}
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 85.50}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{p60max\\$\leq$ .8250}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 20}~{\textit{216.26}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 21}~{\textit{1210.77}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 11}~{\textit{113.73}}
+   }
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{1176.86}}
+ }
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of sstormtot.
+ %\end{landscape}
+ \end{document}
