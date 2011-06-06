@@ -1,0 +1,20 @@
+ \documentclass[12pt]{article}
+ %File creation date: 05/24/11  at 12:10
+ \usepackage{pstricks,pst-node,pst-tree}
+ \usepackage{geometry}
+ \usepackage{lscape}
+ \pagestyle{empty}
+ \begin{document}
+ %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 1 }~{\textit{9.30}}
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of sstormtot.
+ %\end{landscape}
+ \end{document}

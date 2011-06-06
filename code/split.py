@@ -1,9 +1,10 @@
 import numpy as np
 from matplotlib import mlab
 
-infile = '../data/eagle/eaglecreek.csv'
+infile = '../data/otter/ottercreek.csv'
 
 data = np.loadtxt(infile, delimiter=',', skiprows=1, dtype=str)
+data = np.array([s.strip() for row in data for s in row]).reshape(data.shape)
 
 snow_rows = mlab.find(data[:,2]=='na')
 nosnow_rows = filter(lambda x: x not in snow_rows, range(data.shape[0]))

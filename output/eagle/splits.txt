@@ -1,9 +1,15 @@
-         1 s totalwater totalwater        1   0.2595000000E+01
-         2 s totalwater totalwater        1   0.1975000000E+01
-         4 t theisen theisen     0.2219212454E+02
-         5 s tmax tmax        1   0.8550000000E+02
-        10 s p60max p60max        1   0.8250000000E+00
-        20 t NONE NONE     0.2162616667E+03
-        21 t NONE NONE     0.1210774000E+04
-        11 t NONE NONE     0.1137300000E+03
-         3 t NONE NONE     0.1176862222E+04
+         1 s nwsprec nwsprec        1   0.7950000000E+00
+         2 s p60max p60max        1   0.4310000000E+00
+         4 s tmin ei        1   0.4350000000E+02
+         8 s sinJulian sinJulian        1   0.5687168795E+00
+        16 t nwsprec nwsprec    -0.8374934704E+00
+        17 t p5max p5max     0.2386394628E+00
+         9 t p30max p30max    -0.7970091759E+00
+         5 t duration duration     0.9795952115E+00
+         3 s nwsprec nwsprec        1   0.2195000000E+01
+         6 s p60max tmin        1   0.3205000000E+00
+        12 s tmin tmin        1   0.5050000000E+02
+        24 t p60max p60max     0.1082485929E+01
+        25 t sinJulian sinJulian    -0.5163738570E+00
+        13 t ei ei     0.8778998984E+00
+         7 t ap3day ap3day     0.2300573111E+01

@@ -1,0 +1,32 @@
+ \documentclass[12pt]{article}
+ %File creation date: 06/02/11  at 09:40
+ \usepackage{pstricks,pst-node,pst-tree}
+ \usepackage{geometry}
+ \usepackage{lscape}
+ \pagestyle{empty}
+ \begin{document}
+ %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=46pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.50}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{meltsnow\\$\leq$ 3.05}}}{
+    \Tcircle[fillcolor=green,fillstyle=solid]{ 4 }~[tnpos=l]{366}~{\shortstack{0\\.04}}
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 52.50}}}{
+    \Tcircle[fillcolor=green,fillstyle=solid]{\small 10}~[tnpos=l]{11}~{\shortstack{0\\.00}}
+    \Tcircle[fillcolor=red,fillstyle=solid]{\small 11}~[tnpos=l]{6}~{\shortstack{1\\.00}}
+   }
+   }
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 1.75}}}{
+    \Tcircle[fillcolor=green,fillstyle=solid]{ 6 }~[tnpos=l]{16}~{\shortstack{0\\.25}}
+    \Tcircle[fillcolor=red,fillstyle=solid]{ 7 }~[tnpos=l]{30}~{\shortstack{1\\.33}}
+ }
+ }
+ \end{center}
+GUIDE classification tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Predicted class and estimated mean misclassification cost beneath each leaf node; number of cases on its left.
+ %\end{landscape}
+ \end{document}

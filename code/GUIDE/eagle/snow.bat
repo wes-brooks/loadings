@@ -8,7 +8,7 @@
  3          (0=stepwise, 1=multiple, 2=polynomial, 3=constant, 4=ANCOVA)
  1          (1=interaction tests, 2=skip them)
  1          (1=prune by CV, 2=no pruning)
-"./constant.txt"  (name of data description file)
+"./snow.txt"  (name of data description file)
  1          (1 to use default number of cross-validations, 2 to change it)
  1          (Tree selection method)
     0     (SE number for pruning)

@@ -1,0 +1,7 @@
+         1 s totalwater totalwater        1   0.1730000000E+01
+         2 s totalwater totalwater        1   0.1015000000E+01
+         4 t tmin tmin     0.1675756303E+01
+         5 s ap1day ap1day        1   0.3500000000E-02
+        10 t tmean tmean     0.7509787234E+01
+        11 t sinJulian sinJulian     0.2761727273E+02
+         3 t duration duration     0.4920166667E+02

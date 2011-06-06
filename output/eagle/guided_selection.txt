@@ -1,0 +1,207 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 06/02/11 at 09:31
+  
+ Classification tree
+ Data description file: ./selection.txt
+ Training sample file: C:\Users\wrbrooks\git\loadings\data\Eagle\eagle_mod.csv
+ Missing value code: NA
+ Warning: N variables changed to S
+ Warning: B variables changed to C
+ Dependent variable is major
+ Length of longest data entry = 18
+ Number of classes =  2
+ Class name          Num. cases   Proportion
+ 0                          386   0.89976690
+ 1                           43   0.10023310
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        429          0        369       48        0        0       11        0        4
+ Number of cases used for training =  429
+ Number of cases excluded due to zero weight or missing D-values =  0
+  
+ Importance scoring of variables
+ Interaction tests on all variables
+ Linear splits
+ Expected number of noise variables erroneously selected = 2
+ Simple node models
+ Estimated priors
+ Unit misclassification costs
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  4
+ Minimum node size =  8
+  
+ Structure of trimmed final tree. Each terminal node is marked with a T.
+  
+ Node cost is node misclassification cost divided by number of training cases
+        Node    Total    Train    Predicted        Node    Split      Interacting
+       label    cases    cases    class            cost    variable   variable
+           1      429      429    0              1.002E-01 totalwater
+           2      383      383    0              4.961E-02 meltsnow  
+           4T     366      366    0              3.552E-02 totalwater
+           5       17       17    0              3.529E-01 tmax      
+          10T       8        8    0              0.000E+00           
+          11T       9        9    1              3.333E-01           
+           3       46       46    1              4.783E-01 nwsprec    +sinJulian
+           6T      23       23    0              2.609E-01           
+           7       23       23    1              2.174E-01 cosJulian 
+          14T      15       15    1              3.333E-01           
+          15T       8        8    1              0.000E+00           
+  
+ Number of terminal nodes of final tree: 6
+ Total number of nodes of final tree:    11
+  
+ Classification tree:
+  
+  Node 1: totalwater <=    1.49500
+    Node 2: meltsnow <=    3.05000
+      Node 4: 0
+    Node 2: meltsnow >    3.05000
+      Node 5: tmax <=   46.00000
+        Node 10: 0
+      Node 5: tmax >   46.00000
+        Node 11: 1
+  Node 1: totalwater >    1.49500
+    Node 3:  8.5136579E-01 * sinJulian + nwsprec <=  2.3587695E+00
+      Node 6: 0
+    Node 3:  8.5136579E-01 * sinJulian + nwsprec >  2.3587695E+00
+      Node 7: cosJulian <=   -0.52550
+        Node 14: 1
+      Node 7: cosJulian >   -0.52550
+        Node 15: 1
+ 
+ ***************************************************************
+ In the following the predictor node mean is weighted mean of complete cases
+  
+ Node 1: Intermediate node
+ A case goes into Node 2 if totalwater <=  1.4950000E+00
+           totalwater  mean =  7.4826E-01
+ ClassName      Number ClassPrior
+ 0                 386     0.8998
+ 1                  43     0.1002
+ Number of training cases misclassified =  43
+ ----------------------------
+ Node 2: Intermediate node
+ A case goes into Node 4 if meltsnow <=  3.0500000E+00
+             meltsnow  mean =  6.5323E-01
+ ClassName      Number ClassPrior
+ 0                 364     0.9504
+ 1                  19     0.0496
+ Number of training cases misclassified =  19
+ ----------------------------
+ Node 4: Terminal node
+ ClassName      Number ClassPrior
+ 0                 353     0.9645
+ 1                  13     0.0355
+ Predicted class is 0
+ Number of training cases misclassified =  13
+ ----------------------------
+ Node 5: Intermediate node
+ A case goes into Node 10 if tmax <=  4.6000000E+01
+                 tmax  mean =  4.6413E+01
+ ClassName      Number ClassPrior
+ 0                  11     0.6471
+ 1                   6     0.3529
+ Number of training cases misclassified =  6
+ ----------------------------
+ Node 10: Terminal node
+ ClassName      Number ClassPrior
+ 0                   8     1.0000
+ 1                   0     0.0000
+ Predicted class is 0
+ Number of training cases misclassified =  0
+ ----------------------------
+ Node 11: Terminal node
+ ClassName      Number ClassPrior
+ 0                   3     0.3333
+ 1                   6     0.6667
+ Predicted class is 1
+ Number of training cases misclassified =  3
+ ----------------------------
+ Node 3: Intermediate node
+ A case goes into Node 6 if
+ 8.5136579E-01 * sinJulian + nwsprec <=  2.3587695E+00
+          linear combination mean =  2.2284E+00
+ ClassName      Number ClassPrior
+ 0                  22     0.4783
+ 1                  24     0.5217
+ Number of training cases misclassified =  22
+ ----------------------------
+ Node 6: Terminal node
+ ClassName      Number ClassPrior
+ 0                  17     0.7391
+ 1                   6     0.2609
+ Predicted class is 0
+ Number of training cases misclassified =  6
+ ----------------------------
+ Node 7: Intermediate node
+ A case goes into Node 14 if cosJulian <= -5.2549709E-01
+            cosJulian  mean = -5.7453E-01
+ ClassName      Number ClassPrior
+ 0                   5     0.2174
+ 1                  18     0.7826
+ Number of training cases misclassified =  5
+ ----------------------------
+ Node 14: Terminal node
+ ClassName      Number ClassPrior
+ 0                   5     0.3333
+ 1                  10     0.6667
+ Predicted class is 1
+ Number of training cases misclassified =  5
+ ----------------------------
+ Node 15: Terminal node
+ ClassName      Number ClassPrior
+ 0                   0     0.0000
+ 1                   8     1.0000
+ Predicted class is 1
+ Number of training cases misclassified =  0
+ ----------------------------
+  
+ ******************************************************
+ Variables used for splitting:
+ cosJulian
+ meltsnow
+ nwsprec
+ sinJulian
+ tmax
+ totalwater
+ 
+ Number of terminal nodes =  6
+ 
+  Predictor variables sorted by importance scores
+  Importance Scores             Variable
+ Scaled      Unscaled       name         rank
+  100.0    1.65006E+01      totalwater      1
+   71.1    1.17391E+01      nwsprec         2
+   23.7    3.90634E+00      sinJulian       3
+   21.1    3.47764E+00      meltsnow        4
+   19.8    3.26430E+00      cosJulian       5
+   12.0    1.98359E+00      tmax            6
+    9.8    1.61597E+00      eventtype       7
+    8.4    1.38434E+00      sweq            8
+    6.6    1.09145E+00      s               9
+    6.4    1.04991E+00      meltwater      10
+ ----------------- cut-off -------------------
+    5.9    9.77891E-01      m              11
+    5.9    9.74945E-01      tmean          12
+    4.3    7.13139E-01      p              13
+    3.6    5.90994E-01      nwssnow        14
+    2.8    4.65293E-01      tmin           15
+ 
+ Number of important splitting variables =  10
+ Number of unimportant splitting variables =  5
+ 
+ Elapsed time in seconds:   0.2652017    

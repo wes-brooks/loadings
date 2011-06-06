@@ -1,0 +1,269 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 06/02/11 at 09:31
+  
+ Classification tree
+ Data description file: ./selection.txt
+ Training sample file: C:\Users\wrbrooks\git\loadings\data\otter\otter_mod.csv
+ Missing value code: NA
+ Warning: N variables changed to S
+ Warning: B variables changed to C
+ Dependent variable is major
+ Length of longest data entry = 19
+ Missing values found among categorical variables
+ Separate categories will be created for missing categorical variables
+ Number of classes =  2
+ Class name          Num. cases   Proportion
+ 0                          381   0.89858491
+ 1                           43   0.10141509
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        424          0        358       48        0        0       11        0        4
+ Number of cases used for training =  424
+ Number of cases excluded due to zero weight or missing D-values =  0
+  
+ Importance scoring of variables
+ Interaction tests on all variables
+ Linear splits
+ Expected number of noise variables erroneously selected = 2
+ Simple node models
+ Equal priors
+ Unit misclassification costs
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  4
+ Minimum node size =  8
+  
+ Structure of trimmed final tree. Each terminal node is marked with a T.
+  
+ Node cost is node misclassification cost divided by number of training cases
+        Node    Total    Train    Predicted        Node    Split      Interacting
+       label    cases    cases    class            cost    variable   variable
+           1      424      424    0              5.000E-01 totalwater
+           2      288      288    0              2.223E-01 eventtype 
+           4       34       34    1              3.956E-01 tmax            +sweq
+           8T      26       26    0              0.000E+00           
+           9T       8        8    1              6.342E-02           
+           5      254      254    0              1.242E-01 sweq      
+          10T     246      246    0              9.860E-02 totalwater
+          11T       8        8    1              4.413E-01           
+           3      136      136    1              2.529E-01 totalwater
+           6       56       56    1              4.847E-01 sinJulian 
+          12T      44       44    0              0.000E+00           
+          13T      12       12    1              1.014E-01           
+           7       80       80    1              1.733E-01 totalwater
+          14T      16       16    1              1.989E-01           
+          15       64       64    1              1.675E-01 sinJulian 
+          30T      11       11    0              0.000E+00           
+          31T      53       53    1              1.283E-01 totalwater
+  
+ Number of terminal nodes of final tree: 9
+ Total number of nodes of final tree:    17
+  
+ Classification tree:
+  
+  Node 1: totalwater <=    0.69500
+    Node 2: eventtype = 2, 5, 7
+      Node 4: -2.1078874E-01 * sweq + tmax <=  3.9435370E+01
+        Node 8: 0
+      Node 4: -2.1078874E-01 * sweq + tmax >  3.9435370E+01
+        Node 9: 1
+    Node 2: eventtype = 1, 3, 6
+      Node 5: sweq <=   23.23500
+        Node 10: 0
+      Node 5: sweq >   23.23500
+        Node 11: 1
+  Node 1: totalwater >    0.69500
+    Node 3: totalwater <=    1.01500
+      Node 6: sinJulian <=    0.85654
+        Node 12: 0
+      Node 6: sinJulian >    0.85654
+        Node 13: 1
+    Node 3: totalwater >    1.01500
+      Node 7: totalwater <=    1.15500
+        Node 14: 1
+      Node 7: totalwater >    1.15500
+        Node 15: sinJulian <=   -0.90282
+          Node 30: 0
+        Node 15: sinJulian >   -0.90282
+          Node 31: 1
+ 
+ ***************************************************************
+ In the following the predictor node mean is weighted mean of complete cases
+  
+ Node 1: Intermediate node
+ A case goes into Node 2 if totalwater <=  6.9500000E-01
+           totalwater  mean =  6.7485E-01
+ ClassName      Number ClassPrior
+ 0                 381     0.5000
+ 1                  43     0.5000
+ Number of training cases misclassified =  43
+ ----------------------------
+ Node 2: Intermediate node
+ A case goes into Node 4 if eventtype = 
+  2, 5, 7
+            eventtype  mode = 1
+ ClassName      Number ClassPrior
+ 0                 279     0.7777
+ 1                   9     0.2223
+ Number of training cases misclassified =  9
+ ----------------------------
+ Node 4: Intermediate node
+ A case goes into Node 8 if
+-2.1078874E-01 * sweq + tmax <=  3.9435370E+01
+          linear combination mean =  3.9371E+01
+ ClassName      Number ClassPrior
+ 0                  29     0.3956
+ 1                   5     0.6044
+ Number of training cases misclassified =  29
+ ----------------------------
+ Node 8: Terminal node
+ ClassName      Number ClassPrior
+ 0                  26     1.0000
+ 1                   0     0.0000
+ Predicted class is 0
+ Number of training cases misclassified =  0
+ ----------------------------
+ Node 9: Terminal node
+ ClassName      Number ClassPrior
+ 0                   3     0.0634
+ 1                   5     0.9366
+ Predicted class is 1
+ Number of training cases misclassified =  3
+ ----------------------------
+ Node 5: Intermediate node
+ A case goes into Node 10 if sweq <=  2.3235000E+01
+                 sweq  mean =  1.5028E+01
+ ClassName      Number ClassPrior
+ 0                 250     0.8758
+ 1                   4     0.1242
+ Number of training cases misclassified =  4
+ ----------------------------
+ Node 10: Terminal node
+ ClassName      Number ClassPrior
+ 0                 243     0.9014
+ 1                   3     0.0986
+ Predicted class is 0
+ Number of training cases misclassified =  3
+ ----------------------------
+ Node 11: Terminal node
+ ClassName      Number ClassPrior
+ 0                   7     0.4413
+ 1                   1     0.5587
+ Predicted class is 1
+ Number of training cases misclassified =  7
+ ----------------------------
+ Node 3: Intermediate node
+ A case goes into Node 6 if totalwater <=  1.0150000E+00
+           totalwater  mean =  1.2924E+00
+ ClassName      Number ClassPrior
+ 0                 102     0.2529
+ 1                  34     0.7471
+ Number of training cases misclassified =  102
+ ----------------------------
+ Node 6: Intermediate node
+ A case goes into Node 12 if sinJulian <=  8.5654306E-01
+            sinJulian  mean = -7.4007E-02
+ ClassName      Number ClassPrior
+ 0                  50     0.4847
+ 1                   6     0.5153
+ Number of training cases misclassified =  50
+ ----------------------------
+ Node 12: Terminal node
+ ClassName      Number ClassPrior
+ 0                  44     1.0000
+ 1                   0     0.0000
+ Predicted class is 0
+ Number of training cases misclassified =  0
+ ----------------------------
+ Node 13: Terminal node
+ ClassName      Number ClassPrior
+ 0                   6     0.1014
+ 1                   6     0.8986
+ Predicted class is 1
+ Number of training cases misclassified =  6
+ ----------------------------
+ Node 7: Intermediate node
+ A case goes into Node 14 if totalwater <=  1.1550000E+00
+           totalwater  mean =  1.6401E+00
+ ClassName      Number ClassPrior
+ 0                  52     0.1733
+ 1                  28     0.8267
+ Number of training cases misclassified =  52
+ ----------------------------
+ Node 14: Terminal node
+ ClassName      Number ClassPrior
+ 0                  11     0.1989
+ 1                   5     0.8011
+ Predicted class is 1
+ Number of training cases misclassified =  11
+ ----------------------------
+ Node 15: Intermediate node
+ A case goes into Node 30 if sinJulian <= -9.0282047E-01
+            sinJulian  mean = -1.2225E-01
+ ClassName      Number ClassPrior
+ 0                  41     0.1675
+ 1                  23     0.8325
+ Number of training cases misclassified =  41
+ ----------------------------
+ Node 30: Terminal node
+ ClassName      Number ClassPrior
+ 0                  11     1.0000
+ 1                   0     0.0000
+ Predicted class is 0
+ Number of training cases misclassified =  0
+ ----------------------------
+ Node 31: Terminal node
+ ClassName      Number ClassPrior
+ 0                  30     0.1283
+ 1                  23     0.8717
+ Predicted class is 1
+ Number of training cases misclassified =  30
+ ----------------------------
+  
+ ******************************************************
+ Variables used for splitting:
+ eventtype
+ sinJulian
+ sweq
+ tmax
+ totalwater
+ 
+ Number of terminal nodes =  9
+ 
+  Predictor variables sorted by importance scores
+  Importance Scores             Variable
+ Scaled      Unscaled       name         rank
+  100.0    1.11734E+01      totalwater      1
+   82.9    9.26281E+00      nwsprec         2
+   28.9    3.22493E+00      sinJulian       3
+   27.8    3.11091E+00      eventtype       4
+   23.5    2.62779E+00      tmax            5
+   21.2    2.37305E+00      tmean           6
+   21.0    2.34419E+00      cosJulian       7
+   20.9    2.33006E+00      sweq            8
+   10.2    1.14401E+00      s               9
+ ----------------- cut-off -------------------
+    8.9    9.97165E-01      p              10
+    6.7    7.44552E-01      m              11
+    6.4    7.19048E-01      meltsnow       12
+    6.1    6.77768E-01      meltwater      13
+    5.2    5.77598E-01      tmin           14
+    5.1    5.73713E-01      nwssnow        15
+ 
+ Number of important splitting variables =  9
+ Number of unimportant splitting variables =  6
+ 
+ Elapsed time in seconds:   0.2652017    

@@ -1,16 +1,14 @@
-This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2011.5.23)  23 MAY 2011 15:23
+This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2011.5.23)  24 MAY 2011 18:15
 entering extended mode
-**C:/Users/wrbrooks/git/loadings/output/eagle/tree.tex
-(C:/Users/wrbrooks/git/loadings/output/eagle/tree.tex
+**tree.tex
+(C:\Users\wrbrooks\git\loadings\output\eagle\tree.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\article.cls"
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\size12.clo"
-File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
-Requested font "cmr12" at 12.0pt
- -> cmr12
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\size10.clo"
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count80
 \c@section=\count81
@@ -218,22 +216,22 @@ LaTeX Font Info:    ... okay on input line 7.
 * paper: 614.295pt, 794.96999pt (class default)
 * layout: 614.295pt, 794.96999pt
 * switch(es): 
-* h-part:(L,W,R)=(92.14519pt, 430.00462pt, 92.14519pt)
-* v-part:(T,H,B)=(95.39737pt, 556.47656pt, 143.09605pt)
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
-* \textwidth=430.00462pt
-* \textheight=556.47656pt
-* \oddsidemargin=19.8752pt
-* \evensidemargin=19.8752pt
-* \topmargin=-13.87262pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \footskip=30.0pt
-* \marginparwidth=44.0pt
-* \marginparsep=10.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
 * \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -243,42 +241,24 @@ LaTeX Font Info:    ... okay on input line 7.
 * \@reversemarginfalse
 * (1in=72.27pt, 1cm=28.453pt)
 
-Requested font "cmr8" at 8.0pt
- -> cmr8
-Requested font "cmr6" at 6.0pt
- -> cmr6
-Requested font "cmmi12" at 12.0pt
- -> cmmi12
-Requested font "cmmi8" at 8.0pt
- -> cmmi8
-Requested font "cmmi6" at 6.0pt
- -> cmmi6
-Requested font "cmsy10" at 12.0pt
- -> cmsy10
-Requested font "cmsy8" at 8.0pt
- -> cmsy8
-Requested font "cmsy6" at 6.0pt
- -> cmsy6
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 13.
+(Font)              <7> on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 13.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 13.
-Requested font "cmti12" at 12.0pt
- -> cmti12
-Requested font "cmr10" at 10.95pt
- -> cmr10
+(Font)              <5> on input line 13.
+Requested font "cmr9" at 9.0pt
+ -> cmr9
+Requested font "cmti10" at 10.0pt
+ -> cmti10
 [1
 
 ] (C:\Users\wrbrooks\git\loadings\output\eagle\tree.aux) ) 
 Here is how much of TeX's memory you used:
- 3667 strings out of 430430
- 47534 string characters out of 3189573
- 136408 words of memory out of 3000000
- 6826 multiletter control sequences out of 15000+200000
- 7023 words of font info for 25 fonts, out of 3000000 for 9000
+ 3648 strings out of 430430
+ 47256 string characters out of 3189573
+ 136442 words of memory out of 3000000
+ 6815 multiletter control sequences out of 15000+200000
+ 4285 words of font info for 16 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 32i,9n,38p,605b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,9n,38p,600b,544s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on tree.pdf (1 page).

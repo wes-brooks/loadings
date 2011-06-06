@@ -1,7 +1,7 @@
- \documentclass[12pt]{article}
- %File creation date: 05/23/11  at 15:23
+ \documentclass{article}
+ %File creation date: 05/24/11  at 18:14
  \usepackage{pstricks,pst-node,pst-tree}
- \usepackage{geometry}
+ \usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
  \usepackage{lscape}
  \pagestyle{empty}
  \begin{document}
@@ -10,23 +10,32 @@
 \psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
 %     \def\psedge#1#2{\ncangle{#2}{#1}}
 %     \pstree[treemode=R]
-  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 2.60}}}{
-  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.98}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 4 }~{\textit{22.19}}
-  \pstree{\TC~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 85.50}}}{
-  \pstree{\TC~[tnpos=l]{\shortstack[r]{p60max\\$\leq$ .8250}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 20}~{\textit{216.26}}
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 21}~{\textit{1210.77}}
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ .7950}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{p60max\\$\leq$ .4310}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{tmin\\$\leq$ 43.50}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{sinJulian\\$\leq$ .5687}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 16}~{\textit{-.84}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 17}~{\textit{.24}}
    }
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 11}~{\textit{113.73}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 9 }~{\textit{-.80}}
    }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 5 }~{\textit{.98}}
    }
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{1176.86}}
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 2.19}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{p60max\\$\leq$ .3205}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{tmin\\$\leq$ 50.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 24}~{\textit{1.08}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 25}~{\textit{-.52}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 13}~{\textit{.88}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 7 }~{\textit{2.30}}
+ }
  }
  \end{center}
 GUIDE piecewise constant least-squares regression tree model.
 At each intermediate node, a case goes to the left branch 
   if and only if the condition is satisfied.
-Number in italics beneath leaf node is sample mean of sstormtot.
+Number in italics beneath leaf node is sample mean of logsstormtot.
  %\end{landscape}
  \end{document}

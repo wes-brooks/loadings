@@ -1,0 +1,128 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 05/24/11 at 12:10
+  
+ Least squares regression tree
+ Pruning by cross-validation
+ Data description file: ./snow.txt
+ Training sample file: 
+ C:\Users\wrbrooks\git\loadings\data\joos\joosvalleycreek_snow.csv
+ Missing value code: na
+ Warning: N variables changed to S
+ Warning: B variables changed to C
+ Dependent variable is sstormtot
+ Piecewise constant model
+ Length of longest data entry = 12
+  
+ Summary information (without x variables)
+ d=dependent, b=split and fit cat variable using 0-1 dummies, c=split-only categorical,
+ n=split and fit numerical, f=fit-only numerical, s=split-only numerical, w=weight
+ For categorical variables, #categories include one for missing values
+ Column  Variable          Variable  Minimum      Maximum    Number of     Number
+ number    name              type     value        value     categories    missing
+       4  theisen               s   1.7977+308  -1.7977+308                    80
+       5  p5max                 s   1.7977+308  -1.7977+308                    80
+       6  p10max                s   1.7977+308  -1.7977+308                    80
+       7  p15max                s   1.7977+308  -1.7977+308                    80
+       8  p30max                s   1.7977+308  -1.7977+308                    80
+       9  p60max                s   1.7977+308  -1.7977+308                    80
+      10  ei                    s   1.7977+308  -1.7977+308                    80
+      11  duration              s   1.7977+308  -1.7977+308                    80
+      12  intense               s   1.7977+308  -1.7977+308                    80
+      13  ap1day                s   1.7977+308  -1.7977+308                    80
+      14  ap2day                s   1.7977+308  -1.7977+308                    80
+      15  ap3day                s   1.7977+308  -1.7977+308                    80
+      16  tmax                  s   1.7000E+01   8.0000E+01
+      17  tmin                  s  -1.9000E+01   4.2000E+01                     1
+      18  tmean                 s   2.0000E+00   6.0500E+01
+      21  meltsnow              c                                  17
+      22  p                     c                                   2
+      23  s                     c                                   2
+      24  m                     c                                   2
+      25  eventtype             c                                   5
+      26  sweq                  s   5.0000E+00   6.4070E+01                    37
+      28  sinJulian             s  -8.2148E-01   9.9955E-01
+      29  cosJulian             s  -6.4508E-02   9.9985E-01
+      42  sstormtot             d   0.0000E+00   3.1719E+02
+      50  meltwater             s   5.0000E-02   2.2200E+02                    53
+      51  totalwater            s   2.0000E+00   4.4600E+02
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+         80          0         80       25        0        0       20        0        5
+ No weight variable in data file
+ Number of cases used for training =  80
+ Number of cases excluded due to zero weight or missing D-values =  0
+  
+ Interaction tests on all variables
+ Pruning by v-fold cross-validation, with v =  10
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  10
+ Minimum node size =  5
+ Number of SE's for pruned tree =   0.0000E+00
+  
+ Size and CV MSE and SE of subtrees:
+  Tree   #Tnodes  Mean MSE   SE(Mean)    BSE(Mean)  Median MSE  BSE(Median)
+    1       11   2.275E+03   1.039E+03   8.556E+02   1.359E+03   6.787E+02
+    2       10   2.275E+03   1.039E+03   8.556E+02   1.359E+03   6.787E+02
+    3        9   2.275E+03   1.039E+03   8.556E+02   1.359E+03   6.787E+02
+    4        8   2.275E+03   1.039E+03   8.556E+02   1.359E+03   6.787E+02
+    5        6   2.275E+03   1.039E+03   8.556E+02   1.359E+03   6.787E+02
+    6        5   2.275E+03   1.039E+03   8.556E+02   1.359E+03   6.787E+02
+    7        3   2.298E+03   1.047E+03   8.624E+02   1.359E+03   6.968E+02
+    8        2   2.473E+03   1.304E+03   1.062E+03   1.314E+03   7.798E+02
+    9**      1   2.101E+03   1.317E+03   1.108E+03   1.052E+02   9.709E+02
+  
+ 0-SE tree based on mean is marked with *
+ 0-SE tree based on median with bootstrap SE is marked with +
+ Selected-SE tree based on mean using naive SE is marked with **
+ Selected-SE tree based on mean using bootstrap SE is marked with --
+ Selected-SE tree based on median and bootstrap SE is marked with ++
+ * tree, ** tree, + tree, and ++ tree all the same
+  
+ Following tree is based on mean CV with naive SE estimate.
+  
+ Structure of final tree. Each terminal node is marked with a T.
+  
+ D-mean is mean of sstormtot in the node
+ Cases fit give the number of cases used to fit node
+ MSE is residual sum of squares divided by number of cases in node
+        Node    Total    Cases Matrix    Node      Node      Split      Interacting
+        label   cases      fit  rank    D-mean     MSE       variable   variable
+           1T      80       80     1  9.304E+00  2.058E+03   tmax                 
+ Best split at root node is on tmax at   53.5000000000000     
+  
+ Number of terminal nodes of final tree: 1
+ Total number of nodes of final tree:    1
+  
+ Regression tree:
+  
+  Node 1: sstormtot-mean =   9.30387
+ 
+ ***************************************************************
+ In the following the predictor node mean is mean of complete cases
+  
+ Node 1: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       9.3039E+00        1.82 0.0721                                    
+ Predicted mean =   9.30387500000000     
+ ----------------------------
+  
+ LaTeX code for tree is in file: ../../../output/joos/tree.tex
+ 
+ Proportion of variance (R-squared) explained by tree model =  .0000
+ 
+ Elapsed time in seconds:   0.1092007    

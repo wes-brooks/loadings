@@ -1,0 +1,29 @@
+ \documentclass[12pt]{article}
+ %File creation date: 05/24/11  at 12:10
+ \usepackage{pstricks,pst-node,pst-tree}
+ \usepackage{geometry}
+ \usepackage{lscape}
+ \pagestyle{empty}
+ \begin{document}
+ %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.73}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.01}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 4 }~{\textit{1.68}}
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{ap1day\\$\leq$  3.50E-03}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 10}~{\textit{7.51}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 11}~{\textit{27.62}}
+   }
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{49.20}}
+ }
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of sstormtot.
+ %\end{landscape}
+ \end{document}

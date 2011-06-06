@@ -1,0 +1,198 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 05/24/11 at 12:10
+  
+ Least squares regression tree
+ Pruning by cross-validation
+ Data description file: ./no_snow.txt
+ Training sample file: 
+ C:\Users\wrbrooks\git\loadings\data\otter\ottercreek_nosnow.csv
+ Missing value code: na
+ Warning: N variables changed to S
+ Warning: B variables changed to C
+ Dependent variable is sstormtot
+ Piecewise constant model
+ Length of longest data entry = 12
+ Missing values found among categorical variables
+ Separate categories will be created for missing categorical variables
+  
+ Summary information (without x variables)
+ d=dependent, b=split and fit cat variable using 0-1 dummies, c=split-only categorical,
+ n=split and fit numerical, f=fit-only numerical, s=split-only numerical, w=weight
+ For categorical variables, #categories include one for missing values
+ Column  Variable          Variable  Minimum      Maximum    Number of     Number
+ number    name              type     value        value     categories    missing
+       4  theisen               s   1.0200E-01   3.9040E+00
+       5  p5max                 s   9.6000E-02   8.3280E+00
+       6  p10max                s   5.4000E-02   5.1120E+00
+       7  p15max                s   4.0000E-02   4.7120E+00
+       8  p30max                s   2.8000E-02   2.9260E+00
+       9  p60max                s   2.4000E-02   1.5900E+00                     4
+      10  ei                    s  -8.4300E+00   4.4855E+01
+      11  duration              s   5.8000E-01   1.2358E+02
+      12  intense               s   3.0000E-03   5.8300E-01
+      13  ap1day                s   0.0000E+00   5.1800E-01
+      14  ap2day                s   0.0000E+00   1.6550E+00
+      15  ap3day                s   0.0000E+00   2.7130E+00
+      16  tmax                  s   3.6000E+01   1.0500E+02
+      17  tmin                  s  -5.0000E+00   7.0000E+01
+      18  tmean                 s   2.0000E+01   8.2000E+01                     3
+      22  p                     c                                   2           5
+      23  s                     c                                   2         282
+      24  m                     c                                   2         283
+      25  eventtype             c                                   3
+      28  sinJulian             s  -9.9999E-01   9.9999E-01
+      29  cosJulian             s  -9.9996E-01   9.9985E-01
+      42  sstormtot             d   0.0000E+00   1.5621E+02
+      50  meltwater             s   0.0000E+00   4.3800E+00                    10
+      51  totalwater            s   1.0000E-01   4.8200E+00                    10
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        314          0         16       27        0        0       19        0        4
+ No weight variable in data file
+ Number of cases used for training =  314
+ Number of cases excluded due to zero weight or missing D-values =  0
+  
+ Interaction tests on all variables
+ Pruning by v-fold cross-validation, with v =  10
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  10
+ Minimum node size =  5
+ Number of SE's for pruned tree =   0.0000E+00
+  
+ Size and CV MSE and SE of subtrees:
+  Tree   #Tnodes  Mean MSE   SE(Mean)    BSE(Mean)  Median MSE  BSE(Median)
+    1       48   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+    2       46   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+    3       45   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+    4       44   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+    5       42   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+    6       41   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+    7       40   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+    8       39   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+    9       37   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+   10       36   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+   11       35   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+   12       33   3.071E+02   8.357E+01   5.334E+01   2.466E+02   8.816E+01
+   13       32   3.072E+02   8.357E+01   5.338E+01   2.467E+02   8.825E+01
+   14       31   3.073E+02   8.357E+01   5.337E+01   2.467E+02   8.829E+01
+   15       28   3.072E+02   8.357E+01   5.332E+01   2.467E+02   8.823E+01
+   16       25   3.072E+02   8.357E+01   5.332E+01   2.467E+02   8.824E+01
+   17       23   3.069E+02   8.357E+01   5.327E+01   2.463E+02   8.823E+01
+   18       20   3.067E+02   8.357E+01   5.322E+01   2.462E+02   8.802E+01
+   19       17   3.071E+02   8.359E+01   5.317E+01   2.481E+02   8.751E+01
+   20       16   3.092E+02   8.460E+01   5.370E+01   2.471E+02   9.186E+01
+   21       15   3.089E+02   8.460E+01   5.372E+01   2.455E+02   9.194E+01
+   22       13   3.084E+02   8.460E+01   5.352E+01   2.455E+02   9.155E+01
+   23       12   3.063E+02   8.378E+01   5.293E+01   2.455E+02   8.771E+01
+   24       10   3.049E+02   8.378E+01   5.301E+01   2.462E+02   8.701E+01
+   25        9   3.030E+02   8.379E+01   5.353E+01   2.465E+02   8.805E+01
+   26        8   3.163E+02   8.602E+01   5.271E+01   2.462E+02   8.977E+01
+   27        7   3.153E+02   8.597E+01   5.239E+01   2.462E+02   8.654E+01
+   28        6   3.051E+02   8.461E+01   5.265E+01   2.404E+02   8.417E+01
+   29**      4   2.876E+02   8.341E+01   5.505E+01   2.339E+02   9.408E+01
+   30        3   2.898E+02   8.371E+01   5.476E+01   2.450E+02   9.204E+01
+   31++      2   3.296E+02   1.037E+02   7.537E+01   2.300E+02   8.759E+01
+   32        1   3.532E+02   1.184E+02   8.265E+01   2.363E+02   1.271E+02
+  
+ 0-SE tree based on mean is marked with *
+ 0-SE tree based on median with bootstrap SE is marked with +
+ Selected-SE tree based on mean using naive SE is marked with **
+ Selected-SE tree based on mean using bootstrap SE is marked with --
+ Selected-SE tree based on median and bootstrap SE is marked with ++
+ ** tree same as -- tree
+ + tree same as ++ tree
+ * tree same as ** tree
+ * tree same as -- tree
+  
+ Following tree is based on mean CV with naive SE estimate.
+  
+ Structure of final tree. Each terminal node is marked with a T.
+  
+ D-mean is mean of sstormtot in the node
+ Cases fit give the number of cases used to fit node
+ MSE is residual sum of squares divided by number of cases in node
+        Node    Total    Cases Matrix    Node      Node      Split      Interacting
+        label   cases      fit  rank    D-mean     MSE       variable   variable
+           1      314      314     1  6.182E+00  3.521E+02   totalwater           
+           2      296      296     1  3.566E+00  1.100E+02   totalwater           
+           4T     238      238     1  1.676E+00  2.242E+01   tmin                 
+           5       58       58     1  1.132E+01  3.945E+02   ap1day               
+          10T      47       47     1  7.510E+00  1.341E+02   tmean                
+          11T      11       11     1  2.762E+01  1.179E+03   sinJulian            
+           3T      18       18     1  4.920E+01  2.371E+03   duration             
+  
+ Number of terminal nodes of final tree: 4
+ Total number of nodes of final tree:    7
+  
+ Regression tree:
+  
+  Node 1: totalwater <=    1.73000
+    Node 2: totalwater <=    1.01500
+      Node 4: sstormtot-mean =   1.67576
+    Node 2: totalwater >    1.01500
+      Node 5: ap1day <=  3.50000E-03
+        Node 10: sstormtot-mean =   7.50979
+      Node 5: ap1day >  3.50000E-03
+        Node 11: sstormtot-mean =  27.61727
+  Node 1: totalwater >    1.73000
+    Node 3: sstormtot-mean =  49.20167
+ 
+ ***************************************************************
+ In the following the predictor node mean is mean of complete cases
+  
+ Node 1: Intermediate node
+ A case goes into Node 2 if totalwater <=  1.7300000E+00
+           totalwater  mean =  7.7438E-01
+ ----------------------------
+ Node 2: Intermediate node
+ A case goes into Node 4 if totalwater <=  1.0150000E+00
+           totalwater  mean =  6.6259E-01
+ ----------------------------
+ Node 4: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       1.6758E+00        5.45 0.0000                                    
+ Predicted mean =   1.67575630252101     
+ ----------------------------
+ Node 5: Intermediate node
+ A case goes into Node 10 if ap1day <=  3.5000000E-03
+               ap1day  mean =  1.3552E-02
+ ----------------------------
+ Node 10: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       7.5098E+00        4.40 0.0001                                    
+ Predicted mean =   7.50978723404255     
+ ----------------------------
+ Node 11: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       2.7617E+01        2.54 0.0292                                    
+ Predicted mean =   27.6172727272727     
+ ----------------------------
+ Node 3: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       4.9202E+01        4.17 0.0006                                    
+ Predicted mean =   49.2016666666667     
+ ----------------------------
+  
+ LaTeX code for tree is in file: ../../../output/otter/tree.tex
+ 
+ Proportion of variance (R-squared) explained by tree model =  .3914
+ 
+ Elapsed time in seconds:   0.7176046    
