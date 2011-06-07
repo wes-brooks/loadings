@@ -1,0 +1,59 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+
+
+\title{Analysis of loadings}
+\author{Wesley Brooks}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+First, we'll read in the data files.
+
+<<label=read_data, echo=FALSE>>=
+setwd('~/git/loadings/code')
+
+#list of the stream names as they appear in the file names
+streams = list('eagle', 'joosvalley', 'otter')
+
+loadings = data.frame()
+
+for(stream_name in streams) {
+	data_file = paste('../data/', stream_name, '/', stream_name, 'creek.csv', sep='')
+    stream_data = read.csv(data_file, header=T, na.strings=c('NA', 'na'))
+
+    threshold <- as.numeric( quantile(stream_data$logsstormtot, 0.9) )     #establish the threshold for a major event
+    
+    stream_data = within( stream_data, {
+        event_type <- factor(event_type)                                    #turn event_type into a factor
+        year <- factor(year)                                                #turn year into a factor
+        melt_snow[melt_snow=='N' | melt_snow=='Z' | melt_snow=='U'] <- NA   #code missing values for snowmelt
+        melt_snow <- as.numeric(levels(melt_snow)[melt_snow])               #Now snowmelt can be turned into a number
+        major <- ifelse(logsstormtot>threshold,1,0)                         #tag the events that are above the 90th percentile
+        stream <- stream_name											                      	 #identify which stream we're working on
+        } )
+        
+	loadings <- rbind(loadings, stream_data)
+}
+@
+
+Now we will use \verb!rpart! to make a decision tree for major events.
+
+<<label=rpart, echo=False>>=
+library(rpart)
+
+
+
+@
+
+
+
+
+\end{document}
