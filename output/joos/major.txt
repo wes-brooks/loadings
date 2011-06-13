@@ -1,0 +1,156 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 06/09/11 at 12:20
+  
+ Classification tree
+ Pruning by cross-validation
+ Data description file: ./major.txt
+ Training sample file: C:\Users\wrbrooks\git\loadings\data\joos\joos_mod.csv
+ Missing value code: NA
+ Warning: N variables changed to S
+ Warning: B variables changed to C
+ Dependent variable is major
+ Length of longest data entry = 18
+ Missing values found among categorical variables
+ Separate categories will be created for missing categorical variables
+ Number of classes =  2
+ Class name          Num. cases   Proportion
+ 0                          425   0.89852008
+ 1                           48   0.10147992
+  
+ Summary information (without x variables)
+ d=dependent, b=split and fit cat variable using 0-1 dummies, c=split-only categorical,
+ n=split and fit numerical, f=fit-only numerical, s=split-only numerical, w=weight
+ For categorical variables, #categories include one for missing values
+ Column  Variable          Variable  Minimum      Maximum    Number of     Number
+ number    name              type     value        value     categories    missing
+      16  tmax                  s   3.0000E+00   9.5000E+01                     5
+      17  tmin                  s  -2.6000E+01   7.2000E+01                     7
+      18  tmean                 s  -1.2000E+01   8.1000E+01                     5
+      19  nwsprec               s   0.0000E+00   1.0800E+01
+      20  nwssnow               s   0.0000E+00   2.6800E+01
+      21  meltsnow              s   0.0000E+00   1.6000E+01                    97
+      22  p                     c                                   2          78
+      23  s                     c                                   2         397
+      24  m                     c                                   2         278
+      25  eventtype             c                                   7
+      26  sweq                  s   3.3300E+00   6.4070E+01                   362
+      28  sinJulian             s  -9.9977E-01   9.9992E-01
+      29  cosJulian             s  -9.9996E-01   1.0000E+00
+      62  meltwater             s   0.0000E+00   2.3840E+00                   135
+      63  totalwater            s   0.0000E+00   5.8920E+00                   135
+      64  major                 d                                   2
+      65  weight                w   1.2737E-02   1.0000E+00
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        473          0        407       48        0        0       11        0        4
+ Number of cases used for training =  473
+ Number of cases excluded due to zero weight or missing D-values =  0
+  
+ Interaction tests on all variables
+ Linear splits
+ Pruning by v-fold cross-validation, with v =  10
+ Simple node models
+ Estimated priors
+ Unit misclassification costs
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  10
+ Minimum node size =  5
+ Number of SE's for pruned tree =   0.0000E+00
+  
+ Size and CV mean cost and SE of subtrees:
+  Tree   #Tnodes  Mean Cost   SE(Mean)   BSE(Mean)  Median Cost  BSE(Median)
+    1       17   9.725E-02   1.362E-02   9.152E-03   1.053E-01   9.983E-03
+    2       15   9.725E-02   1.362E-02   9.152E-03   1.053E-01   9.983E-03
+    3       14   9.725E-02   1.362E-02   9.152E-03   1.053E-01   9.983E-03
+    4       13   9.725E-02   1.362E-02   9.152E-03   1.053E-01   9.983E-03
+    5       12   9.725E-02   1.362E-02   9.152E-03   1.053E-01   9.983E-03
+    6       11   8.034E-02   1.250E-02   9.766E-03   8.511E-02   1.445E-02
+    7        8   8.034E-02   1.250E-02   9.766E-03   8.511E-02   1.445E-02
+    8        7   8.457E-02   1.279E-02   8.390E-03   8.511E-02   8.309E-03
+    9**      2   7.400E-02   1.204E-02   1.133E-02   7.447E-02   1.540E-02
+   10        1   1.015E-01   1.388E-02   1.237E-02   8.511E-02   2.039E-02
+  
+ 0-SE tree based on mean is marked with *
+ 0-SE tree based on median with bootstrap SE is marked with +
+ Selected-SE tree based on mean using naive SE is marked with **
+ Selected-SE tree based on mean using bootstrap SE is marked with --
+ Selected-SE tree based on median and bootstrap SE is marked with ++
+ * tree, ** tree, + tree, and ++ tree all the same
+  
+ Following tree is based on mean CV with naive SE estimate.
+  
+ Structure of final tree. Each terminal node is marked with a T.
+  
+ Node cost is node misclassification cost divided by number of training cases
+        Node    Total    Train    Predicted        Node    Split      Interacting
+       label    cases    cases    class            cost    variable   variable
+           1      473      473    0              1.015E-01 totalwater
+           2T     441      441    0              5.669E-02 totalwater
+           3T      32       32    1              2.813E-01 nwsprec   
+  
+ Number of terminal nodes of final tree: 2
+ Total number of nodes of final tree:    3
+  
+ Classification tree:
+  
+  Node 1: totalwater <=    1.77200
+    Node 2: 0
+  Node 1: totalwater >    1.77200
+    Node 3: 1
+ 
+ ***************************************************************
+ In the following the predictor node mean is weighted mean of complete cases
+  
+ Node 1: Intermediate node
+ A case goes into Node 2 if totalwater <=  1.7720000E+00
+           totalwater  mean =  7.3578E-01
+ ClassName      Number ClassPrior
+ 0                 425     0.8985
+ 1                  48     0.1015
+ Number of training cases misclassified =  48
+ ----------------------------
+ Node 2: Terminal node
+ ClassName      Number ClassPrior
+ 0                 416     0.9433
+ 1                  25     0.0567
+ Predicted class is 0
+ Number of training cases misclassified =  25
+ ----------------------------
+ Node 3: Terminal node
+ ClassName      Number ClassPrior
+ 0                   9     0.2813
+ 1                  23     0.7188
+ Predicted class is 1
+ Number of training cases misclassified =  9
+ ----------------------------
+  
+ LaTeX code for tree is in file: ../../../output/joos/major.tex
+ 
+ 
+ Classification matrix for training sample:
+ Predicted      True class
+class              0         1
+ 0                416        25
+ 1                  9        23
+ Total            425        48
+ 
+ Number of cases used for tree construction =  473
+ Number misclassified =  34
+ Resubstitution estimate of mean misclassification cost = 
+  7.188160676532769E-002
+ 
+ Elapsed time in seconds:   0.7176046    

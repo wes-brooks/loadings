@@ -1,0 +1,110 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+
+
+\title{Analysis of loadings}
+\author{Wesley Brooks}
+\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+First, we'll read in the data files.
+
+<<label=read_data, echo=FALSE>>=
+setwd('C:/Users/wrbrooks/git/loadings/code/Sweave')
+
+#list of the stream names as they appear in the file names
+streams = list('eagle', 'joosvalley', 'otter')
+
+loadings = data.frame()
+
+for(stream_name in streams) {
+	data_file = paste('../../data/', stream_name, '/', stream_name, 'creek.csv', sep='')
+    stream_data = read.csv(data_file, header=T, na.strings=c('NA', 'na'))
+
+    threshold <- as.numeric( quantile(stream_data$logsstormtot, 0.9) )     #establish the threshold for a major event
+    
+    stream_data = within( stream_data, {
+        event_type <- factor(event_type)                                    #turn event_type into a factor
+        year <- factor(year)                                                #turn year into a factor
+        melt_snow[melt_snow=='N' | melt_snow=='Z' | melt_snow=='U'] <- NA   #code missing values for snowmelt
+        melt_snow <- as.numeric(levels(melt_snow)[melt_snow])               #Now snowmelt can be turned into a number
+        major <- ifelse(logsstormtot>threshold,1,0)                         #tag the events that are above the 90th percentile
+        stream <- stream_name											                      	 #identify which stream we're working on
+        ap_1day <- as.numeric(ap_1day)
+        ap_2day <- as.numeric(ap_2day)
+        ap_3day <- as.numeric(ap_3day)
+        } )
+        
+	loadings <- rbind(loadings, stream_data)
+}
+
+loadings$stream = as.factor(loadings$stream)
+
+@
+
+Figure out what proportion of total storm loading is contributed by the top 10\% of storms:
+
+<<label=proportion, echo=False>>=
+q_90 = list()
+
+for(stream_name in streams){
+  stream_loadings=loadings[loadings$stream==stream_name,]
+  proportion = sum(stream_loadings[stream_loadings$major==1,'sstorm_tot'])/sum(stream_loadings[,'sstorm_tot'])
+  q_90[stream_name] = proportion }
+@
+
+The top 10\% of storms contributed \Sexpr{round(100*q_90$eagle,1)}\% of the storm loading at Eagle Creek, \Sexpr{round(100*q_90$otter,1)}\% of the storm loading at Otter Creek, and \Sexpr{round(100*q_90$joosvalley,1)}\% of the storm loading at Joos Valley Creek.
+
+<<label=cdf_plot, include=False, echo=False>>=
+line_type=1
+color=1
+for(stream in streams){
+  plot( cumsum(sort(loadings[loadings$stream==stream, 'sstorm_tot'], decreasing=T)), type='l', ylab=paste('cumulative storm loading'), lty=line_type, col=color, bty='n' )
+  par(new=T, ann=F, xaxt='n', yaxt='n')
+  line_type = line_type+1
+  #color = color+1
+}
+legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3))#, col=c(1,2,3))
+@
+
+\begin{figure}
+  \begin{center}
+<<label=figure1, fig=True, echo=False>>=
+<<cdf_plot>>
+@
+  \end{center}
+  \caption{Cumulative storm loadings at the three creeks.\label{cdf}}
+\end{figure}
+
+<<label=establish_predictors, echo=FALSE>>=
+ineligible_predictors = c('logsstormtot', 'logsstormmax', 'logsstormavg', 'sstorm_tot', 'sstorm_max', 'sstorm_avg', 'logstottot', 'logstotmax', 'logstotavg', 'stot_tot', 'stot_max', 'stot_avg', 'logpstormtot', 'logpstormmax', 'logpstormavg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'logptottot', 'logptotmax', 'logptotavg', 'ptot_tot', 'ptot_max', 'ptot_avg', 'qtot_max', 'qtot_tot', 'qtot_avg', 'qstorm_max', 'qstorm_tot', 'qstorm_avg', 'major')
+eligible_predictors = names(loadings)[!(names(loadings) %in% ineligible_predictors)]
+predictors = loadings[,eligible_predictors]
+target='logsstormtot'
+model_frame = cbind( loadings[,target], loadings[,eligible_predictors] )
+names(model_frame)[1] = 'target'
+@
+
+Now we will use \verb!rpart! to make a decision tree for major events.
+
+<<label=rpart, echo=False>>=
+library(rpart)
+tree=rpart(major~., data=loadings)
+@
+
+<<label=write_rpart, echo=False>>=
+tree
+@
+
+
+
+
+\end{document}

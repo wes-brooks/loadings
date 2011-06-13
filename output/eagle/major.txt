@@ -12,7 +12,7 @@
  This software is based upon work supported by the U.S. Army Research Office,
  the National Science Foundation and the National Institutes of Health.
   
- This job was started on: 06/02/11 at 09:40
+ This job was started on: 06/09/11 at 12:31
   
  Classification tree
  Pruning by cross-validation
@@ -58,8 +58,8 @@
  Number of cases used for training =  429
  Number of cases excluded due to zero weight or missing D-values =  0
   
- Interaction tests on all variables
- Linear splits
+ No interaction tests
+ No linear splits
  Pruning by v-fold cross-validation, with v =  10
  Simple node models
  Estimated priors
@@ -71,12 +71,12 @@
   
  Size and CV mean cost and SE of subtrees:
   Tree   #Tnodes  Mean Cost   SE(Mean)   BSE(Mean)  Median Cost  BSE(Median)
-    1       15   9.324E-02   1.404E-02   1.047E-02   9.302E-02   9.508E-03
-    2       14   9.324E-02   1.404E-02   1.047E-02   9.302E-02   9.508E-03
-    3       13   9.324E-02   1.404E-02   1.047E-02   9.302E-02   9.508E-03
-    4       12   9.324E-02   1.404E-02   1.047E-02   9.302E-02   9.508E-03
-    5       10   9.091E-02   1.388E-02   1.053E-02   9.302E-02   1.236E-02
-    6        6   8.625E-02   1.355E-02   1.122E-02   8.140E-02   1.505E-02
+    1       15   8.625E-02   1.355E-02   1.025E-02   8.140E-02   1.157E-02
+    2       14   8.625E-02   1.355E-02   1.025E-02   8.140E-02   1.157E-02
+    3       13   8.625E-02   1.355E-02   1.025E-02   8.140E-02   1.157E-02
+    4       12   8.625E-02   1.355E-02   1.025E-02   8.140E-02   1.157E-02
+    5       10   8.858E-02   1.372E-02   1.068E-02   8.140E-02   1.429E-02
+    6        6   8.858E-02   1.372E-02   1.068E-02   8.140E-02   1.429E-02
     7**      5   8.625E-02   1.355E-02   1.070E-02   6.977E-02   1.437E-02
     8        3   9.790E-02   1.435E-02   9.675E-03   9.302E-02   1.278E-02
     9        1   1.002E-01   1.450E-02   8.558E-03   9.302E-02   9.520E-03
@@ -210,4 +210,4 @@ class              0         1
  Resubstitution estimate of mean misclassification cost = 
   6.293706293706294E-002
  
- Elapsed time in seconds:   0.5928038    
+ Elapsed time in seconds:   0.5304034    

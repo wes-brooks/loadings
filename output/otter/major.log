@@ -1,7 +1,7 @@
-This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2011.6.1)  9 JUN 2011 12:32
+This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2011.6.1)  9 JUN 2011 12:29
 entering extended mode
 **major.tex
-(C:\Users\wrbrooks\git\loadings\output\eagle\major.tex
+(C:\Users\wrbrooks\git\loadings\output\otter\major.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
@@ -198,7 +198,7 @@ File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
 Package graphics Info: Driver file: xetex.def on input line 91.
 ))
-(C:\Users\wrbrooks\git\loadings\output\eagle\major.aux)
+(C:\Users\wrbrooks\git\loadings\output\otter\major.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
@@ -218,15 +218,15 @@ LaTeX Font Info:    ... okay on input line 7.
 * paper: 614.295pt, 794.96999pt (class default)
 * layout: 614.295pt, 794.96999pt
 * switch(es): 
-* h-part:(L,W,R)=(92.14519pt, 430.00462pt, 92.14519pt)
-* v-part:(T,H,B)=(95.39737pt, 556.47656pt, 143.09605pt)
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
-* \textwidth=430.00462pt
-* \textheight=556.47656pt
-* \oddsidemargin=19.8752pt
-* \evensidemargin=19.8752pt
-* \topmargin=-13.87262pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \footskip=30.0pt
@@ -269,14 +269,14 @@ Requested font "cmr10" at 10.95pt
  -> cmr10
 [1
 
-] (C:\Users\wrbrooks\git\loadings\output\eagle\major.aux) ) 
+] (C:\Users\wrbrooks\git\loadings\output\otter\major.aux) ) 
 Here is how much of TeX's memory you used:
  3664 strings out of 430430
  47427 string characters out of 3189574
- 136408 words of memory out of 3000000
+ 136483 words of memory out of 3000000
  6825 multiletter control sequences out of 15000+200000
  6676 words of font info for 24 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 32i,8n,37p,562b,510s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 32i,8n,37p,601b,510s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on major.pdf (1 page).

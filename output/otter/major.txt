@@ -1,0 +1,240 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 06/09/11 at 12:29
+  
+ Classification tree
+ Pruning by cross-validation
+ Data description file: ./major.txt
+ Training sample file: C:\Users\wrbrooks\git\loadings\data\otter\otter_mod.csv
+ Missing value code: NA
+ Warning: N variables changed to S
+ Warning: B variables changed to C
+ Dependent variable is major
+ Length of longest data entry = 19
+ Missing values found among categorical variables
+ Separate categories will be created for missing categorical variables
+ Number of classes =  2
+ Class name          Num. cases   Proportion
+ 0                          381   0.89858491
+ 1                           43   0.10141509
+  
+ Summary information (without x variables)
+ d=dependent, b=split and fit cat variable using 0-1 dummies, c=split-only categorical,
+ n=split and fit numerical, f=fit-only numerical, s=split-only numerical, w=weight
+ For categorical variables, #categories include one for missing values
+ Column  Variable          Variable  Minimum      Maximum    Number of     Number
+ number    name              type     value        value     categories    missing
+      16  tmax                  s   2.2000E+01   1.0500E+02
+      17  tmin                  s  -1.2000E+01   7.0000E+01                     1
+      18  tmean                 s   2.0000E+00   8.2000E+01                     7
+      19  nwsprec               s   0.0000E+00   4.9700E+00                     5
+      20  nwssnow               s   0.0000E+00   1.3500E+01                    16
+      21  meltsnow              s   0.0000E+00   1.8200E+01                    67
+      22  p                     c                                   2          42
+      23  s                     c                                   2         332
+      24  m                     c                                   2         283
+      25  eventtype             c                                   6
+      26  sweq                  s   5.0000E+00   1.0000E+02                   321
+      28  sinJulian             s  -9.9999E-01   9.9999E-01
+      29  cosJulian             s  -9.9996E-01   1.0000E+00
+      62  meltwater             s   0.0000E+00   4.3800E+00                    67
+      63  totalwater            s   0.0000E+00   4.8200E+00                    67
+      64  major                 d                                   2
+      65  weight                w   2.5454E-03   1.0000E+00
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        424          0        358       48        0        0       11        0        4
+ Number of cases used for training =  424
+ Number of cases excluded due to zero weight or missing D-values =  0
+  
+ No interaction tests
+ No linear splits
+ Pruning by v-fold cross-validation, with v =  10
+ Simple node models
+ Estimated priors
+ Unit misclassification costs
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  10
+ Minimum node size =  5
+ Number of SE's for pruned tree =   5.0000E-01
+  
+ Size and CV mean cost and SE of subtrees:
+  Tree   #Tnodes  Mean Cost   SE(Mean)   BSE(Mean)  Median Cost  BSE(Median)
+    1       17   8.962E-02   1.387E-02   9.668E-03   8.333E-02   1.681E-02
+    2       15   8.962E-02   1.387E-02   9.668E-03   8.333E-02   1.681E-02
+    3       14   8.962E-02   1.387E-02   9.668E-03   8.333E-02   1.681E-02
+    4       12   8.962E-02   1.387E-02   9.668E-03   8.333E-02   1.681E-02
+    5       10   8.962E-02   1.387E-02   9.668E-03   8.333E-02   1.681E-02
+    6        9   8.962E-02   1.387E-02   9.668E-03   8.333E-02   1.681E-02
+    7        8   8.962E-02   1.387E-02   9.668E-03   8.333E-02   1.681E-02
+    8++      7   8.962E-02   1.387E-02   9.668E-03   8.333E-02   1.681E-02
+    9**      6   9.198E-02   1.404E-02   1.160E-02   9.413E-02   1.506E-02
+   10        4   1.108E-01   1.525E-02   9.779E-03   1.071E-01   1.341E-02
+   11        1   1.014E-01   1.466E-02   1.222E-02   1.058E-01   1.205E-02
+  
+ 0-SE tree based on mean is marked with *
+ 0-SE tree based on median with bootstrap SE is marked with +
+ Selected-SE tree based on mean using naive SE is marked with **
+ Selected-SE tree based on mean using bootstrap SE is marked with --
+ Selected-SE tree based on median and bootstrap SE is marked with ++
+ * tree same as + tree
+ ** tree same as -- tree
+ + tree same as ++ tree
+ * tree same as ++ tree
+  
+ Following tree is based on mean CV with naive SE estimate.
+  
+ Structure of final tree. Each terminal node is marked with a T.
+  
+ Node cost is node misclassification cost divided by number of training cases
+        Node    Total    Train    Predicted        Node    Split      Interacting
+       label    cases    cases    class            cost    variable   variable
+           1      424      424    0              1.014E-01 totalwater
+           2      386      386    0              5.959E-02 sinJulian 
+           4T     290      290    0              2.414E-02 sweq      
+           5       96       96    0              1.667E-01 nwsprec   
+          10T      84       84    0              9.524E-02 eventtype 
+          11T      12       12    1              3.333E-01 sinJulian 
+           3       38       38    1              4.737E-01 totalwater
+           6       31       31    0              4.516E-01 sinJulian 
+          12T      17       17    0              2.353E-01 cosJulian 
+          13T      14       14    1              2.857E-01 cosJulian 
+           7T       7        7    1              1.429E-01           
+  
+ Number of terminal nodes of final tree: 6
+ Total number of nodes of final tree:    11
+  
+ Classification tree:
+  
+  Node 1: totalwater <=    1.46500
+    Node 2: sinJulian <=    0.80901
+      Node 4: 0
+    Node 2: sinJulian >    0.80901
+      Node 5: nwsprec <=    0.90000
+        Node 10: 0
+      Node 5: nwsprec >    0.90000
+        Node 11: 1
+  Node 1: totalwater >    1.46500
+    Node 3: totalwater <=    2.43000
+      Node 6: sinJulian <=    0.14836
+        Node 12: 0
+      Node 6: sinJulian >    0.14836
+        Node 13: 1
+    Node 3: totalwater >    2.43000
+      Node 7: 1
+ 
+ ***************************************************************
+ In the following the predictor node mean is weighted mean of complete cases
+  
+ Node 1: Intermediate node
+ A case goes into Node 2 if totalwater <=  1.4650000E+00
+           totalwater  mean =  6.7485E-01
+ ClassName      Number ClassPrior
+ 0                 381     0.8986
+ 1                  43     0.1014
+ Number of training cases misclassified =  43
+ ----------------------------
+ Node 2: Intermediate node
+ A case goes into Node 4 if sinJulian <=  8.0900950E-01
+            sinJulian  mean =  7.6117E-02
+ ClassName      Number ClassPrior
+ 0                 363     0.9404
+ 1                  23     0.0596
+ Number of training cases misclassified =  23
+ ----------------------------
+ Node 4: Terminal node
+ ClassName      Number ClassPrior
+ 0                 283     0.9759
+ 1                   7     0.0241
+ Predicted class is 0
+ Number of training cases misclassified =  7
+ ----------------------------
+ Node 5: Intermediate node
+ A case goes into Node 10 if nwsprec <=  9.0000000E-01
+              nwsprec  mean =  3.7921E-01
+ ClassName      Number ClassPrior
+ 0                  80     0.8333
+ 1                  16     0.1667
+ Number of training cases misclassified =  16
+ ----------------------------
+ Node 10: Terminal node
+ ClassName      Number ClassPrior
+ 0                  76     0.9048
+ 1                   8     0.0952
+ Predicted class is 0
+ Number of training cases misclassified =  8
+ ----------------------------
+ Node 11: Terminal node
+ ClassName      Number ClassPrior
+ 0                   4     0.3333
+ 1                   8     0.6667
+ Predicted class is 1
+ Number of training cases misclassified =  4
+ ----------------------------
+ Node 3: Intermediate node
+ A case goes into Node 6 if totalwater <=  2.4300000E+00
+           totalwater  mean =  2.1191E+00
+ ClassName      Number ClassPrior
+ 0                  18     0.4737
+ 1                  20     0.5263
+ Number of training cases misclassified =  18
+ ----------------------------
+ Node 6: Intermediate node
+ A case goes into Node 12 if sinJulian <=  1.4835641E-01
+            sinJulian  mean = -8.0176E-02
+ ClassName      Number ClassPrior
+ 0                  17     0.5484
+ 1                  14     0.4516
+ Number of training cases misclassified =  14
+ ----------------------------
+ Node 12: Terminal node
+ ClassName      Number ClassPrior
+ 0                  13     0.7647
+ 1                   4     0.2353
+ Predicted class is 0
+ Number of training cases misclassified =  4
+ ----------------------------
+ Node 13: Terminal node
+ ClassName      Number ClassPrior
+ 0                   4     0.2857
+ 1                  10     0.7143
+ Predicted class is 1
+ Number of training cases misclassified =  4
+ ----------------------------
+ Node 7: Terminal node
+ ClassName      Number ClassPrior
+ 0                   1     0.1429
+ 1                   6     0.8571
+ Predicted class is 1
+ Number of training cases misclassified =  1
+ ----------------------------
+  
+ LaTeX code for tree is in file: ../../../output/otter/major.tex
+ 
+ 
+ Classification matrix for training sample:
+ Predicted      True class
+class              0         1
+ 0                372        19
+ 1                  9        24
+ Total            381        43
+ 
+ Number of cases used for tree construction =  424
+ Number misclassified =  28
+ Resubstitution estimate of mean misclassification cost = 
+  6.603773584905662E-002
+ 
+ Elapsed time in seconds:   0.4992032    

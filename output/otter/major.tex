@@ -1,0 +1,35 @@
+ \documentclass[12pt]{article}
+ %File creation date: 06/09/11  at 12:29
+ \usepackage{pstricks,pst-node,pst-tree}
+ \usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
+ \usepackage{lscape}
+ \pagestyle{empty}
+ \begin{document}
+ %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=46pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.47}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{sinJulian\\$\leq$ .8090}}}{
+    \Tcircle[fillcolor=green,fillstyle=solid]{ 4 }~[tnpos=l]{290}~{\shortstack{0\\.02}}
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ .9000}}}{
+    \Tcircle[fillcolor=green,fillstyle=solid]{\small 10}~[tnpos=l]{84}~{\shortstack{0\\.10}}
+    \Tcircle[fillcolor=red,fillstyle=solid]{\small 11}~[tnpos=l]{12}~{\shortstack{1\\.33}}
+   }
+   }
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 2.43}}}{
+  \pstree{\TC~[tnpos=l]{\shortstack[r]{sinJulian\\$\leq$ .1484}}}{
+    \Tcircle[fillcolor=green,fillstyle=solid]{\small 12}~[tnpos=l]{17}~{\shortstack{0\\.24}}
+    \Tcircle[fillcolor=red,fillstyle=solid]{\small 13}~[tnpos=l]{14}~{\shortstack{1\\.29}}
+   }
+    \Tcircle[fillcolor=red,fillstyle=solid]{ 7 }~[tnpos=l]{7}~{\shortstack{1\\.14}}
+ }
+ }
+ \end{center}
+GUIDE classification tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Predicted class and estimated mean misclassification cost beneath each leaf node; number of cases on its left.
+ %\end{landscape}
+ \end{document}
