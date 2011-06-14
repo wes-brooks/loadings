@@ -20,8 +20,9 @@
 
 First, we'll read the data files.\\
 
-<<label=imports, echo=False, include=False>>=
+<<label=setup, echo=False, include=False>>=
 library(ggplot2)
+options(texi2dvi='xelatex')
 @
 
 <<label=read_data, echo=FALSE>>=
@@ -237,8 +238,8 @@ eligible_predictors = names(loadings)[!(names(loadings) %in% ineligible_predicto
 @
 
 
-<<echo=False, include=True>>=
-guide(sstorm_tot~nws_prec, data=eagle)
+<<echo=False, results=tex, include=True>>=
+guide(sstorm_tot~nws_prec, data=eagle, sweave=T)
 @
 
 \end{document}

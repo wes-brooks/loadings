@@ -1,0 +1,25 @@
+This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2011.6.1)  14 JUN 2011 18:33
+entering extended mode
+**\end
+
+*X
+
+! LaTeX Error: \begin{document} ended by \end{X}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+<*> X
+     
+? X
+ 
+Here is how much of TeX's memory you used:
+ 3 strings out of 430430
+ 156 string characters out of 3189574
+ 45123 words of memory out of 3000000
+ 3262 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 5i,0n,6p,8b,14s stack positions out of 5000i,500n,10000p,200000b,50000s
+No pages of output.

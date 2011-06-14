@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2011.6.1)  13 JUN 2011 12:28
+This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2011.6.1)  14 JUN 2011 18:36
 entering extended mode
 **loadings.tex
 (C:\Users\wrbrooks\git\loadings\code\Sweave\loadings.tex
@@ -9,6 +9,8 @@ rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\size12.clo"
 File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+Requested font "cmr12" at 12.0pt
+ -> cmr12
 )
 \c@part=\count80
 \c@section=\count81
@@ -83,6 +85,165 @@ Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\subfig\subfig.sty"
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\caption\caption.sty
+Package: caption 2010/01/09 v3.1m Customizing captions (AR)
+
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\caption\caption3.sty
+Package: caption3 2010/01/14 v3.1m caption3 kernel (AR)
+\captionmargin=\dimen113
+\captionmargin@=\dimen114
+\captionwidth=\dimen115
+\caption@indent=\dimen116
+\caption@parindent=\dimen117
+\caption@hangindent=\dimen118
+)
+\c@ContinuedFloat=\count91
+)
+\c@KVtest=\count92
+\sf@farskip=\skip43
+\sf@captopadj=\dimen119
+\sf@capskip=\skip44
+\sf@nearskip=\skip45
+\c@subfigure=\count93
+\c@subfigure@save=\count94
+\c@lofdepth=\count95
+\c@subtable=\count96
+\c@subtable@save=\count97
+\c@lotdepth=\count98
+\sf@top=\skip46
+\sf@bottom=\skip47
+) ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\pstricks\pstricks.sty"
+Package: pstricks 2010/03/20 v0.43 LaTeX wrapper for `PSTricks' (RN,HV)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\pstricks\pstricks.tex"
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xkeyval\pst-xkey.tex"
+File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\xkeyval\xkeyval.sty"
+Package: xkeyval 2008/08/13 v2.6a package option processing (HA)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xkeyval\xkeyval.tex"
+\XKV@toks=\toks17
+\XKV@tempa@toks=\toks18
+\XKV@depth=\count99
+File: xkeyval.tex 2008/08/13 v2.6a key=value parser (HA)
+)))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\pstricks\pst-fp.tex"
+`pst-fp' v0.05, 2010/01/17 (hv)
+\pstFP@xs=\count100
+\pstFP@xia=\count101
+\pstFP@xib=\count102
+\pstFP@xfa=\count103
+\pstFP@xfb=\count104
+\pstFP@rega=\count105
+\pstFP@regb=\count106
+\pstFP@regs=\count107
+\pstFP@times=\count108
+)
+\psLoopIndex=\count109
+
+`PSTricks' v2.02  <2010/02/23> (tvz)
+\pst@dima=\dimen120
+\pst@dimb=\dimen121
+\pst@dimc=\dimen122
+\pst@dimd=\dimen123
+\pst@dimg=\dimen124
+\pst@dimh=\dimen125
+\pst@dimm=\dimen126
+\pst@dimn=\dimen127
+\pst@dimo=\dimen128
+\pst@dimp=\dimen129
+\pst@hbox=\box26
+\pst@boxg=\box27
+\pst@cnta=\count110
+\pst@cntb=\count111
+\pst@cntc=\count112
+\pst@cntd=\count113
+\pst@cntg=\count114
+\pst@cnth=\count115
+\pst@cntm=\count116
+\pst@cntn=\count117
+\pst@cnto=\count118
+\pst@cntp=\count119
+\@zero=\count120
+\pst@toks=\toks19
+
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\xelatex\xetex-pstricks\pstric
+ks.con
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\xelatex\xetex-pstricks\xdvipd
+fmx.cfg))
+\psunit=\dimen130
+\psxunit=\dimen131
+\psyunit=\dimen132
+\pslinewidth=\dimen133
+\pst@customdefs=\toks20
+\pslinearc=\dimen134
+\pst@symbolStep=\dimen135
+\pst@symbolWidth=\dimen136
+\everypsbox=\toks21
+\psframesep=\dimen137
+\pslabelsep=\dimen138
+\pst@shift=\dimen139
+\theoverlaybox=\box28
+
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\xelatex\xetex-pstricks\pstric
+ks.con
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\xelatex\xetex-pstricks\xdvipd
+fmx.cfg
+Using PSTricks configuration for XeTeX+xdvipdfmx
+)))
+File: pstricks.tex 2010/02/23 v2.02 `PSTricks' (tvz,hv)
+File: pst-fp.tex 2010/01/17 v0.05 `pst-fp' (hv)
+ ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\xcolor\xcolor.sty"
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package xcolor Info: Driver file: xetex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
+))
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\pst-node\pst-node.sty
+Package: pst-node 2010/04/22 package wrapper for pst-node.tex
+
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\generic\pst-node\pst-node.tex
+ v1.15, 2011/02/28
+\psrow=\count121
+\pscol=\count122
+\psmatrixcnt=\count123
+\psrowsep=\skip48
+\pscolsep=\skip49
+\pst@args=\count124
+\num@pts=\count125
+\pst@argcnt=\count126
+)
+File: pst-node.tex 2011/02/28 1.15 `pst-node' (tvz)
+)
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\pst-tree\pst-tree.sty
+Package: pst-tree 2009/01/25 package wrapper for pst-tree.tex
+
+(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\generic\pst-tree\pst-tree.tex
+ v1.12, 2011/02/28(tvz,dg,hv)
+\pstree@rootbox=\box29
+\pstree@box=\box30
+\psnodecnt=\count127
+\pstreelevel=\count128
+\pstreecnt=\count129
+\pstree@cnt=\count130
+\pstree@stop=\count131
+)
+File: pst-tree.tex 2011/02/28 1.12 `pst-tree' (tvz,hv)
+)
 (C:\Users\wrbrooks\git\loadings\code\Sweave\Sweave.sty
 Package: Sweave 
 
@@ -94,11 +255,11 @@ Package: fancyvrb 2008/02/07
 
 Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
 <2008/02/07> (tvz)
-\FV@CodeLineNo=\count91
+\FV@CodeLineNo=\count132
 \FV@InFile=\read1
-\FV@TabBox=\box26
-\c@FancyVerbLine=\count92
-\FV@StepNumber=\count93
+\FV@TabBox=\box31
+\c@FancyVerbLine=\count133
+\FV@StepNumber=\count134
 \FV@OutFile=\write3
 )
 (C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\upquote\upquote.sty
@@ -178,7 +339,10 @@ Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\t1enc.def"
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
-))
+)
+Requested font "ecrm1200" at 12.0pt
+ -> ecrm1200
+)
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ae\ae.sty"
 Package: ae 2001/02/12 1.3 Almost European Computer Modern
 
@@ -193,27 +357,30 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ae\t1aer.fd"
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-))))
+)
+Requested font "aer12" at 12.0pt
+ -> aer12
+)))
 (C:\Users\wrbrooks\git\loadings\code\Sweave\loadings.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 16.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 16.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 18.
 
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    ... okay on input line 18.
 
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -246,37 +413,136 @@ LaTeX Font Info:    ... okay on input line 16.
 * \@reversemarginfalse
 * (1in=72.27pt, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 17.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
+LaTeX Info: Redefining \subref on input line 18.
+Package caption Info: End \AtBeginDocument code.
+Requested font "aer17" at 20.74pt
+ -> aer17
+Requested font "aer12" at 14.4pt
+ -> aer12
+Requested font "cmr12" at 14.4pt
+ -> cmr12
+Requested font "cmmi12" at 14.4pt
+ -> cmmi12
+Requested font "cmsy10" at 14.4pt
+ -> cmsy10
+Requested font "cmex10" at 14.4pt
+ -> cmex10
+Requested font "cmex7" at 7.0pt
+ -> cmex7
+LaTeX Font Info:    Try loading font information for U+msa on input line 20.
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 17.
+Requested font "msam10" at 14.4pt
+ -> msam10
+Requested font "msam10" at 10.0pt
+ -> msam10
+Requested font "msam7" at 7.0pt
+ -> msam7
+LaTeX Font Info:    Try loading font information for U+msb on input line 20.
 
 ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
+Requested font "msbm10" at 14.4pt
+ -> msbm10
+Requested font "msbm10" at 10.0pt
+ -> msbm10
+Requested font "msbm7" at 7.0pt
+ -> msbm7
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--23
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+
+ []
+
+File: loadings-fig2.pdf Graphic file (type QTm)
+<use  "loadings-fig2.pdf" >
+
+LaTeX Warning: Float too large for page by 62.01108pt on input line 43.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+
+ []
+
+File: loadings-fig3.pdf Graphic file (type QTm)
+<use  "loadings-fig3.pdf" >
+
+LaTeX Warning: Float too large for page by 62.01108pt on input line 58.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 62--63
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--66
+
+ []
+
 File: loadings-figure1.pdf Graphic file (type QTm)
-
 <use  "loadings-figure1.pdf" >
-LaTeX Font Info:    Try loading font information for T1+aett on input line 36.
+Requested font "cmr8" at 8.0pt
+ -> cmr8
+Requested font "cmr6" at 6.0pt
+ -> cmr6
+Requested font "cmmi12" at 12.0pt
+ -> cmmi12
+Requested font "cmmi8" at 8.0pt
+ -> cmmi8
+Requested font "cmmi6" at 6.0pt
+ -> cmmi6
+Requested font "cmsy10" at 12.0pt
+ -> cmsy10
+Requested font "cmsy8" at 8.0pt
+ -> cmsy8
+Requested font "cmsy6" at 6.0pt
+ -> cmsy6
+Requested font "cmex10" at 12.0pt
+ -> cmex10
+Requested font "cmex8" at 8.0pt
+ -> cmex8
+Requested font "cmex7" at 6.0pt
+ -> cmex7
+Requested font "msam10" at 12.0pt
+ -> msam10
+Requested font "msam10" at 8.0pt
+ -> msam10
+Requested font "msam7" at 6.0pt
+ -> msam7
+Requested font "msbm10" at 12.0pt
+ -> msbm10
+Requested font "msbm10" at 8.0pt
+ -> msbm10
+Requested font "msbm7" at 6.0pt
+ -> msbm7
+Requested font "aeti12" at 12.0pt
+ -> aeti12
+Requested font "aer10" at 10.95pt
+ -> aer10
+ [1
 
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ae\t1aett.fd"
-File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-) [1
-
-] [2]
-(C:\Users\wrbrooks\git\loadings\code\Sweave\loadings.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+] [2] [3] [4] [5]
+(C:\Users\wrbrooks\git\loadings\code\Sweave\loadings.aux) ) 
 Here is how much of TeX's memory you used:
- 2476 strings out of 430430
- 32029 string characters out of 3189574
- 79277 words of memory out of 3000000
- 5628 multiletter control sequences out of 15000+200000
- 12118 words of font info for 31 fonts, out of 3000000 for 9000
+ 6271 strings out of 430430
+ 86322 string characters out of 3189574
+ 176742 words of memory out of 3000000
+ 9364 multiletter control sequences out of 15000+200000
+ 19417 words of font info for 49 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 35i,6n,24p,239b,255s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,9n,73p,543b,567s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on loadings.pdf (2 pages).
+Output written on loadings.pdf (5 pages).
