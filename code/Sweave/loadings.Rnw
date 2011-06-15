@@ -18,12 +18,17 @@
 \setkeys{Gin}{width=0.9\textwidth}    %make figures a bit wider than the Sweave default.
 \maketitle
 
-First, we'll read the data files.\\
-
 <<label=setup, echo=False, include=False>>=
-library(ggplot2)
-options(texi2dvi='xelatex')
+
 @
+
+
+
+First, we'll read the data files and divide the events into a few classes: one class for events that occured with snowmelt, one class for events that occured after the spring's last snowmelt but before mid-May (defined here as Julian date 135), and one class for events that occured after julian 135 and before the first snowmelt of the next winter. 
+
+We also will look at dividing the data into just two groups: one that is snow-influenced and one that is not. "Not snow-influenced" just combines event classes two and three.\\
+
+
 
 <<label=read_data, echo=FALSE>>=
 setwd('C:/Users/wrbrooks/git/loadings/code/Sweave')
@@ -57,9 +62,9 @@ for(stream_name in streams) {
 }
 @
 
-Next, divide the events into three classes: one class for events that occured with snowmelt, one class for events that occured after the spring's last snowmelt but before mid-May (defined here as Julian date 135), and one class for events that occured after julian 135 and before the first snowmelt of the next winter.
 
-We also will look at dividing the data into just two groups: one that is snow-influenced and one that is not. "Not snow-influenced" just combines event classes two and three.\\
+
+
 
 <<label=class_IDs, echo=FALSE>>=
 #loop through the stream sites:
@@ -117,16 +122,27 @@ for(stream_name in streams) {
 @
 
 
+
+The next block of code produces a set of bar charts that show the relative contributions of the snow-driven events, post-snow-pre-vegetation events, and the post-vegetation events.\\
+
+
+
 <<label=barchart, echo=False, include=False>>=
 proportions <- function(streams, target) {
   result = matrix(1:3*length(streams),length(streams),3)
-  
   for(i in 1:length(streams)) {
     stream = get(streams[i])
     result[i,] = sapply( c(1,2,3), (function(x) sum(stream[stream$event_class==x,target])/sum(stream[,target])) ) }
-    
   return(result)
   }
+
+targets = c('ptot_tot', 'pstorm_tot', 'stot_tot', 'sstorm_tot')
+
+props = data.frame()
+
+for( target in targets ) {
+    
+    }
 
 ptot_proportions = proportions(streams, 'ptot_tot')
 pstorm_proportions = proportions(streams, 'pstorm_tot')
@@ -139,6 +155,20 @@ barplot(stot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="p
 barplot(pstorm_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
 barplot(sstorm_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
 @
+
+
+
+The next block prints a table of the proportion of total phosphorus loading due to each class of event at each site\\
+
+
+
+<<label=tab1,echo=FALSE,results=tex>>=
+library(xtable)
+print(xtable(ptot_proportions, caption="ANOVA Table", label="tab:one",
+digits=c(0, 3,3,3)), table.placement="tbp",
+caption.placement="bottom")
+@
+
 
 
 Produce plots of the proportion of the suspended solids and phosphorus (both total loading and stormflow loading) that is contributed by each class of event at each stream site:\\
@@ -158,16 +188,15 @@ Produce plots of the proportion of the suspended solids and phosphorus (both tot
 
 Now let's do the same between the snow and no-snow events:\\
 
+
+
 <<label=barchart2, echo=False, include=False>>=
 proportions <- function(streams, target) {
-  result = matrix(1:2*length(streams),length(streams),2)
-  
-  for(i in 1:length(streams)) {
-    stream = get(streams[i])
-    result[i,] = sapply( c(T,F), (function(x) sum(stream[stream$snow_event==x,target])/sum(stream[,target])) ) }
-    
-  return(result)
-  }
+    result = matrix(1:2*length(streams),length(streams),2)
+    for(i in 1:length(streams)) {
+        stream = get(streams[i])
+        result[i,] = sapply( c(T,F), (function(x) sum(stream[stream$snow_event==x,target])/sum(stream[,target])) ) }
+    return(result) }
 
 ptot_proportions = proportions(streams, 'ptot_tot')
 pstorm_proportions = proportions(streams, 'pstorm_tot')
@@ -181,6 +210,9 @@ barplot(pstorm_proportions, beside=T, names.arg=c("snow","no snow"), ylab="propo
 barplot(sstorm_proportions, beside=T, names.arg=c("snow","no snow"), ylab="proportion of solids")
 @
 
+
+
+Put the barchart into the document here:\\
 
 
 
@@ -197,27 +229,35 @@ barplot(sstorm_proportions, beside=T, names.arg=c("snow","no snow"), ylab="propo
 
 Figure out what proportion of total storm loading is contributed by the top 10\% of storms:\\
 
+
+
 <<label=proportion, include=False, echo=False>>=
 q_90 = list()
-
 for(stream in streams){
     stream_data = get(stream)
     proportion = sum(stream_data[stream_data$major==1,'sstorm_tot'])/sum(stream_data[,'sstorm_tot'])
     q_90[stream] = proportion }
 @
 
+
+
 The top 10\% of storms contributed \Sexpr{round(100*q_90$eagle,1)}\% of the storm loading at Eagle Creek, \Sexpr{round(100*q_90$otter,1)}\% of the storm loading at Otter Creek, and \Sexpr{round(100*q_90$joosvalley,1)}\% of the storm loading at Joos Valley Creek.\\
+
+
 
 <<label=cdf_plot, include=False, echo=False>>=
 line_type=1
 color=1
 for(stream in streams) {
     stream_data = get(stream)
-    plot( cumsum(sort(stream_data[, 'sstorm_tot'], decreasing=T)), type='l', ylab=paste('cumulative storm loading'), lty=line_type, col=color, bty='n', lwd=2)
+    plot( cumsum(sort(stream_data[, 'sstorm_tot'], decreasing=T)), type='l',
+        ylab=paste('cumulative storm loading'), lty=line_type, col=color, bty='n', lwd=2)
     par(new=T, ann=F, xaxt='n', yaxt='n')
     line_type = line_type+1 }
 legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3))
 @
+
+
 
 \begin{figure}
     \begin{center}
@@ -227,6 +267,8 @@ legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3))
     \end{center}
     \caption{Cumulative storm loadings at the three creeks.\label{cdf}}
 \end{figure}
+
+
 
 <<label=establish_predictors, echo=FALSE>>=
 ineligible_predictors = c('logsstormtot', 'logsstormmax', 'logsstormavg', 'sstorm_tot', 'sstorm_max', 'sstorm_avg', 'logstottot', 'logstotmax', 'logstotavg', 'stot_tot', 'stot_max', 'stot_avg', 'logpstormtot', 'logpstormmax', 'logpstormavg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'logptottot', 'logptotmax', 'logptotavg', 'ptot_tot', 'ptot_max', 'ptot_avg', 'qtot_max', 'qtot_tot', 'qtot_avg', 'qstorm_max', 'qstorm_tot', 'qstorm_avg', 'major')
@@ -238,8 +280,11 @@ eligible_predictors = names(loadings)[!(names(loadings) %in% ineligible_predicto
 @
 
 
+
 <<echo=False, results=tex, include=True>>=
 guide(sstorm_tot~nws_prec, data=eagle, sweave=T)
 @
+
+
 
 \end{document}

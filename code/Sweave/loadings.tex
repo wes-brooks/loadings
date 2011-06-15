@@ -19,16 +19,51 @@
 \setkeys{Gin}{width=0.9\textwidth}    %make figures a bit wider than the Sweave default.
 \maketitle
 
-First, we'll read the data files.\\
 
 
 
-Next, divide the events into three classes: one class for events that occured with snowmelt, one class for events that occured after the spring's last snowmelt but before mid-May (defined here as Julian date 135), and one class for events that occured after julian 135 and before the first snowmelt of the next winter.
+First, we'll read the data files and divide the events into a few classes: one class for events that occured with snowmelt, one class for events that occured after the spring's last snowmelt but before mid-May (defined here as Julian date 135), and one class for events that occured after julian 135 and before the first snowmelt of the next winter. 
 
 We also will look at dividing the data into just two groups: one that is snow-influenced and one that is not. "Not snow-influenced" just combines event classes two and three.\\
 
 
 
+
+
+
+
+
+
+
+
+The next block of code produces a set of bar charts that show the relative contributions of the snow-driven events, post-snow-pre-vegetation events, and the post-vegetation events.\\
+
+
+
+
+
+
+The next block prints a table of the proportion of total phosphorus loading due to each class of event at each site\\
+
+
+
+% latex table generated in R 2.13.0 by xtable 1.5-6 package
+% Wed Jun 15 13:33:46 2011
+\begin{table}[tbp]
+\begin{center}
+\caption{ANOVA Table}
+\label{tab:one}
+\begin{tabular}{rrrr}
+  \hline
+ & 1 & 2 & 3 \\ 
+  \hline
+1 & 0.328 & 0.229 & 0.442 \\ 
+  2 & 0.364 & 0.169 & 0.467 \\ 
+  3 & 0.404 & 0.169 & 0.426 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
 
 
 Produce plots of the proportion of the suspended solids and phosphorus (both total loading and stormflow loading) that is contributed by each class of event at each stream site:\\
@@ -50,6 +85,11 @@ Now let's do the same between the snow and no-snow events:\\
 
 
 
+
+Put the barchart into the document here:\\
+
+
+
 \begin{figure}
     \begin{center}
 \includegraphics{loadings-fig3}
@@ -62,7 +102,15 @@ Now let's do the same between the snow and no-snow events:\\
 Figure out what proportion of total storm loading is contributed by the top 10\% of storms:\\
 
 
+
+
+
+
 The top 10\% of storms contributed 92.4\% of the storm loading at Eagle Creek, 81.3\% of the storm loading at Otter Creek, and 95.8\% of the storm loading at Joos Valley Creek.\\
+
+
+
+
 
 
 \begin{figure}
@@ -71,6 +119,9 @@ The top 10\% of storms contributed 92.4\% of the storm loading at Eagle Creek, 8
     \end{center}
     \caption{Cumulative storm loadings at the three creeks.\label{cdf}}
 \end{figure}
+
+
+
 
 
 
@@ -98,4 +149,6 @@ At each intermediate node, a case goes to the left branch
   if and only if the condition is satisfied.
 Number in italics beneath leaf node is sample mean of sstormtot.
  %\end{landscape}
+
+
 \end{document}

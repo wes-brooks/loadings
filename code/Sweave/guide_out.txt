@@ -12,7 +12,7 @@
  This software is based upon work supported by the U.S. Army Research Office,
  the National Science Foundation and the National Institutes of Health.
   
- This job was started on: 06/14/11 at 18:33
+ This job was started on: 06/15/11 at 13:33
   
  Least squares regression tree
  Pruning by cross-validation
