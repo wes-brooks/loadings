@@ -43,37 +43,58 @@ The next block of code produces a set of bar charts that show the relative contr
 
 
 
+
 The next block prints a table of the proportion of total phosphorus loading due to each class of event at each site\\
 
 
 
 % latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Wed Jun 15 13:33:46 2011
-\begin{table}[tbp]
+% Thu Jun 16 18:07:00 2011
+\begin{table}[h]
 \begin{center}
-\caption{ANOVA Table}
-\label{tab:one}
-\begin{tabular}{rrrr}
+\begin{tabular}{lccc}
+  & snowmelt-driven & early post-snow & late post-snow \\ 
   \hline
- & 1 & 2 & 3 \\ 
-  \hline
-1 & 0.328 & 0.229 & 0.442 \\ 
-  2 & 0.364 & 0.169 & 0.467 \\ 
-  3 & 0.404 & 0.169 & 0.426 \\ 
-   \hline
-\end{tabular}
+eagle & 32.8\% & 22.9\% & 44.2\% \\ 
+  joosvalley & 36.4\% & 16.9\% & 46.7\% \\ 
+  otter & 40.4\% & 16.9\% & 42.6\% \\ 
+  \end{tabular}
+\caption{Proportion of total phosphorus loading contributed by each type of event}
+\label{tab:ptot}
 \end{center}
 \end{table}
+% latex table generated in R 2.13.0 by xtable 1.5-6 package
+% Thu Jun 16 18:07:00 2011
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lccc}
+  & snowmelt-driven & early post-snow & late post-snow \\ 
+  \hline
+eagle & 27.0\% & 29.1\% & 43.9\% \\ 
+  joosvalley & 26.9\% & 20.5\% & 52.6\% \\ 
+  otter & 29.4\% & 20.9\% & 49.7\% \\ 
+  \end{tabular}
+\caption{Proportion of total suspended solids loading contributed by each type of event}
+\label{tab:stot}
+\end{center}
+\end{table}
+
+
+
+
+
+
 
 
 Produce plots of the proportion of the suspended solids and phosphorus (both total loading and stormflow loading) that is contributed by each class of event at each stream site:\\
 
 
 
-\begin{figure}
+\begin{figure}[h!]
     \begin{center}
 \includegraphics{loadings-fig2}
     \end{center}
+    \vspace{-10mm}
     \caption{Cumulative storm loadings at the three creeks.\label{bars}}
 \end{figure}
 
@@ -90,23 +111,14 @@ Put the barchart into the document here:\\
 
 
 
-\begin{figure}
+\begin{figure}[h!]
     \begin{center}
 \includegraphics{loadings-fig3}
     \end{center}
+    \vspace{-10mm}
     \caption{Cumulative storm loadings at the three creeks.\label{bars2}}
 \end{figure}
 
-
-
-Figure out what proportion of total storm loading is contributed by the top 10\% of storms:\\
-
-
-
-
-
-
-The top 10\% of storms contributed 92.4\% of the storm loading at Eagle Creek, 81.3\% of the storm loading at Otter Creek, and 95.8\% of the storm loading at Joos Valley Creek.\\
 
 
 
@@ -123,6 +135,49 @@ The top 10\% of storms contributed 92.4\% of the storm loading at Eagle Creek, 8
 
 
 
+We will use a Wilcoxon rank-sum test to establish whether the average daily load from a snowmelt-driven event is different from that of a post-snow event:\\
+
+
+
+
+\begin{Schunk}
+\begin{Soutput}
+[1] 0
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+\begin{Schunk}
+\begin{Soutput}
+[1] 0.1827669
+\end{Soutput}
+\begin{Soutput}
+[1] 0.61315
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+Figure out what proportion of total storm loading is contributed by the top 10\% of storms:\\
+
+
+
+
+
+
+
+
+The top 10\% of storms contributed 0\% of the storm loading at Eagle Creek, 0\% of the storm loading at Otter Creek, and 0\% of the storm loading at Joos Valley Creek.\\
+
+Now we want to know how these major events are distributed within the event classes; that is, whether snowmelt tends to produce major loading events, or whether it is the post-snow events. Note that the \_tot column measures the total loading during an event. The snowmelt-driven events are different in kind than the rainfall-driven ones because they don't require continuous rain during the event. If the snowmelt-driven events are caused by warm weather, it seems reasonable that a single event might last for many days and cause more loading than a more-intense rainfall event that only lasts a day or two. To account for this, we will look both at total loading (\_tot) and average daily loading during an event (\_avg).\\
+
+
+
+
+
 
 
  %\begin{landscape}
@@ -130,24 +185,49 @@ The top 10\% of storms contributed 92.4\% of the storm loading at Eagle Creek, 8
 \psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
 %     \def\psedge#1#2{\ncangle{#2}{#1}}
 %     \pstree[treemode=R]
-  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 1.93}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{30.47}}
-  \pstree{\Tcircle{ 3 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 2.85}}}{
-  \pstree{\Tcircle{ 6 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 2.29}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 12}~{\textit{894.05}}
-  \pstree{\Tcircle{\small 13}~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 2.60}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 26}~{\textit{278.95}}
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 27}~{\textit{43.92}}
-   }
-   }
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 7 }~{\textit{834.67}}
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 53.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{2.32}}
+  \pstree{\Tcircle{ 3 }~[tnpos=l]{\shortstack[r]{sweq\\= NA}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 6 }~{\textit{46.51}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 7 }~{\textit{177.56}}
  }
  }
  \end{center}
 GUIDE piecewise constant least-squares regression tree model.
 At each intermediate node, a case goes to the left branch 
   if and only if the condition is satisfied.
-Number in italics beneath leaf node is sample mean of sstormtot.
+Number in italics beneath leaf node is sample mean of stottot.
+ %\end{landscape} %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 1.84}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{5.80}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{353.52}}
+ }
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of stottot.
+ %\end{landscape} %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 1.77}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{4.08}}
+  \pstree{\Tcircle{ 3 }~[tnpos=l]{\shortstack[r]{sinJulian\\$\leq$ -0.0344}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 6 }~{\textit{103.48}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 7 }~{\textit{466.59}}
+ }
+ }
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of stottot.
  %\end{landscape}
 
 

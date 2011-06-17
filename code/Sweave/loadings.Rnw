@@ -31,17 +31,14 @@ We also will look at dividing the data into just two groups: one that is snow-in
 
 
 <<label=read_data, echo=FALSE>>=
-setwd('C:/Users/wrbrooks/git/loadings/code/Sweave')
-source('C:/Users/wrbrooks/scratch/from MBP/from MBP/guide.r')
+setwd('~/git/loadings/code/Sweave')
+source('~/git/loadings/code/guide.r')
 streams = c('eagle', 'joosvalley', 'otter')
 
 #loop through the streams, reading them in one by one
 for(stream_name in streams) {
     data_file = paste('../../data/', stream_name, '/', stream_name, 'creek.csv', sep='')
-    stream = read.csv(data_file, header=T, na.strings=c('NA', 'na'))
-
-    #establish the threshold for a major event:
-    threshold <- as.numeric( quantile(stream$logsstormtot, 0.9) )     
+    stream = read.csv(data_file, header=T, na.strings=c('NA', 'na')) 
     
     #do some basic data transformations:
     stream = within( stream, {
@@ -49,7 +46,6 @@ for(stream_name in streams) {
         year <- factor(year)
         melt_snow[melt_snow=='N' | melt_snow=='Z' | melt_snow=='U'] <- NA
         melt_snow <- as.numeric(levels(melt_snow)[melt_snow])
-        major <- ifelse(logsstormtot>threshold,1,0)
         ap_1day <- as.numeric(ap_1day)
         ap_2day <- as.numeric(ap_2day)
         ap_3day <- as.numeric(ap_3day) 
@@ -58,8 +54,7 @@ for(stream_name in streams) {
         } )
 
     #Now add this stream's data to the frame.
-    assign(stream_name, stream)
-}
+    assign(stream_name, stream) }
 @
 
 
@@ -69,56 +64,53 @@ for(stream_name in streams) {
 <<label=class_IDs, echo=FALSE>>=
 #loop through the stream sites:
 for(stream_name in streams) {
-  stream = get(stream_name)
+	stream = get(stream_name)
 
-  #Decide which events are snowmelt-driven:         
-  class = vector()
-  snow = vector()
-  prev_class = 0
-  num_events = dim(stream)[1]
+	#Decide which events are snowmelt-driven:         
+	class = vector()
+	snow = vector()
+	prev_class = 0
+	num_events = dim(stream)[1]
                 
-  #loop through the events                        
-  for(row in 1:num_events) {
-      #first look for the beginning of each year's snowmelt events
-      if(stream$m[row]=='M') {
-          class=c(class, 1)
-          snow = c(snow, TRUE)
-          prev_class=1 }
-      else if(prev_class==1 & (stream$month[row]>=10 | stream$julian[row]<=135)) {
-          class=c(class, 1)
-          snow = c(snow, TRUE)
-          prev_class=1 }
-      else {
-          class=c(class, 3)
-          snow = c(snow, FALSE)
-          prev_class=3 }
-      }
+	#loop through the events                        
+	for(row in 1:num_events) {
+		#first look for the beginning of each year's snowmelt events
+		if(stream$m[row]=='M') {
+			class=c(class, 1)
+			snow = c(snow, TRUE)
+			prev_class=1 }
+		else if(prev_class==1 & (stream$month[row]>=10 | stream$julian[row]<=135)) {
+			class=c(class, 1)
+			snow = c(snow, TRUE)
+			prev_class=1 }
+		else {
+			class=c(class, 3)
+			snow = c(snow, FALSE)
+			prev_class=3 } }
       
-  prev_class = 0
-  for(row in num_events:1) {
-      #now look for the end of the snowmelt events
-      if(stream$m[row]=='M') {
-          class[row]=1
-          snow[row]=TRUE
-          prev_class=1 }
-      else if(class[row]==3) {
-          class[row]=3
-          snow[row]=FALSE
-          prev_class=3 }
-      else if(stream$julian[row]<=135 & prev_class!=1) {
-          class[row]=2
-          snow[row]=FALSE
-          prev_class=2 }
-      else {
-        class[row]=1
-        snow[row]=FALSE }
-      }
+	prev_class = 0
+	for(row in num_events:1) {
+		#now look for the end of the snowmelt events
+		if(stream$m[row]=='M') {
+			class[row]=1
+			snow[row]=TRUE
+			prev_class=1 }
+		else if(class[row]==3) {
+			class[row]=3
+			snow[row]=FALSE
+			prev_class=3 }
+		else if(stream$julian[row]<=135 & prev_class!=1) {
+			class[row]=2
+			snow[row]=FALSE
+			prev_class=2 }
+		else {
+			class[row]=1
+			snow[row]=FALSE } }
       
-  #save the class identifiers back to the stream's data frame
-  stream$event_class = class
-  stream$snow_event = snow
-  assign(stream_name, stream)
-  }
+	#save the class identifiers back to the stream's data frame
+	stream$event_class = class
+	stream$snow_event = snow
+	assign(stream_name, stream) }
 @
 
 
@@ -127,33 +119,44 @@ The next block of code produces a set of bar charts that show the relative contr
 
 
 
-<<label=barchart, echo=False, include=False>>=
-proportions <- function(streams, target) {
-  result = matrix(1:3*length(streams),length(streams),3)
-  for(i in 1:length(streams)) {
-    stream = get(streams[i])
-    result[i,] = sapply( c(1,2,3), (function(x) sum(stream[stream$event_class==x,target])/sum(stream[,target])) ) }
-  return(result)
-  }
-
+<<label=proportions, echo=False, include=False>>=
 targets = c('ptot_tot', 'pstorm_tot', 'stot_tot', 'sstorm_tot')
 
-props = data.frame()
-
-for( target in targets ) {
+#Define the function that we will use to determine what proportion of loadings comes from each event class
+proportions <- function(streams, target, col.names) {
+	result = matrix( nrow=length(streams), ncol=length(col.names) )
+	for(i in 1:length(streams)) {
+		stream = get(streams[i])
+		result[i,] = sapply( 1:length(col.names), (function(x) sum(stream[stream$event_class==x,target])/sum(stream[,target])) ) }
+    result = data.frame(result)
+    names(result) = col.names
+    row.names(result) = streams
+	return( result ) }
     
-    }
+percentages <- function(streams, target, col.names, decimals=1) {
+    props = proportions(streams, target, col.names)
+    result = matrix( nrow=0, ncol=length(col.names) )
+    rows = dim(props)[1]
+    for( row in 1:rows ) {
+        result = rbind( result, paste( ifelse(round(props[row,]*100, decimals)%%1 == 0,
+            paste(as.character( round(props[row,]*100, 0) ), ".0", sep=""),
+            as.character( round(props[row,]*100, decimals) )), "%", sep="" )) }
+    result=data.frame(result)
+    names(result) = names(props)
+    row.names(result) = row.names(props)
+    return( result ) }
+@
 
-ptot_proportions = proportions(streams, 'ptot_tot')
-pstorm_proportions = proportions(streams, 'pstorm_tot')
-stot_proportions = proportions(streams, 'stot_tot')
-sstorm_proportions = proportions(streams, 'sstorm_tot')
-
-layout(matrix(1:4,2,2))
-barplot(ptot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
-barplot(stot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
-barplot(pstorm_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
-barplot(sstorm_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
+<<include=False, echo=False>>=
+for( target in targets ) {
+    p = percentages(streams, target, col.names=c("snowmelt-driven", "early post-snow", "late post-snow"))
+    pp = as.matrix( proportions(streams, target, col.names=c("snowmelt-driven", "early post-snow", "late post-snow")) )
+    
+    variable_name = paste(target, "_percentages", sep="")
+    variable_name2 = paste(target, "_proportions", sep="")
+    
+    assign(variable_name, value=p)
+    assign(variable_name2, value=pp) }
 @
 
 
@@ -162,11 +165,29 @@ The next block prints a table of the proportion of total phosphorus loading due 
 
 
 
-<<label=tab1,echo=FALSE,results=tex>>=
+<<label=total_phosphorus_table,echo=FALSE,results=tex>>=
 library(xtable)
-print(xtable(ptot_proportions, caption="ANOVA Table", label="tab:one",
-digits=c(0, 3,3,3)), table.placement="tbp",
-caption.placement="bottom")
+print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loading contributed by each type of event", label="tab:ptot", align=c('l', 'c', 'c', 'c')), table.placement="h",
+caption.placement="bottom", hline.after=0 )
+@
+
+<<label=total_solids_table,echo=FALSE,results=tex>>=
+library(xtable)
+print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event", label="tab:stot", align=c('l', 'c', 'c', 'c')), table.placement="h",
+caption.placement="bottom", hline.after=0 )
+@
+
+
+
+
+
+
+<<label=barchart, echo=False, include=False>>=
+layout(matrix(1:4,2,2))
+barplot(ptot_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
+barplot(stot_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
+barplot(pstorm_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
+barplot(sstorm_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
 @
 
 
@@ -175,12 +196,13 @@ Produce plots of the proportion of the suspended solids and phosphorus (both tot
 
 
 
-\begin{figure}
+\begin{figure}[h!]
     \begin{center}
-<<label=fig2, fig=True, echo=False, width=6, height=9>>=
+<<label=fig2, fig=True, echo=False, width=6, height=8.5>>=
 <<barchart>>
 @
     \end{center}
+    \vspace{-10mm}
     \caption{Cumulative storm loadings at the three creeks.\label{bars}}
 \end{figure}
 
@@ -216,32 +238,16 @@ Put the barchart into the document here:\\
 
 
 
-\begin{figure}
+\begin{figure}[h!]
     \begin{center}
-<<label=fig3, fig=True, echo=False, width=6, height=9>>=
+<<label=fig3, fig=True, echo=False, width=6, height=8.5>>=
 <<barchart2>>
 @
     \end{center}
+    \vspace{-10mm}
     \caption{Cumulative storm loadings at the three creeks.\label{bars2}}
 \end{figure}
 
-
-
-Figure out what proportion of total storm loading is contributed by the top 10\% of storms:\\
-
-
-
-<<label=proportion, include=False, echo=False>>=
-q_90 = list()
-for(stream in streams){
-    stream_data = get(stream)
-    proportion = sum(stream_data[stream_data$major==1,'sstorm_tot'])/sum(stream_data[,'sstorm_tot'])
-    q_90[stream] = proportion }
-@
-
-
-
-The top 10\% of storms contributed \Sexpr{round(100*q_90$eagle,1)}\% of the storm loading at Eagle Creek, \Sexpr{round(100*q_90$otter,1)}\% of the storm loading at Otter Creek, and \Sexpr{round(100*q_90$joosvalley,1)}\% of the storm loading at Joos Valley Creek.\\
 
 
 
@@ -270,6 +276,83 @@ legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3))
 
 
 
+
+We will use a Wilcoxon rank-sum test to establish whether the average daily load from a snowmelt-driven event is different from that of a post-snow event:\\
+
+
+
+
+<<echo=False, include=False>>=
+stream="eagle"
+target="stot_avg"
+
+stream = get(stream)
+true_sum = sum( rank(stream[,target])[stream$event_class==1] )
+num_events = length(stream[,target])
+snow_events = length(stream[stream$event_class==1,])
+
+N=2000
+resampled_sums = vector()
+for( i in 1:N ) { resampled_sums = c( resampled_sums, sum(sample(x=1:num_events, size=snow_events)) ) }
+(sum(resampled_sums>true_sum) + 0.5*sum(resampled_sums==true_sum))/N
+@
+
+
+
+
+<<echo=False, include=False>>=
+stream="otter"
+target="stot_avg"
+q=0.9
+
+stream = get(stream)
+stream$major = ifelse(stream[,target]>quantile(stream[,target],q),1,0)
+a=length(with(stream, which(major==1 & event_class==1)))
+num_major = sum(stream$major==1)
+snow_events = which(stream$event_class==1)
+num_events = length(stream$major)
+expected = sum(stream$major) * (length(snow_events)/num_events)
+
+test_stat = (a-expected)**2/expected
+
+pchisq(test_stat, df=1)
+
+true_sum = length(with(stream, which(major==1 & event_class==1)))
+
+majors = sum(stream$major)
+
+N=20000
+resampled = vector()
+for( i in 1:N ) { resampled = c( resampled, sum(sample(x=1:num_events, size=majors, replace=FALSE) %in% snow_events) ) }
+(sum(resampled > true_sum) + 0.5*sum(resampled == true_sum))/N
+@
+
+
+
+
+Figure out what proportion of total storm loading is contributed by the top 10\% of storms:\\
+
+
+
+<<label=proportion, include=False, echo=False>>=
+q_90 = list()
+for(stream in streams){
+    stream_data = get(stream)
+    proportion = sum(stream_data[stream_data$major==1,'sstorm_tot'])/sum(stream_data[,'sstorm_tot'])
+    q_90[stream] = proportion }
+@
+
+
+
+
+
+The top 10\% of storms contributed \Sexpr{round(100*q_90$eagle,1)}\% of the storm loading at Eagle Creek, \Sexpr{round(100*q_90$otter,1)}\% of the storm loading at Otter Creek, and \Sexpr{round(100*q_90$joosvalley,1)}\% of the storm loading at Joos Valley Creek.\\
+
+Now we want to know how these major events are distributed within the event classes; that is, whether snowmelt tends to produce major loading events, or whether it is the post-snow events. Note that the \_tot column measures the total loading during an event. The snowmelt-driven events are different in kind than the rainfall-driven ones because they don't require continuous rain during the event. If the snowmelt-driven events are caused by warm weather, it seems reasonable that a single event might last for many days and cause more loading than a more-intense rainfall event that only lasts a day or two. To account for this, we will look both at total loading (\_tot) and average daily loading during an event (\_avg).\\
+
+
+
+
 <<label=establish_predictors, echo=FALSE>>=
 ineligible_predictors = c('logsstormtot', 'logsstormmax', 'logsstormavg', 'sstorm_tot', 'sstorm_max', 'sstorm_avg', 'logstottot', 'logstotmax', 'logstotavg', 'stot_tot', 'stot_max', 'stot_avg', 'logpstormtot', 'logpstormmax', 'logpstormavg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'logptottot', 'logptotmax', 'logptotavg', 'ptot_tot', 'ptot_max', 'ptot_avg', 'qtot_max', 'qtot_tot', 'qtot_avg', 'qstorm_max', 'qstorm_tot', 'qstorm_avg', 'major')
 eligible_predictors = names(loadings)[!(names(loadings) %in% ineligible_predictors)]
@@ -282,7 +365,17 @@ eligible_predictors = names(loadings)[!(names(loadings) %in% ineligible_predicto
 
 
 <<echo=False, results=tex, include=True>>=
-guide(sstorm_tot~nws_prec, data=eagle, sweave=T)
+stream = "joosvalley"
+stream = get(stream)
+
+snow = stream[stream$event_class==1,]
+guide(stot_tot~nws_prec+total_water+nws_snow+melt_snow+tmean+tmax+tmin+sweq+julian+sinJulian+cosJulian, data=snow, sweave=T, cv_gain=0)
+
+early = stream[stream$event_class==2,]
+guide(stot_tot~nws_prec+event_type+total_water+theisen+sweq+julian+sinJulian+cosJulian+tmean+tmax+tmin, data=early, sweave=T, cv_gain=0)
+
+late = stream[stream$event_class==3,]
+guide(stot_tot~nws_prec+event_type+total_water+ap_1day+ap_2day+ap_3day+julian+theisen+sinJulian+cosJulian+tmean+tmax+tmin, data=late, sweave=T, cv_gain=0)
 @
 
 
