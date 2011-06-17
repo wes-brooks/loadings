@@ -31,9 +31,11 @@ We also will look at dividing the data into just two groups: one that is snow-in
 
 
 <<label=read_data, echo=FALSE>>=
-setwd('~/git/loadings/code/Sweave')
-source('~/git/loadings/code/guide.r')
+setwd('~/../git/loadings/code/Sweave')
+source('~/../git/loadings/code/guide.r')
 streams = c('eagle', 'joosvalley', 'otter')
+outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
+                'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
 
 #loop through the streams, reading them in one by one
 for(stream_name in streams) {
@@ -46,11 +48,18 @@ for(stream_name in streams) {
         year <- factor(year)
         melt_snow[melt_snow=='N' | melt_snow=='Z' | melt_snow=='U'] <- NA
         melt_snow <- as.numeric(levels(melt_snow)[melt_snow])
+        sweq <- as.numeric(sub("%", "e-2", sweq))
         ap_1day <- as.numeric(ap_1day)
         ap_2day <- as.numeric(ap_2day)
         ap_3day <- as.numeric(ap_3day) 
         stream <- as.factor(stream_name)
+        julian <- as.POSIXlt( as.character(start_day), format="%m/%d/%Y")$yday + 1
+        sin_julian <- sin(julian)
+        cos_julian <- cos(julian)
+        for(output in outputs) {
+            assign( paste('log_', output, sep=""), log10(get(output)) ) }
         m <- as.factor(ifelse(is.na(m),0,ifelse(m=='M','M',0)))
+        event <- rep(1, length(m))
         } )
 
     #Now add this stream's data to the frame.
@@ -62,6 +71,9 @@ for(stream_name in streams) {
 
 
 <<label=class_IDs, echo=FALSE>>=
+#We will aggregate all the data into one frame:
+aggregate = data.frame()
+
 #loop through the stream sites:
 for(stream_name in streams) {
 	stream = get(stream_name)
@@ -110,7 +122,8 @@ for(stream_name in streams) {
 	#save the class identifiers back to the stream's data frame
 	stream$event_class = class
 	stream$snow_event = snow
-	assign(stream_name, stream) }
+	assign(stream_name, stream)
+    aggregate = rbind(aggregate, stream) }
 @
 
 
@@ -146,6 +159,28 @@ percentages <- function(streams, target, col.names, decimals=1) {
     row.names(result) = row.names(props)
     return( result ) }
 @
+
+
+
+<<label=major_function, echo=False, include=False>>=
+#Function to flag the largest observations of a certain variable.
+major <- function(data, target, q=0.9, strata='') {
+    #Flag the major events within each level of strata
+    if(strata != '') {
+        major = rep(0, length(data[,target]))
+        
+        #Loop through the strata
+        for(stratum in unique(data[,strata])) {
+            indx = which(data[,strata]==stratum)
+            major[indx] = ifelse(data[indx,target] > quantile(data[indx,target], q), 1, 0) } }
+            
+    #If no stratification is provided, then just flag the overall major events
+    else { major = ifelse(data[,target]>quantile(data[,target], q), 1, 0) }
+    
+    #Either way, return the result
+    return(major) }
+@
+
 
 <<include=False, echo=False>>=
 for( target in targets ) {
@@ -213,17 +248,17 @@ Now let's do the same between the snow and no-snow events:\\
 
 
 <<label=barchart2, echo=False, include=False>>=
-proportions <- function(streams, target) {
+props <- function(streams, target) {
     result = matrix(1:2*length(streams),length(streams),2)
     for(i in 1:length(streams)) {
         stream = get(streams[i])
         result[i,] = sapply( c(T,F), (function(x) sum(stream[stream$snow_event==x,target])/sum(stream[,target])) ) }
     return(result) }
 
-ptot_proportions = proportions(streams, 'ptot_tot')
-pstorm_proportions = proportions(streams, 'pstorm_tot')
-stot_proportions = proportions(streams, 'stot_tot')
-sstorm_proportions = proportions(streams, 'sstorm_tot')
+ptot_proportions = props(streams, 'ptot_tot')
+pstorm_proportions = props(streams, 'pstorm_tot')
+stot_proportions = props(streams, 'stot_tot')
+sstorm_proportions = props(streams, 'sstorm_tot')
 
 layout(matrix(1:4,2,2))
 barplot(ptot_proportions, beside=T, names.arg=c("snow","no snow"), ylab="proportion of phosphorus")
@@ -251,6 +286,107 @@ Put the barchart into the document here:\\
 
 
 
+<<label=stot_boxplots, echo=False, include=False>>=
+yy=c(-2, 3.5)
+event_classes = c("snow","pre-veg","veg")
+
+#Eagle creek
+boxplot(log_stot_tot~event_class, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log(sediment load)", names=event_classes, xlim=c(1,11))
+
+#Otter creek
+boxplot(log_stot_tot~event_class, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=5:7, yaxt='n')
+
+#Joos Valley creek
+boxplot(log_stot_tot~event_class, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=9:11, yaxt='n')
+@
+
+
+
+%Boxplots of the contribution from individual storm events
+\begin{figure}[h]
+    \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
+    \begin{center}
+<<label=boxplot_stot, fig=True, echo=False, width=8, height=5>>=
+<<stot_boxplots>>
+@
+
+    \end{center}
+\end{figure}
+
+
+
+
+<<label=ptot_boxplots, echo=False, include=False>>=
+yy=c(-1, 4)
+event_classes = c("snow","pre-veg","veg")
+
+#Eagle creek
+boxplot(log_ptot_tot~event_class, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log(phosphorus load)", names=event_classes, xlim=c(1,11))
+
+#Otter creek
+boxplot(log_ptot_tot~event_class, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=5:7)
+
+#Joos Valley creek
+boxplot(log_ptot_tot~event_class, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=9:11)
+@
+
+
+
+%Boxplots of the contribution from individual storm events
+\begin{figure}[h]
+    \setkeys{Gin}{width=1.1\textwidth}    %make figures a bit wider than the Sweave default.
+    \begin{center}
+<<label=boxplot_ptot, fig=True, echo=False, width=8, height=5>>=
+<<ptot_boxplots>>
+@
+
+    \end{center}
+\end{figure}
+
+
+
+
+<<label=cumulative_sloading_by_rainfall, include=False, echo=False>>=
+line_type=1
+color=1
+yy=c(0,1)
+
+for(stream in streams) {
+    stream_data = get(stream)
+    
+    non_snow = stream_data[stream_data$event_class!=1,]
+    non_snow_sorted = non_snow[ order(non_snow$nws_prec) ,]
+    y = cumsum(non_snow_sorted$stot_tot)/sum(stream_data$stot_tot)
+    
+    stream_data = get(stream)
+    plot( x=non_snow_sorted$nws_prec, y=y, type='l', xlab="NWS precipitation",
+        ylab=paste('proportion of total sediment load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy)
+    par(new=T, ann=F, xaxt='n', yaxt='n')
+    line_type = line_type+1 }
+legend(x='topleft', bty='n', legend=streams, lty=c(1,2,3))
+@
+
+<<label=cumulative_ploading_by_rainfall, include=False, echo=False>>=
+line_type=1
+color=1
+yy=c(0,1)
+
+for(stream in streams) {
+    stream_data = get(stream)
+    
+    non_snow = stream_data[stream_data$event_class!=1,]
+    non_snow_sorted = non_snow[ order(non_snow$nws_prec) ,]
+    y = cumsum(non_snow_sorted$ptot_tot)/sum(stream_data$ptot_tot)
+    
+    stream_data = get(stream)
+    plot( x=non_snow_sorted$nws_prec, y=y, type='l', xlab="NWS precipitation",
+        ylab=paste('proportion of total sediment load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy)
+    par(new=T, ann=F, xaxt='n', yaxt='n')
+    line_type = line_type+1 }
+legend(x='topleft', bty='n', legend=streams, lty=c(1,2,3))
+@
+
+
 <<label=cdf_plot, include=False, echo=False>>=
 line_type=1
 color=1
@@ -275,107 +411,96 @@ legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3))
 \end{figure}
 
 
-
-
-We will use a Wilcoxon rank-sum test to establish whether the average daily load from a snowmelt-driven event is different from that of a post-snow event:\\
-
-
-
-
-<<echo=False, include=False>>=
-stream="eagle"
-target="stot_avg"
-
-stream = get(stream)
-true_sum = sum( rank(stream[,target])[stream$event_class==1] )
-num_events = length(stream[,target])
-snow_events = length(stream[stream$event_class==1,])
-
-N=2000
-resampled_sums = vector()
-for( i in 1:N ) { resampled_sums = c( resampled_sums, sum(sample(x=1:num_events, size=snow_events)) ) }
-(sum(resampled_sums>true_sum) + 0.5*sum(resampled_sums==true_sum))/N
+\begin{figure}
+    \begin{center}
+<<label=figure1, fig=True, echo=False, width=6, height=5>>=
+<<cumulative_sloading_by_rainfall>>
 @
+    \end{center}
+    \caption{Proportion of the total sediment load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
+\end{figure}
 
-
-
-
-<<echo=False, include=False>>=
-stream="otter"
-target="stot_avg"
-q=0.9
-
-stream = get(stream)
-stream$major = ifelse(stream[,target]>quantile(stream[,target],q),1,0)
-a=length(with(stream, which(major==1 & event_class==1)))
-num_major = sum(stream$major==1)
-snow_events = which(stream$event_class==1)
-num_events = length(stream$major)
-expected = sum(stream$major) * (length(snow_events)/num_events)
-
-test_stat = (a-expected)**2/expected
-
-pchisq(test_stat, df=1)
-
-true_sum = length(with(stream, which(major==1 & event_class==1)))
-
-majors = sum(stream$major)
-
-N=20000
-resampled = vector()
-for( i in 1:N ) { resampled = c( resampled, sum(sample(x=1:num_events, size=majors, replace=FALSE) %in% snow_events) ) }
-(sum(resampled > true_sum) + 0.5*sum(resampled == true_sum))/N
+\begin{figure}
+    \begin{center}
+<<label=figure1, fig=True, echo=False, width=6, height=5>>=
+<<cumulative_ploading_by_rainfall>>
 @
+    \end{center}
+    \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
+\end{figure}
 
 
 
-
-Figure out what proportion of total storm loading is contributed by the top 10\% of storms:\\
+Figure out what proportion of total sediment loading is contributed by the top 10\% of storms:\\
 
 
 
 <<label=proportion, include=False, echo=False>>=
+target = "stot_tot"
+
 q_90 = list()
-for(stream in streams){
-    stream_data = get(stream)
-    proportion = sum(stream_data[stream_data$major==1,'sstorm_tot'])/sum(stream_data[,'sstorm_tot'])
-    q_90[stream] = proportion }
+for(stream_name in streams){
+    stream = get(stream_name)
+    stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9),1,0))    
+    proportion = sum(stream[stream$major==1,'stot_tot'])/sum(stream[,'stot_tot'])
+    q_90[stream_name] = proportion
+    assign(stream_name, stream) }
 @
 
 
 
 
 
-The top 10\% of storms contributed \Sexpr{round(100*q_90$eagle,1)}\% of the storm loading at Eagle Creek, \Sexpr{round(100*q_90$otter,1)}\% of the storm loading at Otter Creek, and \Sexpr{round(100*q_90$joosvalley,1)}\% of the storm loading at Joos Valley Creek.\\
+The top 10\% of events contributed \Sexpr{round(100*q_90$eagle,1)}\% of the sediment loading at Eagle Creek, \Sexpr{round(100*q_90$otter,1)}\% of the sediment loading at Otter Creek, and \Sexpr{round(100*q_90$joosvalley,1)}\% of the sediment loading at Joos Valley Creek.\\
 
 Now we want to know how these major events are distributed within the event classes; that is, whether snowmelt tends to produce major loading events, or whether it is the post-snow events. Note that the \_tot column measures the total loading during an event. The snowmelt-driven events are different in kind than the rainfall-driven ones because they don't require continuous rain during the event. If the snowmelt-driven events are caused by warm weather, it seems reasonable that a single event might last for many days and cause more loading than a more-intense rainfall event that only lasts a day or two. To account for this, we will look both at total loading (\_tot) and average daily loading during an event (\_avg).\\
 
-
-
-
-<<label=establish_predictors, echo=FALSE>>=
-ineligible_predictors = c('logsstormtot', 'logsstormmax', 'logsstormavg', 'sstorm_tot', 'sstorm_max', 'sstorm_avg', 'logstottot', 'logstotmax', 'logstotavg', 'stot_tot', 'stot_max', 'stot_avg', 'logpstormtot', 'logpstormmax', 'logpstormavg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'logptottot', 'logptotmax', 'logptotavg', 'ptot_tot', 'ptot_max', 'ptot_avg', 'qtot_max', 'qtot_tot', 'qtot_avg', 'qstorm_max', 'qstorm_tot', 'qstorm_avg', 'major')
-eligible_predictors = names(loadings)[!(names(loadings) %in% ineligible_predictors)]
-#predictors = loadings[,eligible_predictors]
-#target='logsstormtot'
-#model_frame = cbind( loadings[,target], loadings[,eligible_predictors] )
-#names(model_frame)[1] = 'target'
+<<echo=False>>=
+prp_major = proportions(streams, "major", col.names=c("snowmelt-driven", "early post-snow", "late post-snow"))
+prp_all = proportions(streams, "event", col.names=c("snowmelt-driven", "early post-snow", "late post-snow"))
 @
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{lr|lr|lr|l}
+        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Early post-snow}\ & \multicolumn{2}{c}{Late post-snow} \\
+        Creek & All & Major & All & Major & All & Major \\
+        \hline 
+        Eagle & \Sexpr{round(100*prp_all['eagle',1], 0)}\% & \Sexpr{round(100*prp_major['eagle',1], 0)}\% & \Sexpr{round(100*prp_all['eagle',2], 0)}\% & \Sexpr{round(100*prp_major['eagle',2], 0)}\% & \Sexpr{round(100*prp_all['eagle',3], 0)}\% & \Sexpr{round(100*prp_major['eagle',3], 0)}\% \\
+        Otter & \Sexpr{round(100*prp_all['otter',1], 0)}\% & \Sexpr{round(100*prp_major['otter',1], 0)}\% & \Sexpr{round(100*prp_all['otter',2], 0)}\% & \Sexpr{round(100*prp_major['otter',2], 0)}\% & \Sexpr{round(100*prp_all['otter',3], 0)}\% & \Sexpr{round(100*prp_major['otter',3], 0)}\% \\
+        Joos & \Sexpr{round(100*prp_all['joosvalley',1], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',1], 0)}\% & \Sexpr{round(100*prp_all['joosvalley',2], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',2], 0)}\% & \Sexpr{round(100*prp_all['joosvalley',3], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',3], 0)}\% \\
+        
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
+The table shows that the major loading events that produce the majority of the loading can be occur during each of the three annual periods. However, the events caused by snowmelt produced a smaller proportion of major events than their proportion of all events, and their relative contribution to the total sediment load was smaller than their proportion of loading events. Taken together, these insights tell us that, while snowmelt can cause a major loading event, a snowmelt-driven event is less likely to be a major contributor to sediment load than is a rainfall-driven event.\\
+
+We can also see that the \Sexpr{round(100*sum(aggregate$event_class==1)/sum(aggregate$event), 0)}\% of the events were driven by snowmelt; these events contributed only \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% of the total sediment load but \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% of the total phosphorus load.
+
+Meanwhile, the \Sexpr{round(100*sum(aggregate$event_class==2)/sum(aggregate$event), 0)}\% of events that were caused by early-season rainfall produced \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% of the total sediment load and \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% of the total phosphorus load.
+
+Meanwhile, the \Sexpr{round(100*sum(aggregate$event_class==3)/sum(aggregate$event), 0)}\% of events that were caused by late-season rainfall produced \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% of the total sediment load and \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% of the total phosphorus load.
+
+
+Overall, \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==1))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% of the largest events at each site were produced by snowmelt; \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==2))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% were produced by early-season rainfall, and \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==3))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% were produced by late-season rainfall.
 
 
 
 <<echo=False, results=tex, include=True>>=
-stream = "joosvalley"
+stream = "eagle"
 stream = get(stream)
 
 snow = stream[stream$event_class==1,]
-guide(stot_tot~nws_prec+total_water+nws_snow+melt_snow+tmean+tmax+tmin+sweq+julian+sinJulian+cosJulian, data=snow, sweave=T, cv_gain=0)
+guide(stot_tot~nws_prec+total_water+nws_snow+ap_1day+ap_2day+ap_3day+melt_snow+tmean+tmax+tmin+sweq+julian+sin_julian+cos_julian, data=snow, sweave=T, cv_gain=0)
 
 early = stream[stream$event_class==2,]
-guide(stot_tot~nws_prec+event_type+total_water+theisen+sweq+julian+sinJulian+cosJulian+tmean+tmax+tmin, data=early, sweave=T, cv_gain=0)
+guide(stot_tot~nws_prec+event_type+ap_1day+ap_2day+ap_3day+total_water+theisen+sweq+julian+sin_julian+cos_julian+tmean+tmax+tmin, data=early, sweave=T, cv_gain=0)
 
 late = stream[stream$event_class==3,]
-guide(stot_tot~nws_prec+event_type+total_water+ap_1day+ap_2day+ap_3day+julian+theisen+sinJulian+cosJulian+tmean+tmax+tmin, data=late, sweave=T, cv_gain=0)
+guide(stot_tot~nws_prec+event_type+total_water+ap_1day+ap_2day+ap_3day+julian+theisen+sin_julian+cos_julian+tmean+tmax+tmin, data=late, sweave=T, cv_gain=0)
 @
 
 

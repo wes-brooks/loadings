@@ -7,25 +7,24 @@
              GGG    UUU   I  DDDD   EEEE
    
  GUIDE Classification and Regression Trees
- Version 11.2 (build date: May 25, 2011)           
+ Version 11.1 (build date: May 3, 2011)            
  Copyright (c) 1997-2010 by Wei-Yin Loh
  This software is based upon work supported by the U.S. Army Research Office,
  the National Science Foundation and the National Institutes of Health.
   
- This job was started on: 06/16/11 at 18:07
+ This job was started on: 06/17/11 at 18:25
   
  Least squares regression tree
  Pruning by cross-validation
  Data description file: 
- /Users/wesleybrooks/git/loadings/code/Sweave/guide_description.txt
- Training sample file: 
- /Users/wesleybrooks/git/loadings/code/Sweave/guide_data.csv
+ C:/Users/wrbrooks/git/loadings/code/Sweave/guide_description.txt
+ Training sample file: C:/Users/wrbrooks/git/loadings/code/Sweave/guide_data.csv
  Missing value code: NA
  Warning: N variables changed to S
  Warning: B variables changed to C
  Dependent variable is stottot
  Piecewise constant model
- Length of longest data entry = 12
+ Length of longest data entry = 20
   
  Summary information (without x variables)
  d=dependent, b=split and fit cat variable using 0-1 dummies, c=split-only categorical,
@@ -33,26 +32,26 @@
  For categorical variables, #categories include one for missing values
  Column  Variable          Variable  Minimum      Maximum    Number of     Number
  number    name              type     value        value     categories    missing
-       1  stottot               d   2.0000E-02   1.0683E+03
+       1  stottot               d   5.0000E-02   1.9795E+03
        2  nwsprec               s   0.0000E+00   1.0800E+01
        3  eventtype             c                                   1
-       4  totalwater            s   1.0100E-01   5.8920E+00
-       5  ap1day                s   1.0000E+00   5.0000E+01
-       6  ap2day                s   1.0000E+00   1.3800E+02                     2
-       7  ap3day                s   1.0000E+00   1.8800E+02                     4
+       4  totalwater            s   1.0000E-01   4.8300E+00
+       5  ap1day                s   0.0000E+00   1.9000E-01                    22
+       6  ap2day                s   0.0000E+00   2.5090E+00                     3
+       7  ap3day                s   0.0000E+00   2.8240E+00                     5
        8  julian                s   1.3600E+02   3.4400E+02
-       9  theisen               s   1.0100E-01   5.8920E+00
-      10  sinJulian             s  -9.9977E-01   7.1768E-01
-      11  cosJulian             s  -9.9996E-01   9.3537E-01
-      12  tmean                 s   2.6000E+01   8.1000E+01                     5
-      13  tmax                  s   3.4000E+01   9.5000E+01                     5
-      14  tmin                  s   1.4000E+01   7.2000E+01                     5
+       9  theisen               s   1.0100E-01   4.8300E+00
+      10  sinjulian             s  -9.9999E-01   9.9952E-01
+      11  cosjulian             s  -9.9937E-01   9.9965E-01
+      12  tmean                 s   2.3000E+01   8.3000E+01                     5
+      13  tmax                  s   3.7000E+01   9.5000E+01                     5
+      14  tmin                  s   1.1000E+01   7.2000E+01                     5
   
       Total  #cases w/  #cases w/
      #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
-        205          0          9        0        0        0       12        0        1
+        193          0         27        0        0        0       12        0        1
  No weight variable in data file
- Number of cases used for training =  205
+ Number of cases used for training =  193
  Number of cases excluded due to zero weight or missing D-values =  0
   
  Interaction tests on all variables
@@ -64,32 +63,23 @@
   
  Size and CV MSE and SE of subtrees:
   Tree   #Tnodes  Mean MSE   SE(Mean)    BSE(Mean)  Median MSE  BSE(Median)
-    1       32   1.613E+04   6.537E+03   6.052E+03   4.052E+03   9.296E+03
-    2       31   1.613E+04   6.537E+03   6.052E+03   4.052E+03   9.296E+03
-    3       30   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-    4       29   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-    5       28   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-    6       27   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-    7       25   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-    8       24   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-    9       23   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-   10       22   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-   11       21   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-   12       20   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-   13       18   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-   14       17   1.613E+04   6.537E+03   6.052E+03   4.052E+03   9.296E+03
-   15       16   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.296E+03
-   16       13   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.295E+03
-   17       12   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.295E+03
-   18       11   1.613E+04   6.537E+03   6.053E+03   4.051E+03   9.295E+03
-   19       10   1.613E+04   6.537E+03   6.052E+03   4.051E+03   9.293E+03
-   20        8   1.616E+04   6.537E+03   6.047E+03   4.049E+03   9.285E+03
-   21        6   1.625E+04   6.563E+03   6.052E+03   4.049E+03   9.416E+03
-   22        5   1.624E+04   6.563E+03   6.052E+03   4.012E+03   9.417E+03
-   23++      4   1.647E+04   6.769E+03   6.279E+03   3.991E+03   9.364E+03
-   24**      3   1.558E+04   6.410E+03   5.832E+03   4.217E+03   8.902E+03
-   25        2   1.684E+04   7.196E+03   5.704E+03   4.851E+03   9.027E+03
-   26        1   1.770E+04   8.031E+03   6.070E+03   7.229E+03   9.713E+03
+    1       23   6.577E+04   1.961E+04   1.474E+04   5.559E+04   2.669E+04
+    2       22   6.577E+04   1.961E+04   1.474E+04   5.559E+04   2.669E+04
+    3       21   6.577E+04   1.961E+04   1.474E+04   5.559E+04   2.669E+04
+    4       20   6.577E+04   1.961E+04   1.474E+04   5.559E+04   2.669E+04
+    5       18   6.577E+04   1.961E+04   1.474E+04   5.559E+04   2.669E+04
+    6       17   6.577E+04   1.961E+04   1.474E+04   5.559E+04   2.669E+04
+    7       14   6.577E+04   1.961E+04   1.474E+04   5.558E+04   2.669E+04
+    8       13   6.577E+04   1.961E+04   1.474E+04   5.558E+04   2.669E+04
+    9       11   6.577E+04   1.961E+04   1.474E+04   5.558E+04   2.669E+04
+   10        9   6.577E+04   1.961E+04   1.474E+04   5.558E+04   2.669E+04
+   11        8   6.587E+04   1.963E+04   1.477E+04   5.575E+04   2.674E+04
+   12        7   6.582E+04   1.963E+04   1.477E+04   5.575E+04   2.677E+04
+   13        5   6.445E+04   1.917E+04   1.441E+04   5.544E+04   2.479E+04
+   14**      4   6.382E+04   1.909E+04   1.421E+04   5.536E+04   2.419E+04
+   15        3   6.576E+04   2.066E+04   1.544E+04   5.536E+04   2.496E+04
+   16++      2   6.560E+04   2.322E+04   1.811E+04   4.542E+04   2.387E+04
+   17        1   6.842E+04   2.742E+04   1.983E+04   4.709E+04   2.778E+04
   
  0-SE tree based on mean is marked with *
  0-SE tree based on median with bootstrap SE is marked with +
@@ -110,58 +100,73 @@
  MSE is residual sum of squares divided by number of cases in node
         Node    Total    Cases Matrix    Node      Node      Split      Interacting
         label   cases      fit  rank    D-mean     MSE       variable   variable
-           1      205      205     1  2.989E+01  1.759E+04   theisen              
-           2T     181      181     1  4.080E+00  1.657E+02   theisen              
-           3       24       24     1  2.245E+02  1.061E+05   sinJulian            
-           6T      16       16     1  1.035E+02  4.575E+04   tmin                 
-           7T       8        8     1  4.666E+02  1.390E+05                        
+           1      193      193     1  7.398E+01  6.815E+04   theisen              
+           2      176      176     1  2.528E+01  8.209E+03   totalwater           
+           4T     171      171     1  1.805E+01  3.020E+03   totalwater           
+           5T       5        5     1  2.724E+02  1.228E+05                        
+           3       17       17     1  5.782E+02  4.099E+05   tmean                
+           6T       9        9     1  4.829E+02  2.784E+05                        
+           7T       8        8     1  6.854E+02  5.361E+05                        
   
- Number of terminal nodes of final tree: 3
- Total number of nodes of final tree:    5
+ Number of terminal nodes of final tree: 4
+ Total number of nodes of final tree:    7
   
  Regression tree:
   
-  Node 1: theisen <=    1.77200
-    Node 2: stottot-mean =   4.08000
-  Node 1: theisen >    1.77200
-    Node 3: sinJulian <= -3.43897E-02
-      Node 6: stottot-mean =  1.03477E+02
-    Node 3: sinJulian > -3.43897E-02
-      Node 7: stottot-mean =  4.66591E+02
+  Node 1: theisen <=    2.19650
+    Node 2: totalwater <=    1.97500
+      Node 4: stottot-mean =  18.05146
+    Node 2: totalwater >    1.97500
+      Node 5: stottot-mean =  2.72426E+02
+  Node 1: theisen >    2.19650
+    Node 3: tmean <=   68.50000
+      Node 6: stottot-mean =  4.82938E+02
+    Node 3: tmean >   68.50000
+      Node 7: stottot-mean =  6.85430E+02
  
  ***************************************************************
  In the following the predictor node mean is mean of complete cases
   
  Node 1: Intermediate node
- A case goes into Node 2 if theisen <=  1.7720000E+00
-              theisen  mean =  8.6034E-01
+ A case goes into Node 2 if theisen <=  2.1965000E+00
+              theisen  mean =  8.8011E-01
  ----------------------------
- Node 2: Terminal node
+ Node 2: Intermediate node
+ A case goes into Node 4 if totalwater <=  1.9750000E+00
+           totalwater  mean =  6.7869E-01
+ ----------------------------
+ Node 4: Terminal node
  Coefficients of least squares regression function:
  Regressor     Coefficient      t-stat  p-val 
- Constant       4.0800E+00        4.25 0.0000                                    
- Predicted mean =   4.08000000000000     
+ Constant       1.8051E+01        4.28 0.0000                                    
+ Predicted mean =   18.0514619883041     
+ ----------------------------
+ Node 5: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       2.7243E+02        1.55 0.3862                                    
+ Predicted mean =   272.426000000000     
  ----------------------------
  Node 3: Intermediate node
- A case goes into Node 6 if sinJulian <= -3.4389741E-02
-            sinJulian  mean = -3.2443E-01
+ A case goes into Node 6 if tmean <=  6.8500000E+01
+                tmean  mean =  6.6941E+01
  ----------------------------
  Node 6: Terminal node
  Coefficients of least squares regression function:
  Regressor     Coefficient      t-stat  p-val 
- Constant       1.0348E+02        1.87 0.0806                                    
- Predicted mean =   103.476875000000     
+ Constant       4.8294E+02        2.59 0.0322                                    
+ Predicted mean =   482.937777777778     
  ----------------------------
  Node 7: Terminal node
  Coefficients of least squares regression function:
  Regressor     Coefficient      t-stat  p-val 
- Constant       4.6659E+02        3.31 0.0129                                    
- Predicted mean =   466.591250000000     
+ Constant       6.8543E+02        2.48 0.0424                                    
+ Predicted mean =   685.430000000000     
  ----------------------------
   
  LaTeX code for tree is in file: 
- /Users/wesleybrooks/git/loadings/code/Sweave/guide_latex_out.tex
+ C:/Users/wrbrooks/git/loadings/code/Sweave/guide_latex_out.tex
  
- Proportion of variance (R-squared) explained by tree model =  0.4805
+ Proportion of variance (R-squared) explained by tree model =  .3975
  
- Elapsed time in seconds:   0.2510340    
+ Elapsed time in seconds:   0.1404009    

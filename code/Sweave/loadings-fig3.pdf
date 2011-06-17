@@ -2,8 +2,8 @@
 %âãÏÓ\r
 1 0 obj
 <<
-/CreationDate (D:20110616180700)
-/ModDate (D:20110616180700)
+/CreationDate (D:20110617182528)
+/ModDate (D:20110617182528)
 /Title (R Graphics Output)
 /Producer (R 2.13.0)
 /Creator (R)
@@ -30,7 +30,7 @@ endobj
 stream
 1 J 1 j q
 Q q 0.00 306.00 216.00 306.00 re W n
-/sRGB cs 0.302 0.302 0.302 scn
+/sRGB cs 0.298 0.298 0.298 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -42,7 +42,7 @@ Q q 0.00 306.00 216.00 306.00 re W n
 73.03 368.90 18.77 98.72 re B
 /sRGB cs 0.902 0.902 0.902 scn
 91.80 368.90 18.77 101.70 re B
-/sRGB cs 0.302 0.302 0.302 scn
+/sRGB cs 0.298 0.298 0.298 scn
 129.34 368.90 18.77 194.10 re B
 /sRGB cs 0.682 0.682 0.682 scn
 148.11 368.90 18.77 183.74 re B
@@ -100,7 +100,7 @@ BT
 ET
 Q q 0.00 0.00 216.00 306.00 re W n
 Q q 0.00 0.00 216.00 306.00 re W n
-/sRGB cs 0.302 0.302 0.302 scn
+/sRGB cs 0.298 0.298 0.298 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -112,7 +112,7 @@ Q q 0.00 0.00 216.00 306.00 re W n
 73.03 62.90 18.77 67.69 re B
 /sRGB cs 0.902 0.902 0.902 scn
 91.80 62.90 18.77 65.85 re B
-/sRGB cs 0.302 0.302 0.302 scn
+/sRGB cs 0.298 0.298 0.298 scn
 129.34 62.90 18.77 192.68 re B
 /sRGB cs 0.682 0.682 0.682 scn
 148.11 62.90 18.77 192.27 re B
@@ -174,7 +174,7 @@ BT
 ET
 Q q 216.00 306.00 216.00 306.00 re W n
 Q q 216.00 306.00 216.00 306.00 re W n
-/sRGB cs 0.302 0.302 0.302 scn
+/sRGB cs 0.298 0.298 0.298 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -186,7 +186,7 @@ Q q 216.00 306.00 216.00 306.00 re W n
 289.03 368.90 18.77 89.61 re B
 /sRGB cs 0.902 0.902 0.902 scn
 307.80 368.90 18.77 69.14 re B
-/sRGB cs 0.302 0.302 0.302 scn
+/sRGB cs 0.298 0.298 0.298 scn
 345.34 368.90 18.77 183.23 re B
 /sRGB cs 0.682 0.682 0.682 scn
 364.11 368.90 18.77 173.64 re B
@@ -248,7 +248,7 @@ BT
 ET
 Q q 216.00 0.00 216.00 306.00 re W n
 Q q 216.00 0.00 216.00 306.00 re W n
-/sRGB cs 0.302 0.302 0.302 scn
+/sRGB cs 0.298 0.298 0.298 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -260,7 +260,7 @@ Q q 216.00 0.00 216.00 306.00 re W n
 289.03 62.90 18.77 61.21 re B
 /sRGB cs 0.902 0.902 0.902 scn
 307.80 62.90 18.77 45.00 re B
-/sRGB cs 0.302 0.302 0.302 scn
+/sRGB cs 0.298 0.298 0.298 scn
 345.34 62.90 18.77 178.39 re B
 /sRGB cs 0.682 0.682 0.682 scn
 364.11 62.90 18.77 177.90 re B
@@ -541,9 +541,7 @@ endobj
 <<
 /Type /Encoding
 /BaseEncoding /WinAnsiEncoding
-/Differences [ 45/minus 96/quoteleft
-144/dotlessi /grave /acute /circumflex /tilde /macron /breve /dotaccent
-/dieresis /.notdef /ring /cedilla /.notdef /hungarumlaut /ogonek /caron /space]
+/Differences [ 45/minus ]
 >>
 endobj
 11 0 obj <<
@@ -566,7 +564,7 @@ xref
 0000000293 00000 n 
 0000006930 00000 n 
 0000016714 00000 n 
-0000016972 00000 n 
+0000016809 00000 n 
 trailer
 <<
 /Size 12
@@ -574,5 +572,5 @@ trailer
 /Root 2 0 R
 >>
 startxref
-17070
+16907
 %%EOF

@@ -1,5 +1,5 @@
  \documentclass[12pt]{article}
- %File creation date: 06/16/11  at 18:07
+ %File creation date: 06/17/11  at 18:25
  \usepackage{pstricks,pst-node,pst-tree}
  \usepackage{geometry}
  \usepackage{lscape}
@@ -10,11 +10,14 @@
 \psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
 %     \def\psedge#1#2{\ncangle{#2}{#1}}
 %     \pstree[treemode=R]
-  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 1.77}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{4.08}}
-  \pstree{\Tcircle{ 3 }~[tnpos=l]{\shortstack[r]{sinJulian\\$\leq$ -0.0344}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 6 }~{\textit{103.48}}
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 7 }~{\textit{466.59}}
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 2.20}}}{
+  \pstree{\Tcircle{ 2 }~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.98}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 4 }~{\textit{18.05}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 5 }~{\textit{272.43}}
+   }
+  \pstree{\Tcircle{ 3 }~[tnpos=l]{\shortstack[r]{tmean\\$\leq$ 68.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 6 }~{\textit{482.94}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 7 }~{\textit{685.43}}
  }
  }
  \end{center}
