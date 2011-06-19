@@ -31,8 +31,8 @@ We also will look at dividing the data into just two groups: one that is snow-in
 
 
 <<label=read_data, echo=FALSE>>=
-setwd('~/../git/loadings/code/Sweave')
-source('~/../git/loadings/code/guide.r')
+setwd('~/git/loadings/code/Sweave')
+source('~/git/loadings/code/guide.r')
 streams = c('eagle', 'joosvalley', 'otter')
 outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
                 'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
@@ -478,14 +478,35 @@ prp_all = proportions(streams, "event", col.names=c("snowmelt-driven", "early po
 
 The table shows that the major loading events that produce the majority of the loading can be occur during each of the three annual periods. However, the events caused by snowmelt produced a smaller proportion of major events than their proportion of all events, and their relative contribution to the total sediment load was smaller than their proportion of loading events. Taken together, these insights tell us that, while snowmelt can cause a major loading event, a snowmelt-driven event is less likely to be a major contributor to sediment load than is a rainfall-driven event.\\
 
-We can also see that the \Sexpr{round(100*sum(aggregate$event_class==1)/sum(aggregate$event), 0)}\% of the events were driven by snowmelt; these events contributed only \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% of the total sediment load but \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% of the total phosphorus load.
-
-Meanwhile, the \Sexpr{round(100*sum(aggregate$event_class==2)/sum(aggregate$event), 0)}\% of events that were caused by early-season rainfall produced \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% of the total sediment load and \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% of the total phosphorus load.
-
-Meanwhile, the \Sexpr{round(100*sum(aggregate$event_class==3)/sum(aggregate$event), 0)}\% of events that were caused by late-season rainfall produced \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% of the total sediment load and \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% of the total phosphorus load.
 
 
-Overall, \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==1))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% of the largest events at each site were produced by snowmelt; \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==2))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% were produced by early-season rainfall, and \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==3))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% were produced by late-season rainfall.
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{lrrrrr}
+        &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
+        Period & All events & Major events & Loading & Major events & Loading \\
+        \hline 
+        Snowmelt & 
+        \Sexpr{round(100*sum(aggregate$event_class==1)/sum(aggregate$event), 0)}\% &
+        \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==1))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==1))/sum(major(aggregate, target="ptot_tot", strata="stream")), 0)}\% \\
+        Early post-snow & 
+        \Sexpr{round(100*sum(aggregate$event_class==2)/sum(aggregate$event), 0)}\% &
+        \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==2))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==2))/sum(major(aggregate, target="ptot_tot", strata="stream")), 0)}\% \\
+        Late post-snow & 
+        \Sexpr{round(100*sum(aggregate$event_class==3)/sum(aggregate$event), 0)}\% &
+        \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==3))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==3))/sum(major(aggregate, target="ptot_tot", strata="stream")), 0)}\% \\
+    \end{tabular}
+    \end{center}
+\end{table}
 
 
 
