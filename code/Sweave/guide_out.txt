@@ -7,19 +7,18 @@
              GGG    UUU   I  DDDD   EEEE
    
  GUIDE Classification and Regression Trees
- Version 11.2 (build date: May 25, 2011)           
+ Version 11.1 (build date: May 3, 2011)            
  Copyright (c) 1997-2010 by Wei-Yin Loh
  This software is based upon work supported by the U.S. Army Research Office,
  the National Science Foundation and the National Institutes of Health.
   
- This job was started on: 06/19/11 at 09:22
+ This job was started on: 06/21/11 at 19:12
   
  Least squares regression tree
  Pruning by cross-validation
  Data description file: 
- /Users/wesleybrooks/git/loadings/code/Sweave/guide_description.txt
- Training sample file: 
- /Users/wesleybrooks/git/loadings/code/Sweave/guide_data.csv
+ C:/Users/wrbrooks/git/loadings/code/Sweave/guide_description.txt
+ Training sample file: C:/Users/wrbrooks/git/loadings/code/Sweave/guide_data.csv
  Missing value code: NA
  Warning: N variables changed to S
  Warning: B variables changed to C
@@ -166,8 +165,8 @@
  ----------------------------
   
  LaTeX code for tree is in file: 
- /Users/wesleybrooks/git/loadings/code/Sweave/guide_latex_out.tex
+ C:/Users/wrbrooks/git/loadings/code/Sweave/guide_latex_out.tex
  
- Proportion of variance (R-squared) explained by tree model =  0.3975
+ Proportion of variance (R-squared) explained by tree model =  .3975
  
- Elapsed time in seconds:   0.1477530    
+ Elapsed time in seconds:   0.1404009    

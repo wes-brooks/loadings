@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{subfig}
+\usepackage{multirow}
 \usepackage{pstricks,pst-node,pst-tree}
 
 
@@ -20,21 +21,8 @@
 \maketitle
 
 
-
-
-First, we'll read the data files and divide the events into a few classes: one class for events that occured with snowmelt, one class for events that occured after the spring's last snowmelt but before mid-May (defined here as Julian date 135), and one class for events that occured after julian 135 and before the first snowmelt of the next winter. 
-
-We also will look at dividing the data into just two groups: one that is snow-influenced and one that is not. "Not snow-influenced" just combines event classes two and three.\\
-
-
-
-
-
-
-
-
-
-
+\section{Introduction}
+Minimizing the erosion of sediment into streams is a goal for water quality managers. In order to develop plans to limit the amount of sediment that gets into streams, those managers need to know how sediment gets into the water. A recent study \cite{Danz:2010} has shown that 
 
 The next block of code produces a set of bar charts that show the relative contributions of the snow-driven events, post-snow-pre-vegetation events, and the post-vegetation events.\\
 
@@ -51,24 +39,8 @@ The next block of code produces a set of bar charts that show the relative contr
 The next block prints a table of the proportion of total phosphorus loading due to each class of event at each site\\
 
 
-
 % latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Sun Jun 19 09:22:22 2011
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{lccc}
-  & snowmelt-driven & early post-snow & late post-snow \\ 
-  \hline
-eagle & 32.8\% & 22.9\% & 44.2\% \\ 
-  joosvalley & 36.4\% & 16.9\% & 46.7\% \\ 
-  otter & 45.9\% & 17.1\% & 37.0\% \\ 
-  \end{tabular}
-\caption{Proportion of total phosphorus loading contributed by each type of event}
-\label{tab:ptot}
-\end{center}
-\end{table}
-% latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Sun Jun 19 09:22:22 2011
+% Tue Jun 21 19:12:34 2011
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{lccc}
@@ -82,6 +54,23 @@ eagle & 27.0\% & 29.1\% & 43.9\% \\
 \label{tab:stot}
 \end{center}
 \end{table}
+% latex table generated in R 2.13.0 by xtable 1.5-6 package
+% Tue Jun 21 19:12:34 2011
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lccc}
+  & snowmelt-driven & early post-snow & late post-snow \\ 
+  \hline
+eagle & 32.8\% & 22.9\% & 44.2\% \\ 
+  joosvalley & 36.4\% & 16.9\% & 46.7\% \\ 
+  otter & 45.9\% & 17.1\% & 37.0\% \\ 
+  \end{tabular}
+\caption{Proportion of total phosphorus loading contributed by each type of event}
+\label{tab:ptot}
+\end{center}
+\end{table}
+
+
 
 
 
@@ -104,24 +93,8 @@ Produce plots of the proportion of the suspended solids and phosphorus (both tot
 
 
 
-Now let's do the same between the snow and no-snow events:\\
 
 
-
-
-
-
-Put the barchart into the document here:\\
-
-
-
-\begin{figure}[h!]
-    \begin{center}
-\includegraphics{loadings-fig3}
-    \end{center}
-    \vspace{-10mm}
-    \caption{Cumulative storm loadings at the three creeks.\label{bars2}}
-\end{figure}
 
 
 
@@ -134,22 +107,7 @@ Put the barchart into the document here:\\
     \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
     \begin{center}
 \includegraphics{loadings-boxplot_stot}
-
-    \end{center}
-\end{figure}
-
-
-
-
-
-
-
-%Boxplots of the contribution from individual storm events
-\begin{figure}[h]
-    \setkeys{Gin}{width=1.1\textwidth}    %make figures a bit wider than the Sweave default.
-    \begin{center}
 \includegraphics{loadings-boxplot_ptot}
-
     \end{center}
 \end{figure}
 
@@ -172,16 +130,16 @@ Put the barchart into the document here:\\
 
 \begin{figure}
     \begin{center}
-\includegraphics{loadings-figure1}
+\includegraphics{loadings-figure2}
     \end{center}
-    \caption{Proportion of the total sediment load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
+    \caption{Proportion of the total sediment load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-p}}
 \end{figure}
 
 \begin{figure}
     \begin{center}
-\includegraphics{loadings-figure1}
+\includegraphics{loadings-figure3}
     \end{center}
-    \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
+    \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-s}}
 \end{figure}
 
 
@@ -222,28 +180,88 @@ The table shows that the major loading events that produce the majority of the l
 
 \begin{table}[h]
     \begin{center}
-    \begin{tabular}{lrrrrr}
+    \begin{tabular}{llccccc}
         &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
-        Period & All events & Major events & Loading & Major events & Loading \\
+        Creek & Period & All events & Major events & Loading & Major events & Loading \\
         \hline 
-        Snowmelt & 
+        \multirow{3}{*}{Aggregated} & Snowmelt & 
         43\% &
         27\% & 
         34\% & 
         36\% & 
         43\% \\
-        Early post-snow & 
+        & Early post-snow & 
         12\% &
         27\% & 
         18\% & 
         20\% & 
         17\% \\
-        Late post-snow & 
+        & Late post-snow & 
         46\% &
         46\% & 
         48\% & 
         44\% & 
         40\% \\
+        
+        \hline 
+        \multirow{3}{*}{Eagle} & Snowmelt & 
+        42\% &
+        27\% & 
+        30\% & 
+        33\% & 
+        37\% \\
+        & Early post-snow & 
+        13\% &
+        29\% & 
+        19\% & 
+        23\% & 
+        21\% \\
+        & Late post-snow & 
+        45\% &
+        44\% & 
+        51\% & 
+        44\% & 
+        42\% \\
+        
+        \hline 
+        \multirow{3}{*}{Joos} & Snowmelt & 
+        46\% &
+        27\% & 
+        31\% & 
+        36\% & 
+        35\% \\
+        & Early post-snow & 
+        11\% &
+        20\% & 
+        17\% & 
+        17\% & 
+        19\% \\
+        & Late post-snow & 
+        43\% &
+        53\% & 
+        52\% & 
+        47\% & 
+        46\% \\
+        
+        \hline 
+        \multirow{3}{*}{Otter} & Snowmelt & 
+        39\% &
+        35\% & 
+        42\% & 
+        46\% & 
+        58\% \\
+        & Early post-snow & 
+        12\% &
+        21\% & 
+        19\% & 
+        17\% & 
+        12\% \\
+        & Late post-snow & 
+        49\% &
+        44\% & 
+        40\% & 
+        37\% & 
+        30\% \\
     \end{tabular}
     \end{center}
 \end{table}
@@ -293,6 +311,7 @@ At each intermediate node, a case goes to the left branch
   if and only if the condition is satisfied.
 Number in italics beneath leaf node is sample mean of stottot.
  %\end{landscape}
-
+\bibliographystyle{plain}
+\bibliography{../../references/bibliography}
 
 \end{document}

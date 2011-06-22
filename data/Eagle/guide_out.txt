@@ -1,0 +1,242 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 06/20/11 at 16:24
+  
+ Least squares regression tree
+ Pruning by cross-validation
+ Data description file: 
+ C:/Users/wrbrooks/git/loadings/data/eagle/guide_description.txt
+ Training sample file: C:/Users/wrbrooks/git/loadings/data/eagle/guide_data.csv
+ Missing value code: NA
+ Warning: N variables changed to S
+ Dependent variable is logstottot
+ Piecewise constant model
+ Length of longest data entry = 20
+  
+ Summary information (without x variables)
+ d=dependent, b=split and fit cat variable using 0-1 dummies, c=split-only categorical,
+ n=split and fit numerical, f=fit-only numerical, s=split-only numerical, w=weight
+ For categorical variables, #categories include one for missing values
+ Column  Variable          Variable  Minimum      Maximum    Number of     Number
+ number    name              type     value        value     categories    missing
+       1  logstottot            d  -1.3010E+00   3.5115E+00
+       2  antecedentqbase       s   3.9200E+00   3.4940E+01                    53
+       3  nwsprec               s   0.0000E+00   1.0800E+01
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        429          0         53        0        0        0        2        0        0
+ No weight variable in data file
+ Number of cases used for training =  429
+ Number of cases excluded due to zero weight or missing D-values =  0
+  
+ Interaction tests on all variables
+ Pruning by v-fold cross-validation, with v =  10
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  10
+ Minimum node size =  5
+ Number of SE's for pruned tree =   0.0000E+00
+  
+ Size and CV MSE and SE of subtrees:
+  Tree   #Tnodes  Mean MSE   SE(Mean)    BSE(Mean)  Median MSE  BSE(Median)
+    1       59   6.788E-01   6.502E-02   7.499E-02   7.035E-01   1.319E-01
+    2       58   6.783E-01   6.497E-02   7.525E-02   7.036E-01   1.325E-01
+    3       57   6.784E-01   6.497E-02   7.521E-02   7.036E-01   1.323E-01
+    4       55   6.782E-01   6.495E-02   7.529E-02   7.036E-01   1.326E-01
+    5       54   6.774E-01   6.497E-02   7.511E-02   7.030E-01   1.314E-01
+    6       53   6.766E-01   6.467E-02   7.456E-02   7.030E-01   1.310E-01
+    7       52   6.752E-01   6.467E-02   7.462E-02   6.964E-01   1.318E-01
+    8       51   6.744E-01   6.468E-02   7.442E-02   6.961E-01   1.309E-01
+    9       48   6.755E-01   6.474E-02   7.415E-02   6.977E-01   1.294E-01
+   10       47   6.773E-01   6.477E-02   7.356E-02   6.977E-01   1.280E-01
+   11       46   6.790E-01   6.501E-02   7.417E-02   6.977E-01   1.284E-01
+   12       45   6.790E-01   6.501E-02   7.416E-02   6.977E-01   1.284E-01
+   13       44   6.790E-01   6.501E-02   7.416E-02   6.977E-01   1.284E-01
+   14       43   6.792E-01   6.505E-02   7.333E-02   6.982E-01   1.275E-01
+   15       42   6.732E-01   6.501E-02   7.321E-02   6.961E-01   1.264E-01
+   16       41   6.690E-01   6.574E-02   7.133E-02   6.957E-01   1.262E-01
+   17       38   6.628E-01   6.563E-02   7.084E-02   6.762E-01   1.145E-01
+   18       35   6.621E-01   6.536E-02   6.845E-02   6.763E-01   1.058E-01
+   19       34   6.627E-01   6.538E-02   6.847E-02   6.763E-01   1.069E-01
+   20       33   6.627E-01   6.538E-02   6.847E-02   6.763E-01   1.069E-01
+   21       32   6.620E-01   6.536E-02   6.857E-02   6.763E-01   1.079E-01
+   22       30   6.614E-01   6.537E-02   6.832E-02   6.763E-01   1.077E-01
+   23       29   6.614E-01   6.537E-02   6.832E-02   6.763E-01   1.077E-01
+   24       26   6.614E-01   6.535E-02   6.832E-02   6.763E-01   1.077E-01
+   25       25   6.543E-01   6.569E-02   6.752E-02   6.640E-01   1.055E-01
+   26       24   6.556E-01   6.552E-02   6.717E-02   6.640E-01   1.036E-01
+   27       22   6.412E-01   6.318E-02   6.140E-02   6.508E-01   1.004E-01
+   28       20   6.297E-01   6.121E-02   6.259E-02   6.286E-01   1.078E-01
+   29       19   6.316E-01   6.121E-02   6.263E-02   6.348E-01   1.076E-01
+   30       17   6.272E-01   6.236E-02   6.413E-02   6.457E-01   1.093E-01
+   31       16   6.163E-01   5.959E-02   6.210E-02   6.301E-01   1.097E-01
+   32       12   6.129E-01   5.895E-02   6.283E-02   6.327E-01   1.163E-01
+   33       11   6.130E-01   5.853E-02   6.323E-02   6.260E-01   1.204E-01
+   34        9   6.093E-01   5.882E-02   6.431E-02   6.046E-01   1.301E-01
+   35**      8   5.923E-01   5.855E-02   6.882E-02   5.855E-01   1.553E-01
+   36        7   5.959E-01   5.618E-02   6.273E-02   6.293E-01   1.454E-01
+   37        6   6.073E-01   5.570E-02   5.945E-02   5.995E-01   1.448E-01
+   38        5   6.191E-01   5.406E-02   5.369E-02   6.155E-01   1.256E-01
+   39        4   6.307E-01   5.512E-02   6.091E-02   6.314E-01   1.389E-01
+   40        3   7.690E-01   6.443E-02   5.830E-02   7.575E-01   8.404E-02
+   41        2   7.612E-01   6.309E-02   5.774E-02   7.499E-01   6.879E-02
+   42        1   9.755E-01   6.737E-02   3.548E-02   9.350E-01   6.079E-02
+  
+ 0-SE tree based on mean is marked with *
+ 0-SE tree based on median with bootstrap SE is marked with +
+ Selected-SE tree based on mean using naive SE is marked with **
+ Selected-SE tree based on mean using bootstrap SE is marked with --
+ Selected-SE tree based on median and bootstrap SE is marked with ++
+ * tree, ** tree, + tree, and ++ tree all the same
+  
+ Following tree is based on mean CV with naive SE estimate.
+  
+ Structure of final tree. Each terminal node is marked with a T.
+  
+ D-mean is mean of logstottot in the node
+ Cases fit give the number of cases used to fit node
+ MSE is residual sum of squares divided by number of cases in node
+        Node    Total    Cases Matrix    Node      Node      Split      Interacting
+        label   cases      fit  rank    D-mean     MSE       variable   variable
+           1      429      429     1  5.777E-01  9.751E-01   antecedent           
+           2      296      296     1  2.650E-01  7.369E-01   nwsprec              
+           4      282      282     1  1.801E-01  5.818E-01   antecedent           
+           8T      63       63     1 -2.011E-01  1.785E-01   antecedent           
+           9      219      219     1  2.898E-01  6.439E-01   nwsprec              
+          18T     166      166     1  2.038E-01  6.820E-01   nwsprec    antecedent
+          19T      53       53     1  5.592E-01  4.290E-01   nwsprec              
+           5T      14       14     1  1.975E+00  7.900E-01   antecedent           
+           3      133      133     1  1.274E+00  8.036E-01   nwsprec              
+           6       77       77     1  8.539E-01  5.616E-01   antecedent           
+          12T      58       58     1  6.815E-01  5.889E-01   nwsprec              
+          13T      19       19     1  1.380E+00  1.105E-01   antecedent           
+           7       56       56     1  1.851E+00  5.612E-01   nwsprec              
+          14T      38       38     1  1.570E+00  2.605E-01   antecedent           
+          15T      18       18     1  2.443E+00  6.793E-01   antecedent           
+  
+ Number of terminal nodes of final tree: 8
+ Total number of nodes of final tree:    15
+  
+ Regression tree:
+  
+  Node 1: antecedentqbase <=    8.05500
+    Node 2: nwsprec <=    2.19500
+      Node 4: antecedentqbase <=    5.40500
+        Node 8: logstottot-mean =  -0.20112
+      Node 4: antecedentqbase >    5.40500
+        Node 9: nwsprec <=    0.79000
+          Node 18: logstottot-mean =   0.20379
+        Node 9: nwsprec >    0.79000
+          Node 19: logstottot-mean =   0.55922
+    Node 2: nwsprec >    2.19500
+      Node 5: logstottot-mean =   1.97534
+  Node 1: antecedentqbase >    8.05500
+    Node 3: nwsprec <=    0.79500
+      Node 6: antecedentqbase <=   11.74500
+        Node 12: logstottot-mean =   0.68151
+      Node 6: antecedentqbase >   11.74500
+        Node 13: logstottot-mean =   1.38012
+    Node 3: nwsprec >    0.79500
+      Node 7: nwsprec <=    1.74500
+        Node 14: logstottot-mean =   1.57021
+      Node 7: nwsprec >    1.74500
+        Node 15: logstottot-mean =   2.44286
+ 
+ ***************************************************************
+ In the following the predictor node mean is mean of complete cases
+  
+ Node 1: Intermediate node
+ A case goes into Node 2 if antecedentqbase <=  8.0550000E+00
+      antecedentqbase  mean =  7.9978E+00
+ ----------------------------
+ Node 2: Intermediate node
+ A case goes into Node 4 if nwsprec <=  2.1950000E+00
+              nwsprec  mean =  6.0294E-01
+ ----------------------------
+ Node 4: Intermediate node
+ A case goes into Node 8 if antecedentqbase <=  5.4050000E+00
+      antecedentqbase  mean =  6.1311E+00
+ ----------------------------
+ Node 8: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant      -2.0112E-01       -3.75 0.0004                                    
+ Predicted mean = -0.201118466936394     
+ ----------------------------
+ Node 9: Intermediate node
+ A case goes into Node 18 if nwsprec <=  7.9000000E-01
+              nwsprec  mean =  4.6648E-01
+ ----------------------------
+ Node 18: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       2.0379E-01        3.17 0.0018                                    
+ Predicted mean =  0.203785529709688     
+ ----------------------------
+ Node 19: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       5.5922E-01        6.16 0.0000                                    
+ Predicted mean =  0.559223215891907     
+ ----------------------------
+ Node 5: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       1.9753E+00        8.01 0.0000                                    
+ Predicted mean =   1.97534202991892     
+ ----------------------------
+ Node 3: Intermediate node
+ A case goes into Node 6 if nwsprec <=  7.9500000E-01
+              nwsprec  mean =  8.5684E-01
+ ----------------------------
+ Node 6: Intermediate node
+ A case goes into Node 12 if antecedentqbase <=  1.1745000E+01
+      antecedentqbase  mean =  1.1006E+01
+ ----------------------------
+ Node 12: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       6.8151E-01        6.70 0.0000                                    
+ Predicted mean =  0.681507950171051     
+ ----------------------------
+ Node 13: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       1.3801E+00       17.61 0.0000                                    
+ Predicted mean =   1.38011508204665     
+ ----------------------------
+ Node 7: Intermediate node
+ A case goes into Node 14 if nwsprec <=  1.7450000E+00
+              nwsprec  mean =  1.6229E+00
+ ----------------------------
+ Node 14: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       1.5702E+00       18.71 0.0000                                    
+ Predicted mean =   1.57020886829116     
+ ----------------------------
+ Node 15: Terminal node
+ Coefficients of least squares regression function:
+ Regressor     Coefficient      t-stat  p-val 
+ Constant       2.4429E+00       12.22 0.0000                                    
+ Predicted mean =   2.44286254631692     
+ ----------------------------
+  
+ LaTeX code for tree is in file: 
+ C:/Users/wrbrooks/git/loadings/data/eagle/guide_latex_out.tex
+ 
+ Proportion of variance (R-squared) explained by tree model =  .4821
+ 
+ Elapsed time in seconds:   0.3276021    

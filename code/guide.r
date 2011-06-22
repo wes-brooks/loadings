@@ -517,7 +517,7 @@ dump_data <- function(formula, data) {
         else if( is.factor(data[,column]) ) { label='b' }
         else if( is.numeric(data[,column]) ) { label='n' }
         
-        column = sub('_', '', column, fixed=T)
+        column = gsub('_', '', column, fixed=T)
         writeLines(paste(i, column, label, sep=' '), .description) 
         
         i = i+1 }

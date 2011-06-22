@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{subfig}
+\usepackage{multirow}
 \usepackage{pstricks,pst-node,pst-tree}
 
 
@@ -18,29 +19,30 @@
 \setkeys{Gin}{width=0.9\textwidth}    %make figures a bit wider than the Sweave default.
 \maketitle
 
-<<label=setup, echo=False, include=False>>=
-
-@
-
-
-
-First, we'll read the data files and divide the events into a few classes: one class for events that occured with snowmelt, one class for events that occured after the spring's last snowmelt but before mid-May (defined here as Julian date 135), and one class for events that occured after julian 135 and before the first snowmelt of the next winter. 
-
-We also will look at dividing the data into just two groups: one that is snow-influenced and one that is not. "Not snow-influenced" just combines event classes two and three.\\
-
-
-
 <<label=read_data, echo=FALSE>>=
-setwd('~/git/loadings/code/Sweave')
-source('~/git/loadings/code/guide.r')
+#Read data into R and do some basic manipulation to get it into a usable format:
+setwd('~/../git/loadings/code/Sweave')
+source('~/../git/loadings/code/guide.r')
 streams = c('eagle', 'joosvalley', 'otter')
 outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
                 'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
+
+#Names of the NWS data files for each creek
+nws_files = list("eagle"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
+                    "joosvalley"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
+                    "otter"=c("otter/NWS/Sheboygan_Otter_raw.txt"))
+
 
 #loop through the streams, reading them in one by one
 for(stream_name in streams) {
     data_file = paste('../../data/', stream_name, '/', stream_name, 'creek.csv', sep='')
     stream = read.csv(data_file, header=T, na.strings=c('NA', 'na')) 
+    
+    #read the daily flow file, which we use for antecedent moisture contitions
+    daily_flow = paste("../../data/", stream_name, "/", stream_name, "_q.out", sep="")
+    head = strsplit( readLines(daily_flow)[1], "\t" )
+    daily_flow = read.table(daily_flow, skip=2, col.names=unlist(head))
+    daily_flow$DV_date = with( daily_flow, as.POSIXlt( as.character(DV_date), format="%m/%d/%Y" ) )
     
     #do some basic data transformations:
     stream = within( stream, {
@@ -53,25 +55,52 @@ for(stream_name in streams) {
         ap_2day <- as.numeric(ap_2day)
         ap_3day <- as.numeric(ap_3day) 
         stream <- as.factor(stream_name)
-        julian <- as.POSIXlt( as.character(start_day), format="%m/%d/%Y")$yday + 1
+        start_day <- as.POSIXlt( as.character(start_day), format="%m/%d/%Y" )
+        julian <- start_day$yday + 1
         sin_julian <- sin(julian)
         cos_julian <- cos(julian)
         for(output in outputs) {
-            assign( paste('log_', output, sep=""), log10(get(output)) ) }
+            assign( paste('log_', output, sep=""), log10(get(output)+0.01) ) }
         m <- as.factor(ifelse(is.na(m),0,ifelse(m=='M','M',0)))
         event <- rep(1, length(m))
         } )
 
+    #Find the base flow that immediately preceded each event
+    antecedent_qbase = rep(NA, length(stream$start_day))
+    for( i in 1:length(antecedent_qbase) ) {
+        #get the date just prior to row i (subtraction is in units of seconds)
+        unmatched = identical(which( daily_flow$DV_date == stream$start_day[i]-86400 ), integer(0))
+        antecedent_qbase[i] = ifelse(unmatched, NA, daily_flow[which( daily_flow$DV_date == stream$start_day[i]-86400 ), 'QGW_fixed']) }
+    stream$antecedent_qbase = antecedent_qbase
+
+    #Find the average air temperature in the days before the event:
+    #first, read the raw air temperature data
+    nws = data.frame()
+    for( nws_file in get(stream_name, pos=nws_files)) {
+        nws_path = paste("../../data/", nws_file, sep="")
+        nws = rbind(nws, read.csv(nws_path, na.strings=c("", "99999", "-1.23E+25"))) }
+    nws$date = with(nws, ISOdate(year=year, month=month, day=day))
+    
+    #Now find the antecedent air temperature for each event
+    #We will compute the mean, min, and range of air temps before this event began.
+    antecedent_tmean = rep(NA, length(stream$start_day))
+    antecedent_trange = rep(NA, length(stream$start_day))
+    antecedent_tmax = rep(NA, length(stream$start_day))
+    period = 2 #how far back in days to do the averaging
+    for( i in 1:length(antecedent_tmean) ) {
+        to_average = which(nws$date < stream$start_day[i] & nws$date >= stream$start_day[i] - period*86400)
+        antecedent_tmean[i] = mean(nws$Tobs[to_average], na.rm=TRUE)
+        antecedent_tmax[i] = max(nws$Tobs[to_average], na.rm=TRUE) 
+        antecedent_trange[i] = diff(range(nws$Tobs[to_average], na.rm=TRUE)) }
+    stream$antecedent_tmean = antecedent_tmean
+    stream$antecedent_tmax = ifelse(antecedent_tmax>-Inf, antecedent_tmax, NA)
+    stream$antecedent_trange = ifelse(antecedent_trange>-Inf, antecedent_trange, NA)
+
     #Now add this stream's data to the frame.
     assign(stream_name, stream) }
-@
 
-
-
-
-
-<<label=class_IDs, echo=FALSE>>=
-#We will aggregate all the data into one frame:
+#Now mark the class of each event (1:snowmelt-driven, 2:pre-vegetation, 3:post-vegetation)
+#We will gather all the data into one frame:
 aggregate = data.frame()
 
 #loop through the stream sites:
@@ -80,7 +109,6 @@ for(stream_name in streams) {
 
 	#Decide which events are snowmelt-driven:         
 	class = vector()
-	snow = vector()
 	prev_class = 0
 	num_events = dim(stream)[1]
                 
@@ -89,15 +117,12 @@ for(stream_name in streams) {
 		#first look for the beginning of each year's snowmelt events
 		if(stream$m[row]=='M') {
 			class=c(class, 1)
-			snow = c(snow, TRUE)
 			prev_class=1 }
 		else if(prev_class==1 & (stream$month[row]>=10 | stream$julian[row]<=135)) {
 			class=c(class, 1)
-			snow = c(snow, TRUE)
 			prev_class=1 }
 		else {
 			class=c(class, 3)
-			snow = c(snow, FALSE)
 			prev_class=3 } }
       
 	prev_class = 0
@@ -105,28 +130,23 @@ for(stream_name in streams) {
 		#now look for the end of the snowmelt events
 		if(stream$m[row]=='M') {
 			class[row]=1
-			snow[row]=TRUE
 			prev_class=1 }
 		else if(class[row]==3) {
 			class[row]=3
-			snow[row]=FALSE
 			prev_class=3 }
 		else if(stream$julian[row]<=135 & prev_class!=1) {
 			class[row]=2
-			snow[row]=FALSE
 			prev_class=2 }
-		else {
-			class[row]=1
-			snow[row]=FALSE } }
+		else { class[row]=1 } }
       
 	#save the class identifiers back to the stream's data frame
 	stream$event_class = class
-	stream$snow_event = snow
 	assign(stream_name, stream)
     aggregate = rbind(aggregate, stream) }
 @
 
-
+\section{Introduction}
+Minimizing the erosion of sediment into streams is a goal for water quality managers. In order to develop plans to limit the amount of sediment that gets into streams, those managers need to know how sediment gets into the water. A recent study \cite{Danz:2010} has shown that 
 
 The next block of code produces a set of bar charts that show the relative contributions of the snow-driven events, post-snow-pre-vegetation events, and the post-vegetation events.\\
 
@@ -199,6 +219,11 @@ for( target in targets ) {
 The next block prints a table of the proportion of total phosphorus loading due to each class of event at each site\\
 
 
+<<label=total_solids_table,echo=FALSE,results=tex>>=
+library(xtable)
+print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event", label="tab:stot", align=c('l', 'c', 'c', 'c')), table.placement="h",
+caption.placement="bottom", hline.after=0 )
+@
 
 <<label=total_phosphorus_table,echo=FALSE,results=tex>>=
 library(xtable)
@@ -206,11 +231,7 @@ print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loadi
 caption.placement="bottom", hline.after=0 )
 @
 
-<<label=total_solids_table,echo=FALSE,results=tex>>=
-library(xtable)
-print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event", label="tab:stot", align=c('l', 'c', 'c', 'c')), table.placement="h",
-caption.placement="bottom", hline.after=0 )
-@
+
 
 
 
@@ -219,10 +240,13 @@ caption.placement="bottom", hline.after=0 )
 
 <<label=barchart, echo=False, include=False>>=
 layout(matrix(1:4,2,2))
+colors <- gray.colors(dim(ptot_tot_proportions)[1])
+
 barplot(ptot_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
 barplot(stot_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
 barplot(pstorm_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
 barplot(sstorm_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
+legend(x="topleft", legend=streams, fill=colors, bty='n')
 @
 
 
@@ -239,48 +263,6 @@ Produce plots of the proportion of the suspended solids and phosphorus (both tot
     \end{center}
     \vspace{-10mm}
     \caption{Cumulative storm loadings at the three creeks.\label{bars}}
-\end{figure}
-
-
-
-Now let's do the same between the snow and no-snow events:\\
-
-
-
-<<label=barchart2, echo=False, include=False>>=
-props <- function(streams, target) {
-    result = matrix(1:2*length(streams),length(streams),2)
-    for(i in 1:length(streams)) {
-        stream = get(streams[i])
-        result[i,] = sapply( c(T,F), (function(x) sum(stream[stream$snow_event==x,target])/sum(stream[,target])) ) }
-    return(result) }
-
-ptot_proportions = props(streams, 'ptot_tot')
-pstorm_proportions = props(streams, 'pstorm_tot')
-stot_proportions = props(streams, 'stot_tot')
-sstorm_proportions = props(streams, 'sstorm_tot')
-
-layout(matrix(1:4,2,2))
-barplot(ptot_proportions, beside=T, names.arg=c("snow","no snow"), ylab="proportion of phosphorus")
-barplot(stot_proportions, beside=T, names.arg=c("snow","no snow"), ylab="proportion of solids")
-barplot(pstorm_proportions, beside=T, names.arg=c("snow","no snow"), ylab="proportion of phosphorus")
-barplot(sstorm_proportions, beside=T, names.arg=c("snow","no snow"), ylab="proportion of solids")
-@
-
-
-
-Put the barchart into the document here:\\
-
-
-
-\begin{figure}[h!]
-    \begin{center}
-<<label=fig3, fig=True, echo=False, width=6, height=8.5>>=
-<<barchart2>>
-@
-    \end{center}
-    \vspace{-10mm}
-    \caption{Cumulative storm loadings at the three creeks.\label{bars2}}
 \end{figure}
 
 
@@ -302,20 +284,6 @@ boxplot(log_stot_tot~event_class, data=joosvalley, bty='n', ylim=yy, cex=0.6, pc
 
 
 
-%Boxplots of the contribution from individual storm events
-\begin{figure}[h]
-    \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
-    \begin{center}
-<<label=boxplot_stot, fig=True, echo=False, width=8, height=5>>=
-<<stot_boxplots>>
-@
-
-    \end{center}
-\end{figure}
-
-
-
-
 <<label=ptot_boxplots, echo=False, include=False>>=
 yy=c(-1, 4)
 event_classes = c("snow","pre-veg","veg")
@@ -332,14 +300,18 @@ boxplot(log_ptot_tot~event_class, data=joosvalley, bty='n', ylim=yy, cex=0.6, pc
 
 
 
+
+
 %Boxplots of the contribution from individual storm events
 \begin{figure}[h]
-    \setkeys{Gin}{width=1.1\textwidth}    %make figures a bit wider than the Sweave default.
+    \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
     \begin{center}
-<<label=boxplot_ptot, fig=True, echo=False, width=8, height=5>>=
+<<label=boxplot_stot, fig=True, echo=False, width=9, height=5>>=
+<<stot_boxplots>>
+@
+<<label=boxplot_ptot, fig=True, echo=False, width=9, height=5>>=
 <<ptot_boxplots>>
 @
-
     \end{center}
 \end{figure}
 
@@ -413,20 +385,20 @@ legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3))
 
 \begin{figure}
     \begin{center}
-<<label=figure1, fig=True, echo=False, width=6, height=5>>=
+<<label=figure2, fig=True, echo=False, width=6, height=5>>=
 <<cumulative_sloading_by_rainfall>>
 @
     \end{center}
-    \caption{Proportion of the total sediment load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
+    \caption{Proportion of the total sediment load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-p}}
 \end{figure}
 
 \begin{figure}
     \begin{center}
-<<label=figure1, fig=True, echo=False, width=6, height=5>>=
+<<label=figure3, fig=True, echo=False, width=6, height=5>>=
 <<cumulative_ploading_by_rainfall>>
 @
     \end{center}
-    \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
+    \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-s}}
 \end{figure}
 
 
@@ -482,28 +454,88 @@ The table shows that the major loading events that produce the majority of the l
 
 \begin{table}[h]
     \begin{center}
-    \begin{tabular}{lrrrrr}
+    \begin{tabular}{llccccc}
         &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
-        Period & All events & Major events & Loading & Major events & Loading \\
+        Creek & Period & All events & Major events & Loading & Major events & Loading \\
         \hline 
-        Snowmelt & 
+        \multirow{3}{*}{Aggregated} & Snowmelt & 
         \Sexpr{round(100*sum(aggregate$event_class==1)/sum(aggregate$event), 0)}\% &
         \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% & 
         \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==1))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% & 
         \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% & 
         \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==1))/sum(major(aggregate, target="ptot_tot", strata="stream")), 0)}\% \\
-        Early post-snow & 
+        & Early post-snow & 
         \Sexpr{round(100*sum(aggregate$event_class==2)/sum(aggregate$event), 0)}\% &
         \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% & 
         \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==2))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% & 
         \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% & 
         \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==2))/sum(major(aggregate, target="ptot_tot", strata="stream")), 0)}\% \\
-        Late post-snow & 
+        & Late post-snow & 
         \Sexpr{round(100*sum(aggregate$event_class==3)/sum(aggregate$event), 0)}\% &
         \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'stot_tot'])/sum(aggregate$stot_tot), 0)}\% & 
         \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==3))/sum(major(aggregate, target="stot_tot", strata="stream")), 0)}\% & 
         \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'ptot_tot'])/sum(aggregate$ptot_tot), 0)}\% & 
         \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==3))/sum(major(aggregate, target="ptot_tot", strata="stream")), 0)}\% \\
+        
+        \hline 
+        \multirow{3}{*}{Eagle} & Snowmelt & 
+        \Sexpr{round(100*sum(eagle$event_class==1)/sum(eagle$event), 0)}\% &
+        \Sexpr{round(100*sum(eagle[eagle$event_class==1,'stot_tot'])/sum(eagle$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$event_class==1))/sum(major(eagle, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(eagle[eagle$event_class==1,'ptot_tot'])/sum(eagle$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$event_class==1))/sum(major(eagle, target="ptot_tot", strata="stream")), 0)}\% \\
+        & Early post-snow & 
+        \Sexpr{round(100*sum(eagle$event_class==2)/sum(eagle$event), 0)}\% &
+        \Sexpr{round(100*sum(eagle[eagle$event_class==2,'stot_tot'])/sum(eagle$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$event_class==2))/sum(major(eagle, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(eagle[eagle$event_class==2,'ptot_tot'])/sum(eagle$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$event_class==2))/sum(major(eagle, target="ptot_tot", strata="stream")), 0)}\% \\
+        & Late post-snow & 
+        \Sexpr{round(100*sum(eagle$event_class==3)/sum(eagle$event), 0)}\% &
+        \Sexpr{round(100*sum(eagle[eagle$event_class==3,'stot_tot'])/sum(eagle$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$event_class==3))/sum(major(eagle, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(eagle[eagle$event_class==3,'ptot_tot'])/sum(eagle$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$event_class==3))/sum(major(eagle, target="ptot_tot", strata="stream")), 0)}\% \\
+        
+        \hline 
+        \multirow{3}{*}{Joos} & Snowmelt & 
+        \Sexpr{round(100*sum(joosvalley$event_class==1)/sum(joosvalley$event), 0)}\% &
+        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==1,'stot_tot'])/sum(joosvalley$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$event_class==1))/sum(major(joosvalley, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==1,'ptot_tot'])/sum(joosvalley$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$event_class==1))/sum(major(joosvalley, target="ptot_tot", strata="stream")), 0)}\% \\
+        & Early post-snow & 
+        \Sexpr{round(100*sum(joosvalley$event_class==2)/sum(joosvalley$event), 0)}\% &
+        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==2,'stot_tot'])/sum(joosvalley$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$event_class==2))/sum(major(joosvalley, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==2,'ptot_tot'])/sum(joosvalley$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$event_class==2))/sum(major(joosvalley, target="ptot_tot", strata="stream")), 0)}\% \\
+        & Late post-snow & 
+        \Sexpr{round(100*sum(joosvalley$event_class==3)/sum(joosvalley$event), 0)}\% &
+        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==3,'stot_tot'])/sum(joosvalley$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$event_class==3))/sum(major(joosvalley, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==3,'ptot_tot'])/sum(joosvalley$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$event_class==3))/sum(major(joosvalley, target="ptot_tot", strata="stream")), 0)}\% \\
+        
+        \hline 
+        \multirow{3}{*}{Otter} & Snowmelt & 
+        \Sexpr{round(100*sum(otter$event_class==1)/sum(otter$event), 0)}\% &
+        \Sexpr{round(100*sum(otter[otter$event_class==1,'stot_tot'])/sum(otter$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$event_class==1))/sum(major(otter, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(otter[otter$event_class==1,'ptot_tot'])/sum(otter$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$event_class==1))/sum(major(otter, target="ptot_tot", strata="stream")), 0)}\% \\
+        & Early post-snow & 
+        \Sexpr{round(100*sum(otter$event_class==2)/sum(otter$event), 0)}\% &
+        \Sexpr{round(100*sum(otter[otter$event_class==2,'stot_tot'])/sum(otter$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$event_class==2))/sum(major(otter, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(otter[otter$event_class==2,'ptot_tot'])/sum(otter$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$event_class==2))/sum(major(otter, target="ptot_tot", strata="stream")), 0)}\% \\
+        & Late post-snow & 
+        \Sexpr{round(100*sum(otter$event_class==3)/sum(otter$event), 0)}\% &
+        \Sexpr{round(100*sum(otter[otter$event_class==3,'stot_tot'])/sum(otter$stot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$event_class==3))/sum(major(otter, target="stot_tot", strata="stream")), 0)}\% & 
+        \Sexpr{round(100*sum(otter[otter$event_class==3,'ptot_tot'])/sum(otter$ptot_tot), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$event_class==3))/sum(major(otter, target="ptot_tot", strata="stream")), 0)}\% \\
     \end{tabular}
     \end{center}
 \end{table}
@@ -524,6 +556,7 @@ late = stream[stream$event_class==3,]
 guide(stot_tot~nws_prec+event_type+total_water+ap_1day+ap_2day+ap_3day+julian+theisen+sin_julian+cos_julian+tmean+tmax+tmin, data=late, sweave=T, cv_gain=0)
 @
 
-
+\bibliographystyle{plain}
+\bibliography{../../references/bibliography}
 
 \end{document}

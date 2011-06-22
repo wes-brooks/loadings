@@ -1,0 +1,41 @@
+ \documentclass{article}
+ %File creation date: 06/20/11  at 16:24
+ \usepackage{pstricks,pst-node,pst-tree}
+ \usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
+ \usepackage{lscape}
+ \pagestyle{empty}
+ \begin{document}
+ %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 8.05}}}{
+  \pstree{\Tcircle{ 2 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 2.19}}}{
+  \pstree{\Tcircle{ 4 }~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 5.41}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 8 }~{\textit{-.20}}
+  \pstree{\Tcircle{ 9 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ .7900}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 18}~{\textit{.20}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 19}~{\textit{.56}}
+   }
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 5 }~{\textit{1.98}}
+   }
+  \pstree{\Tcircle{ 3 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ .7950}}}{
+  \pstree{\Tcircle{ 6 }~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 11.74}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 12}~{\textit{.68}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 13}~{\textit{1.38}}
+   }
+  \pstree{\Tcircle{ 7 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 1.75}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 14}~{\textit{1.57}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 15}~{\textit{2.44}}
+ }
+ }
+ }
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of logstottot.
+ %\end{landscape}
+ \end{document}
