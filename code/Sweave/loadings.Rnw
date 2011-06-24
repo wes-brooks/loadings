@@ -151,6 +151,27 @@ Minimizing the erosion of sediment into streams is a goal for water quality mana
 The next block of code produces a set of bar charts that show the relative contributions of the snow-driven events, post-snow-pre-vegetation events, and the post-vegetation events.\\
 
 
+<<label=bubble_plots, echo=False, include=False>>=
+#The "_no" dataframes exclude the snowfall-influenced events.
+for(stream_name in streams) {
+    stream = get(stream_name)
+    assign( paste(stream_name, "_nosnow"), stream[stream$event_class!=1,] )
+    assign( paste(stream_name, "_snow"), stream[stream$event_class==1,] )
+    
+    #Produce the bubble plot
+    symbols(stream[stream$event_class!=1,]$antecedent_qbase,
+            stream[stream$event_class!=1,]$theisen,
+            circles=sqrt( stream[stream$event_class!=1,]$sstorm_tot/pi ),
+            inches=0.25, fg="white", bg="red", bty='n') }
+@
+
+<<label=linear_loading_model, echoFalse>>=
+#Solids:
+summary(lm(log_stot_tot~antecedent_qbase+theisen, data=eagle_nosnow))
+#Phosphorus:
+summary(lm(log_ptot_tot~antecedent_qbase+theisen, data=eagle_nosnow))
+@
+
 
 <<label=proportions, echo=False, include=False>>=
 targets = c('ptot_tot', 'pstorm_tot', 'stot_tot', 'sstorm_tot')
