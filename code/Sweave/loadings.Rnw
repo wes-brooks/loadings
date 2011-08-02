@@ -21,8 +21,8 @@
 
 <<label=read_data, echo=FALSE>>=
 #Read data into R and do some basic manipulation to get it into a usable format:
-setwd('~/git/loadings/code/Sweave')
-source('~/git/loadings/code/guide.r')
+setwd('~/../git/loadings/code/Sweave')
+source('~/../git/loadings/code/guide.r')
 streams = c('eagle', 'joosvalley', 'otter', 'brewery')
 outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
                 'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
@@ -55,6 +55,9 @@ for(stream_name in streams) {
         ap_1day <- as.numeric(ap_1day)
         ap_2day <- as.numeric(ap_2day)
         ap_3day <- as.numeric(ap_3day) 
+        tmax <- as.numeric(tmax)
+        tmin <- as.numeric(tmin)
+        tmean <- as.numeric(tmin)
         stream <- as.factor(stream_name)
         start_day <- as.POSIXlt( as.character(start_day), format="%m/%d/%Y" )
         julian <- start_day$yday + 1
@@ -156,21 +159,19 @@ The next block of code produces a set of bar charts that show the relative contr
 #The "_no" dataframes exclude the snowfall-influenced events.
 for(stream_name in streams) {
     stream = get(stream_name)
-    assign( paste(stream_name, "_nosnow"), stream[stream$event_class!=1,] )
-    assign( paste(stream_name, "_snow"), stream[stream$event_class==1,] )
-    
-    #Produce the bubble plot
+    assign( paste(stream_name, "_nosnow", sep=""), stream[stream$event_class!=1,] )
+    assign( paste(stream_name, "_snow", sep=""), stream[stream$event_class==1,] )
+
+    #Produce the bubble plots
     symbols(stream[stream$event_class!=1,]$antecedent_qbase,
             stream[stream$event_class!=1,]$theisen,
             circles=sqrt( stream[stream$event_class!=1,]$sstorm_tot/pi ),
             inches=0.25, fg="white", bg="red", bty='n',
-            xlim=range(stream[!is.na(stream$antecedent_qbase),]$antecedent_qbase)* c(0.9,1.1),
-            ylim=range(stream[!is.na(stream$theisen),]$theisen) * c(0.9,1.1)) }
+            xlim=range(stream[!is.na(stream$antecedent_qbase),]$antecedent_qbase)*c(0.9,1.1),
+            ylim=range(stream[!is.na(stream$theisen),]$theisen)*c(0.9,1.1)) }
 @
 
-<<label=linear_loading_model, echoFalse>>=
-eagle_nosnow = eagle[eagle$event_class!=1,]
-
+<<label=linear_loading_model, echo=False>>=
 #Solids:
 summary(lm(log_stot_tot~antecedent_qbase+theisen, data=eagle_nosnow))
 #Phosphorus:
@@ -218,10 +219,10 @@ major <- function(data, target, q=0.9, strata='') {
         #Loop through the strata
         for(stratum in unique(data[,strata])) {
             indx = which(data[,strata]==stratum)
-            major[indx] = ifelse(data[indx,target] > quantile(data[indx,target], q), 1, 0) } }
+            major[indx] = ifelse(data[indx,target] > quantile(data[indx,target], q, na.rm=TRUE), 1, 0) } }
             
     #If no stratification is provided, then just flag the overall major events
-    else { major = ifelse(data[,target]>quantile(data[,target], q), 1, 0) }
+    else { major = ifelse(data[,target]>quantile(data[,target], q, na.rm=TRUE), 1, 0) }
     
     #Either way, return the result
     return(major) }

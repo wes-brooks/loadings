@@ -27,3 +27,339 @@ Minimizing the erosion of sediment into streams is a goal for water quality mana
 The next block of code produces a set of bar charts that show the relative contributions of the snow-driven events, post-snow-pre-vegetation events, and the post-vegetation events.\\
 
 
+
+\begin{Schunk}
+\begin{Soutput}
+Call:
+lm(formula = log_stot_tot ~ antecedent_qbase + theisen, data = eagle_nosnow)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.36985 -0.38539 -0.01636  0.36174  1.72769 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -1.35345    0.09295  -14.56   <2e-16 ***
+antecedent_qbase  0.15791    0.00996   15.86   <2e-16 ***
+theisen           0.86034    0.04071   21.13   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Residual standard error: 0.5152 on 242 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared: 0.7554,	Adjusted R-squared: 0.7534 
+F-statistic: 373.8 on 2 and 242 DF,  p-value: < 2.2e-16 
+\end{Soutput}
+\begin{Soutput}
+Call:
+lm(formula = log_ptot_tot ~ antecedent_qbase + theisen, data = eagle_nosnow)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.98156 -0.23430  0.00308  0.20073  1.46374 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -0.145134   0.067172  -2.161   0.0317 *  
+antecedent_qbase  0.108446   0.007198  15.067   <2e-16 ***
+theisen           0.714547   0.029420  24.288   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Residual standard error: 0.3723 on 242 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared: 0.7826,	Adjusted R-squared: 0.7808 
+F-statistic: 435.6 on 2 and 242 DF,  p-value: < 2.2e-16 
+\end{Soutput}
+\end{Schunk}
+
+
+
+
+
+
+
+
+
+
+The next block prints a table of the proportion of total phosphorus loading due to each class of event at each site\\
+
+
+% latex table generated in R 2.13.0 by xtable 1.5-6 package
+% Tue Aug 02 17:46:04 2011
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lccc}
+  & snowmelt-driven & early post-snow & late post-snow \\ 
+  \hline
+eagle & 27.0\% & 29.1\% & 43.9\% \\ 
+  joosvalley & 26.9\% & 20.5\% & 52.6\% \\ 
+  otter & 35.4\% & 20.5\% & 44.1\% \\ 
+  brewery & 32.8\% & 4.5\% & 62.7\% \\ 
+  \end{tabular}
+\caption{Proportion of total suspended solids loading contributed by each type of event}
+\label{tab:stot}
+\end{center}
+\end{table}
+% latex table generated in R 2.13.0 by xtable 1.5-6 package
+% Tue Aug 02 17:46:04 2011
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{lccc}
+  & snowmelt-driven & early post-snow & late post-snow \\ 
+  \hline
+eagle & 32.8\% & 22.9\% & 44.2\% \\ 
+  joosvalley & 36.4\% & 16.9\% & 46.7\% \\ 
+  otter & 46.5\% & 16.6\% & 36.9\% \\ 
+  brewery & NA\% & NA\% & NA\% \\ 
+  \end{tabular}
+\caption{Proportion of total phosphorus loading contributed by each type of event}
+\label{tab:ptot}
+\end{center}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+Produce plots of the proportion of the suspended solids and phosphorus (both total loading and stormflow loading) that is contributed by each class of event at each stream site:\\
+
+
+
+\begin{figure}[h!]
+    \begin{center}
+\includegraphics{loadings-fig2}
+    \end{center}
+    \vspace{-10mm}
+    \caption{Cumulative storm loadings at the three creeks.\label{bars}}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+%Boxplots of the contribution from individual storm events
+\begin{figure}[h]
+    \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
+    \begin{center}
+\includegraphics{loadings-boxplot_stot}
+\includegraphics{loadings-boxplot_ptot}
+    \end{center}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+\begin{figure}
+    \begin{center}
+\includegraphics{loadings-figure1}
+    \end{center}
+    \caption{Cumulative storm loadings at the three creeks.\label{cdf}}
+\end{figure}
+
+
+\begin{figure}
+    \begin{center}
+\includegraphics{loadings-figure2}
+    \end{center}
+    \caption{Proportion of the total sediment load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-p}}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+\includegraphics{loadings-figure3}
+    \end{center}
+    \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-s}}
+\end{figure}
+
+
+
+Figure out what proportion of total sediment loading is contributed by the top 10\% of storms:\\
+
+
+
+
+
+
+
+
+The top 10\% of events contributed 89.1\% of the sediment loading at Eagle Creek, 73.1\% of the sediment loading at Otter Creek, and 93.4\% of the sediment loading at Joos Valley Creek.\\
+
+Now we want to know how these major events are distributed within the event classes; that is, whether snowmelt tends to produce major loading events, or whether it is the post-snow events. Note that the \_tot column measures the total loading during an event. The snowmelt-driven events are different in kind than the rainfall-driven ones because they don't require continuous rain during the event. If the snowmelt-driven events are caused by warm weather, it seems reasonable that a single event might last for many days and cause more loading than a more-intense rainfall event that only lasts a day or two. To account for this, we will look both at total loading (\_tot) and average daily loading during an event (\_avg).\\
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{lr|lr|lr|l}
+        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Early post-snow}\ & \multicolumn{2}{c}{Late post-snow} \\
+        Creek & All & Major & All & Major & All & Major \\
+        \hline 
+        Eagle & 42\% & 30\% & 13\% & 19\% & 45\% & 51\% \\
+        Otter & 41\% & 42\% & 11\% & 19\% & 48\% & 40\% \\
+        Joos & 46\% & 31\% & 11\% & 17\% & 43\% & 52\% \\
+        
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
+The table shows that the major loading events that produce the majority of the loading can be occur during each of the three annual periods. However, the events caused by snowmelt produced a smaller proportion of major events than their proportion of all events, and their relative contribution to the total sediment load was smaller than their proportion of loading events. Taken together, these insights tell us that, while snowmelt can cause a major loading event, a snowmelt-driven event is less likely to be a major contributor to sediment load than is a rainfall-driven event.\\
+
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{llccccc}
+        &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
+        Creek & Period & All events & Major events & Loading & Major events & Loading \\
+        \hline 
+        \multirow{3}{*}{Aggregated} & Snowmelt & 
+        48\% &
+        28\% & 
+        40\% & 
+NA
+NA
+        & Early post-snow & 
+        10\% &
+        23\% & 
+        14\% & 
+NA
+NA
+        & Late post-snow & 
+        43\% &
+        49\% & 
+        46\% & 
+NA
+NA
+        
+        \hline 
+        \multirow{3}{*}{Eagle} & Snowmelt & 
+        42\% &
+        27\% & 
+        30\% & 
+        33\% & 
+        37\% \\
+        & Early post-snow & 
+        13\% &
+        29\% & 
+        19\% & 
+        23\% & 
+        21\% \\
+        & Late post-snow & 
+        45\% &
+        44\% & 
+        51\% & 
+        44\% & 
+        42\% \\
+        
+        \hline 
+        \multirow{3}{*}{Joos} & Snowmelt & 
+        46\% &
+        27\% & 
+        31\% & 
+        36\% & 
+        35\% \\
+        & Early post-snow & 
+        11\% &
+        20\% & 
+        17\% & 
+        17\% & 
+        19\% \\
+        & Late post-snow & 
+        43\% &
+        53\% & 
+        52\% & 
+        47\% & 
+        46\% \\
+        
+        \hline 
+        \multirow{3}{*}{Otter} & Snowmelt & 
+        41\% &
+        35\% & 
+        42\% & 
+        47\% & 
+        58\% \\
+        & Early post-snow & 
+        11\% &
+        20\% & 
+        19\% & 
+        17\% & 
+        12\% \\
+        & Late post-snow & 
+        48\% &
+        44\% & 
+        40\% & 
+        37\% & 
+        30\% \\
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
+ %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 1 }~{\textit{48.34}}
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of stottot.
+ %\end{landscape} %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 1.91}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{22.17}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{1401.91}}
+ }
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of stottot.
+ %\end{landscape} %\begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 2.20}}}{
+  \pstree{\Tcircle{ 2 }~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.98}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 4 }~{\textit{18.05}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 5 }~{\textit{272.43}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{578.23}}
+ }
+ \end{center}
+GUIDE piecewise constant least-squares regression tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Number in italics beneath leaf node is sample mean of stottot.
+ %\end{landscape}
+\bibliographystyle{plain}
+\bibliography{../../references/bibliography}
+
+\end{document}
