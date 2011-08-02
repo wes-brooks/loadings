@@ -21,16 +21,17 @@
 
 <<label=read_data, echo=FALSE>>=
 #Read data into R and do some basic manipulation to get it into a usable format:
-setwd('~/../git/loadings/code/Sweave')
-source('~/../git/loadings/code/guide.r')
-streams = c('eagle', 'joosvalley', 'otter')
+setwd('~/git/loadings/code/Sweave')
+source('~/git/loadings/code/guide.r')
+streams = c('eagle', 'joosvalley', 'otter', 'brewery')
 outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
                 'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
 
 #Names of the NWS data files for each creek
 nws_files = list("eagle"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
                     "joosvalley"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
-                    "otter"=c("otter/NWS/Sheboygan_Otter_raw.txt"))
+                    "otter"=c("otter/NWS/Sheboygan_Otter_raw.txt"),
+                    "brewery"=c("brewery/NWS/Madison_SND.txt"))
 
 
 #loop through the streams, reading them in one by one
@@ -89,9 +90,9 @@ for(stream_name in streams) {
     period = 2 #how far back in days to do the averaging
     for( i in 1:length(antecedent_tmean) ) {
         to_average = which(nws$date < stream$start_day[i] & nws$date >= stream$start_day[i] - period*86400)
-        antecedent_tmean[i] = mean(nws$Tobs[to_average], na.rm=TRUE)
-        antecedent_tmax[i] = max(nws$Tobs[to_average], na.rm=TRUE) 
-        antecedent_trange[i] = diff(range(nws$Tobs[to_average], na.rm=TRUE)) }
+        antecedent_tmean[i] = mean(nws$Tmean[to_average], na.rm=TRUE)
+        antecedent_tmax[i] = max(nws$Tmean[to_average], na.rm=TRUE) 
+        antecedent_trange[i] = diff(range(nws$Tmean[to_average], na.rm=TRUE)) }
     stream$antecedent_tmean = antecedent_tmean
     stream$antecedent_tmax = ifelse(antecedent_tmax>-Inf, antecedent_tmax, NA)
     stream$antecedent_trange = ifelse(antecedent_trange>-Inf, antecedent_trange, NA)
@@ -162,10 +163,14 @@ for(stream_name in streams) {
     symbols(stream[stream$event_class!=1,]$antecedent_qbase,
             stream[stream$event_class!=1,]$theisen,
             circles=sqrt( stream[stream$event_class!=1,]$sstorm_tot/pi ),
-            inches=0.25, fg="white", bg="red", bty='n') }
+            inches=0.25, fg="white", bg="red", bty='n',
+            xlim=range(stream[!is.na(stream$antecedent_qbase),]$antecedent_qbase)* c(0.9,1.1),
+            ylim=range(stream[!is.na(stream$theisen),]$theisen) * c(0.9,1.1)) }
 @
 
 <<label=linear_loading_model, echoFalse>>=
+eagle_nosnow = eagle[eagle$event_class!=1,]
+
 #Solids:
 summary(lm(log_stot_tot~antecedent_qbase+theisen, data=eagle_nosnow))
 #Phosphorus:
