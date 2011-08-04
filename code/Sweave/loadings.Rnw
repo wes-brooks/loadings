@@ -21,8 +21,8 @@
 
 <<label=read_data, echo=FALSE>>=
 #Read data into R and do some basic manipulation to get it into a usable format:
-setwd('~/../git/loadings/code/Sweave')
-source('~/../git/loadings/code/guide.r')
+setwd('~/git/loadings/code/Sweave')
+source('~/git/loadings/code/guide.r')
 streams = c('eagle', 'joosvalley', 'otter', 'brewery')
 outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
                 'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
@@ -171,11 +171,63 @@ for(stream_name in streams) {
             ylim=range(stream[!is.na(stream$theisen),]$theisen)*c(0.9,1.1)) }
 @
 
+<<label=stepwise_BIC, echo=False>>=
+#This function uses the BIC to screen variables, returning the 'step' object.
+stepwise_BIC <- function(target, data) {
+    d = data[,c(target, "num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", "ei", "duration", "ap_1day", "ap_2day", "ap_3day", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "julian", "antecedent_qbase", "theisen", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")]
+
+
+    formula = as.formula( paste(target, "~.") )
+    fm1 <- lm(formula, data=d, x=T)
+    
+    d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
+    fm2 <- lm(target~., data=d)
+    return( step( fm2, direction='both', k=log(dim(d)[1]) ) )
+    }
+
+parse_args <- function(model) {
+    s = unlist(strsplit(as.character( model$call )[2], "\\s"))
+    indx = seq(from=3, to=length(s), by=2)
+    return( s[indx] )
+    }
+@
+
+
+\section{Variable selection}
+In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We use stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables. 
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{lrl}
+        Solids: & & \\
+        & Eagle & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=eagle_nosnow)), collapse=", ")) }\\
+        & Joos & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow)), collapse=", ")) }\\
+        & Otter & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=otter_nosnow)), collapse=", ")) }\\
+        & Brewery & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=brewery_nosnow)), collapse=", ")) }\\
+        \hline \\
+        Phosphorus: & & \\
+        & Eagle & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow)), collapse=", ")) }\\
+        & Joos & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow)), collapse=", ")) }\\
+        & Otter & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=otter_nosnow)), collapse=", ")) }\\
+        & Brewery & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow)), collapse=", ")) }\\
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
 <<label=linear_loading_model, echo=False>>=
 #Solids:
 summary(lm(log_stot_tot~antecedent_qbase+theisen, data=eagle_nosnow))
+summary(lm(log_stot_tot~antecedent_qbase+theisen, data=joosvalley_nosnow))
+summary(lm(log_stot_tot~antecedent_qbase+theisen, data=otter_nosnow))
+summary(lm(log_stot_tot~antecedent_qbase+theisen, data=brewery_nosnow))
 #Phosphorus:
 summary(lm(log_ptot_tot~antecedent_qbase+theisen, data=eagle_nosnow))
+summary(lm(log_ptot_tot~antecedent_qbase+theisen, data=joosvalley_nosnow))
+summary(lm(log_ptot_tot~antecedent_qbase+theisen, data=otter_nosnow))
+summary(lm(log_ptot_tot~antecedent_qbase+theisen, data=brewery_nosnow))
 @
 
 

@@ -2,8 +2,8 @@
 %âãÏÓ\r
 1 0 obj
 <<
-/CreationDate (D:20110802174604)
-/ModDate (D:20110802174604)
+/CreationDate (D:20110803193605)
+/ModDate (D:20110803193605)
 /Title (R Graphics Output)
 /Producer (R 2.13.0)
 /Creator (R)
@@ -30,7 +30,7 @@ endobj
 stream
 1 J 1 j q
 Q q 0.00 306.00 216.00 306.00 re W n
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -42,13 +42,13 @@ Q q 0.00 306.00 216.00 306.00 re W n
 63.64 368.90 9.38 151.52 re B
 /sRGB cs 0.765 0.765 0.765 scn
 73.03 368.90 9.38 193.50 re B
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 101.18 368.90 9.38 95.30 re B
 /sRGB cs 0.588 0.588 0.588 scn
 110.57 368.90 9.38 70.28 re B
 /sRGB cs 0.765 0.765 0.765 scn
 119.95 368.90 9.38 68.92 re B
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 148.11 368.90 9.38 184.02 re B
 /sRGB cs 0.588 0.588 0.588 scn
 157.49 368.90 9.38 194.10 re B
@@ -101,7 +101,7 @@ BT
 ET
 Q q 0.00 0.00 216.00 306.00 re W n
 Q q 0.00 0.00 216.00 306.00 re W n
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -115,7 +115,7 @@ Q q 0.00 0.00 216.00 306.00 re W n
 73.03 62.90 9.38 109.55 re B
 /sRGB cs 0.902 0.902 0.902 scn
 82.41 62.90 9.38 101.42 re B
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 101.18 62.90 9.38 90.11 re B
 /sRGB cs 0.588 0.588 0.588 scn
 110.57 62.90 9.38 63.43 re B
@@ -123,7 +123,7 @@ Q q 0.00 0.00 216.00 306.00 re W n
 119.95 62.90 9.38 63.45 re B
 /sRGB cs 0.902 0.902 0.902 scn
 129.34 62.90 9.38 14.05 re B
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 148.11 62.90 9.38 135.79 re B
 /sRGB cs 0.588 0.588 0.588 scn
 157.49 62.90 9.38 162.74 re B
@@ -186,7 +186,7 @@ BT
 ET
 Q q 216.00 306.00 216.00 306.00 re W n
 Q q 216.00 306.00 216.00 306.00 re W n
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -198,13 +198,13 @@ Q q 216.00 306.00 216.00 306.00 re W n
 279.64 368.90 9.38 143.68 re B
 /sRGB cs 0.765 0.765 0.765 scn
 289.03 368.90 9.38 152.37 re B
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 317.18 368.90 9.38 97.27 re B
 /sRGB cs 0.588 0.588 0.588 scn
 326.57 368.90 9.38 70.04 re B
 /sRGB cs 0.765 0.765 0.765 scn
 335.95 368.90 9.38 78.67 re B
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 364.11 368.90 9.38 182.83 re B
 /sRGB cs 0.588 0.588 0.588 scn
 373.49 368.90 9.38 194.10 re B
@@ -257,7 +257,7 @@ BT
 ET
 Q q 216.00 0.00 216.00 306.00 re W n
 Q q 216.00 0.00 216.00 306.00 re W n
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -271,7 +271,7 @@ Q q 216.00 0.00 216.00 306.00 re W n
 289.03 62.90 9.38 86.07 re B
 /sRGB cs 0.902 0.902 0.902 scn
 298.41 62.90 9.38 90.96 re B
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 317.18 62.90 9.38 89.30 re B
 /sRGB cs 0.588 0.588 0.588 scn
 326.57 62.90 9.38 62.08 re B
@@ -279,7 +279,7 @@ Q q 216.00 0.00 216.00 306.00 re W n
 335.95 62.90 9.38 67.27 re B
 /sRGB cs 0.902 0.902 0.902 scn
 345.34 62.90 9.38 14.18 re B
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 364.11 62.90 9.38 131.83 re B
 /sRGB cs 0.588 0.588 0.588 scn
 373.49 62.90 9.38 158.22 re B
@@ -341,7 +341,7 @@ BT
 /F2 1 Tf 0.00 10.00 -10.00 0.00 250.66 235.49 Tm (0.6) Tj
 ET
 Q q 265.00 60.96 141.90 196.04 re W n
-/sRGB cs 0.298 0.298 0.298 scn
+/sRGB cs 0.302 0.302 0.302 scn
 /sRGB CS 0.000 0.000 0.000 SCN
 0.75 w
 [] 0 d
@@ -601,7 +601,9 @@ endobj
 <<
 /Type /Encoding
 /BaseEncoding /WinAnsiEncoding
-/Differences [ 45/minus ]
+/Differences [ 45/minus 96/quoteleft
+144/dotlessi /grave /acute /circumflex /tilde /macron /breve /dotaccent
+/dieresis /.notdef /ring /cedilla /.notdef /hungarumlaut /ogonek /caron /space]
 >>
 endobj
 11 0 obj <<
@@ -624,7 +626,7 @@ xref
 0000000293 00000 n 
 0000008580 00000 n 
 0000018364 00000 n 
-0000018459 00000 n 
+0000018622 00000 n 
 trailer
 <<
 /Size 12
@@ -632,5 +634,5 @@ trailer
 /Root 2 0 R
 >>
 startxref
-18557
+18720
 %%EOF

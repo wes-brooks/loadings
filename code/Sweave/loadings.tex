@@ -28,6 +28,32 @@ The next block of code produces a set of bar charts that show the relative contr
 
 
 
+
+
+\section{Variable selection}
+In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We use stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables. 
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{lrl}
+        Solids: & & \\
+        & Eagle & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=eagle_nosnow)), collapse=", ")) }\\
+        & Joos & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow)), collapse=", ")) }\\
+        & Otter & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=otter_nosnow)), collapse=", ")) }\\
+        & Brewery & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=brewery_nosnow)), collapse=", ")) }\\
+        \hline \\
+        Phosphorus: & & \\
+        & Eagle & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow)), collapse=", ")) }\\
+        & Joos & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow)), collapse=", ")) }\\
+        & Otter & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=otter_nosnow)), collapse=", ")) }\\
+        & Brewery & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow)), collapse=", ")) }\\
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
 \begin{Schunk}
 \begin{Soutput}
 Call:
@@ -43,12 +69,75 @@ Coefficients:
 antecedent_qbase  0.15791    0.00996   15.86   <2e-16 ***
 theisen           0.86034    0.04071   21.13   <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 
 Residual standard error: 0.5152 on 242 degrees of freedom
   (2 observations deleted due to missingness)
 Multiple R-squared: 0.7554,	Adjusted R-squared: 0.7534 
 F-statistic: 373.8 on 2 and 242 DF,  p-value: < 2.2e-16 
+\end{Soutput}
+\begin{Soutput}
+Call:
+lm(formula = log_stot_tot ~ antecedent_qbase + theisen, data = joosvalley_nosnow)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.53840 -0.37911 -0.02301  0.32260  1.91902 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -1.34618    0.08411  -16.01   <2e-16 ***
+antecedent_qbase  0.19763    0.01717   11.51   <2e-16 ***
+theisen           0.85938    0.04357   19.72   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+Residual standard error: 0.5812 on 251 degrees of freedom
+  (3 observations deleted due to missingness)
+Multiple R-squared: 0.6647,	Adjusted R-squared: 0.662 
+F-statistic: 248.8 on 2 and 251 DF,  p-value: < 2.2e-16 
+\end{Soutput}
+\begin{Soutput}
+Call:
+lm(formula = log_stot_tot ~ antecedent_qbase + theisen, data = otter_nosnow)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.3252 -0.2519 -0.0092  0.2702  1.3771 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -1.379094   0.054726  -25.20   <2e-16 ***
+antecedent_qbase  0.121272   0.007881   15.39   <2e-16 ***
+theisen           0.934789   0.046258   20.21   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+Residual standard error: 0.4372 on 245 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared: 0.7385,	Adjusted R-squared: 0.7363 
+F-statistic: 345.9 on 2 and 245 DF,  p-value: < 2.2e-16 
+\end{Soutput}
+\begin{Soutput}
+Call:
+lm(formula = log_stot_tot ~ antecedent_qbase + theisen, data = brewery_nosnow)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.1064 -0.5225  0.1222  0.4687  1.7584 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -0.44937    0.19369  -2.320   0.0216 *  
+antecedent_qbase -0.07398    0.08070  -0.917   0.3606    
+theisen           0.69205    0.06874  10.068   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+Residual standard error: 0.7512 on 161 degrees of freedom
+  (128 observations deleted due to missingness)
+Multiple R-squared: 0.3884,	Adjusted R-squared: 0.3808 
+F-statistic: 51.13 on 2 and 161 DF,  p-value: < 2.2e-16 
 \end{Soutput}
 \begin{Soutput}
 Call:
@@ -64,12 +153,75 @@ Coefficients:
 antecedent_qbase  0.108446   0.007198  15.067   <2e-16 ***
 theisen           0.714547   0.029420  24.288   <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 
 Residual standard error: 0.3723 on 242 degrees of freedom
   (2 observations deleted due to missingness)
 Multiple R-squared: 0.7826,	Adjusted R-squared: 0.7808 
 F-statistic: 435.6 on 2 and 242 DF,  p-value: < 2.2e-16 
+\end{Soutput}
+\begin{Soutput}
+Call:
+lm(formula = log_ptot_tot ~ antecedent_qbase + theisen, data = joosvalley_nosnow)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.82432 -0.22751 -0.04278  0.20511  1.72563 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -0.26036    0.06052  -4.302 2.43e-05 ***
+antecedent_qbase  0.15271    0.01236  12.356  < 2e-16 ***
+theisen           0.70562    0.03136  22.504  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+Residual standard error: 0.4182 on 251 degrees of freedom
+  (3 observations deleted due to missingness)
+Multiple R-squared: 0.7151,	Adjusted R-squared: 0.7128 
+F-statistic:   315 on 2 and 251 DF,  p-value: < 2.2e-16 
+\end{Soutput}
+\begin{Soutput}
+Call:
+lm(formula = log_ptot_tot ~ antecedent_qbase + theisen, data = otter_nosnow)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.99166 -0.25833  0.01595  0.27079  1.03556 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -0.045816   0.046203  -0.992    0.322    
+antecedent_qbase  0.102279   0.006653  15.372   <2e-16 ***
+theisen           0.783261   0.039054  20.056   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+Residual standard error: 0.3691 on 245 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared: 0.7365,	Adjusted R-squared: 0.7344 
+F-statistic: 342.4 on 2 and 245 DF,  p-value: < 2.2e-16 
+\end{Soutput}
+\begin{Soutput}
+Call:
+lm(formula = log_ptot_tot ~ antecedent_qbase + theisen, data = brewery_nosnow)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.46780 -0.31817  0.02745  0.28340  1.34380 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)       0.55719    0.12465   4.470 1.47e-05 ***
+antecedent_qbase -0.10602    0.05193  -2.041   0.0428 *  
+theisen           0.69750    0.04424  15.767  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+Residual standard error: 0.4834 on 161 degrees of freedom
+  (128 observations deleted due to missingness)
+Multiple R-squared: 0.6111,	Adjusted R-squared: 0.6062 
+F-statistic: 126.5 on 2 and 161 DF,  p-value: < 2.2e-16 
 \end{Soutput}
 \end{Schunk}
 
@@ -86,7 +238,7 @@ The next block prints a table of the proportion of total phosphorus loading due 
 
 
 % latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Tue Aug 02 17:46:04 2011
+% Wed Aug  3 19:36:05 2011
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{lccc}
@@ -102,7 +254,7 @@ eagle & 27.0\% & 29.1\% & 43.9\% \\
 \end{center}
 \end{table}
 % latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Tue Aug 02 17:46:04 2011
+% Wed Aug  3 19:36:05 2011
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{lccc}
