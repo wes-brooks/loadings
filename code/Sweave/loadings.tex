@@ -31,23 +31,23 @@ The next block of code produces a set of bar charts that show the relative contr
 
 
 \section{Variable selection}
-In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We use stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables. 
+In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We use stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables.
 
 
 \begin{table}[h]
     \begin{center}
     \begin{tabular}{lrl}
         Solids: & & \\
-        & Eagle & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=eagle_nosnow)), collapse=", ")) }\\
-        & Joos & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow)), collapse=", ")) }\\
-        & Otter & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=otter_nosnow)), collapse=", ")) }\\
-        & Brewery & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_stot_tot", data=brewery_nosnow)), collapse=", ")) }\\
+        & Eagle & theisen, antecedent\_qbase, p15max, p60max\\
+        & Joos & theisen, antecedent\_qbase, p15max, ap\_2day\\
+        & Otter & theisen, antecedent\_qbase, antecedent\_tmean, julian\\
+        & Brewery & theisen, p30max, tmean\\
         \hline \\
         Phosphorus: & & \\
-        & Eagle & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow)), collapse=", ")) }\\
-        & Joos & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow)), collapse=", ")) }\\
-        & Otter & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=otter_nosnow)), collapse=", ")) }\\
-        & Brewery & \Sexpr{ gsub( pattern="_", replacement="\\_", paste(parse_args(stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow)), collapse=", ")) }\\
+        & Eagle & theisen, antecedent\_qbase, tmean, tmax, p15max, p30max\\
+        & Joos & theisen, antecedent\_qbase, p15max, ap\_2day\\
+        & Otter & theisen, antecedent\_qbase, tmean, julian\\
+        & Brewery & theisen, p30max, tmean, ap\_3day\\
     \end{tabular}
     \end{center}
 \end{table}
@@ -238,7 +238,7 @@ The next block prints a table of the proportion of total phosphorus loading due 
 
 
 % latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Wed Aug  3 19:36:05 2011
+% Thu Aug  4 13:20:15 2011
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{lccc}
@@ -254,7 +254,7 @@ eagle & 27.0\% & 29.1\% & 43.9\% \\
 \end{center}
 \end{table}
 % latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Wed Aug  3 19:36:05 2011
+% Thu Aug  4 13:20:15 2011
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{lccc}
@@ -263,7 +263,7 @@ eagle & 27.0\% & 29.1\% & 43.9\% \\
 eagle & 32.8\% & 22.9\% & 44.2\% \\ 
   joosvalley & 36.4\% & 16.9\% & 46.7\% \\ 
   otter & 46.5\% & 16.6\% & 36.9\% \\ 
-  brewery & NA\% & NA\% & NA\% \\ 
+  brewery & 49.6\% & 4.5\% & 45.9\% \\ 
   \end{tabular}
 \caption{Proportion of total phosphorus loading contributed by each type of event}
 \label{tab:ptot}
@@ -288,7 +288,7 @@ Produce plots of the proportion of the suspended solids and phosphorus (both tot
 \includegraphics{loadings-fig2}
     \end{center}
     \vspace{-10mm}
-    \caption{Cumulative storm loadings at the three creeks.\label{bars}}
+    \caption{Cumulative storm loadings at the four creeks.\label{bars}}
 \end{figure}
 
 
@@ -353,7 +353,7 @@ Figure out what proportion of total sediment loading is contributed by the top 1
 
 
 
-The top 10\% of events contributed 89.1\% of the sediment loading at Eagle Creek, 73.1\% of the sediment loading at Otter Creek, and 93.4\% of the sediment loading at Joos Valley Creek.\\
+The top 10\% of events contributed 89.1\% of the sediment loading at Eagle Creek, 73.1\% of the sediment loading at Otter Creek, 93.4\% of the sediment loading at Joos Valley Creek, and 90.4\% of the sediment loading at Joos Valley Creek.\\
 
 Now we want to know how these major events are distributed within the event classes; that is, whether snowmelt tends to produce major loading events, or whether it is the post-snow events. Note that the \_tot column measures the total loading during an event. The snowmelt-driven events are different in kind than the rainfall-driven ones because they don't require continuous rain during the event. If the snowmelt-driven events are caused by warm weather, it seems reasonable that a single event might last for many days and cause more loading than a more-intense rainfall event that only lasts a day or two. To account for this, we will look both at total loading (\_tot) and average daily loading during an event (\_avg).\\
 
@@ -368,6 +368,8 @@ Now we want to know how these major events are distributed within the event clas
         Otter & 41\% & 42\% & 11\% & 19\% & 48\% & 40\% \\
         Joos & 46\% & 31\% & 11\% & 17\% & 43\% & 52\% \\
         
+        Brewery & 56\% & 52\% & 6\% & 6\% & 38\% & 42\% \\
+        
     \end{tabular}
     \end{center}
 \end{table}
@@ -381,27 +383,27 @@ The table shows that the major loading events that produce the majority of the l
 \begin{table}[h]
     \begin{center}
     \begin{tabular}{llccccc}
-        &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
+        &  &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
         Creek & Period & All events & Major events & Loading & Major events & Loading \\
         \hline 
         \multirow{3}{*}{Aggregated} & Snowmelt & 
         48\% &
         28\% & 
         40\% & 
-NA
-NA
+        39\% & 
+        48\% \\
         & Early post-snow & 
         10\% &
         23\% & 
         14\% & 
-NA
-NA
+        17\% & 
+        13\% \\
         & Late post-snow & 
         43\% &
         49\% & 
         46\% & 
-NA
-NA
+        44\% & 
+        39\% \\
         
         \hline 
         \multirow{3}{*}{Eagle} & Snowmelt & 
@@ -462,6 +464,26 @@ NA
         40\% & 
         37\% & 
         30\% \\
+        
+        \hline 
+        \multirow{3}{*}{Brewery} & Snowmelt & 
+        56\% &
+        33\% & 
+        52\% & 
+        50\% & 
+        60\% \\
+        & Early post-snow & 
+        6\% &
+        5\% & 
+        6\% & 
+        5\% & 
+        4\% \\
+        & Late post-snow & 
+        38\% &
+        63\% & 
+        42\% & 
+        46\% & 
+        37\% \\
     \end{tabular}
     \end{center}
 \end{table}
