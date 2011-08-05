@@ -149,14 +149,11 @@ for(stream_name in streams) {
     aggregate = rbind(aggregate, stream) }
 @
 
-\section{Introduction}
-Minimizing the erosion of sediment into streams is a goal for water quality managers. In order to develop plans to limit the amount of sediment that gets into streams, those managers need to know how sediment gets into the water. 
 
-The next block of code produces a set of bar charts that show the relative contributions of the snow-driven events, post-snow-pre-vegetation events, and the post-vegetation events.\\
 
 
 <<label=bubble_plots, echo=False, include=False>>=
-#The "_no" dataframes exclude the snowfall-influenced events.
+#The "_nosnow" dataframes exclude the snowfall-influenced events.
 for(stream_name in streams) {
     stream = get(stream_name)
     assign( paste(stream_name, "_nosnow", sep=""), stream[stream$event_class!=1,] )
@@ -175,30 +172,9 @@ for(stream_name in streams) {
 #This function extracts the terms in the model formula.
 parse_args <- function(model) {
     s = attr(model$model, 'names')
-    return( s )
-    }
-
-#This function uses the BIC to screen variables, returning the 'step' object.
-stepwise_BIC <- function(target, data) {
-    d = data[,c(target, "num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", "ei", "duration", "ap_1day", "ap_2day", "ap_3day", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "julian", "antecedent_qbase", "theisen", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")]
-
-    formula = as.formula( paste(target, "~.") )
-    fm1 <- lm(formula, data=d, x=T)
+    return( s ) }
     
-    d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
-    names(d)[1] = target
-    fm2 <- lm(formula, data=d)
-    screened = step(fm2, direction='both', k=log(dim(d)[1]))
     
-    terms = parse_args(screened)
-    target = terms[1]
-    predictors = terms[-1]
-    formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
-    
-    model = lm(formula, data=data, x=T)
-    return(model)
-    }
-
 #This function ranks the predictors in the model based on their impact on the output.
 rank_predictors <- function(model) {
     terms = parse_args(model)
@@ -212,8 +188,8 @@ rank_predictors <- function(model) {
         influence = c(influence, abs(coefs[predictor]*sd(data[,predictor]))) }
     
     influence = sort(influence, decreasing=T)
-    return(influence)
-    }
+    return(influence) }
+
 
 r2 <- function(model){
     actual = model$residual+model$fitted
@@ -221,32 +197,52 @@ r2 <- function(model){
     rss = sum(model$residual**2)
     tss = sum((actual-mean(actual))**2)
     
-    return( 1-rss/tss )
-}
+    return( 1-rss/tss ) }
+
 
 #This function adds variables one-by-one to the model, finding the R^2 at each step.
-r2_step <- function(model, variables) {
+r2_step <- function(model, variables, data) {
     output = attr(model$model, "names")[1]
     call = paste(output, "~", names(variables)[1], sep="")
-    data = model$x
     
     r_square = vector()
 
-    for(variable in names(variables)) {
-        print(call)
+    for(variable in names(variables)[-1]) {
         f = as.formula(call)
-        model = lm(formula=f, data=d)
+        model = lm(formula=f, data=data)
         r_square = c(r_square, r2(model))
-        call = paste(call, "+", variable)
-        
-    }
+        call = paste(call, "+", variable) }
     
     model = update(model, formula=call)
     r_square = c(r_square, r2(model))
     
-    return( r_square )
-}
+    return( r_square ) }
 
+
+#This function uses the BIC to screen variables, returning the 'step' object.
+stepwise_BIC <- function(target, data) {
+    d = data[,c(target, "num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", "ei", "duration", "ap_1day", "ap_2day", "ap_3day", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "julian", "antecedent_qbase", "theisen", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")]
+    result = list()
+    formula = as.formula( paste(target, "~.") )
+    fm1 <- lm(formula, data=d, x=T)
+    
+    d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
+    names(d)[1] = target
+    fm2 <- lm(formula, data=d)
+    screened = step(fm2, direction='both', k=log(dim(d)[1]), trace=FALSE)
+    
+    terms = parse_args(screened)
+    target = terms[1]
+    predictors = terms[-1]
+    formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
+    
+    model = lm(formula, data=data, x=T)
+    
+    #Put the results in a list object
+    result$model = model
+    result$ranked = rank_predictors(model)
+    result$R2 = r2_step(model, result$ranked, data)
+    return(result) }
 @
 
 
@@ -255,53 +251,53 @@ In order to make a model of the load carried by the stream, we need to select th
 
 
 <<label=variable_selection, echo=False>>=
-es = rank_predictors(stepwise_BIC(target="log_stot_tot", data=eagle_nosnow))
-js = rank_predictors(stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow))
-os = rank_predictors(stepwise_BIC(target="log_stot_tot", data=otter_nosnow))
-bs = rank_predictors(stepwise_BIC(target="log_stot_tot", data=brewery_nosnow))
+es = stepwise_BIC(target="log_stot_tot", data=eagle_nosnow)
+js = stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow)
+os = stepwise_BIC(target="log_stot_tot", data=otter_nosnow)
+bs = stepwise_BIC(target="log_stot_tot", data=brewery_nosnow)
 
-ep = rank_predictors(stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow))
-jp = rank_predictors(stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow))
-op = rank_predictors(stepwise_BIC(target="log_ptot_tot", data=otter_nosnow))
-bp = rank_predictors(stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow))
+ep = stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow)
+jp = stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow)
+op = stepwise_BIC(target="log_ptot_tot", data=otter_nosnow)
+bp = stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow)
 @
 
 \begin{table}[h]
     \begin{center}
-    \begin{tabular}{lrl}
-        Solids: & & \\
-        & Eagle & \Sexpr{ paste(names(es), collapse=", ") }\\
-        & Joos & \Sexpr{ paste(names(js), collapse=", ") }\\
-        & Otter & \Sexpr{ paste(names(os), collapse=", ") }\\
-        & Brewery & \Sexpr{ paste(names(bs), collapse=", ") }\\
-        \hline \\
-        Phosphorus: & & \\
-        & Eagle & \Sexpr{ paste(names(ep), collapse=", ") }\\
-        & Joos & \Sexpr{ paste(names(jp), collapse=", ") }\\
-        & Otter & \Sexpr{ paste(names(op), collapse=", ") }\\
-        & Brewery & \Sexpr{ paste(names(bp), collapse=", ") }\\
+    \begin{tabular}{ll}
+        \textbf{Solids} & \\
+        \hspace{5mm} Eagle: & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs$ranked), collapse=", ") }
+    \vspace{2mm}\\
+        \textbf{Phosphorus} & \\
+        \hspace{5mm} Eagle: & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
     \end{tabular}
     \end{center}
 \end{table}
 
 
-\begin{table}[h]
-    \begin{center}
-    \begin{tabular}{lrl}
-        Solids: & & \\
-        & Eagle & \Sexpr{ paste(names(rank_predictors(stepwise_BIC(target="log_stot_tot", data=eagle_nosnow))), collapse=", ") }\\
-        & Joos & \Sexpr{ paste(names(rank_predictors(stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow))), collapse=", ") }\\
-        & Otter & \Sexpr{ paste(names(rank_predictors(stepwise_BIC(target="log_stot_tot", data=otter_nosnow))), collapse=", ") }\\
-        & Brewery & \Sexpr{ paste(names(rank_predictors(stepwise_BIC(target="log_stot_tot", data=brewery_nosnow))), collapse=", ") }\\
-        \hline \\
-        Phosphorus: & & \\
-        & Eagle & \Sexpr{ paste(names(rank_predictors(stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow))), collapse=", ") }\\
-        & Joos & \Sexpr{ paste(names(rank_predictors(stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow))), collapse=", ") }\\
-        & Otter & \Sexpr{ paste(names(rank_predictors(stepwise_BIC(target="log_ptot_tot", data=otter_nosnow))), collapse=", ") }\\
-        & Brewery & \Sexpr{ paste(names(rank_predictors(stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow))), collapse=", ") }\\
-    \end{tabular}
-    \end{center}
-\end{table}
+%\begin{table}[h]
+%    \begin{center}
+%    \begin{tabular}{lrl}
+%        Solids: & & \\
+%        & Eagle & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
+%        & Joos & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
+%        & Otter & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
+%        & Brewery & \Sexpr{ paste(names(bs$ranked), collapse=", ") }\\
+%        \hline \\
+%        Phosphorus: & & \\
+%        & Eagle & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
+%        & Joos & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
+%        & Otter & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
+%        & Brewery & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
+%    \end{tabular}
+%    \end{center}
+%\end{table}
 
 
 
@@ -569,24 +565,53 @@ Figure out what proportion of total sediment loading is contributed by the top 1
 
 
 <<label=proportion, include=False, echo=False>>=
-target = "stot_tot"
-
+targets = c("stot_tot", "ptot_tot")
 q_90 = list()
-for(stream_name in streams){
-    stream = get(stream_name)
-    stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9),1,0))    
-    proportion = sum(stream[stream$major==1,'stot_tot'], na.rm=T)/sum(stream[,'stot_tot'], na.rm=T)
-    q_90[stream_name] = proportion
-    assign(stream_name, stream) }
+
+for(target in targets) {
+    q=vector()
+    for(stream_name in streams){
+        stream = get(stream_name)
+        stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))    
+        proportion = sum(stream[stream$major==1,target], na.rm=T)/sum(stream[,target], na.rm=T)
+        q = c(q, proportion)
+        assign(stream_name, stream) }
+        
+    names(q) = streams
+    q_90[[target]] = q }
 @
 
 
 
 
 
-The top 10\% of events contributed \Sexpr{round(100*q_90$eagle,1)}\% of the sediment loading at Eagle Creek, \Sexpr{round(100*q_90$otter,1)}\% of the sediment loading at Otter Creek, \Sexpr{round(100*q_90$joosvalley,1)}\% of the sediment loading at Joos Valley Creek, and \Sexpr{round(100*q_90$brewery,1)}\% of the sediment loading at Brewery Creek.\\
+\section{Data}
 
-Now we want to know how these major events are distributed within the event classes; that is, whether snowmelt tends to produce major loading events, or whether it is the post-snow events. Note that the \_tot column measures the total loading during an event. The snowmelt-driven events are different in kind than the rainfall-driven ones because they don't require continuous rain during the event. If the snowmelt-driven events are caused by warm weather, it seems reasonable that a single event might last for many days and cause more loading than a more-intense rainfall event that only lasts a day or two. To account for this, we will look both at total loading (\_tot) and average daily loading during an event (\_avg).\\
+\subsection{Description}
+The data in this report comes from four Wisconsin streams that were monitored (with some gaps in data collection) between 1989 and 2007. The streams and the period during which each was monitored are:
+
+\begin{table}[h]
+    \begin{tabular}{r l}
+        \textbf{Stream} & \textbf{Monitored} \\
+        Eagle & 1991-1994, 2003-2007\\
+        Joos Valley & 1990-1994, 2002-2007\\
+        Otter & 1990-1997, 2000-2002\\
+        Brewery & 1989, 1994-2002, 2004-2005\\
+    \end{tabular}
+\end{table}
+
+Each entry in our data set represents one "loading event", which is defined based on the hydrograph - the event begins when the loading rises from a base level toward a peak, and ends when the loading falls back to its new base level. Typically, the loading rises during and after a storm, when rainfall erodes the soil and washes sediment into the stream. Other times, sediment is carried by melting snow.\\
+
+Different potential predictor variables are measured during the two different categories of event (rainfall-driven and snowmelt-driven). Data on the amount of rainfall is only collected when the ground is free of snow because snow interferes with the rain gauges. Data on the amount of snowmelt during an event is only available during some of the snowmelt-driven events (e.g. we cannot estimate the amount of snow that melted when there was additional snow falling at the same time). Because of this, the two categories are modeled separately.\\
+
+Within the category of events that are driven by rainfall, we investigate making a further split (on May 15 each year) between "early-season" and "late-season" events. Erosion may be more common early in the spring, before most of the summer's vegetation appears, which would alter the relationship between our inputs and outputs. See the Modeling section for further discussion of this split.\\
+
+\subsection{Exploratory Analysis}
+Our anaysis targets two outputs: the phosphorus and sediment loads carried by each stream. Using "Rainmaker" software, each load can be broken into two parts: base load and storm load. We will consider models of the storm load and of the total load.\\
+
+Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{names(q_90$stot_tot)[q_90$stot_tot==min(q_90$stot_tot)]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{names(q_90$stot_tot)[q_90$stot_tot==max(q_90$stot_tot)]}) of the total sediment load and \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{names(q_90$ptot_tot)[q_90$ptot_tot==min(q_90$ptot_tot)]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{names(q_90$ptot_tot)[q_90$ptot_tot==max(q_90$ptot_tot)]}) of the total phosphorus load.\\
+
+
 
 <<echo=False>>=
 prp_major = proportions(streams, "major", col.names=c("snowmelt-driven", "early post-snow", "late post-snow"))
@@ -605,6 +630,66 @@ prp_all = proportions(streams, "event", col.names=c("snowmelt-driven", "early po
         
         Brewery & \Sexpr{round(100*prp_all['brewery',1], 0)}\% & \Sexpr{round(100*prp_major['brewery',1], 0)}\% & \Sexpr{round(100*prp_all['brewery',2], 0)}\% & \Sexpr{round(100*prp_major['brewery',2], 0)}\% & \Sexpr{round(100*prp_all['brewery',3], 0)}\% & \Sexpr{round(100*prp_major['brewery',3], 0)}\% \\
         
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{lrl}
+    Stream & $R^2$ & Model terms \\
+    \hline
+    \hspace{-3mm} \textbf{Solids} & & \\
+    Eagle & & \\
+    & \Sexpr{round(es$R2[1], 3)} & \Sexpr{names(es$ranked)[1]}\\
+    & \Sexpr{round(es$R2[2], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]}\\
+    & \Sexpr{round(es$R2[3], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]}\\
+    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]} + \Sexpr{names(es$ranked)[4]}\\
+    
+    Joos & & \\
+    & \Sexpr{round(js$R2[1], 3)} & \Sexpr{names(js$ranked)[1]}\\
+    & \Sexpr{round(js$R2[2], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]}\\
+    & \Sexpr{round(js$R2[3], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]}\\
+    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]} + \Sexpr{names(js$ranked)[4]}\\
+
+    Otter & & \\
+    & \Sexpr{round(os$R2[1], 3)} & \Sexpr{names(os$ranked)[1]}\\
+    & \Sexpr{round(os$R2[2], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]}\\
+    & \Sexpr{round(os$R2[3], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]}\\
+    & \Sexpr{round(os$R2[4], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]} + \Sexpr{names(os$ranked)[4]}\\
+
+    Brewery & & \\
+    & \Sexpr{round(bs$R2[1], 3)} & \Sexpr{names(bs$ranked)[1]}\\
+    & \Sexpr{round(bs$R2[2], 3)} & \Sexpr{names(bs$ranked)[1]} + \Sexpr{names(bs$ranked)[2]}\\
+    & \Sexpr{round(bs$R2[3], 3)} & \Sexpr{names(bs$ranked)[1]} + \Sexpr{names(bs$ranked)[2]} + \Sexpr{names(bs$ranked)[3]}
+    \vspace{3mm}\\
+
+    \hspace{-3mm} \textbf{Phosphorus} & & \\
+    Eagle & & \\
+    & \Sexpr{round(ep$R2[1], 3)} & \Sexpr{names(ep$ranked)[1]}\\
+    & \Sexpr{round(ep$R2[2], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]}\\
+    & \Sexpr{round(ep$R2[3], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]}\\
+    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]} + \Sexpr{names(ep$ranked)[4]}\\
+    
+    Joos & & \\
+    & \Sexpr{round(jp$R2[1], 3)} & \Sexpr{names(jp$ranked)[1]}\\
+    & \Sexpr{round(jp$R2[2], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]}\\
+    & \Sexpr{round(jp$R2[3], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]} + \Sexpr{names(jp$ranked)[3]}\\
+    & \Sexpr{round(jp$R2[4], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]} + \Sexpr{names(jp$ranked)[3]} + \Sexpr{names(jp$ranked)[4]}\\
+
+    Otter & & \\
+    & \Sexpr{round(op$R2[1], 3)} & \Sexpr{names(op$ranked)[1]}\\
+    & \Sexpr{round(op$R2[2], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]}\\
+    & \Sexpr{round(op$R2[3], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]}\\
+    & \Sexpr{round(op$R2[4], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]} + \Sexpr{names(op$ranked)[4]}\\
+
+    Brewery & & \\
+    & \Sexpr{round(bp$R2[1], 3)} & \Sexpr{names(bp$ranked)[1]}\\
+    & \Sexpr{round(bp$R2[2], 3)} & \Sexpr{names(bp$ranked)[1]} + \Sexpr{names(bp$ranked)[2]}\\
+    & \Sexpr{round(bp$R2[3], 3)} & \Sexpr{names(bp$ranked)[1]} + \Sexpr{names(bp$ranked)[2]} + \Sexpr{names(bp$ranked)[3]}\\
+
     \end{tabular}
     \end{center}
 \end{table}

@@ -12,13 +12,14 @@
  This software is based upon work supported by the U.S. Army Research Office,
  the National Science Foundation and the National Institutes of Health.
   
- This job was started on: 08/04/11 at 13:20
+ This job was started on: 08/05/11 at 16:27
   
  Least squares regression tree
  Pruning by cross-validation
  Data description file: 
- /Users/wesley/git/loadings/code/Sweave/guide_description.txt
- Training sample file: /Users/wesley/git/loadings/code/Sweave/guide_data.csv
+ /Users/wesleybrooks/git/loadings/code/Sweave/guide_description.txt
+ Training sample file: 
+ /Users/wesleybrooks/git/loadings/code/Sweave/guide_data.csv
  Missing value code: NA
  Warning: N variables changed to S
  Warning: B variables changed to C
@@ -149,8 +150,8 @@
  ----------------------------
   
  LaTeX code for tree is in file: 
- /Users/wesley/git/loadings/code/Sweave/guide_latex_out.tex
+ /Users/wesleybrooks/git/loadings/code/Sweave/guide_latex_out.tex
  
  Proportion of variance (R-squared) explained by tree model =  0.3843
  
- Elapsed time in seconds:   0.1564530    
+ Elapsed time in seconds:   0.1139330    

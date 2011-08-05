@@ -21,10 +21,7 @@
 \maketitle
 
 
-\section{Introduction}
-Minimizing the erosion of sediment into streams is a goal for water quality managers. In order to develop plans to limit the amount of sediment that gets into streams, those managers need to know how sediment gets into the water. A recent study \cite{Danz:2010} has shown that 
 
-The next block of code produces a set of bar charts that show the relative contributions of the snow-driven events, post-snow-pre-vegetation events, and the post-vegetation events.\\
 
 
 
@@ -34,196 +31,46 @@ The next block of code produces a set of bar charts that show the relative contr
 In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We use stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables.
 
 
+
 \begin{table}[h]
     \begin{center}
-    \begin{tabular}{lrl}
-        Solids: & & \\
-        & Eagle & theisen, antecedent\_qbase, p15max, p60max\\
-        & Joos & theisen, antecedent\_qbase, p15max, ap\_2day\\
-        & Otter & theisen, antecedent\_qbase, antecedent\_tmean, julian\\
-        & Brewery & theisen, p30max, tmean\\
-        \hline \\
-        Phosphorus: & & \\
-        & Eagle & theisen, antecedent\_qbase, tmean, tmax, p15max, p30max\\
-        & Joos & theisen, antecedent\_qbase, p15max, ap\_2day\\
-        & Otter & theisen, antecedent\_qbase, tmean, julian\\
-        & Brewery & theisen, p30max, tmean, ap\_3day\\
+    \begin{tabular}{ll}
+        \textbf{Solids} & \\
+        \hspace{5mm} Eagle: & theisen, antecedent\_qbase, p15max, p60max\\
+        \hspace{5mm} Joos: & theisen, antecedent\_qbase, p15max, ap\_2day\\
+        \hspace{5mm} Otter: & theisen, antecedent\_qbase, antecedent\_tmean, julian\\
+        \hspace{5mm} Brewery: & theisen, p30max, tmean
+    \vspace{2mm}\\
+        \textbf{Phosphorus} & \\
+        \hspace{5mm} Eagle: & theisen, antecedent\_qbase, tmean, tmax, p15max, p30max\\
+        \hspace{5mm} Joos: & theisen, antecedent\_qbase, p15max, ap\_2day\\
+        \hspace{5mm} Otter: & theisen, antecedent\_qbase, tmean, julian\\
+        \hspace{5mm} Brewery: & theisen, p30max, tmean, ap\_3day\\
     \end{tabular}
     \end{center}
 \end{table}
 
 
+%\begin{table}[h]
+%    \begin{center}
+%    \begin{tabular}{lrl}
+%        Solids: & & \\
+%        & Eagle & theisen, antecedent_qbase, p15max, p60max\\
+%        & Joos & theisen, antecedent_qbase, p15max, ap_2day\\
+%        & Otter & theisen, antecedent_qbase, antecedent_tmean, julian\\
+%        & Brewery & theisen, p30max, tmean\\
+%        \hline \\
+%        Phosphorus: & & \\
+%        & Eagle & theisen, antecedent_qbase, tmean, tmax, p15max, p30max\\
+%        & Joos & theisen, antecedent_qbase, p15max, ap_2day\\
+%        & Otter & theisen, antecedent_qbase, tmean, julian\\
+%        & Brewery & theisen, p30max, tmean, ap_3day\\
+%    \end{tabular}
+%    \end{center}
+%\end{table}
 
-\begin{Schunk}
-\begin{Soutput}
-Call:
-lm(formula = log_stot_tot ~ antecedent_qbase + theisen, data = eagle_nosnow)
 
-Residuals:
-     Min       1Q   Median       3Q      Max 
--1.36985 -0.38539 -0.01636  0.36174  1.72769 
 
-Coefficients:
-                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      -1.35345    0.09295  -14.56   <2e-16 ***
-antecedent_qbase  0.15791    0.00996   15.86   <2e-16 ***
-theisen           0.86034    0.04071   21.13   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-
-Residual standard error: 0.5152 on 242 degrees of freedom
-  (2 observations deleted due to missingness)
-Multiple R-squared: 0.7554,	Adjusted R-squared: 0.7534 
-F-statistic: 373.8 on 2 and 242 DF,  p-value: < 2.2e-16 
-\end{Soutput}
-\begin{Soutput}
-Call:
-lm(formula = log_stot_tot ~ antecedent_qbase + theisen, data = joosvalley_nosnow)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--2.53840 -0.37911 -0.02301  0.32260  1.91902 
-
-Coefficients:
-                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      -1.34618    0.08411  -16.01   <2e-16 ***
-antecedent_qbase  0.19763    0.01717   11.51   <2e-16 ***
-theisen           0.85938    0.04357   19.72   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-
-Residual standard error: 0.5812 on 251 degrees of freedom
-  (3 observations deleted due to missingness)
-Multiple R-squared: 0.6647,	Adjusted R-squared: 0.662 
-F-statistic: 248.8 on 2 and 251 DF,  p-value: < 2.2e-16 
-\end{Soutput}
-\begin{Soutput}
-Call:
-lm(formula = log_stot_tot ~ antecedent_qbase + theisen, data = otter_nosnow)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--1.3252 -0.2519 -0.0092  0.2702  1.3771 
-
-Coefficients:
-                  Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      -1.379094   0.054726  -25.20   <2e-16 ***
-antecedent_qbase  0.121272   0.007881   15.39   <2e-16 ***
-theisen           0.934789   0.046258   20.21   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-
-Residual standard error: 0.4372 on 245 degrees of freedom
-  (2 observations deleted due to missingness)
-Multiple R-squared: 0.7385,	Adjusted R-squared: 0.7363 
-F-statistic: 345.9 on 2 and 245 DF,  p-value: < 2.2e-16 
-\end{Soutput}
-\begin{Soutput}
-Call:
-lm(formula = log_stot_tot ~ antecedent_qbase + theisen, data = brewery_nosnow)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--2.1064 -0.5225  0.1222  0.4687  1.7584 
-
-Coefficients:
-                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      -0.44937    0.19369  -2.320   0.0216 *  
-antecedent_qbase -0.07398    0.08070  -0.917   0.3606    
-theisen           0.69205    0.06874  10.068   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-
-Residual standard error: 0.7512 on 161 degrees of freedom
-  (128 observations deleted due to missingness)
-Multiple R-squared: 0.3884,	Adjusted R-squared: 0.3808 
-F-statistic: 51.13 on 2 and 161 DF,  p-value: < 2.2e-16 
-\end{Soutput}
-\begin{Soutput}
-Call:
-lm(formula = log_ptot_tot ~ antecedent_qbase + theisen, data = eagle_nosnow)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--0.98156 -0.23430  0.00308  0.20073  1.46374 
-
-Coefficients:
-                  Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      -0.145134   0.067172  -2.161   0.0317 *  
-antecedent_qbase  0.108446   0.007198  15.067   <2e-16 ***
-theisen           0.714547   0.029420  24.288   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-
-Residual standard error: 0.3723 on 242 degrees of freedom
-  (2 observations deleted due to missingness)
-Multiple R-squared: 0.7826,	Adjusted R-squared: 0.7808 
-F-statistic: 435.6 on 2 and 242 DF,  p-value: < 2.2e-16 
-\end{Soutput}
-\begin{Soutput}
-Call:
-lm(formula = log_ptot_tot ~ antecedent_qbase + theisen, data = joosvalley_nosnow)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--1.82432 -0.22751 -0.04278  0.20511  1.72563 
-
-Coefficients:
-                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      -0.26036    0.06052  -4.302 2.43e-05 ***
-antecedent_qbase  0.15271    0.01236  12.356  < 2e-16 ***
-theisen           0.70562    0.03136  22.504  < 2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-
-Residual standard error: 0.4182 on 251 degrees of freedom
-  (3 observations deleted due to missingness)
-Multiple R-squared: 0.7151,	Adjusted R-squared: 0.7128 
-F-statistic:   315 on 2 and 251 DF,  p-value: < 2.2e-16 
-\end{Soutput}
-\begin{Soutput}
-Call:
-lm(formula = log_ptot_tot ~ antecedent_qbase + theisen, data = otter_nosnow)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--0.99166 -0.25833  0.01595  0.27079  1.03556 
-
-Coefficients:
-                  Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      -0.045816   0.046203  -0.992    0.322    
-antecedent_qbase  0.102279   0.006653  15.372   <2e-16 ***
-theisen           0.783261   0.039054  20.056   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-
-Residual standard error: 0.3691 on 245 degrees of freedom
-  (2 observations deleted due to missingness)
-Multiple R-squared: 0.7365,	Adjusted R-squared: 0.7344 
-F-statistic: 342.4 on 2 and 245 DF,  p-value: < 2.2e-16 
-\end{Soutput}
-\begin{Soutput}
-Call:
-lm(formula = log_ptot_tot ~ antecedent_qbase + theisen, data = brewery_nosnow)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--1.46780 -0.31817  0.02745  0.28340  1.34380 
-
-Coefficients:
-                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)       0.55719    0.12465   4.470 1.47e-05 ***
-antecedent_qbase -0.10602    0.05193  -2.041   0.0428 *  
-theisen           0.69750    0.04424  15.767  < 2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
-
-Residual standard error: 0.4834 on 161 degrees of freedom
-  (128 observations deleted due to missingness)
-Multiple R-squared: 0.6111,	Adjusted R-squared: 0.6062 
-F-statistic: 126.5 on 2 and 161 DF,  p-value: < 2.2e-16 
-\end{Soutput}
-\end{Schunk}
 
 
 
@@ -238,7 +85,7 @@ The next block prints a table of the proportion of total phosphorus loading due 
 
 
 % latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Thu Aug  4 13:20:15 2011
+% Fri Aug  5 16:27:39 2011
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{lccc}
@@ -254,7 +101,7 @@ eagle & 27.0\% & 29.1\% & 43.9\% \\
 \end{center}
 \end{table}
 % latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Thu Aug  4 13:20:15 2011
+% Fri Aug  5 16:27:39 2011
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{lccc}
@@ -353,9 +200,33 @@ Figure out what proportion of total sediment loading is contributed by the top 1
 
 
 
-The top 10\% of events contributed 89.1\% of the sediment loading at Eagle Creek, 73.1\% of the sediment loading at Otter Creek, 93.4\% of the sediment loading at Joos Valley Creek, and 90.4\% of the sediment loading at Joos Valley Creek.\\
+\section{Data}
 
-Now we want to know how these major events are distributed within the event classes; that is, whether snowmelt tends to produce major loading events, or whether it is the post-snow events. Note that the \_tot column measures the total loading during an event. The snowmelt-driven events are different in kind than the rainfall-driven ones because they don't require continuous rain during the event. If the snowmelt-driven events are caused by warm weather, it seems reasonable that a single event might last for many days and cause more loading than a more-intense rainfall event that only lasts a day or two. To account for this, we will look both at total loading (\_tot) and average daily loading during an event (\_avg).\\
+\subsection{Description}
+The data in this report comes from four Wisconsin streams that were monitored (with some gaps in data collection) between 1989 and 2007. The streams and the period during which each was monitored are:
+
+\begin{table}[h]
+    \begin{tabular}{r l}
+        \textbf{Stream} & \textbf{Monitored} \\
+        Eagle & 1991-1994, 2003-2007\\
+        Joos Valley & 1990-1994, 2002-2007\\
+        Otter & 1990-1997, 2000-2002\\
+        Brewery & 1989, 1994-2002, 2004-2005\\
+    \end{tabular}
+\end{table}
+
+Each entry in our data set represents one "loading event", which is defined based on the hydrograph - the event begins when the loading rises from a base level toward a peak, and ends when the loading falls back to its new base level. Typically, the loading rises during and after a storm, when rainfall erodes the soil and washes sediment into the stream. Other times, sediment is carried by melting snow.\\
+
+Different potential predictor variables are measured during the two different categories of event (rainfall-driven and snowmelt-driven). Data on the amount of rainfall is only collected when the ground is free of snow because snow interferes with the rain gauges. Data on the amount of snowmelt during an event is only available during some of the snowmelt-driven events (e.g. we cannot estimate the amount of snow that melted when there was additional snow falling at the same time). Because of this, the two categories are modeled separately.\\
+
+Within the category of events that are driven by rainfall, we investigate making a further split (on May 15 each year) between "early-season" and "late-season" events. Erosion may be more common early in the spring, before most of the summer's vegetation appears, which would alter the relationship between our inputs and outputs. See the Modeling section for further discussion of this split.\\
+
+\subsection{Exploratory Analysis}
+Our anaysis targets two outputs: the phosphorus and sediment loads carried by each stream. Using "Rainmaker" software, each load can be broken into two parts: base load and storm load. We will consider models of the storm load and of the total load.\\
+
+Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between 73.1\% (at otter) and 93.4\% (at joosvalley) of the total sediment load and 64.6\% (at otter) and 88\% (at joosvalley) of the total phosphorus load.\\
+
+
 
 
 \begin{table}[h]
@@ -364,12 +235,72 @@ Now we want to know how these major events are distributed within the event clas
         & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Early post-snow}\ & \multicolumn{2}{c}{Late post-snow} \\
         Creek & All & Major & All & Major & All & Major \\
         \hline 
-        Eagle & 42\% & 30\% & 13\% & 19\% & 45\% & 51\% \\
-        Otter & 41\% & 42\% & 11\% & 19\% & 48\% & 40\% \\
-        Joos & 46\% & 31\% & 11\% & 17\% & 43\% & 52\% \\
+        Eagle & 42\% & 37\% & 13\% & 21\% & 45\% & 42\% \\
+        Otter & 41\% & 58\% & 11\% & 12\% & 48\% & 30\% \\
+        Joos & 46\% & 35\% & 11\% & 19\% & 43\% & 46\% \\
         
-        Brewery & 56\% & 52\% & 6\% & 6\% & 38\% & 42\% \\
+        Brewery & 56\% & 60\% & 6\% & 4\% & 38\% & 37\% \\
         
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{lrl}
+    Stream & $R^2$ & Model terms \\
+    \hline
+    \hspace{-3mm} \textbf{Solids} & & \\
+    Eagle & & \\
+    & 0.503 & theisen\\
+    & 0.755 & theisen + antecedent\_qbase\\
+    & 0.767 & theisen + antecedent\_qbase + p15max\\
+    & 0.773 & theisen + antecedent\_qbase + p15max + p60max\\
+    
+    Joos & & \\
+    & 0.49 & theisen\\
+    & 0.665 & theisen + antecedent\_qbase\\
+    & 0.692 & theisen + antecedent\_qbase + p15max\\
+    & 0.713 & theisen + antecedent\_qbase + p15max + ap\_2day\\
+
+    Otter & & \\
+    & 0.486 & theisen\\
+    & 0.738 & theisen + antecedent\_qbase\\
+    & 0.764 & theisen + antecedent\_qbase + antecedent\_tmean\\
+    & 0.773 & theisen + antecedent\_qbase + antecedent\_tmean + julian\\
+
+    Brewery & & \\
+    & 0.433 & theisen\\
+    & 0.459 & theisen + p30max\\
+    & 0.51 & theisen + p30max + tmean
+    \vspace{3mm}\\
+
+    \hspace{-3mm} \textbf{Phosphorus} & & \\
+    Eagle & & \\
+    & 0.579 & theisen\\
+    & 0.783 & theisen + antecedent\_qbase\\
+    & 0.784 & theisen + antecedent\_qbase + tmean\\
+    & 0.793 & theisen + antecedent\_qbase + tmean + tmax\\
+    
+    Joos & & \\
+    & 0.543 & theisen\\
+    & 0.715 & theisen + antecedent\_qbase\\
+    & 0.733 & theisen + antecedent\_qbase + p15max\\
+    & 0.755 & theisen + antecedent\_qbase + p15max + ap\_2day\\
+
+    Otter & & \\
+    & 0.483 & theisen\\
+    & 0.737 & theisen + antecedent\_qbase\\
+    & 0.762 & theisen + antecedent\_qbase + tmean\\
+    & 0.77 & theisen + antecedent\_qbase + tmean + julian\\
+
+    Brewery & & \\
+    & 0.602 & theisen\\
+    & 0.641 & theisen + p30max\\
+    & 0.674 & theisen + p30max + tmean\\
+
     \end{tabular}
     \end{center}
 \end{table}
