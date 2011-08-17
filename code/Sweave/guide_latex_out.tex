@@ -1,5 +1,5 @@
  \documentclass[12pt]{article}
- %File creation date: 08/14/11  at 16:56
+ %File creation date: 08/15/11  at 20:55
  \usepackage{pstricks,pst-node,pst-tree}
  \usepackage{geometry}
  \usepackage{lscape}
@@ -10,17 +10,14 @@
 \psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
 %     \def\psedge#1#2{\ncangle{#2}{#1}}
 %     \pstree[treemode=R]
-  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 2.20}}}{
-  \pstree{\Tcircle{ 2 }~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.98}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 4 }~{\textit{18.05}}
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 5 }~{\textit{272.43}}
-   }
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{578.23}}
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 49.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{0.00}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{0.33}}
  }
  \end{center}
 GUIDE piecewise constant least-squares regression tree model.
 At each intermediate node, a case goes to the left branch 
   if and only if the condition is satisfied.
-Number in italics beneath leaf node is sample mean of stottot.
+Number in italics beneath leaf node is sample mean of major.
  %\end{landscape}
  \end{document}

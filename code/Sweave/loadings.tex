@@ -38,52 +38,9 @@
 
 
 
-The next block prints a table of the proportion of total phosphorus loading due to each class of event at each site\\
-
-
-% latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Sun Aug 14 16:56:26 2011
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{lccc}
-  & snowmelt-driven & early post-snow & late post-snow \\ 
-  \hline
-eagle & 27.0\% & 29.1\% & 43.9\% \\ 
-  joosvalley & 26.9\% & 20.5\% & 52.6\% \\ 
-  otter & 35.4\% & 20.5\% & 44.1\% \\ 
-  brewery & 32.8\% & 4.5\% & 62.7\% \\ 
-  \end{tabular}
-\caption{Proportion of total suspended solids loading contributed by each type of event}
-\label{tab:stot}
-\end{center}
-\end{table}
-% latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Sun Aug 14 16:56:26 2011
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{lccc}
-  & snowmelt-driven & early post-snow & late post-snow \\ 
-  \hline
-eagle & 32.8\% & 22.9\% & 44.2\% \\ 
-  joosvalley & 36.4\% & 16.9\% & 46.7\% \\ 
-  otter & 46.5\% & 16.6\% & 36.9\% \\ 
-  brewery & 49.6\% & 4.5\% & 45.9\% \\ 
-  \end{tabular}
-\caption{Proportion of total phosphorus loading contributed by each type of event}
-\label{tab:ptot}
-\end{center}
-\end{table}
 
 
 
-
-
-
-
-
-
-
-Produce plots of the proportion of the suspended solids and phosphorus (both total loading and stormflow loading) that is contributed by each class of event at each stream site:\\
 
 
 
@@ -124,6 +81,325 @@ Produce plots of the proportion of the suspended solids and phosphorus (both tot
 
 
 
+
+
+
+
+
+
+
+
+\section{Data}
+
+\paragraph{Description}
+The data in this report comes from four Wisconsin streams that were monitored (with some gaps in data collection) between 1989 and 2007. The streams and the period during which each was monitored are:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{r l}
+        \textbf{Stream} & \textbf{Monitored} \\
+        Eagle & 1991-1994, 2003-2007\\
+        Joos Valley & 1990-1994, 2002-2007\\
+        Otter & 1990-1997, 2000-2002\\
+        Brewery & 1989, 1994-2002, 2004-2005\\
+    \end{tabular}
+\end{center}
+\end{table}
+
+Each entry in our data set represents one loading event, which is defined based on the hydrograph - the event begins when the loading rises from a base level toward a peak, and ends when the loading falls back to its new base level. Two kinds of load are measured for each event - the sediment load and the phosphorus load. There are two typical ways that sediment and phosphorus get into streams - they can be carried either by runoff during a rainstorm or by melting snow.\\
+
+Not all of the data can be collected for each event. For instance, rainfall is measured only when the ground is free of snow because snow interferes with the rain gauges. And the amount of snowmelt is estimated by multiplying the water content of the snow by the change in snow depth a warm snap, which is inaccurate when additional snow falls during that event. Broadly, there is one set of measurements that are made during rainfall-driven events and a different set of measurements that are made during snowmelt-driven events. Because of this, the two types of event are modeled separately.\\
+
+\paragraph{Exploratory Analysis}
+Our anaysis targets the phosphorus and sediment loads carried by each stream. Using Rainmaker software, each load can be broken into two parts: base load and storm load. We will consider models of the storm load and of the total load.\\
+
+We investigated splitting the rainfall-driven events into early and late events on May 15th of each year. If vegetation serves to hold the soil together, and to increase both evapotranspiration and infiltration, then erosion may be more common early in the spring before most of the summer's vegetation appears. If so, the relationship between rainfall and the stream's loading might change during the summer.\\
+
+The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
+
+% latex table generated in R 2.13.0 by xtable 1.5-6 package
+% Mon Aug 15 22:37:13 2011
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{lcc}
+  & snowmelt-driven & rainfall-driven \\ 
+  \hline
+eagle & 27.0\% & 73.0\% \\ 
+  joosvalley & 26.9\% & 73.1\% \\ 
+  otter & 35.4\% & 64.6\% \\ 
+  brewery & 32.8\% & 67.2\% \\ 
+  \end{tabular}
+\caption{Proportion of total suspended solids loading contributed by each type of event}
+\label{tab:stot}
+\end{center}
+\end{table}
+% latex table generated in R 2.13.0 by xtable 1.5-6 package
+% Mon Aug 15 22:37:13 2011
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{lcc}
+  & snowmelt-driven & rainfall-driven \\ 
+  \hline
+eagle & 32.8\% & 67.2\% \\ 
+  joosvalley & 36.4\% & 63.6\% \\ 
+  otter & 46.5\% & 53.5\% \\ 
+  brewery & 49.6\% & 50.4\% \\ 
+  \end{tabular}
+\caption{Proportion of total phosphorus loading contributed by each type of event}
+\label{tab:ptot}
+\end{center}
+\end{table}
+Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between 73.1\% (at Otter) and 93.4\% (at Joos) of the total sediment load and 64.6\% (at Otter) and 88\% (at Joos) of the total phosphorus load.\\
+
+Table \ref{proportion_of_majors} shows that, except possibly at Eagle and Joos, the proportion of major events is roughly in line with the proportion of all events during each season.\\
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{l r|l r|l}
+        & \multicolumn{4}{c} {Proportion of events driven by:} 
+        \vspace{1mm} \\
+        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Rainfall} \\
+        Creek & All Events & Major Events & All Events & Major Events \\
+        \hline 
+        Eagle & 42\% & 30\% & 58\% & 70\% \\
+        Otter & 41\% & 42\% & 59\% & 58\% \\
+        Joos & 46\% & 31\% & 54\% & 69\% \\
+        Brewery & 56\% & 52\% & 44\% & 48\% \\
+        
+    \end{tabular}
+    \end{center}
+    \caption{Each pair of columns represents either snowmelt-driven or rainfall-driven events. The column on the left of each pair is the proportion of all events in the study that occured during this period; the column on the right is the proportion of major events that occured during this period. \label{proportion_of_majors}}
+\end{table}
+
+
+
+\begin{table}[h] \small
+    \begin{center}
+    \begin{tabular}{lrl}
+    \textbf{Sediment} & $R^2$ & Model terms \\
+    \hline
+    \multirow{4}{*}{Eagle} & 0.503 & theisen\\
+    & 0.755 & theisen + antecedent\_qbase\\
+    & 0.756 & theisen + antecedent\_qbase + tmean\\
+    & 0.762 & theisen + antecedent\_qbase + tmean + tmax \\
+    & 0.762 & theisen + antecedent\_qbase + tmean + tmax + p15max \\
+    & 0.762 & theisen + antecedent\_qbase + tmean + tmax + p15max + p30max
+    \vspace{2mm}\\
+    \multirow{4}{*}{Joos} & 0.49 & theisen\\
+    & 0.665 & theisen + antecedent\_qbase\\
+    & 0.692 & theisen + antecedent\_qbase + p15max\\
+    & 0.701 & theisen + antecedent\_qbase + p15max + cos\_julian \\
+    & 0.701 & theisen + antecedent\_qbase + p15max + cos\_julian + antecedent\_tmean\\
+    & 0.701 & theisen + antecedent\_qbase + p15max + cos\_julian + antecedent\_tmean + ap\_2day
+    \vspace{2mm}\\
+    \multirow{4}{*}{Otter} & 0.486 & theisen\\
+    & 0.738 & theisen + antecedent\_qbase\\
+    & 0.762 & theisen + antecedent\_qbase + sin\_julian\\
+    & 0.781 & theisen + antecedent\_qbase + sin\_julian + antecedent\_tmean \\
+    & 0.781 & theisen + antecedent\_qbase + sin\_julian + antecedent\_tmean + ap\_3day
+    \vspace{2mm}\\
+    \multirow{3}{*}{Brewery} & 0.433 & theisen\\
+    & 0.459 & theisen + p30max\\
+    & 0.511 & theisen + p30max + tmean
+    \vspace{6mm}\\
+
+    \textbf{Phosphorus} & $R^2$ & Model terms \\
+    \hline
+    \multirow{4}{*}{Eagle} & 0.579 & theisen\\
+    & 0.783 & theisen + antecedent\_qbase\\
+    & 0.782 & theisen + antecedent\_qbase + tmean\\
+    & 0.792 & theisen + antecedent\_qbase + tmean + tmax \\
+    & 0.792 & theisen + antecedent\_qbase + tmean + p5max \\
+    & 0.792 & theisen + antecedent\_qbase + tmean + tmax + p5max + p30max
+    \vspace{2mm}\\
+    \multirow{4}{*}{Joos} & 0.543 & theisen\\
+    & 0.715 & theisen + antecedent\_qbase\\
+    & 0.733 & theisen + antecedent\_qbase + p15max\\
+    & 0.755 & theisen + antecedent\_qbase + p15max + ap\_2day
+    \vspace{2mm}\\
+    \multirow{4}{*}{Otter} & 0.483 & theisen\\
+    & 0.737 & theisen + antecedent\_qbase\\
+    & 0.762 & theisen + antecedent\_qbase + tmin\\
+    & 0.776 & theisen + antecedent\_qbase + tmin + sin\_julian\\
+    & 0.776 & theisen + antecedent\_qbase + tmin + sin\_julian + ap\_3day
+    \vspace{2mm}\\
+    \multirow{3}{*}{Brewery} & 0.602 & theisen\\
+    & 0.636 & theisen + ap\_3day\\
+    & 0.654 & theisen + ap\_3day + tmin + p60max\\
+
+    \end{tabular}
+    \caption{\label{r_square_nosnow}}
+    \end{center}
+\end{table}
+
+
+
+
+
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{llccccc}
+        &  &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
+        Creek & Period & All events & Loading & Major events & Loading & Major events \\
+        \hline 
+        \multirow{2}{*}{Aggregated} & Snowmelt & 
+        48\% &
+        28\% & 
+        40\% & 
+        39\% & 
+        48\% \\
+        & Post-snow & 
+        52\% &
+        72\% & 
+        60\% & 
+        61\% & 
+        52\%
+        
+        \vspace{2mm}\\
+        
+        \multirow{2}{*}{Eagle} & Snowmelt & 
+        42\% &
+        27\% & 
+        30\% & 
+        33\% & 
+        37\% \\
+        & Post-snow & 
+        58\% &
+        73\% & 
+        70\% & 
+        67\% & 
+        63\%
+        
+        \vspace{2mm}\\
+        
+        \multirow{2}{*}{Joos} & Snowmelt & 
+        46\% &
+        27\% & 
+        31\% & 
+        36\% & 
+        35\% \\
+        & Post-snow & 
+        54\% &
+        73\% & 
+        69\% & 
+        64\% & 
+        65\% 
+        
+        \vspace{2mm}\\
+        
+        \multirow{2}{*}{Otter} & Snowmelt & 
+        41\% &
+        35\% & 
+        42\% & 
+        47\% & 
+        58\% \\
+        & Post-snow & 
+        59\% &
+        65\% & 
+        58\% & 
+        53\% & 
+        42\% 
+        
+        \vspace{2mm}\\
+
+        \multirow{2}{*}{Brewery} & Snowmelt & 
+        56\% &
+        33\% & 
+        52\% & 
+        50\% & 
+        60\% \\
+        & Post-snow & 
+        44\% &
+        67\% & 
+        48\% & 
+        50\% & 
+        40\% \\
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
+
+
+\section{Analysis}
+
+\subsection{Variable selection}
+In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We used stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables.
+
+\paragraph{Rainfall-driven events} The predictors that survived the screening at each stream are listed in Table \ref{nosnow_predictor_list}. The variables are listed in the order of their importance to the model.\\
+
+\begin{table}[h!]\small
+    \begin{center}
+    \begin{tabular}{ll}
+        \textbf{Solids} & \\
+        \hspace{5mm} Eagle: & theisen, antecedent\_qbase, tmean, tmax, p15max, p30max\\
+        \hspace{5mm} Joos: & theisen, antecedent\_qbase, p15max, cos\_julian, antecedent\_tmean, ap\_2day\\
+        \hspace{5mm} Otter: & theisen, antecedent\_qbase, sin\_julian, antecedent\_tmean, ap\_3day\\
+        \hspace{5mm} Brewery: & theisen, p30max, tmean
+    \vspace{2mm}\\
+        \textbf{Phosphorus} & \\
+        \hspace{5mm} Eagle: & theisen, antecedent\_qbase, tmean, tmax, p5max, p30max\\
+        \hspace{5mm} Joos: & theisen, antecedent\_qbase, p15max, ap\_2day\\
+        \hspace{5mm} Otter: & theisen, antecedent\_qbase, tmin, sin\_julian, ap\_3day\\
+        \hspace{5mm} Brewery: & theisen, ap\_3day, tmin, p60max\\
+    \end{tabular}
+    \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the load. \label{nosnow_predictor_list}}
+    \end{center}
+\end{table}
+
+In every case, the theisen rainfall is the most important predictor, followed usually by antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (the exception is at Brewery Creek - see Table \ref{r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how wet is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water in the system.\\
+
+\paragraph{Snowmelt-driven events} We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order, like they were for the rainfall-driven events. The models selected by the BIC range in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
+
+At most sites, the most important predictor was a temperature measurement, either the maximum or the mean temperature during the loading event. The antecedent baseflow also appears to be important at most sites. It seems likely that, as in the case of rainfall-driven events, the loading is driven by the quantity of water that moves through the watershed during the event.
+
+\begin{table}[h!]\small
+    \begin{center}
+    \begin{tabular}{ll}
+        \textbf{Solids} & \\
+        \hspace{5mm} Eagle: & nws\_prec, tmax, nws\_snow, antecedent\_qbase, num\_days, sin\_julian\\
+        \hspace{5mm} Joos: & num\_days, tmax, nws\_prec, antecedent\_qbase, tmean, nws\_snow, sin\_julian\\
+        \hspace{5mm} Otter: & tmean, tmin, nws\_prec, antecedent\_qbase, nws\_snow, num\_days, sin\_julian\\
+        \hspace{5mm} Brewery: & num\_days, nws\_prec, sin\_julian, antecedent\_qbase
+    \vspace{2mm}\\
+        \textbf{Phosphorus} & \\
+        \hspace{5mm} Eagle: & tmax, nws\_prec, nws\_snow, num\_days, antecedent\_qbase, sin\_julian\\
+        \hspace{5mm} Joos: & num\_days, nws\_prec, antecedent\_qbase, sin\_julian, nws\_snow, tmax\\
+        \hspace{5mm} Otter: & tmean, tmin, antecedent\_qbase, nws\_prec, nws\_snow, num\_days, sin\_julian\\
+        \hspace{5mm} Brewery: & num\_days, nws\_prec, sin\_julian\\
+    \end{tabular}
+    \caption{The most important variables in the models for snowmelt-driven loading. The variables are ordered by their importance to the model of the load. \label{snow_predictor_list}}
+    \end{center}
+\end{table}
+
+\subsection{Major events}
+
+
+%\begin{table}[h]
+%    \begin{center}
+%    \begin{tabular}{lrl}
+%        Solids: & & \\
+%        & Eagle & theisen, antecedent_qbase, tmean, tmax, p15max, p30max\\
+%        & Joos & theisen, antecedent_qbase, p15max, cos_julian, antecedent_tmean, ap_2day\\
+%        & Otter & theisen, antecedent_qbase, sin_julian, antecedent_tmean, ap_3day\\
+%        & Brewery & theisen, p30max, tmean\\
+%        \hline \\
+%        Phosphorus: & & \\
+%        & Eagle & theisen, antecedent_qbase, tmean, tmax, p5max, p30max\\
+%        & Joos & theisen, antecedent_qbase, p15max, ap_2day\\
+%        & Otter & theisen, antecedent_qbase, tmin, sin_julian, ap_3day\\
+%        & Brewery & theisen, ap_3day, tmin, p60max\\
+%    \end{tabular}
+%    \end{center}
+%\end{table}
+
+
+
+
 \begin{figure}
     \begin{center}
 \includegraphics{loadings-figure1}
@@ -146,323 +422,12 @@ Produce plots of the proportion of the suspended solids and phosphorus (both tot
     \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-s}}
 \end{figure}
 
-
-
-Figure out what proportion of total sediment loading is contributed by the top 10\% of storms:\\
-
-
-
-
-
-
-
-
-\section{Data}
-
-\paragraph{Description}
-The data in this report comes from four Wisconsin streams that were monitored (with some gaps in data collection) between 1989 and 2007. The streams and the period during which each was monitored are:
-
-\begin{table}[h]
-    \begin{tabular}{r l}
-        \textbf{Stream} & \textbf{Monitored} \\
-        Eagle & 1991-1994, 2003-2007\\
-        Joos Valley & 1990-1994, 2002-2007\\
-        Otter & 1990-1997, 2000-2002\\
-        Brewery & 1989, 1994-2002, 2004-2005\\
-    \end{tabular}
-\end{table}
-
-Each entry in our data set represents one ``loading event", which is defined based on the hydrograph - the event begins when the loading rises from a base level toward a peak, and ends when the loading falls back to its new base level. Two kinds of load are measured for each event - the sediment load and the phosphorus load. There are two typical ways that sediment and phosphorus get into streams - they can be carried either by runoff during a rainstorm or by melting snow.\\
-
-Not all of the data can be collected for each event. For instance, rainfall is measured only when the ground is free of snow because snow interferes with the rain gauges. And the amount of snowmelt is estimated by multiplying the water content of the snow by the change in snow depth a warm snap, which is inaccurate when additional snow falls during that event. Broadly, there is one set of measurements that are made during rainfall-driven events and a different set of measurements that are made during snowmelt-driven events. Because of this, the two types of event are modeled separately.\\
-
-Within the category of events that are driven by rainfall, we investigate making a further split (on May 15 each year) between ``early post-snow" and ``late post-snow" events. Erosion may be more common early in the spring, before most of the summer's vegetation appears, which would alter the relationship between our inputs and outputs. See the Modeling section for further discussion of this split.\\
-
-\paragraph{Exploratory Analysis}
-Our anaysis targets the phosphorus and sediment loads carried by each stream. Using ``Rainmaker" software, each load can be broken into two parts: base load and storm load. We will consider models of the storm load and of the total load.\\
-
-Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between 0\% (at Eagle) and 0\% (at Eagle) of the total sediment load and 0\% (at Eagle) and 0\% (at Eagle) of the total phosphorus load.\\
-
-Table \ref{proportion_of_majors} shows that the major loading events that produce the majority of the loading can be occur during each of the three annual periods. However, the events caused by snowmelt produced a smaller proportion of major events than their proportion of all events, and their relative contribution to the total sediment load was smaller than their proportion of loading events. So while snowmelt \emph{can} cause a major loading event, a snowmelt-driven event is less likely to be a major event than is one driven by rainfall.\\
-
-
-\begin{table}[h]
+\begin{figure}
     \begin{center}
-    \begin{tabular}{lr|lr|lr|l}
-        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Early post-snow}\ & \multicolumn{2}{c}{Late post-snow} \\
-        Creek & All & Major & All & Major & All & Major \\
-        \hline 
-        Eagle & 42\% & 30\% & 13\% & 19\% & 45\% & 51\% \\
-        Otter & 41\% & 42\% & 11\% & 19\% & 48\% & 40\% \\
-        Joos & 46\% & 31\% & 11\% & 17\% & 43\% & 52\% \\
-        
-        Brewery & 56\% & 52\% & 6\% & 6\% & 38\% & 42\% \\
-        
-    \end{tabular}
+\includegraphics{loadings-figure4}
     \end{center}
-    \caption{Each pair of columns represents one of the three annual periods. The column on the left of each pair is the proportion of all events in the study that occured during this period; the column on the right is the proportion of major events that occured during this period. \label{proportion_of_majors}}
-\end{table}
-
-
-
-\begin{table}[h]
-    \begin{center}
-    \begin{tabular}{lrl}
-    \textbf{Sediment} & $R^2$ & Model terms \\
-    \hline
-    Eagle & 0.503 & theisen\\
-    & 0.755 & theisen + antecedent\_qbase\\
-    & 0.767 & theisen + antecedent\_qbase + p15max\\
-    & 0.773 & theisen + antecedent\_qbase + p15max + p60max\\
-    
-    Joos & & \\
-    & 0.49 & theisen\\
-    & 0.665 & theisen + antecedent\_qbase\\
-    & 0.692 & theisen + antecedent\_qbase + p15max\\
-    & 0.713 & theisen + antecedent\_qbase + p15max + ap\_2day\\
-
-    Otter & & \\
-    & 0.486 & theisen\\
-    & 0.738 & theisen + antecedent\_qbase\\
-    & 0.764 & theisen + antecedent\_qbase + antecedent\_tmean\\
-    & 0.773 & theisen + antecedent\_qbase + antecedent\_tmean + julian\\
-
-    Brewery & & \\
-    & 0.433 & theisen\\
-    & 0.459 & theisen + p30max\\
-    & 0.51 & theisen + p30max + tmean
-    \vspace{6mm}\\
-
-    \textbf{Phosphorus} & $R^2$ & Model terms \\
-    \hline
-    Eagle & 0.579 & theisen\\
-    & 0.783 & theisen + antecedent\_qbase\\
-    & 0.784 & theisen + antecedent\_qbase + tmean\\
-    & 0.793 & theisen + antecedent\_qbase + tmean + tmax\\
-    
-    Joos & & \\
-    & 0.543 & theisen\\
-    & 0.715 & theisen + antecedent\_qbase\\
-    & 0.733 & theisen + antecedent\_qbase + p15max\\
-    & 0.755 & theisen + antecedent\_qbase + p15max + ap\_2day\\
-
-    Otter & & \\
-    & 0.483 & theisen\\
-    & 0.737 & theisen + antecedent\_qbase\\
-    & 0.762 & theisen + antecedent\_qbase + tmean\\
-    & 0.77 & theisen + antecedent\_qbase + tmean + julian\\
-
-    Brewery & & \\
-    & 0.602 & theisen\\
-    & 0.641 & theisen + p30max\\
-    & 0.674 & theisen + p30max + tmean\\
-
-    \end{tabular}
-    \end{center}
-\end{table}
-
-
-
-
-
-
-
-\begin{table}[h]
-    \begin{center}
-    \begin{tabular}{llccccc}
-        &  &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
-        Creek & Period & All events & Major events & Loading & Major events & Loading \\
-        \hline 
-        \multirow{3}{*}{Aggregated} & Snowmelt & 
-        48\% &
-        28\% & 
-        40\% & 
-        39\% & 
-        48\% \\
-        & Early post-snow & 
-        10\% &
-        23\% & 
-        14\% & 
-        17\% & 
-        13\% \\
-        & Late post-snow & 
-        43\% &
-        49\% & 
-        46\% & 
-        44\% & 
-        39\% \\
-        
-        \hline 
-        \multirow{3}{*}{Eagle} & Snowmelt & 
-        42\% &
-        27\% & 
-        30\% & 
-        33\% & 
-        37\% \\
-        & Early post-snow & 
-        13\% &
-        29\% & 
-        19\% & 
-        23\% & 
-        21\% \\
-        & Late post-snow & 
-        45\% &
-        44\% & 
-        51\% & 
-        44\% & 
-        42\% \\
-        
-        \hline 
-        \multirow{3}{*}{Joos} & Snowmelt & 
-        46\% &
-        27\% & 
-        31\% & 
-        36\% & 
-        35\% \\
-        & Early post-snow & 
-        11\% &
-        20\% & 
-        17\% & 
-        17\% & 
-        19\% \\
-        & Late post-snow & 
-        43\% &
-        53\% & 
-        52\% & 
-        47\% & 
-        46\% \\
-        
-        \hline 
-        \multirow{3}{*}{Otter} & Snowmelt & 
-        41\% &
-        35\% & 
-        42\% & 
-        47\% & 
-        58\% \\
-        & Early post-snow & 
-        11\% &
-        20\% & 
-        19\% & 
-        17\% & 
-        12\% \\
-        & Late post-snow & 
-        48\% &
-        44\% & 
-        40\% & 
-        37\% & 
-        30\% \\
-        
-        \hline 
-        \multirow{3}{*}{Brewery} & Snowmelt & 
-        56\% &
-        33\% & 
-        52\% & 
-        50\% & 
-        60\% \\
-        & Early post-snow & 
-        6\% &
-        5\% & 
-        6\% & 
-        5\% & 
-        4\% \\
-        & Late post-snow & 
-        38\% &
-        63\% & 
-        42\% & 
-        46\% & 
-        37\% \\
-    \end{tabular}
-    \end{center}
-\end{table}
-
-
-
- %\begin{landscape}
- \begin{center}
-\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
-%     \def\psedge#1#2{\ncangle{#2}{#1}}
-%     \pstree[treemode=R]
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 1 }~{\textit{48.34}}
- \end{center}
-GUIDE piecewise constant least-squares regression tree model.
-At each intermediate node, a case goes to the left branch 
-  if and only if the condition is satisfied.
-Number in italics beneath leaf node is sample mean of stottot.
- %\end{landscape} %\begin{landscape}
- \begin{center}
-\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
-%     \def\psedge#1#2{\ncangle{#2}{#1}}
-%     \pstree[treemode=R]
-  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 1.91}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{22.17}}
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{1401.91}}
- }
- \end{center}
-GUIDE piecewise constant least-squares regression tree model.
-At each intermediate node, a case goes to the left branch 
-  if and only if the condition is satisfied.
-Number in italics beneath leaf node is sample mean of stottot.
- %\end{landscape} %\begin{landscape}
- \begin{center}
-\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
-%     \def\psedge#1#2{\ncangle{#2}{#1}}
-%     \pstree[treemode=R]
-  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 2.20}}}{
-  \pstree{\Tcircle{ 2 }~[tnpos=l]{\shortstack[r]{totalwater\\$\leq$ 1.98}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 4 }~{\textit{18.05}}
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 5 }~{\textit{272.43}}
-   }
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{578.23}}
- }
- \end{center}
-GUIDE piecewise constant least-squares regression tree model.
-At each intermediate node, a case goes to the left branch 
-  if and only if the condition is satisfied.
-Number in italics beneath leaf node is sample mean of stottot.
- %\end{landscape}
-
-
-
-\section{Analysis}
-
-\paragraph{Variable selection} In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We use stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables.
-
-\begin{table}[h]
-    \begin{center}
-    \begin{tabular}{ll}
-        \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & theisen, antecedent\_qbase, p15max, p60max\\
-        \hspace{5mm} Joos: & theisen, antecedent\_qbase, p15max, ap\_2day\\
-        \hspace{5mm} Otter: & theisen, antecedent\_qbase, antecedent\_tmean, julian\\
-        \hspace{5mm} Brewery: & theisen, p30max, tmean
-    \vspace{2mm}\\
-        \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & theisen, antecedent\_qbase, tmean, tmax, p15max, p30max\\
-        \hspace{5mm} Joos: & theisen, antecedent\_qbase, p15max, ap\_2day\\
-        \hspace{5mm} Otter: & theisen, antecedent\_qbase, tmean, julian\\
-        \hspace{5mm} Brewery: & theisen, p30max, tmean, ap\_3day\\
-    \end{tabular}
-    \end{center}
-\end{table}
-
-
-%\begin{table}[h]
-%    \begin{center}
-%    \begin{tabular}{lrl}
-%        Solids: & & \\
-%        & Eagle & theisen, antecedent_qbase, p15max, p60max\\
-%        & Joos & theisen, antecedent_qbase, p15max, ap_2day\\
-%        & Otter & theisen, antecedent_qbase, antecedent_tmean, julian\\
-%        & Brewery & theisen, p30max, tmean\\
-%        \hline \\
-%        Phosphorus: & & \\
-%        & Eagle & theisen, antecedent_qbase, tmean, tmax, p15max, p30max\\
-%        & Joos & theisen, antecedent_qbase, p15max, ap_2day\\
-%        & Otter & theisen, antecedent_qbase, tmean, julian\\
-%        & Brewery & theisen, p30max, tmean, ap_3day\\
-%    \end{tabular}
-%    \end{center}
-%\end{table}
+    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load contributed by that event. \label{bubbles}}
+\end{figure}
 
 
 

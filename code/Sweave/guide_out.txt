@@ -12,7 +12,7 @@
  This software is based upon work supported by the U.S. Army Research Office,
  the National Science Foundation and the National Institutes of Health.
   
- This job was started on: 08/14/11 at 16:56
+ This job was started on: 08/15/11 at 20:55
   
  Least squares regression tree
  Pruning by cross-validation
@@ -21,8 +21,7 @@
  Training sample file: /Users/wesley/git/loadings/code/Sweave/guide_data.csv
  Missing value code: NA
  Warning: N variables changed to S
- Warning: B variables changed to C
- Dependent variable is stottot
+ Dependent variable is major
  Piecewise constant model
  Length of longest data entry = 20
   
@@ -32,26 +31,24 @@
  For categorical variables, #categories include one for missing values
  Column  Variable          Variable  Minimum      Maximum    Number of     Number
  number    name              type     value        value     categories    missing
-       1  stottot               d   5.0000E-02   1.9795E+03
-       2  nwsprec               s   1.0000E-02   1.0800E+01                     6
-       3  eventtype             c                                   1
-       4  totalwater            s   1.0000E-01   4.8300E+00
-       5  ap1day                s   0.0000E+00   1.9000E-01                    22
-       6  ap2day                s   0.0000E+00   2.5090E+00                     3
-       7  ap3day                s   0.0000E+00   2.8240E+00                     5
-       8  julian                s   1.3600E+02   3.4400E+02
-       9  theisen               s   1.0100E-01   4.8300E+00
-      10  sinjulian             s  -9.9999E-01   9.9952E-01
-      11  cosjulian             s  -9.9937E-01   9.9965E-01
-      12  tmean                 s   1.1000E+01   7.2000E+01                     5
-      13  tmax                  s   3.7000E+01   9.5000E+01                     7
-      14  tmin                  s   1.1000E+01   7.2000E+01                     5
+       1  major                 d   0.0000E+00   1.0000E+00
+       2  nwsprec               s   0.0000E+00   2.7200E+00                     5
+       3  totalwater            s   4.0000E-02   2.2400E+00                   105
+       4  nwssnow               s   0.0000E+00   2.6800E+01                    13
+       5  meltsnow              s   0.0000E+00   1.2900E+01                    65
+       6  tmean                 s  -1.6000E+01   6.3000E+01                     6
+       7  tmax                  s  -7.0000E+00   8.2000E+01                     5
+       8  tmin                  s  -2.4000E+01   5.0000E+01                     3
+       9  sweq                  s   3.3300E-02   4.7700E-01                    93
+      10  julian                s   2.0000E+00   3.6600E+02
+      11  sinjulian             s  -8.4062E-01   9.9999E-01
+      12  cosjulian             s  -2.1772E-01   1.0000E+00
   
       Total  #cases w/  #cases w/
      #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
-        193          0         30        0        0        0       12        0        1
+        182          0        134        0        0        0       11        0        0
  No weight variable in data file
- Number of cases used for training =  193
+ Number of cases used for training =  182
  Number of cases excluded due to zero weight or missing D-values =  0
   
  Interaction tests on all variables
@@ -63,94 +60,66 @@
   
  Size and CV MSE and SE of subtrees:
   Tree   #Tnodes  Mean MSE   SE(Mean)    BSE(Mean)  Median MSE  BSE(Median)
-    1       24   5.691E+04   2.042E+04   1.659E+04   2.588E+04   3.011E+04
-    2       23   5.691E+04   2.042E+04   1.659E+04   2.589E+04   3.011E+04
-    3       22   5.691E+04   2.042E+04   1.659E+04   2.589E+04   3.011E+04
-    4       21   5.691E+04   2.042E+04   1.659E+04   2.589E+04   3.011E+04
-    5       20   5.691E+04   2.042E+04   1.659E+04   2.589E+04   3.011E+04
-    6       19   5.691E+04   2.042E+04   1.659E+04   2.589E+04   3.011E+04
-    7       16   5.691E+04   2.042E+04   1.659E+04   2.589E+04   3.011E+04
-    8       11   5.690E+04   2.042E+04   1.659E+04   2.588E+04   3.011E+04
-    9        9   5.691E+04   2.042E+04   1.659E+04   2.588E+04   3.011E+04
-   10        8   5.690E+04   2.042E+04   1.659E+04   2.589E+04   3.009E+04
-   11        7   5.688E+04   2.043E+04   1.659E+04   2.581E+04   3.008E+04
-   12        5   5.644E+04   2.043E+04   1.652E+04   2.591E+04   2.983E+04
-   13        4   5.634E+04   2.043E+04   1.645E+04   2.591E+04   2.984E+04
-   14**      3   5.473E+04   2.023E+04   1.585E+04   2.546E+04   2.963E+04
-   15++      2   6.245E+04   2.516E+04   1.929E+04   2.518E+04   2.921E+04
-   16        1   6.844E+04   2.742E+04   1.988E+04   4.717E+04   2.917E+04
+    1        6   6.771E-02   1.515E-02   1.054E-02   7.230E-02   1.400E-02
+    2        5   7.114E-02   1.547E-02   9.795E-03   7.344E-02   1.024E-02
+    3        4   7.397E-02   1.576E-02   8.497E-03   8.402E-02   1.049E-02
+    4        3   6.722E-02   1.466E-02   7.748E-03   7.773E-02   9.920E-03
+    5**      2   6.490E-02   1.226E-02   5.470E-03   6.919E-02   6.858E-03
+    6        1   8.036E-02   1.733E-02   6.774E-03   9.699E-02   1.700E-02
   
  0-SE tree based on mean is marked with *
  0-SE tree based on median with bootstrap SE is marked with +
  Selected-SE tree based on mean using naive SE is marked with **
  Selected-SE tree based on mean using bootstrap SE is marked with --
  Selected-SE tree based on median and bootstrap SE is marked with ++
- ** tree same as -- tree
- + tree same as ++ tree
- * tree same as ** tree
- * tree same as -- tree
+ * tree, ** tree, + tree, and ++ tree all the same
   
  Following tree is based on mean CV with naive SE estimate.
   
  Structure of final tree. Each terminal node is marked with a T.
   
- D-mean is mean of stottot in the node
+ D-mean is mean of major in the node
  Cases fit give the number of cases used to fit node
  MSE is residual sum of squares divided by number of cases in node
         Node    Total    Cases Matrix    Node      Node      Split      Interacting
         label   cases      fit  rank    D-mean     MSE       variable   variable
-           1      193      193     1  7.398E+01  6.815E+04   theisen              
-           2      176      176     1  2.528E+01  8.209E+03   totalwater           
-           4T     171      171     1  1.805E+01  3.020E+03   totalwater           
-           5T       5        5     1  2.724E+02  1.228E+05                        
-           3T      17       17     1  5.782E+02  4.099E+05   tmin                 
+           1      182      182     1  8.791E-02  8.018E-02   tmax                 
+           2T     134      134     1  0.000E+00  0.000E+00                        
+           3T      48       48     1  3.333E-01  2.222E-01   sweq                 
   
- Number of terminal nodes of final tree: 3
- Total number of nodes of final tree:    5
+ Number of terminal nodes of final tree: 2
+ Total number of nodes of final tree:    3
   
  Regression tree:
   
-  Node 1: theisen <=    2.19650
-    Node 2: totalwater <=    1.97500
-      Node 4: stottot-mean =  18.05146
-    Node 2: totalwater >    1.97500
-      Node 5: stottot-mean =  2.72426E+02
-  Node 1: theisen >    2.19650
-    Node 3: stottot-mean =  5.78228E+02
+  Node 1: tmax <=   49.50000
+    Node 2: major-mean =  0.00000E+00
+  Node 1: tmax >   49.50000
+    Node 3: major-mean =   0.33333
  
  ***************************************************************
  In the following the predictor node mean is mean of complete cases
   
  Node 1: Intermediate node
- A case goes into Node 2 if theisen <=  2.1965000E+00
-              theisen  mean =  8.8011E-01
+ A case goes into Node 2 if tmax <=  4.9500000E+01
+                 tmax  mean =  4.2503E+01
  ----------------------------
- Node 2: Intermediate node
- A case goes into Node 4 if totalwater <=  1.9750000E+00
-           totalwater  mean =  6.7869E-01
- ----------------------------
- Node 4: Terminal node
+ Node 2: Terminal node
  Coefficients of least squares regression function:
  Regressor     Coefficient      t-stat  p-val 
- Constant       1.8051E+01        4.28 0.0000                                    
- Predicted mean =   18.0514619883041     
- ----------------------------
- Node 5: Terminal node
- Coefficients of least squares regression function:
- Regressor     Coefficient      t-stat  p-val 
- Constant       2.7243E+02        1.55 0.3862                                    
- Predicted mean =   272.426000000000     
+ Constant       0.0000E+00    1.80+307 0.0000                                    
+ Predicted mean =  0.000000000000000E+000
  ----------------------------
  Node 3: Terminal node
  Coefficients of least squares regression function:
  Regressor     Coefficient      t-stat  p-val 
- Constant       5.7823E+02        3.61 0.0023                                    
- Predicted mean =   578.228235294117     
+ Constant       3.3333E-01        4.85 0.0000                                    
+ Predicted mean =  0.333333333333333     
  ----------------------------
   
  LaTeX code for tree is in file: 
  /Users/wesley/git/loadings/code/Sweave/guide_latex_out.tex
  
- Proportion of variance (R-squared) explained by tree model =  0.3843
+ Proportion of variance (R-squared) explained by tree model =  0.2691
  
- Elapsed time in seconds:   0.1543500    
+ Elapsed time in seconds:   7.4902996E-02

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.9997.4 (TeX Live 2010) (format=xelatex 2010.7.21)  14 AUG 2011 17:00
+This is XeTeX, Version 3.1415926-2.2-0.9997.4 (TeX Live 2010) (format=xelatex 2010.7.21)  15 AUG 2011 22:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -436,16 +436,8 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 21.
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 41--42
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 86--87
-
- []
-
 File: loadings-fig2.pdf Graphic file (type QTm)
+
 <use  "loadings-fig2.pdf" >
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -457,6 +449,96 @@ File: loadings-boxplot_ptot.pdf Graphic file (type QTm)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--110
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--112
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--115
+
+ []
+
+[1
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 152--153
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--155
+
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (100.32709pt too wide) in paragraph at lines 179--232
+ [] 
+ []
+
+
+LaTeX Warning: Float too large for page by 77.13791pt on input line 234.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (31.31982pt too wide) in paragraph at lines 244--321
+ [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 333--334
+
+ []
+
+
+Overfull \hbox (14.14131pt too wide) in paragraph at lines 337--350
+ [] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
+
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 356--357
+
+ []
+
+
+Overfull \hbox (14.49193pt too wide) in paragraph at lines 362--375
+ [] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 File: loadings-figure1.pdf Graphic file (type QTm)
 <use  "loadings-figure1.pdf" >
 File: loadings-figure2.pdf Graphic file (type QTm)
@@ -464,68 +546,16 @@ File: loadings-figure2.pdf Graphic file (type QTm)
 File: loadings-figure3.pdf Graphic file (type QTm)
 
 <use  "loadings-figure3.pdf" >
-Underfull \hbox (badness 10000) in paragraph at lines 151--152
-
- []
-
-[1
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 175--176
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 177--178
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 179--180
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 182--183
-
- []
-
-[2]
-Underfull \hbox (badness 10000) in paragraph at lines 184--185
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 186--187
-
- []
-
-
-LaTeX Warning: Float too large for page by 25.39449pt on input line 262.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Overfull \hbox (62.26744pt too wide) in paragraph at lines 272--375
- [] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[3]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-(./loadings.bbl) [4] [5] [6] [7] [8] [9] [10] [11] (./loadings.aux) ) 
+File: loadings-figure4.pdf Graphic file (type QTm)
+ <use  "loadings-figure4.pdf" > (./loadings.bbl)
+[4] [5] [6] [7] [8] [9] [10] [11] [12] (./loadings.aux) ) 
 Here is how much of TeX's memory you used:
- 6486 strings out of 494542
- 93374 string characters out of 3157455
- 195243 words of memory out of 3000000
- 9637 multiletter control sequences out of 15000+200000
- 25597 words of font info for 53 fonts, out of 3000000 for 9000
+ 6497 strings out of 494542
+ 93581 string characters out of 3157455
+ 197278 words of memory out of 3000000
+ 9647 multiletter control sequences out of 15000+200000
+ 28382 words of font info for 60 fonts, out of 3000000 for 9000
  669 hyphenation exceptions out of 8191
- 44i,10n,74p,610b,434s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,10n,74p,614b,433s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on loadings.pdf (11 pages).
+Output written on loadings.pdf (12 pages).

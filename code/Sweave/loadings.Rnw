@@ -62,8 +62,8 @@ for(stream_name in streams) {
         stream <- as.factor(stream_name)
         start_day <- as.POSIXlt( as.character(start_day), format="%m/%d/%Y" )
         julian <- start_day$yday + 1
-        sin_julian <- sin(julian)
-        cos_julian <- cos(julian)
+        sin_julian <- sin(julian*2*pi/365)
+        cos_julian <- cos(julian*2*pi/365)
         for(output in outputs) {
             assign( paste('log_', output, sep=""), log10(get(output)+0.01) ) }
         m <- as.factor(ifelse(is.na(m),0,ifelse(m=='M','M',0)))
@@ -146,6 +146,7 @@ for(stream_name in streams) {
       
 	#save the class identifiers back to the stream's data frame
 	stream$event_class = as.factor(class)
+    stream$snow = ifelse(stream$event_class==1,TRUE, FALSE)
 	assign(stream_name, stream)
     aggregate = rbind(aggregate, stream) }
 @
@@ -155,15 +156,16 @@ for(stream_name in streams) {
 
 <<label=bubble_plots, echo=False, include=False>>=
 #The "_nosnow" dataframes exclude the snowfall-influenced events.
+layout(matrix(1:4,4,1))
 for(stream_name in streams) {
     stream = get(stream_name)
-    assign( paste(stream_name, "_nosnow", sep=""), stream[stream$event_class!=1,] )
-    assign( paste(stream_name, "_snow", sep=""), stream[stream$event_class==1,] )
+    assign( paste(stream_name, "_nosnow", sep=""), stream[stream$snow==FALSE,] )
+    assign( paste(stream_name, "_snow", sep=""), stream[stream$snow==TRUE,] )
 
     #Produce the bubble plots
-    symbols(stream[stream$event_class!=1,]$antecedent_qbase,
-            stream[stream$event_class!=1,]$theisen,
-            circles=sqrt( stream[stream$event_class!=1,]$sstorm_tot/pi ),
+    symbols(stream[stream$snow==FALSE,]$antecedent_qbase,
+            stream[stream$snow==FALSE,]$theisen,
+            circles=sqrt( stream[stream$snow==FALSE,]$sstorm_tot/pi ),
             inches=0.25, fg="white", bg="red", bty='n',
             xlim=range(stream[!is.na(stream$antecedent_qbase),]$antecedent_qbase)*c(0.9,1.1),
             ylim=range(stream[!is.na(stream$theisen),]$theisen)*c(0.9,1.1)) }
@@ -186,7 +188,7 @@ rank_predictors <- function(model) {
     
     influence = vector()
     for(predictor in predictors) {
-        influence = c(influence, abs(coefs[predictor]*sd(data[,predictor]))) }
+        influence = c(influence, abs(coefs[predictor]*sd(data[,predictor], na.rm=T))) }
     
     influence = sort(influence, decreasing=T)
     return(influence) }
@@ -222,7 +224,33 @@ r2_step <- function(model, variables, data) {
 
 #This function uses the BIC to screen variables, returning the 'step' object.
 stepwise_BIC <- function(target, data) {
-    d = data[,c(target, "num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", "ei", "duration", "ap_1day", "ap_2day", "ap_3day", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "julian", "antecedent_qbase", "theisen", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")]
+    d = data[,c(target, "num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", "ei", "duration", "ap_1day", "ap_2day", "ap_3day", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")]
+    result = list()
+    formula = as.formula( paste(target, "~.") )
+    fm1 <- lm(formula, data=d, x=T)
+    
+    d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
+    names(d)[1] = target
+    fm2 <- lm(formula, data=d)
+    screened = step(fm2, direction='both', k=log(dim(d)[1]), trace=FALSE)
+    
+    terms = parse_args(screened)
+    target = terms[1]
+    predictors = terms[-1]
+    formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
+    
+    model = lm(formula, data=data, x=T)
+    
+    #Put the results in a list object
+    result$model = model
+    result$ranked = rank_predictors(model)
+    result$R2 = r2_step(model, result$ranked, data)
+    return(result) }
+
+
+#Use the BIC to screen the predictors that are available when snow is on the ground.
+stepwise_BIC_snow <- function(target, data) {
+    d = data[,c(target, "num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")]
     result = list()
     formula = as.formula( paste(target, "~.") )
     fm1 <- lm(formula, data=d, x=T)
@@ -248,7 +276,7 @@ stepwise_BIC <- function(target, data) {
 
 
 
-<<label=variable_selection, echo=False>>=
+<<label=variable_selection_nosnow, echo=False>>=
 es = stepwise_BIC(target="log_stot_tot", data=eagle_nosnow)
 js = stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow)
 os = stepwise_BIC(target="log_stot_tot", data=otter_nosnow)
@@ -260,6 +288,17 @@ op = stepwise_BIC(target="log_ptot_tot", data=otter_nosnow)
 bp = stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow)
 @
 
+<<label=variable_selection_snow, echo=False>>=
+es_snow = stepwise_BIC_snow(target="log_stot_tot", data=eagle_snow)
+js_snow = stepwise_BIC_snow(target="log_stot_tot", data=joosvalley_snow)
+os_snow = stepwise_BIC_snow(target="log_stot_tot", data=otter_snow)
+bs_snow = stepwise_BIC_snow(target="log_stot_tot", data=brewery_snow)
+
+ep_snow = stepwise_BIC_snow(target="log_ptot_tot", data=eagle_snow)
+jp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=joosvalley_snow)
+op_snow = stepwise_BIC_snow(target="log_ptot_tot", data=otter_snow)
+bp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=brewery_snow)
+@
 
 <<label=proportions, echo=False, include=False>>=
 targets = c('ptot_tot', 'pstorm_tot', 'stot_tot', 'sstorm_tot')
@@ -269,7 +308,7 @@ proportions <- function(streams, target, col.names) {
 	result = matrix( nrow=length(streams), ncol=length(col.names) )
 	for(i in 1:length(streams)) {
 		stream = get(streams[i])
-		result[i,] = sapply(1:length(col.names), (function(x) sum(stream[stream$event_class==x,target], na.rm=T)/sum(stream[,target], na.rm=T))) }
+		result[i,] = sapply(c(TRUE, FALSE), (function(x) sum(stream[stream$snow==x,target], na.rm=T)/sum(stream[,target], na.rm=T))) }
     result = data.frame(result)
     names(result) = col.names
     row.names(result) = streams
@@ -313,8 +352,8 @@ major <- function(data, target, q=0.9, strata='') {
 
 <<include=False, echo=False>>=
 for( target in targets ) {
-    p = percentages(streams, target, col.names=c("snowmelt-driven", "early post-snow", "late post-snow"))
-    pp = as.matrix( proportions(streams, target, col.names=c("snowmelt-driven", "early post-snow", "late post-snow")) )
+    p = percentages(streams, target, col.names=c("snowmelt-driven", "rainfall-driven"))
+    pp = as.matrix( proportions(streams, target, col.names=c("snowmelt-driven", "rainfall-driven")) )
     
     variable_name = paste(target, "_percentages", sep="")
     variable_name2 = paste(target, "_proportions", sep="")
@@ -325,25 +364,6 @@ for( target in targets ) {
 
 
 
-The next block prints a table of the proportion of total phosphorus loading due to each class of event at each site\\
-
-
-<<label=total_solids_table,echo=FALSE,results=tex>>=
-library(xtable)
-print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event", label="tab:stot", align=c('l', 'c', 'c', 'c')), table.placement="h",
-caption.placement="bottom", hline.after=0 )
-@
-
-<<label=total_phosphorus_table,echo=FALSE,results=tex>>=
-library(xtable)
-print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loading contributed by each type of event", label="tab:ptot", align=c('l', 'c', 'c', 'c')), table.placement="h",
-caption.placement="bottom", hline.after=0 )
-@
-
-
-
-
-
 
 
 
@@ -351,16 +371,12 @@ caption.placement="bottom", hline.after=0 )
 layout(matrix(1:4,2,2))
 colors <- gray.colors(dim(ptot_tot_proportions)[1])
 
-barplot(ptot_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
-barplot(stot_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
-barplot(pstorm_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of phosphorus")
-barplot(sstorm_tot_proportions, beside=T, names.arg=c("snow","pre-veg","veg"), ylab="proportion of solids")
+barplot(ptot_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of phosphorus")
+barplot(stot_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of solids")
+barplot(pstorm_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of phosphorus")
+barplot(sstorm_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of solids")
 legend(x="topleft", legend=streams, fill=colors, bty='n')
 @
-
-
-
-Produce plots of the proportion of the suspended solids and phosphorus (both total loading and stormflow loading) that is contributed by each class of event at each stream site:\\
 
 
 
@@ -379,38 +395,38 @@ Produce plots of the proportion of the suspended solids and phosphorus (both tot
 
 <<label=stot_boxplots, echo=False, include=False>>=
 yy=c(-2, 3.5)
-event_classes = c("snow","pre-veg","veg")
+event_classes = c("snow","rain")
 
 #Eagle creek
-boxplot(log_stot_tot~event_class, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log(sediment load)", names=event_classes, xlim=c(1,15))
+boxplot(log_stot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log(sediment load)", names=event_classes, xlim=c(1,11))
 
 #Otter creek
-boxplot(log_stot_tot~event_class, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=5:7, yaxt='n')
+boxplot(log_stot_tot~snow, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=4:5, yaxt='n')
 
 #Joos Valley creek
-boxplot(log_stot_tot~event_class, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=9:11, yaxt='n')
+boxplot(log_stot_tot~snow, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=7:8, yaxt='n')
 
 #Brewery creek
-boxplot(log_stot_tot~event_class, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=13:15, yaxt='n')
+boxplot(log_stot_tot~snow, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=10:11, yaxt='n')
 @
 
 
 
 <<label=ptot_boxplots, echo=False, include=False>>=
 yy=c(-1, 4)
-event_classes = c("snow","pre-veg","veg")
+event_classes = c("snow","rain")
 
 #Eagle creek
-boxplot(log_ptot_tot~event_class, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log(phosphorus load)", names=event_classes, xlim=c(1,11))
+boxplot(log_ptot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log(phosphorus load)", names=event_classes, xlim=c(1,11))
 
 #Otter creek
-boxplot(log_ptot_tot~event_class, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=5:7)
+boxplot(log_ptot_tot~snow, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=4:5)
 
 #Joos Valley creek
-boxplot(log_ptot_tot~event_class, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=9:11)
+boxplot(log_ptot_tot~snow, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=7:8)
 
 #Brewery creek
-boxplot(log_ptot_tot~event_class, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=13:15)
+boxplot(log_ptot_tot~snow, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=10:11)
 @
 
 
@@ -437,40 +453,42 @@ boxplot(log_ptot_tot~event_class, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4
 line_type=1
 color=1
 yy=c(0,1)
+xx = c(0,max(aggregate[aggregate$snow==FALSE,]$theisen, na.rm=T))
 
 for(stream in streams) {
     stream_data = get(stream)
     
-    non_snow = stream_data[stream_data$event_class!=1,]
-    non_snow_sorted = non_snow[ order(non_snow$nws_prec) ,]
+    non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot),]
+    non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
     y = cumsum(non_snow_sorted$stot_tot)/sum(stream_data$stot_tot, na.rm=T)
     
     stream_data = get(stream)
-    plot( x=non_snow_sorted$nws_prec, y=y, type='l', xlab="NWS precipitation",
-        ylab=paste('proportion of total sediment load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy)
+    plot( x=non_snow_sorted$theisen, y=y, type='l', xlab="Theisen rainfall",
+        ylab=paste('proportion of total sediment load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy, xlim=xx)
     par(new=T, ann=F, xaxt='n', yaxt='n')
     line_type = line_type+1 }
-legend(x='topleft', bty='n', legend=streams, lty=c(1,2,3))
+legend(x='topleft', bty='n', legend=streams, lty=1:length(streams))
 @
 
 <<label=cumulative_ploading_by_rainfall, include=False, echo=False>>=
 line_type=1
 color=1
 yy=c(0,1)
+xx = c(0,max(aggregate[aggregate$snow==FALSE,]$theisen, na.rm=T))
 
 for(stream in streams) {
     stream_data = get(stream)
     
-    non_snow = stream_data[stream_data$event_class!=1,]
-    non_snow_sorted = non_snow[ order(non_snow$nws_prec) ,]
-    y = cumsum(non_snow_sorted$ptot_tot)/sum(stream_data$ptot_tot)
+    non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot) & !is.na(stream_data$theisen),]
+    non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
+    y = cumsum(non_snow_sorted$ptot_tot)/sum(stream_data$ptot_tot, na.rm=T)
     
     stream_data = get(stream)
-    plot( x=non_snow_sorted$nws_prec, y=y, type='l', xlab="NWS precipitation",
-        ylab=paste('proportion of total sediment load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy)
+    plot( x=non_snow_sorted$theisen, y=y, type='l', xlab="Theisen rainfall",
+        ylab=paste('proportion of total phosphorus load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy, xlim=xx)
     par(new=T, ann=F, xaxt='n', yaxt='n')
     line_type = line_type+1 }
-legend(x='topleft', bty='n', legend=streams, lty=c(1,2,3))
+legend(x='topleft', bty='n', legend=streams, lty=1:length(streams))
 @
 
 
@@ -479,12 +497,333 @@ line_type=1
 color=1
 for(stream in streams) {
     stream_data = get(stream)
-    plot( cumsum(sort(stream_data[, 'sstorm_tot'], decreasing=T)), type='l',
-        ylab=paste('cumulative storm loading'), lty=line_type, col=color, bty='n', lwd=2)
+    plot( y=cumsum(sort(stream_data[,'sstorm_tot'], decreasing=T)) / sum(stream_data[,'sstorm_tot']), x=1:length(stream_data[,'sstorm_tot']) / length(stream_data[,'sstorm_tot']), type='l', xlab='fraction of events', ylab='fraction of loading', lty=line_type, col=color, bty='n', lwd=2)
     par(new=T, ann=F, xaxt='n', yaxt='n')
     line_type = line_type+1 }
-legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3))
+legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3,4))
 @
+
+
+
+
+
+
+<<label=proportion, include=False, echo=False>>=
+targets = c("stot_tot", "ptot_tot")
+
+q_90 = list()
+
+for(target in targets) {
+    output = paste(target, "_major", sep="")
+    q=vector()
+    for(stream_name in streams){
+        stream = get(stream_name)
+        stream[output] <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
+        stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
+        proportion = sum(stream[stream[output]==1,target], na.rm=T)/sum(stream[,target], na.rm=T)
+        q = c(q, proportion)
+        assign(stream_name, stream) }
+        
+    names(q) = streams
+    q_90[[target]] = q }
+@
+
+
+
+
+
+\section{Data}
+
+\paragraph{Description}
+The data in this report comes from four Wisconsin streams that were monitored (with some gaps in data collection) between 1989 and 2007. The streams and the period during which each was monitored are:
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{r l}
+        \textbf{Stream} & \textbf{Monitored} \\
+        Eagle & 1991-1994, 2003-2007\\
+        Joos Valley & 1990-1994, 2002-2007\\
+        Otter & 1990-1997, 2000-2002\\
+        Brewery & 1989, 1994-2002, 2004-2005\\
+    \end{tabular}
+\end{center}
+\end{table}
+
+Each entry in our data set represents one loading event, which is defined based on the hydrograph - the event begins when the loading rises from a base level toward a peak, and ends when the loading falls back to its new base level. Two kinds of load are measured for each event - the sediment load and the phosphorus load. There are two typical ways that sediment and phosphorus get into streams - they can be carried either by runoff during a rainstorm or by melting snow.\\
+
+Not all of the data can be collected for each event. For instance, rainfall is measured only when the ground is free of snow because snow interferes with the rain gauges. And the amount of snowmelt is estimated by multiplying the water content of the snow by the change in snow depth a warm snap, which is inaccurate when additional snow falls during that event. Broadly, there is one set of measurements that are made during rainfall-driven events and a different set of measurements that are made during snowmelt-driven events. Because of this, the two types of event are modeled separately.\\
+
+\paragraph{Exploratory Analysis}
+Our anaysis targets the phosphorus and sediment loads carried by each stream. Using Rainmaker software, each load can be broken into two parts: base load and storm load. We will consider models of the storm load and of the total load.\\
+
+We investigated splitting the rainfall-driven events into early and late events on May 15th of each year. If vegetation serves to hold the soil together, and to increase both evapotranspiration and infiltration, then erosion may be more common early in the spring before most of the summer's vegetation appears. If so, the relationship between rainfall and the stream's loading might change during the summer.\\
+
+The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
+
+<<label=total_solids_table,echo=FALSE,results=tex>>=
+library(xtable)
+print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event", label="tab:stot", align=c('l', 'c', 'c')),
+caption.placement="bottom", hline.after=0 )
+@
+
+<<label=total_phosphorus_table,echo=FALSE,results=tex>>=
+library(xtable)
+print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loading contributed by each type of event", label="tab:ptot", align=c('l', 'c', 'c')),
+caption.placement="bottom", hline.after=0 )
+@
+
+Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==min(q_90$stot_tot)]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==max(q_90$stot_tot)]]}) of the total sediment load and \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==min(q_90$ptot_tot)]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==max(q_90$ptot_tot)]]}) of the total phosphorus load.\\
+
+Table \ref{proportion_of_majors} shows that, except possibly at Eagle and Joos, the proportion of major events is roughly in line with the proportion of all events during each season.\\
+
+<<echo=False>>=
+prp_major = proportions(streams, "stot_tot_major", col.names=c("snowmelt-driven", "rainfall-driven"))
+prp_all = proportions(streams, "event", col.names=c("snowmelt-driven", "rainfall-driven"))
+@
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{l r|l r|l}
+        & \multicolumn{4}{c} {Proportion of events driven by:} 
+        \vspace{1mm} \\
+        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Rainfall} \\
+        Creek & All Events & Major Events & All Events & Major Events \\
+        \hline 
+        Eagle & \Sexpr{round(100*prp_all['eagle',1], 0)}\% & \Sexpr{round(100*prp_major['eagle',1], 0)}\% & \Sexpr{round(100*prp_all['eagle',2], 0)}\% & \Sexpr{round(100*prp_major['eagle',2], 0)}\% \\
+        Otter & \Sexpr{round(100*prp_all['otter',1], 0)}\% & \Sexpr{round(100*prp_major['otter',1], 0)}\% & \Sexpr{round(100*prp_all['otter',2], 0)}\% & \Sexpr{round(100*prp_major['otter',2], 0)}\% \\
+        Joos & \Sexpr{round(100*prp_all['joosvalley',1], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',1], 0)}\% & \Sexpr{round(100*prp_all['joosvalley',2], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',2], 0)}\% \\
+        Brewery & \Sexpr{round(100*prp_all['brewery',1], 0)}\% & \Sexpr{round(100*prp_major['brewery',1], 0)}\% & \Sexpr{round(100*prp_all['brewery',2], 0)}\% & \Sexpr{round(100*prp_major['brewery',2], 0)}\% \\
+        
+    \end{tabular}
+    \end{center}
+    \caption{Each pair of columns represents either snowmelt-driven or rainfall-driven events. The column on the left of each pair is the proportion of all events in the study that occured during this period; the column on the right is the proportion of major events that occured during this period. \label{proportion_of_majors}}
+\end{table}
+
+
+
+\begin{table}[h] \small
+    \begin{center}
+    \begin{tabular}{lrl}
+    \textbf{Sediment} & $R^2$ & Model terms \\
+    \hline
+    \multirow{4}{*}{Eagle} & \Sexpr{round(es$R2[1], 3)} & \Sexpr{names(es$ranked)[1]}\\
+    & \Sexpr{round(es$R2[2], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]}\\
+    & \Sexpr{round(es$R2[3], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]}\\
+    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]} + \Sexpr{names(es$ranked)[4]} \\
+    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]} + \Sexpr{names(es$ranked)[4]} + \Sexpr{names(es$ranked)[5]} \\
+    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]} + \Sexpr{names(es$ranked)[4]} + \Sexpr{names(es$ranked)[5]} + \Sexpr{names(es$ranked)[6]}
+    \vspace{2mm}\\
+    \multirow{4}{*}{Joos} & \Sexpr{round(js$R2[1], 3)} & \Sexpr{names(js$ranked)[1]}\\
+    & \Sexpr{round(js$R2[2], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]}\\
+    & \Sexpr{round(js$R2[3], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]}\\
+    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]} + \Sexpr{names(js$ranked)[4]} \\
+    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]} + \Sexpr{names(js$ranked)[4]} + \Sexpr{names(js$ranked)[5]}\\
+    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]} + \Sexpr{names(js$ranked)[4]} + \Sexpr{names(js$ranked)[5]} + \Sexpr{names(js$ranked)[6]}
+    \vspace{2mm}\\
+    \multirow{4}{*}{Otter} & \Sexpr{round(os$R2[1], 3)} & \Sexpr{names(os$ranked)[1]}\\
+    & \Sexpr{round(os$R2[2], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]}\\
+    & \Sexpr{round(os$R2[3], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]}\\
+    & \Sexpr{round(os$R2[4], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]} + \Sexpr{names(os$ranked)[4]} \\
+    & \Sexpr{round(os$R2[4], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]} + \Sexpr{names(os$ranked)[4]} + \Sexpr{names(os$ranked)[5]}
+    \vspace{2mm}\\
+    \multirow{3}{*}{Brewery} & \Sexpr{round(bs$R2[1], 3)} & \Sexpr{names(bs$ranked)[1]}\\
+    & \Sexpr{round(bs$R2[2], 3)} & \Sexpr{names(bs$ranked)[1]} + \Sexpr{names(bs$ranked)[2]}\\
+    & \Sexpr{round(bs$R2[3], 3)} & \Sexpr{names(bs$ranked)[1]} + \Sexpr{names(bs$ranked)[2]} + \Sexpr{names(bs$ranked)[3]}
+    \vspace{6mm}\\
+
+    \textbf{Phosphorus} & $R^2$ & Model terms \\
+    \hline
+    \multirow{4}{*}{Eagle} & \Sexpr{round(ep$R2[1], 3)} & \Sexpr{names(ep$ranked)[1]}\\
+    & \Sexpr{round(ep$R2[2], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]}\\
+    & \Sexpr{round(ep$R2[3], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]}\\
+    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]} + \Sexpr{names(ep$ranked)[4]} \\
+    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]} + \Sexpr{names(ep$ranked)[5]} \\
+    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]} + \Sexpr{names(ep$ranked)[4]} + \Sexpr{names(ep$ranked)[5]} + \Sexpr{names(ep$ranked)[6]}
+    \vspace{2mm}\\
+    \multirow{4}{*}{Joos} & \Sexpr{round(jp$R2[1], 3)} & \Sexpr{names(jp$ranked)[1]}\\
+    & \Sexpr{round(jp$R2[2], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]}\\
+    & \Sexpr{round(jp$R2[3], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]} + \Sexpr{names(jp$ranked)[3]}\\
+    & \Sexpr{round(jp$R2[4], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]} + \Sexpr{names(jp$ranked)[3]} + \Sexpr{names(jp$ranked)[4]}
+    \vspace{2mm}\\
+    \multirow{4}{*}{Otter} & \Sexpr{round(op$R2[1], 3)} & \Sexpr{names(op$ranked)[1]}\\
+    & \Sexpr{round(op$R2[2], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]}\\
+    & \Sexpr{round(op$R2[3], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]}\\
+    & \Sexpr{round(op$R2[4], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]} + \Sexpr{names(op$ranked)[4]}\\
+    & \Sexpr{round(op$R2[4], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]} + \Sexpr{names(op$ranked)[4]} + \Sexpr{names(op$ranked)[5]}
+    \vspace{2mm}\\
+    \multirow{3}{*}{Brewery} & \Sexpr{round(bp$R2[1], 3)} & \Sexpr{names(bp$ranked)[1]}\\
+    & \Sexpr{round(bp$R2[2], 3)} & \Sexpr{names(bp$ranked)[1]} + \Sexpr{names(bp$ranked)[2]}\\
+    & \Sexpr{round(bp$R2[3], 3)} & \Sexpr{names(bp$ranked)[1]} + \Sexpr{names(bp$ranked)[2]} + \Sexpr{names(bp$ranked)[3]} + \Sexpr{names(bp$ranked)[4]}\\
+
+    \end{tabular}
+    \caption{\label{r_square_nosnow}}
+    \end{center}
+\end{table}
+
+
+
+
+
+
+
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{llccccc}
+        &  &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
+        Creek & Period & All events & Loading & Major events & Loading & Major events \\
+        \hline 
+        \multirow{2}{*}{Aggregated} & Snowmelt & 
+        \Sexpr{round(100*sum(aggregate$snow==TRUE)/sum(aggregate$event), 0)}\% &
+        \Sexpr{round(100*sum(aggregate[aggregate$snow==TRUE,'stot_tot'], na.rm=T)/sum(aggregate$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$snow==TRUE))/sum(major(aggregate, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(aggregate[aggregate$snow==TRUE,'ptot_tot'], na.rm=T)/sum(aggregate$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$snow==TRUE))/sum(major(aggregate, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
+        & Post-snow & 
+        \Sexpr{round(100*sum(aggregate$snow==FALSE)/sum(aggregate$event), 0)}\% &
+        \Sexpr{round(100*sum(aggregate[aggregate$snow==FALSE,'stot_tot'], na.rm=T)/sum(aggregate$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$snow==FALSE))/sum(major(aggregate, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(aggregate[aggregate$snow==FALSE,'ptot_tot'], na.rm=T)/sum(aggregate$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$snow==FALSE))/sum(major(aggregate, target="ptot_tot", strata="stream"), na.rm=T), 0)}\%
+        
+        \vspace{2mm}\\
+        
+        \multirow{2}{*}{Eagle} & Snowmelt & 
+        \Sexpr{round(100*sum(eagle$snow==TRUE)/sum(eagle$event), 0)}\% &
+        \Sexpr{round(100*sum(eagle[eagle$snow==TRUE,'stot_tot'], na.rm=T)/sum(eagle$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$snow==TRUE))/sum(major(eagle, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(eagle[eagle$snow==TRUE,'ptot_tot'], na.rm=T)/sum(eagle$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$snow==TRUE))/sum(major(eagle, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
+        & Post-snow & 
+        \Sexpr{round(100*sum(eagle$snow==FALSE)/sum(eagle$event), 0)}\% &
+        \Sexpr{round(100*sum(eagle[eagle$snow==FALSE,'stot_tot'], na.rm=T)/sum(eagle$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$snow==FALSE))/sum(major(eagle, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(eagle[eagle$snow==FALSE,'ptot_tot'], na.rm=T)/sum(eagle$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$snow==FALSE))/sum(major(eagle, target="ptot_tot", strata="stream"), na.rm=T), 0)}\%
+        
+        \vspace{2mm}\\
+        
+        \multirow{2}{*}{Joos} & Snowmelt & 
+        \Sexpr{round(100*sum(joosvalley$snow==TRUE)/sum(joosvalley$event), 0)}\% &
+        \Sexpr{round(100*sum(joosvalley[joosvalley$snow==TRUE,'stot_tot'], na.rm=T)/sum(joosvalley$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$snow==TRUE))/sum(major(joosvalley, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(joosvalley[joosvalley$snow==TRUE,'ptot_tot'], na.rm=T)/sum(joosvalley$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$snow==TRUE))/sum(major(joosvalley, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
+        & Post-snow & 
+        \Sexpr{round(100*sum(joosvalley$snow==FALSE)/sum(joosvalley$event), 0)}\% &
+        \Sexpr{round(100*sum(joosvalley[joosvalley$snow==FALSE,'stot_tot'], na.rm=T)/sum(joosvalley$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$snow==FALSE))/sum(major(joosvalley, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(joosvalley[joosvalley$snow==FALSE,'ptot_tot'], na.rm=T)/sum(joosvalley$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$snow==FALSE))/sum(major(joosvalley, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% 
+        
+        \vspace{2mm}\\
+        
+        \multirow{2}{*}{Otter} & Snowmelt & 
+        \Sexpr{round(100*sum(otter$snow==TRUE)/sum(otter$event), 0)}\% &
+        \Sexpr{round(100*sum(otter[otter$snow==TRUE,'stot_tot'], na.rm=T)/sum(otter$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$snow==TRUE))/sum(major(otter, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(otter[otter$snow==TRUE,'ptot_tot'], na.rm=T)/sum(otter$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$snow==TRUE))/sum(major(otter, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
+        & Post-snow & 
+        \Sexpr{round(100*sum(otter$snow==FALSE)/sum(otter$event), 0)}\% &
+        \Sexpr{round(100*sum(otter[otter$snow==FALSE,'stot_tot'], na.rm=T)/sum(otter$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$snow==FALSE))/sum(major(otter, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(otter[otter$snow==FALSE,'ptot_tot'], na.rm=T)/sum(otter$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$snow==FALSE))/sum(major(otter, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% 
+        
+        \vspace{2mm}\\
+
+        \multirow{2}{*}{Brewery} & Snowmelt & 
+        \Sexpr{round(100*sum(brewery$snow==TRUE)/sum(brewery$event), 0)}\% &
+        \Sexpr{round(100*sum(brewery[brewery$snow==TRUE,'stot_tot'], na.rm=T)/sum(brewery$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(brewery, target="stot_tot", strata="stream")==1 & brewery$snow==TRUE))/sum(major(brewery, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(brewery[brewery$snow==TRUE,'ptot_tot'], na.rm=T)/sum(brewery$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(brewery, target="ptot_tot", strata="stream")==1 & brewery$snow==TRUE))/sum(major(brewery, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
+        & Post-snow & 
+        \Sexpr{round(100*sum(brewery$snow==FALSE)/sum(brewery$event), 0)}\% &
+        \Sexpr{round(100*sum(brewery[brewery$snow==FALSE,'stot_tot'], na.rm=T)/sum(brewery$stot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(brewery, target="stot_tot", strata="stream")==1 & brewery$snow==FALSE))/sum(major(brewery, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
+        \Sexpr{round(100*sum(brewery[brewery$snow==FALSE,'ptot_tot'], na.rm=T)/sum(brewery$ptot_tot, na.rm=T), 0)}\% & 
+        \Sexpr{round(100*length(which(major(brewery, target="ptot_tot", strata="stream")==1 & brewery$snow==FALSE))/sum(major(brewery, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
+    \end{tabular}
+    \end{center}
+\end{table}
+
+
+
+
+
+\section{Analysis}
+
+\subsection{Variable selection}
+In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We used stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables.
+
+\paragraph{Rainfall-driven events} The predictors that survived the screening at each stream are listed in Table \ref{nosnow_predictor_list}. The variables are listed in the order of their importance to the model.\\
+
+\begin{table}[h!]\small
+    \begin{center}
+    \begin{tabular}{ll}
+        \textbf{Solids} & \\
+        \hspace{5mm} Eagle: & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs$ranked), collapse=", ") }
+    \vspace{2mm}\\
+        \textbf{Phosphorus} & \\
+        \hspace{5mm} Eagle: & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
+    \end{tabular}
+    \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the load. \label{nosnow_predictor_list}}
+    \end{center}
+\end{table}
+
+In every case, the theisen rainfall is the most important predictor, followed usually by antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (the exception is at Brewery Creek - see Table \ref{r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how wet is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water in the system.\\
+
+\paragraph{Snowmelt-driven events} We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order, like they were for the rainfall-driven events. The models selected by the BIC range in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
+
+At most sites, the most important predictor was a temperature measurement, either the maximum or the mean temperature during the loading event. The antecedent baseflow also appears to be important at most sites. It seems likely that, as in the case of rainfall-driven events, the loading is driven by the quantity of water that moves through the watershed during the event.
+
+\begin{table}[h!]\small
+    \begin{center}
+    \begin{tabular}{ll}
+        \textbf{Solids} & \\
+        \hspace{5mm} Eagle: & \Sexpr{ paste(names(es_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(names(js_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(names(os_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs_snow$ranked), collapse=", ") }
+    \vspace{2mm}\\
+        \textbf{Phosphorus} & \\
+        \hspace{5mm} Eagle: & \Sexpr{ paste(names(ep_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(names(jp_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(names(op_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bp_snow$ranked), collapse=", ") }\\
+    \end{tabular}
+    \caption{The most important variables in the models for snowmelt-driven loading. The variables are ordered by their importance to the model of the load. \label{snow_predictor_list}}
+    \end{center}
+\end{table}
+
+\subsection{Major events}
+
+
+%\begin{table}[h]
+%    \begin{center}
+%    \begin{tabular}{lrl}
+%        Solids: & & \\
+%        & Eagle & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
+%        & Joos & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
+%        & Otter & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
+%        & Brewery & \Sexpr{ paste(names(bs$ranked), collapse=", ") }\\
+%        \hline \\
+%        Phosphorus: & & \\
+%        & Eagle & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
+%        & Joos & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
+%        & Otter & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
+%        & Brewery & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
+%    \end{tabular}
+%    \end{center}
+%\end{table}
+
 
 
 
@@ -516,320 +855,26 @@ legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3))
     \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-s}}
 \end{figure}
 
-
-
-Figure out what proportion of total sediment loading is contributed by the top 10\% of storms:\\
-
-
-
-<<label=proportion, include=False, echo=False>>=
-targets = c("stot_tot", "ptot_tot")
-
-q_90 = list()
-
-for(target in targets) {
-    output = paste(target, "_major", sep="")
-    q=vector()
-    for(stream_name in streams){
-        stream = get(stream_name)
-        stream[output] <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
-        stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
-        proportion = sum(stream[stream$output==1,target], na.rm=T)/sum(stream[,target], na.rm=T)
-        q = c(q, proportion)
-        assign(stream_name, stream) }
-        
-    names(q) = streams
-    q_90[[target]] = q }
+\begin{figure}
+    \begin{center}
+<<label=figure4, fig=True, echo=False, width=10, height=12>>=
+<<bubble_plots>>
 @
-
-
-
-
-
-\section{Data}
-
-\paragraph{Description}
-The data in this report comes from four Wisconsin streams that were monitored (with some gaps in data collection) between 1989 and 2007. The streams and the period during which each was monitored are:
-
-\begin{table}[h]
-    \begin{tabular}{r l}
-        \textbf{Stream} & \textbf{Monitored} \\
-        Eagle & 1991-1994, 2003-2007\\
-        Joos Valley & 1990-1994, 2002-2007\\
-        Otter & 1990-1997, 2000-2002\\
-        Brewery & 1989, 1994-2002, 2004-2005\\
-    \end{tabular}
-\end{table}
-
-Each entry in our data set represents one loading event, which is defined based on the hydrograph - the event begins when the loading rises from a base level toward a peak, and ends when the loading falls back to its new base level. Two kinds of load are measured for each event - the sediment load and the phosphorus load. There are two typical ways that sediment and phosphorus get into streams - they can be carried either by runoff during a rainstorm or by melting snow.\\
-
-Not all of the data can be collected for each event. For instance, rainfall is measured only when the ground is free of snow because snow interferes with the rain gauges. And the amount of snowmelt is estimated by multiplying the water content of the snow by the change in snow depth a warm snap, which is inaccurate when additional snow falls during that event. Broadly, there is one set of measurements that are made during rainfall-driven events and a different set of measurements that are made during snowmelt-driven events. Because of this, the two types of event are modeled separately.\\
-
-\paragraph{Exploratory Analysis}
-Our anaysis targets the phosphorus and sediment loads carried by each stream. Using Rainmaker software, each load can be broken into two parts: base load and storm load. We will consider models of the storm load and of the total load.\\
-
-Within the category of events that are driven by rainfall, we investigate making a further split (on May 15 each year) between early post-snow and late post-snow events. Erosion may be more common early in the spring, before most of the summer's vegetation appears, which would alter the relationship between our inputs and outputs.\\
-
-The details of that investigation are not yet included here, but the gist is that the improvement in model fit when the early and late rainfall events are separated is statistically significant but so small as to be unimportant to the ultimate goal of characterizing the way that the sediment and phosphorus get into the streams. The most important difference between the models is that the coefficient on theisen rainfall is about 20\% smaller in the late post-snow season than in the early post-snow season (of course, we don't discuss the models that use theisen rainfall and antecedent baseflow until the Modeling section). At most streams, this allowed the model to explain 1\%-2\% more of the variation in the output.\\
-
-Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==min(q_90$stot_tot)]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==max(q_90$stot_tot)]]}) of the total sediment load and \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==min(q_90$ptot_tot)]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==max(q_90$ptot_tot)]]}) of the total phosphorus load.\\
-
-Table \ref{proportion_of_majors} shows that the major loading events that produce the majority of the loading can be occur during each of the three annual periods. However, the events caused by snowmelt produced a smaller proportion of major events than their proportion of all events, and their relative contribution to the total sediment load was smaller than their proportion of loading events. So while snowmelt \emph{can} cause a major loading event, a snowmelt-driven event is less likely to be a major event than is one driven by rainfall.\\
-
-<<echo=False>>=
-prp_major = proportions(streams, "stot_tot_major", col.names=c("snowmelt-driven", "early post-snow", "late post-snow"))
-prp_all = proportions(streams, "event", col.names=c("snowmelt-driven", "early post-snow", "late post-snow"))
-@
-
-\begin{table}[h]
-    \begin{center}
-    \begin{tabular}{lr|lr|lr|l}
-        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Early post-snow}\ & \multicolumn{2}{c}{Late post-snow} \\
-        Creek & All & Major & All & Major & All & Major \\
-        \hline 
-        Eagle & \Sexpr{round(100*prp_all['eagle',1], 0)}\% & \Sexpr{round(100*prp_major['eagle',1], 0)}\% & \Sexpr{round(100*prp_all['eagle',2], 0)}\% & \Sexpr{round(100*prp_major['eagle',2], 0)}\% & \Sexpr{round(100*prp_all['eagle',3], 0)}\% & \Sexpr{round(100*prp_major['eagle',3], 0)}\% \\
-        Otter & \Sexpr{round(100*prp_all['otter',1], 0)}\% & \Sexpr{round(100*prp_major['otter',1], 0)}\% & \Sexpr{round(100*prp_all['otter',2], 0)}\% & \Sexpr{round(100*prp_major['otter',2], 0)}\% & \Sexpr{round(100*prp_all['otter',3], 0)}\% & \Sexpr{round(100*prp_major['otter',3], 0)}\% \\
-        Joos & \Sexpr{round(100*prp_all['joosvalley',1], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',1], 0)}\% & \Sexpr{round(100*prp_all['joosvalley',2], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',2], 0)}\% & \Sexpr{round(100*prp_all['joosvalley',3], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',3], 0)}\% \\
-        
-        Brewery & \Sexpr{round(100*prp_all['brewery',1], 0)}\% & \Sexpr{round(100*prp_major['brewery',1], 0)}\% & \Sexpr{round(100*prp_all['brewery',2], 0)}\% & \Sexpr{round(100*prp_major['brewery',2], 0)}\% & \Sexpr{round(100*prp_all['brewery',3], 0)}\% & \Sexpr{round(100*prp_major['brewery',3], 0)}\% \\
-        
-    \end{tabular}
     \end{center}
-    \caption{Each pair of columns represents one of the three annual periods. The column on the left of each pair is the proportion of all events in the study that occured during this period; the column on the right is the proportion of major events that occured during this period. \label{proportion_of_majors}}
-\end{table}
+    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load contributed by that event. \label{bubbles}}
+\end{figure}
 
-
-
-\begin{table}[h]
-    \begin{center}
-    \begin{tabular}{lrl}
-    \textbf{Sediment} & $R^2$ & Model terms \\
-    \hline
-    Eagle & \Sexpr{round(es$R2[1], 3)} & \Sexpr{names(es$ranked)[1]}\\
-    & \Sexpr{round(es$R2[2], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]}\\
-    & \Sexpr{round(es$R2[3], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]}\\
-    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]} + \Sexpr{names(es$ranked)[4]}\\
-    
-    Joos & & \\
-    & \Sexpr{round(js$R2[1], 3)} & \Sexpr{names(js$ranked)[1]}\\
-    & \Sexpr{round(js$R2[2], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]}\\
-    & \Sexpr{round(js$R2[3], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]}\\
-    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]} + \Sexpr{names(js$ranked)[4]}\\
-
-    Otter & & \\
-    & \Sexpr{round(os$R2[1], 3)} & \Sexpr{names(os$ranked)[1]}\\
-    & \Sexpr{round(os$R2[2], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]}\\
-    & \Sexpr{round(os$R2[3], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]}\\
-    & \Sexpr{round(os$R2[4], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]} + \Sexpr{names(os$ranked)[4]}\\
-
-    Brewery & & \\
-    & \Sexpr{round(bs$R2[1], 3)} & \Sexpr{names(bs$ranked)[1]}\\
-    & \Sexpr{round(bs$R2[2], 3)} & \Sexpr{names(bs$ranked)[1]} + \Sexpr{names(bs$ranked)[2]}\\
-    & \Sexpr{round(bs$R2[3], 3)} & \Sexpr{names(bs$ranked)[1]} + \Sexpr{names(bs$ranked)[2]} + \Sexpr{names(bs$ranked)[3]}
-    \vspace{6mm}\\
-
-    \textbf{Phosphorus} & $R^2$ & Model terms \\
-    \hline
-    Eagle & \Sexpr{round(ep$R2[1], 3)} & \Sexpr{names(ep$ranked)[1]}\\
-    & \Sexpr{round(ep$R2[2], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]}\\
-    & \Sexpr{round(ep$R2[3], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]}\\
-    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]} + \Sexpr{names(ep$ranked)[4]}\\
-    
-    Joos & & \\
-    & \Sexpr{round(jp$R2[1], 3)} & \Sexpr{names(jp$ranked)[1]}\\
-    & \Sexpr{round(jp$R2[2], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]}\\
-    & \Sexpr{round(jp$R2[3], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]} + \Sexpr{names(jp$ranked)[3]}\\
-    & \Sexpr{round(jp$R2[4], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]} + \Sexpr{names(jp$ranked)[3]} + \Sexpr{names(jp$ranked)[4]}\\
-
-    Otter & & \\
-    & \Sexpr{round(op$R2[1], 3)} & \Sexpr{names(op$ranked)[1]}\\
-    & \Sexpr{round(op$R2[2], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]}\\
-    & \Sexpr{round(op$R2[3], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]}\\
-    & \Sexpr{round(op$R2[4], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]} + \Sexpr{names(op$ranked)[4]}\\
-
-    Brewery & & \\
-    & \Sexpr{round(bp$R2[1], 3)} & \Sexpr{names(bp$ranked)[1]}\\
-    & \Sexpr{round(bp$R2[2], 3)} & \Sexpr{names(bp$ranked)[1]} + \Sexpr{names(bp$ranked)[2]}\\
-    & \Sexpr{round(bp$R2[3], 3)} & \Sexpr{names(bp$ranked)[1]} + \Sexpr{names(bp$ranked)[2]} + \Sexpr{names(bp$ranked)[3]}\\
-
-    \end{tabular}
-    \end{center}
-\end{table}
-
-
-
-
-
-
-
-\begin{table}[h]
-    \begin{center}
-    \begin{tabular}{llccccc}
-        &  &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
-        Creek & Period & All events & Major events & Loading & Major events & Loading \\
-        \hline 
-        \multirow{3}{*}{Aggregated} & Snowmelt & 
-        \Sexpr{round(100*sum(aggregate$event_class==1)/sum(aggregate$event), 0)}\% &
-        \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'stot_tot'], na.rm=T)/sum(aggregate$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==1))/sum(major(aggregate, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(aggregate[aggregate$event_class==1,'ptot_tot'], na.rm=T)/sum(aggregate$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==1))/sum(major(aggregate, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Early post-snow & 
-        \Sexpr{round(100*sum(aggregate$event_class==2)/sum(aggregate$event), 0)}\% &
-        \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'stot_tot'], na.rm=T)/sum(aggregate$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==2))/sum(major(aggregate, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(aggregate[aggregate$event_class==2,'ptot_tot'], na.rm=T)/sum(aggregate$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==2))/sum(major(aggregate, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Late post-snow & 
-        \Sexpr{round(100*sum(aggregate$event_class==3)/sum(aggregate$event), 0)}\% &
-        \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'stot_tot'], na.rm=T)/sum(aggregate$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$event_class==3))/sum(major(aggregate, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(aggregate[aggregate$event_class==3,'ptot_tot'], na.rm=T)/sum(aggregate$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$event_class==3))/sum(major(aggregate, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        
-        \hline 
-        \multirow{3}{*}{Eagle} & Snowmelt & 
-        \Sexpr{round(100*sum(eagle$event_class==1)/sum(eagle$event), 0)}\% &
-        \Sexpr{round(100*sum(eagle[eagle$event_class==1,'stot_tot'], na.rm=T)/sum(eagle$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$event_class==1))/sum(major(eagle, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(eagle[eagle$event_class==1,'ptot_tot'], na.rm=T)/sum(eagle$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$event_class==1))/sum(major(eagle, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Early post-snow & 
-        \Sexpr{round(100*sum(eagle$event_class==2)/sum(eagle$event), 0)}\% &
-        \Sexpr{round(100*sum(eagle[eagle$event_class==2,'stot_tot'], na.rm=T)/sum(eagle$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$event_class==2))/sum(major(eagle, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(eagle[eagle$event_class==2,'ptot_tot'], na.rm=T)/sum(eagle$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$event_class==2))/sum(major(eagle, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Late post-snow & 
-        \Sexpr{round(100*sum(eagle$event_class==3)/sum(eagle$event), 0)}\% &
-        \Sexpr{round(100*sum(eagle[eagle$event_class==3,'stot_tot'], na.rm=T)/sum(eagle$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$event_class==3))/sum(major(eagle, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(eagle[eagle$event_class==3,'ptot_tot'], na.rm=T)/sum(eagle$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$event_class==3))/sum(major(eagle, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        
-        \hline 
-        \multirow{3}{*}{Joos} & Snowmelt & 
-        \Sexpr{round(100*sum(joosvalley$event_class==1)/sum(joosvalley$event), 0)}\% &
-        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==1,'stot_tot'], na.rm=T)/sum(joosvalley$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$event_class==1))/sum(major(joosvalley, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==1,'ptot_tot'], na.rm=T)/sum(joosvalley$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$event_class==1))/sum(major(joosvalley, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Early post-snow & 
-        \Sexpr{round(100*sum(joosvalley$event_class==2)/sum(joosvalley$event), 0)}\% &
-        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==2,'stot_tot'], na.rm=T)/sum(joosvalley$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$event_class==2))/sum(major(joosvalley, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==2,'ptot_tot'], na.rm=T)/sum(joosvalley$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$event_class==2))/sum(major(joosvalley, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Late post-snow & 
-        \Sexpr{round(100*sum(joosvalley$event_class==3)/sum(joosvalley$event), 0)}\% &
-        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==3,'stot_tot'], na.rm=T)/sum(joosvalley$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$event_class==3))/sum(major(joosvalley, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(joosvalley[joosvalley$event_class==3,'ptot_tot'], na.rm=T)/sum(joosvalley$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$event_class==3))/sum(major(joosvalley, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        
-        \hline 
-        \multirow{3}{*}{Otter} & Snowmelt & 
-        \Sexpr{round(100*sum(otter$event_class==1)/sum(otter$event), 0)}\% &
-        \Sexpr{round(100*sum(otter[otter$event_class==1,'stot_tot'], na.rm=T)/sum(otter$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$event_class==1))/sum(major(otter, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(otter[otter$event_class==1,'ptot_tot'], na.rm=T)/sum(otter$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$event_class==1))/sum(major(otter, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Early post-snow & 
-        \Sexpr{round(100*sum(otter$event_class==2)/sum(otter$event), 0)}\% &
-        \Sexpr{round(100*sum(otter[otter$event_class==2,'stot_tot'], na.rm=T)/sum(otter$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$event_class==2))/sum(major(otter, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(otter[otter$event_class==2,'ptot_tot'], na.rm=T)/sum(otter$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$event_class==2))/sum(major(otter, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Late post-snow & 
-        \Sexpr{round(100*sum(otter$event_class==3)/sum(otter$event), 0)}\% &
-        \Sexpr{round(100*sum(otter[otter$event_class==3,'stot_tot'], na.rm=T)/sum(otter$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$event_class==3))/sum(major(otter, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(otter[otter$event_class==3,'ptot_tot'], na.rm=T)/sum(otter$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$event_class==3))/sum(major(otter, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        
-        \hline 
-        \multirow{3}{*}{Brewery} & Snowmelt & 
-        \Sexpr{round(100*sum(brewery$event_class==1)/sum(brewery$event), 0)}\% &
-        \Sexpr{round(100*sum(brewery[brewery$event_class==1,'stot_tot'], na.rm=T)/sum(brewery$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(brewery, target="stot_tot", strata="stream")==1 & brewery$event_class==1))/sum(major(brewery, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(brewery[brewery$event_class==1,'ptot_tot'], na.rm=T)/sum(brewery$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(brewery, target="ptot_tot", strata="stream")==1 & brewery$event_class==1))/sum(major(brewery, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Early post-snow & 
-        \Sexpr{round(100*sum(brewery$event_class==2)/sum(brewery$event), 0)}\% &
-        \Sexpr{round(100*sum(brewery[brewery$event_class==2,'stot_tot'], na.rm=T)/sum(brewery$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(brewery, target="stot_tot", strata="stream")==1 & brewery$event_class==2))/sum(major(brewery, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(brewery[brewery$event_class==2,'ptot_tot'], na.rm=T)/sum(brewery$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(brewery, target="ptot_tot", strata="stream")==1 & brewery$event_class==2))/sum(major(brewery, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-        & Late post-snow & 
-        \Sexpr{round(100*sum(brewery$event_class==3)/sum(brewery$event), 0)}\% &
-        \Sexpr{round(100*sum(brewery[brewery$event_class==3,'stot_tot'], na.rm=T)/sum(brewery$stot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(brewery, target="stot_tot", strata="stream")==1 & brewery$event_class==3))/sum(major(brewery, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-        \Sexpr{round(100*sum(brewery[brewery$event_class==3,'ptot_tot'], na.rm=T)/sum(brewery$ptot_tot, na.rm=T), 0)}\% & 
-        \Sexpr{round(100*length(which(major(brewery, target="ptot_tot", strata="stream")==1 & brewery$event_class==3))/sum(major(brewery, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-    \end{tabular}
-    \end{center}
-\end{table}
-
-
-
-<<echo=False, results=tex, include=True>>=
+<<echo=False, results=tex, include=False, eval=False>>=
 stream = "eagle"
 stream = get(stream)
 
-snow = stream[stream$event_class==1,]
-guide(stot_tot~nws_prec+total_water+nws_snow+ap_1day+ap_2day+ap_3day+melt_snow+tmean+tmax+tmin+sweq+julian+sin_julian+cos_julian, data=snow, sweave=T, cv_gain=0)
+snow = stream[stream$snow==TRUE,]
+guide(stot_tot~nws_prec + total_water + nws_snow + melt_snow + tmean + tmax + tmin + sweq + julian + sin_julian + cos_julian, data=snow, sweave=T, cv_gain=0)
 
-early = stream[stream$event_class==2,]
-guide(stot_tot~nws_prec+event_type+ap_1day+ap_2day+ap_3day+total_water+theisen+sweq+julian+sin_julian+cos_julian+tmean+tmax+tmin, data=early, sweave=T, cv_gain=0)
+rain = stream[stream$snow==FALSE,]
+guide(stot_tot~nws_prec+event_type+ap_1day+ap_2day+ap_3day+total_water+theisen+sweq+julian+sin_julian+cos_julian+tmean+tmax+tmin, data=rain, sweave=T, cv_gain=0)
 
-late = stream[stream$event_class==3,]
-guide(stot_tot~nws_prec+event_type+total_water+ap_1day+ap_2day+ap_3day+julian+theisen+sin_julian+cos_julian+tmean+tmax+tmin, data=late, sweave=T, cv_gain=0)
 @
-
-
-
-
-\section{Analysis}
-
-\paragraph{Variable selection} In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We use stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables.
-
-\begin{table}[h]
-    \begin{center}
-    \begin{tabular}{ll}
-        \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs$ranked), collapse=", ") }
-    \vspace{2mm}\\
-        \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
-    \end{tabular}
-    \end{center}
-\end{table}
-
-
-%\begin{table}[h]
-%    \begin{center}
-%    \begin{tabular}{lrl}
-%        Solids: & & \\
-%        & Eagle & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
-%        & Joos & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
-%        & Otter & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
-%        & Brewery & \Sexpr{ paste(names(bs$ranked), collapse=", ") }\\
-%        \hline \\
-%        Phosphorus: & & \\
-%        & Eagle & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
-%        & Joos & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
-%        & Otter & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
-%        & Brewery & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
-%    \end{tabular}
-%    \end{center}
-%\end{table}
-
 
 
 
