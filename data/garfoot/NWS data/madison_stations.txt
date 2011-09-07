@@ -1,0 +1,4 @@
+COOPID  WBANID  STATION NAME                   COUNTRY                          STATE  COUNTY                          CLIMATE DIVISION  LATITUDE  LONGITUDE  ELEVATION
+------  ------  -----------------------------  -------------------------------  -----  ------------------------------  ----------------  --------  ---------  ---------
+474961  14837   MADISON DANE RGNL AP           UNITED STATES                    WI     DANE                            08               43:08      -89:20     866   
+
