@@ -102,7 +102,8 @@ for(stream_name in streams) {
     stream$antecedent_trange = ifelse(antecedent_trange>-Inf, antecedent_trange, NA)
 
     #Now add this stream's data to the frame.
-    assign(stream_name, stream) }
+    assign(stream_name, stream)
+    assign(paste(stream_name, "_flow", sep=""), daily_flow)}
 
 #Now mark the class of each event (1:snowmelt-driven, 2:pre-vegetation, 3:post-vegetation)
 #We will gather all the data into one frame:
@@ -395,19 +396,54 @@ legend(x="topleft", legend=streams, fill=colors, bty='n')
 
 <<label=stot_boxplots, echo=False, include=False>>=
 yy=c(-2, 3.5)
+par(mar=c(4, 4, 2, 0))
 event_classes = c("snow","rain")
 
 #Eagle creek
-boxplot(log_stot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log(sediment load)", names=event_classes, xlim=c(1,11))
+boxplot(log_stot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Sediment Load )", names=event_classes, xlim=c(1,11))
+mtext("Eagle", side=1, line=3, at=1.5)
+
+mtext( paste(round(100*sum(eagle[eagle$snow==1,]$stot_tot)/sum(eagle$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=1 )
+mtext( paste(round(100*sum(eagle[eagle$snow==0,]$stot_tot)/sum(eagle$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=2 )
+
+mtext(sum(eagle$snow), side=3, line=1, cex=0.7, at=1 )
+mtext(length(eagle$snow)-sum(eagle$snow), side=3, line=1, cex=0.7, at=2 )
+
 
 #Otter creek
 boxplot(log_stot_tot~snow, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=4:5, yaxt='n')
+mtext("Otter", side=1, line=3, at=4.5)
+
+mtext( paste(round(100*sum(otter[otter$snow==1,]$stot_tot)/sum(otter$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=4 )
+mtext( paste(round(100*sum(otter[otter$snow==0,]$stot_tot)/sum(otter$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=5 )
+
+mtext(sum(otter$snow), side=3, line=1, cex=0.7, at=4 )
+mtext(length(otter$snow)-sum(otter$snow), side=3, line=1, cex=0.7, at=5 )
+
 
 #Joos Valley creek
 boxplot(log_stot_tot~snow, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=7:8, yaxt='n')
+mtext("Joos", side=1, line=3, at=7.5)
+
+mtext( paste(round(100*sum(joosvalley[joosvalley$snow==1,]$stot_tot)/sum(joosvalley$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=7 )
+mtext( paste(round(100*sum(joosvalley[joosvalley$snow==0,]$stot_tot)/sum(joosvalley$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=8 )
+
+mtext(sum(joosvalley$snow), side=3, line=1, cex=0.7, at=7 )
+mtext(length(joosvalley$snow)-sum(joosvalley$snow), side=3, line=1, cex=0.7, at=8 )
+
 
 #Brewery creek
 boxplot(log_stot_tot~snow, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=10:11, yaxt='n')
+mtext("Brewery", side=1, line=3, at=10.5)
+
+mtext( paste(round(100*sum(brewery[brewery$snow==1,]$stot_tot)/sum(brewery$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=10 )
+mtext( paste(round(100*sum(brewery[brewery$snow==0,]$stot_tot)/sum(brewery$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=11 )
+
+mtext(sum(brewery$snow), side=3, line=1, cex=0.7, at=10 )
+mtext(length(brewery$snow)-sum(brewery$snow), side=3, line=1, cex=0.7, at=11 )
+
+mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
+mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
 @
 
 
@@ -415,18 +451,53 @@ boxplot(log_stot_tot~snow, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwe
 <<label=ptot_boxplots, echo=False, include=False>>=
 yy=c(-1, 4)
 event_classes = c("snow","rain")
+par(mar=c(4, 4, 2, 0))
 
 #Eagle creek
-boxplot(log_ptot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log(phosphorus load)", names=event_classes, xlim=c(1,11))
+boxplot(log_ptot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Phosphorus Load )", names=event_classes, xlim=c(1,11))
+mtext("Eagle", side=1, line=3, at=1.5)
+
+mtext( paste(round(100*sum(eagle[eagle$snow==1,]$ptot_tot)/sum(eagle$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=1 )
+mtext( paste(round(100*sum(eagle[eagle$snow==0,]$ptot_tot)/sum(eagle$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=2 )
+
+mtext(sum(eagle$snow), side=3, line=1, cex=0.7, at=1 )
+mtext(length(eagle$snow)-sum(eagle$snow), side=3, line=1, cex=0.7, at=2 )
+
 
 #Otter creek
 boxplot(log_ptot_tot~snow, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=4:5)
+mtext("Otter", side=1, line=3, at=4.5)
+
+mtext( paste(round(100*sum(otter[otter$snow==1,]$ptot_tot)/sum(otter$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=4 )
+mtext( paste(round(100*sum(otter[otter$snow==0,]$ptot_tot)/sum(otter$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=5 )
+
+mtext(sum(otter$snow), side=3, line=1, cex=0.7, at=4 )
+mtext(length(otter$snow)-sum(otter$snow), side=3, line=1, cex=0.7, at=5 )
+
 
 #Joos Valley creek
 boxplot(log_ptot_tot~snow, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=7:8)
+mtext("Joos", side=1, line=3, at=7.5)
+
+mtext( paste(round(100*sum(joosvalley[joosvalley$snow==1,]$ptot_tot)/sum(joosvalley$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=7 )
+mtext( paste(round(100*sum(joosvalley[joosvalley$snow==0,]$ptot_tot)/sum(joosvalley$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=8 )
+
+mtext(sum(joosvalley$snow), side=3, line=1, cex=0.7, at=7 )
+mtext(length(joosvalley$snow)-sum(joosvalley$snow), side=3, line=1, cex=0.7, at=8 )
+
 
 #Brewery creek
 boxplot(log_ptot_tot~snow, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=10:11)
+mtext("Brewery", side=1, line=3, at=10.5)
+
+mtext( paste(round(100*sum(brewery[brewery$snow==1,]$ptot_tot)/sum(brewery$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=10 )
+mtext( paste(round(100*sum(brewery[brewery$snow==0,]$ptot_tot)/sum(brewery$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=11 )
+
+mtext(sum(brewery$snow), side=3, line=1, cex=0.7, at=10 )
+mtext(length(brewery$snow)-sum(brewery$snow), side=3, line=1, cex=0.7, at=11 )
+
+mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
+mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
 @
 
 
@@ -443,6 +514,7 @@ boxplot(log_ptot_tot~snow, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwe
 <<label=boxplot_ptot, fig=True, echo=False, width=9, height=5>>=
 <<ptot_boxplots>>
 @
+    \caption{\label{boxplots}}
     \end{center}
 \end{figure}
 
@@ -556,6 +628,8 @@ Not all of the data can be collected for each event. For instance, rainfall is m
 \paragraph{Exploratory Analysis}
 Our anaysis targets the phosphorus and sediment loads carried by each stream. Using Rainmaker software, each load can be broken into two parts: base load and storm load. We will consider models of the storm load and of the total load.\\
 
+The first task was to decide whether most of the annual load is produced by snowmelt-driven or rainfall-driven events. The total loads from each kind of event are tabulated in Tables \ref{tab:stot} (sediment) and \ref{tab:ptot} (phosphorus). Figure \ref{bars} presents the same information as the tables, while Figure \ref{boxplots} also compares the load from indivudual snowmelt- and rainfall-driven events.\\
+
 We investigated splitting the rainfall-driven events into early and late events on May 15th of each year. If vegetation serves to hold the soil together, and to increase both evapotranspiration and infiltration, then erosion may be more common early in the spring before most of the summer's vegetation appears. If so, the relationship between rainfall and the stream's loading might change during the summer.\\
 
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
@@ -572,7 +646,7 @@ print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loadi
 caption.placement="bottom", hline.after=0 )
 @
 
-Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==min(q_90$stot_tot)]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==max(q_90$stot_tot)]]}) of the total sediment load and \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==min(q_90$ptot_tot)]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==max(q_90$ptot_tot)]]}) of the total phosphorus load.\\
+Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==min(q_90$stot_tot)]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==max(q_90$stot_tot)]]}) of the total sediment load; the same events produced between \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==min(q_90$ptot_tot)]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==max(q_90$ptot_tot)]]}) of the total phosphorus load.\\
 
 Table \ref{proportion_of_majors} shows that, except possibly at Eagle and Joos, the proportion of major events is roughly in line with the proportion of all events during each season.\\
 
