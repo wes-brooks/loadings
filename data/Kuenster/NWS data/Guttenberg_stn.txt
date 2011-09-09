@@ -1,0 +1,4 @@
+COOPID  WBANID  STATION NAME                   COUNTRY                          STATE  COUNTY                          CLIMATE DIVISION  LATITUDE  LONGITUDE  ELEVATION
+------  ------  -----------------------------  -------------------------------  -----  ------------------------------  ----------------  --------  ---------  ---------
+133517  99999   GUTTENBERG L&D 10              UNITED STATES                    IA     CLAYTON                         03              424:7       -091:05     618   
+

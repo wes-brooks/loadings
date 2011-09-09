@@ -1,0 +1,4 @@
+COOPID  WBANID  STATION NAME                   COUNTRY                          STATE  COUNTY                          CLIMATE DIVISION  LATITUDE  LONGITUDE  ELEVATION
+------  ------  -----------------------------  -------------------------------  -----  ------------------------------  ----------------  --------  ---------  ---------
+474546  99999   LANCASTER 4 WSW                UNITED STATES                    WI     GRANT                           07              424:9       -090:47     1040  
+

@@ -1,0 +1,4 @@
+COOPID  WBANID  STATION NAME                   COUNTRY                          STATE  COUNTY                          CLIMATE DIVISION  LATITUDE  LONGITUDE  ELEVATION
+------  ------  -----------------------------  -------------------------------  -----  ------------------------------  ----------------  --------  ---------  ---------
+132367  94908   DUBUQUE RGNL AP                UNITED STATES                    IA     DUBUQUE                         03              422:3       -090:42     1056  
+

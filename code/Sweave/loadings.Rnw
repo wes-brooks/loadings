@@ -23,8 +23,8 @@
 #Read data into R and do some basic manipulation to get it into a usable format:
 setwd('~/git/loadings/code/Sweave')
 source('~/git/loadings/code/guide.r')
-streams = c('eagle', 'joosvalley', 'otter', 'brewery')
-stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter', brewery='Brewery')
+streams = c('eagle', 'joosvalley', 'otter', 'brewery', 'garfoot', 'kuenster')
+stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter', brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster')
 outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
                 'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
 
@@ -32,7 +32,9 @@ outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
 nws_files = list("eagle"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
                     "joosvalley"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
                     "otter"=c("otter/NWS/Sheboygan_Otter_raw.txt"),
-                    "brewery"=c("brewery/NWS/Madison_SND.txt"))
+                    "brewery"=c("brewery/NWS/Madison_SND.txt"),
+                    "garfoot"=c("garfoot/NWS data/madison_daily.txt"),
+                    "kuenster"=c("Kuenster/NWS data/Guttenberg_raw.txt"))
 
 
 #loop through the streams, reading them in one by one
@@ -54,13 +56,13 @@ for(stream_name in streams) {
         melt_snow <- as.numeric(levels(melt_snow)[melt_snow])
         sweq <- as.numeric(sub("%", "e-2", sweq))
         ap_1day <- as.numeric(ap_1day)
-        ap_2day <- as.numeric(ap_2day)
-        ap_3day <- as.numeric(ap_3day) 
+        ap_3day <- as.numeric(ap_3day)
+        ap_5day <- as.numeric(ap_5day) 
         tmax <- as.numeric(tmax)
         tmin <- as.numeric(tmin)
         tmean <- as.numeric(tmean)
         stream <- as.factor(stream_name)
-        start_day <- as.POSIXlt( as.character(start_day), format="%m/%d/%Y" )
+        start_day <- as.POSIXlt( as.character(start_day), format="%m/%d/%y" )
         julian <- start_day$yday + 1
         sin_julian <- sin(julian*2*pi/365)
         cos_julian <- cos(julian*2*pi/365)
@@ -157,7 +159,7 @@ for(stream_name in streams) {
 
 <<label=bubble_plots, echo=False, include=False>>=
 #The "_nosnow" dataframes exclude the snowfall-influenced events.
-layout(matrix(1:4,4,1))
+layout(matrix(1:length(streams), ceiling(length(streams)/2), 2))
 for(stream_name in streams) {
     stream = get(stream_name)
     assign( paste(stream_name, "_nosnow", sep=""), stream[stream$snow==FALSE,] )
@@ -227,15 +229,18 @@ r2_step <- function(model, variables, data) {
 
 #This function uses the BIC to screen variables, returning the 'step' object.
 stepwise_BIC <- function(target, data) {
-    d = data[,c(target, "num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", "ei", "duration", "ap_1day", "ap_2day", "ap_3day", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")]
+    predictors = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+    d = data[,c(target, predictors)]
     result = list()
-    formula = as.formula( paste(target, "~.") )
-    fm1 <- lm(formula, data=d, x=T)
+    
+    full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
+    intercept_only = as.formula( paste(target, "~1") )
+    fm1 <- lm(full_model, data=d, x=T)
     
     d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
     names(d)[1] = target
-    fm2 <- lm(formula, data=d)
-    screened = step(fm2, direction='both', k=log(dim(d)[1]), trace=FALSE)
+    fm2 <- lm(intercept_only, data=d)
+    screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=TRUE)
     
     terms = parse_args(screened)
     target = terms[1]
@@ -284,11 +289,15 @@ es = stepwise_BIC(target="log_stot_tot", data=eagle_nosnow)
 js = stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow)
 os = stepwise_BIC(target="log_stot_tot", data=otter_nosnow)
 bs = stepwise_BIC(target="log_stot_tot", data=brewery_nosnow)
+gs = stepwise_BIC(target="log_stot_tot", data=garfoot_nosnow)
+ks = stepwise_BIC(target="log_stot_tot", data=kuenster_nosnow)
 
 ep = stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow)
 jp = stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow)
 op = stepwise_BIC(target="log_ptot_tot", data=otter_nosnow)
 bp = stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow)
+gp = stepwise_BIC(target="log_ptot_tot", data=garfoot_nosnow)
+kp = stepwise_BIC(target="log_ptot_tot", data=kuenster_nosnow)
 @
 
 <<label=variable_selection_snow, echo=False>>=
@@ -296,11 +305,15 @@ es_snow = stepwise_BIC_snow(target="log_stot_tot", data=eagle_snow)
 js_snow = stepwise_BIC_snow(target="log_stot_tot", data=joosvalley_snow)
 os_snow = stepwise_BIC_snow(target="log_stot_tot", data=otter_snow)
 bs_snow = stepwise_BIC_snow(target="log_stot_tot", data=brewery_snow)
+gs_snow = stepwise_BIC_snow(target="log_stot_tot", data=garfoot_snow)
+ks_snow = stepwise_BIC_snow(target="log_stot_tot", data=kuenster_snow)
 
 ep_snow = stepwise_BIC_snow(target="log_ptot_tot", data=eagle_snow)
 jp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=joosvalley_snow)
 op_snow = stepwise_BIC_snow(target="log_ptot_tot", data=otter_snow)
 bp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=brewery_snow)
+gp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=garfoot_snow)
+kp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=kuenster_snow)
 @
 
 <<label=proportions, echo=False, include=False>>=
@@ -402,7 +415,7 @@ par(mar=c(4, 4, 2, 0))
 event_classes = c("snow","rain")
 
 #Eagle creek
-boxplot(log_stot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Sediment Load )", names=event_classes, xlim=c(1,11))
+boxplot(log_stot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Sediment Load )", names=event_classes, xlim=c(1,17))
 mtext("Eagle", side=1, line=3, at=1.5)
 
 mtext( paste(round(100*sum(eagle[eagle$snow==1,]$stot_tot)/sum(eagle$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=1 )
@@ -444,6 +457,26 @@ mtext( paste(round(100*sum(brewery[brewery$snow==0,]$stot_tot)/sum(brewery$stot_
 mtext(sum(brewery$snow), side=3, line=1, cex=0.7, at=10 )
 mtext(length(brewery$snow)-sum(brewery$snow), side=3, line=1, cex=0.7, at=11 )
 
+#Garfoot creek
+boxplot(log_stot_tot~snow, data=garfoot, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=13:14, yaxt='n')
+mtext("Garfoot", side=1, line=3, at=13.5)
+
+mtext( paste(round(100*sum(garfoot[garfoot$snow==1,]$stot_tot)/sum(garfoot$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=13 )
+mtext( paste(round(100*sum(garfoot[garfoot$snow==0,]$stot_tot)/sum(garfoot$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=14 )
+
+mtext(sum(garfoot$snow), side=3, line=1, cex=0.7, at=13 )
+mtext(length(garfoot$snow)-sum(garfoot$snow), side=3, line=1, cex=0.7, at=14 )
+
+#Kuenster creek
+boxplot(log_stot_tot~snow, data=kuenster, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=16:17, yaxt='n')
+mtext("Kuenster", side=1, line=3, at=16.5)
+
+mtext( paste(round(100*sum(kuenster[kuenster$snow==1,]$stot_tot)/sum(kuenster$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=16 )
+mtext( paste(round(100*sum(kuenster[kuenster$snow==0,]$stot_tot)/sum(kuenster$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=17 )
+
+mtext(sum(kuenster$snow), side=3, line=1, cex=0.7, at=16 )
+mtext(length(kuenster$snow)-sum(kuenster$snow), side=3, line=1, cex=0.7, at=17 )
+
 mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
 mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
 @
@@ -456,7 +489,7 @@ event_classes = c("snow","rain")
 par(mar=c(4, 4, 2, 0))
 
 #Eagle creek
-boxplot(log_ptot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Phosphorus Load )", names=event_classes, xlim=c(1,11))
+boxplot(log_ptot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Phosphorus Load )", names=event_classes, xlim=c(1,17))
 mtext("Eagle", side=1, line=3, at=1.5)
 
 mtext( paste(round(100*sum(eagle[eagle$snow==1,]$ptot_tot)/sum(eagle$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=1 )
@@ -497,6 +530,26 @@ mtext( paste(round(100*sum(brewery[brewery$snow==0,]$ptot_tot)/sum(brewery$ptot_
 
 mtext(sum(brewery$snow), side=3, line=1, cex=0.7, at=10 )
 mtext(length(brewery$snow)-sum(brewery$snow), side=3, line=1, cex=0.7, at=11 )
+
+#Garfoot creek
+boxplot(log_stot_tot~snow, data=garfoot, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=13:14, yaxt='n')
+mtext("Garfoot", side=1, line=3, at=13.5)
+
+mtext( paste(round(100*sum(garfoot[garfoot$snow==1,]$ptot_tot)/sum(garfoot$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=13 )
+mtext( paste(round(100*sum(garfoot[garfoot$snow==0,]$ptot_tot)/sum(garfoot$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=14 )
+
+mtext(sum(garfoot$snow), side=3, line=1, cex=0.7, at=13 )
+mtext(length(garfoot$snow)-sum(garfoot$snow), side=3, line=1, cex=0.7, at=14 )
+
+#Kuenster creek
+boxplot(log_stot_tot~snow, data=kuenster, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=16:17, yaxt='n')
+mtext("Kuenster", side=1, line=3, at=16.5)
+
+mtext( paste(round(100*sum(kuenster[kuenster$snow==1,]$ptot_tot)/sum(kuenster$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=16 )
+mtext( paste(round(100*sum(kuenster[kuenster$snow==0,]$ptot_tot)/sum(kuenster$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=17 )
+
+mtext(sum(kuenster$snow), side=3, line=1, cex=0.7, at=16 )
+mtext(length(kuenster$snow)-sum(kuenster$snow), side=3, line=1, cex=0.7, at=17 )
 
 mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
 mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
@@ -620,6 +673,8 @@ The data in this report comes from four Wisconsin streams that were monitored (w
         Joos Valley & 1990-1994, 2002-2007\\
         Otter & 1990-1997, 2000-2002\\
         Brewery & 1989, 1994-2002, 2004-2005\\
+        Garfoot & 1985, 1990-1993, 1995-1998\\
+        Kuenster & 1992-1995\\
     \end{tabular}
 \end{center}
 \end{table}
@@ -841,13 +896,17 @@ In order to make a model of the load carried by the stream, we need to select th
         \hspace{5mm} Eagle: & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
         \hspace{5mm} Joos: & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
         \hspace{5mm} Otter: & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs$ranked), collapse=", ") }
+        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs$ranked), collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ paste(names(gs$ranked), collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ paste(names(ks$ranked), collapse=", ") }
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
         \hspace{5mm} Eagle: & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
         \hspace{5mm} Joos: & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
         \hspace{5mm} Otter: & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
         \hspace{5mm} Brewery: & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ paste(names(gp$ranked), collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ paste(names(kp$ranked), collapse=", ") }\\
     \end{tabular}
     \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the load. \label{nosnow_predictor_list}}
     \end{center}
@@ -866,13 +925,17 @@ At most sites, the most important predictor was a temperature measurement, eithe
         \hspace{5mm} Eagle: & \Sexpr{ paste(names(es_snow$ranked), collapse=", ") }\\
         \hspace{5mm} Joos: & \Sexpr{ paste(names(js_snow$ranked), collapse=", ") }\\
         \hspace{5mm} Otter: & \Sexpr{ paste(names(os_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs_snow$ranked), collapse=", ") }
+        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ paste(names(gs_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ paste(names(ks_snow$ranked), collapse=", ") }
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
         \hspace{5mm} Eagle: & \Sexpr{ paste(names(ep_snow$ranked), collapse=", ") }\\
         \hspace{5mm} Joos: & \Sexpr{ paste(names(jp_snow$ranked), collapse=", ") }\\
         \hspace{5mm} Otter: & \Sexpr{ paste(names(op_snow$ranked), collapse=", ") }\\
         \hspace{5mm} Brewery: & \Sexpr{ paste(names(bp_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ paste(names(gp_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ paste(names(kp_snow$ranked), collapse=", ") }\\
     \end{tabular}
     \caption{The most important variables in the models for snowmelt-driven loading. The variables are ordered by their importance to the model of the load. \label{snow_predictor_list}}
     \end{center}

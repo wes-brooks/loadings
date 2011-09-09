@@ -1,0 +1,11 @@
+STATION NAME                   COOPID  WBANID  ELEM  YEAR  # OF MONTHS (DATA ROWS) AVAILABLE
+-----------------------------  ------  ------  ----  ----  ------------------------------------
+DUBUQUE RGNL AP                132367   94908   WTEQ  1990  3
+DUBUQUE RGNL AP                132367   94908   WTEQ  1991  12
+DUBUQUE RGNL AP                132367   94908   WTEQ  1992  12
+DUBUQUE RGNL AP                132367   94908   WTEQ  1993  12
+DUBUQUE RGNL AP                132367   94908   WTEQ  1994  12
+DUBUQUE RGNL AP                132367   94908   WTEQ  1995  8
+Total Data Rows: 59
+Total Station-Years: 6
+
