@@ -23,8 +23,9 @@
 #Read data into R and do some basic manipulation to get it into a usable format:
 setwd('~/git/loadings/code/Sweave')
 source('~/git/loadings/code/guide.r')
-streams = c('eagle', 'joosvalley', 'otter', 'brewery', 'garfoot', 'kuenster')
-stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter', brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster')
+streams = c('eagle', 'joosvalley', 'otter', 'brewery', 'garfoot', 'kuenster', 'rattlesnake')
+stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter',
+                    brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster', rattlesnake="Rattlesnake")
 outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
                 'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
 
@@ -34,7 +35,8 @@ nws_files = list("eagle"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona
                     "otter"=c("otter/NWS/Sheboygan_Otter_raw.txt"),
                     "brewery"=c("brewery/NWS/Madison_SND.txt"),
                     "garfoot"=c("garfoot/NWS data/madison_daily.txt"),
-                    "kuenster"=c("Kuenster/NWS data/Guttenberg_raw.txt"))
+                    "kuenster"=c("Kuenster/NWS data/Guttenberg_raw.txt"),
+                    "rattlesnake"=c("Kuenster/NWS data/Guttenberg_raw.txt"))
 
 
 #loop through the streams, reading them in one by one
@@ -159,7 +161,8 @@ for(stream_name in streams) {
 
 <<label=bubble_plots, echo=False, include=False>>=
 #The "_nosnow" dataframes exclude the snowfall-influenced events.
-layout(matrix(1:length(streams), ceiling(length(streams)/2), 2))
+num_rows = ceiling(length(streams)/2)
+layout(matrix(1:(2*num_rows), num_rows, 2))
 for(stream_name in streams) {
     stream = get(stream_name)
     assign( paste(stream_name, "_nosnow", sep=""), stream[stream$snow==FALSE,] )
@@ -176,7 +179,7 @@ for(stream_name in streams) {
             ylab="Theisen rainfall") }
 @
 
-<<label=stepwise_BIC, echo=False>>=
+<<label=stepwise_BIC, echo=False, include=False>>=
 #This function extracts the terms in the model formula.
 parse_args <- function(model) {
     s = attr(model$model, 'names')
@@ -184,19 +187,19 @@ parse_args <- function(model) {
     
     
 #This function ranks the predictors in the model based on their impact on the output.
-rank_predictors <- function(model) {
-    terms = parse_args(model)
-    target = terms[1]
-    predictors = terms[-1]
-    coefs = model$coefficients
-    data = model$x
+#rank_predictors <- function(model) {
+#    terms = parse_args(model)
+#    target = terms[1]
+#    predictors = terms[-1]
+#    coefs = model$coefficients
+#    data = model$x
     
-    influence = vector()
-    for(predictor in predictors) {
-        influence = c(influence, abs(coefs[predictor]*sd(data[,predictor], na.rm=T))) }
+#    influence = vector()
+#    for(predictor in predictors) {
+#        influence = c(influence, abs(coefs[predictor]*sd(data[,predictor], na.rm=T))) }
     
-    influence = sort(influence, decreasing=T)
-    return(influence) }
+#    influence = sort(influence, decreasing=T)
+#    return(influence) }
 
 
 r2 <- function(model){
@@ -211,11 +214,11 @@ r2 <- function(model){
 #This function adds variables one-by-one to the model, finding the R^2 at each step.
 r2_step <- function(model, variables, data) {
     output = attr(model$model, "names")[1]
-    call = paste(output, "~", names(variables)[1], sep="")
+    call = paste(output, "~", variables[1], sep="")
     
     r_square = vector()
 
-    for(variable in names(variables)[-1]) {
+    for(variable in variables[-1]) {
         f = as.formula(call)
         model = lm(formula=f, data=data)
         r_square = c(r_square, r2(model))
@@ -251,22 +254,25 @@ stepwise_BIC <- function(target, data) {
     
     #Put the results in a list object
     result$model = model
-    result$ranked = rank_predictors(model)
+    result$ranked = names(model$model)[-1] # rank_predictors(model)
     result$R2 = r2_step(model, result$ranked, data)
     return(result) }
 
 
 #Use the BIC to screen the predictors that are available when snow is on the ground.
 stepwise_BIC_snow <- function(target, data) {
-    d = data[,c(target, "num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")]
+    predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+    d = data[,c(target, predictors)]
     result = list()
-    formula = as.formula( paste(target, "~.") )
-    fm1 <- lm(formula, data=d, x=T)
+
+    full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
+    intercept_only = as.formula( paste(target, "~1") )
+    fm1 <- lm(full_model, data=d, x=T)
     
     d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
     names(d)[1] = target
-    fm2 <- lm(formula, data=d)
-    screened = step(fm2, direction='both', k=log(dim(d)[1]), trace=FALSE)
+    fm2 <- lm(intercept_only, data=d)
+    screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=TRUE)
     
     terms = parse_args(screened)
     target = terms[1]
@@ -277,7 +283,7 @@ stepwise_BIC_snow <- function(target, data) {
     
     #Put the results in a list object
     result$model = model
-    result$ranked = rank_predictors(model)
+    result$ranked = names(model$model)[-1] #rank_predictors(model)
     result$R2 = r2_step(model, result$ranked, data)
     return(result) }
 @
@@ -291,6 +297,7 @@ os = stepwise_BIC(target="log_stot_tot", data=otter_nosnow)
 bs = stepwise_BIC(target="log_stot_tot", data=brewery_nosnow)
 gs = stepwise_BIC(target="log_stot_tot", data=garfoot_nosnow)
 ks = stepwise_BIC(target="log_stot_tot", data=kuenster_nosnow)
+rs = stepwise_BIC(target="log_stot_tot", data=rattlesnake_nosnow)
 
 ep = stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow)
 jp = stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow)
@@ -298,6 +305,7 @@ op = stepwise_BIC(target="log_ptot_tot", data=otter_nosnow)
 bp = stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow)
 gp = stepwise_BIC(target="log_ptot_tot", data=garfoot_nosnow)
 kp = stepwise_BIC(target="log_ptot_tot", data=kuenster_nosnow)
+rp = stepwise_BIC(target="log_ptot_tot", data=rattlesnake_nosnow)
 @
 
 <<label=variable_selection_snow, echo=False>>=
@@ -307,6 +315,7 @@ os_snow = stepwise_BIC_snow(target="log_stot_tot", data=otter_snow)
 bs_snow = stepwise_BIC_snow(target="log_stot_tot", data=brewery_snow)
 gs_snow = stepwise_BIC_snow(target="log_stot_tot", data=garfoot_snow)
 ks_snow = stepwise_BIC_snow(target="log_stot_tot", data=kuenster_snow)
+rs_snow = stepwise_BIC_snow(target="log_stot_tot", data=rattlesnake_snow)
 
 ep_snow = stepwise_BIC_snow(target="log_ptot_tot", data=eagle_snow)
 jp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=joosvalley_snow)
@@ -314,6 +323,7 @@ op_snow = stepwise_BIC_snow(target="log_ptot_tot", data=otter_snow)
 bp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=brewery_snow)
 gp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=garfoot_snow)
 kp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=kuenster_snow)
+rp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=rattlesnake_snow)
 @
 
 <<label=proportions, echo=False, include=False>>=
@@ -415,7 +425,7 @@ par(mar=c(4, 4, 2, 0))
 event_classes = c("snow","rain")
 
 #Eagle creek
-boxplot(log_stot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Sediment Load )", names=event_classes, xlim=c(1,17))
+boxplot(log_stot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Sediment Load )", names=event_classes, xlim=c(1,20))
 mtext("Eagle", side=1, line=3, at=1.5)
 
 mtext( paste(round(100*sum(eagle[eagle$snow==1,]$stot_tot)/sum(eagle$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=1 )
@@ -477,6 +487,16 @@ mtext( paste(round(100*sum(kuenster[kuenster$snow==0,]$stot_tot)/sum(kuenster$st
 mtext(sum(kuenster$snow), side=3, line=1, cex=0.7, at=16 )
 mtext(length(kuenster$snow)-sum(kuenster$snow), side=3, line=1, cex=0.7, at=17 )
 
+#Rattlesnake creek
+boxplot(log_stot_tot~snow, data=rattlesnake, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=19:20, yaxt='n')
+mtext("Rattlesnake", side=1, line=3, at=19.5)
+
+mtext( paste(round(100*sum(rattlesnake[rattlesnake$snow==1,]$stot_tot)/sum(rattlesnake$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=19 )
+mtext( paste(round(100*sum(rattlesnake[rattlesnake$snow==0,]$stot_tot)/sum(rattlesnake$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=20 )
+
+mtext(sum(rattlesnake$snow), side=3, line=1, cex=0.7, at=19 )
+mtext(length(rattlesnake$snow)-sum(rattlesnake$snow), side=3, line=1, cex=0.7, at=20 )
+
 mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
 mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
 @
@@ -489,7 +509,7 @@ event_classes = c("snow","rain")
 par(mar=c(4, 4, 2, 0))
 
 #Eagle creek
-boxplot(log_ptot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Phosphorus Load )", names=event_classes, xlim=c(1,17))
+boxplot(log_ptot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Phosphorus Load )", names=event_classes, xlim=c(1,20))
 mtext("Eagle", side=1, line=3, at=1.5)
 
 mtext( paste(round(100*sum(eagle[eagle$snow==1,]$ptot_tot)/sum(eagle$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=1 )
@@ -550,6 +570,17 @@ mtext( paste(round(100*sum(kuenster[kuenster$snow==0,]$ptot_tot)/sum(kuenster$pt
 
 mtext(sum(kuenster$snow), side=3, line=1, cex=0.7, at=16 )
 mtext(length(kuenster$snow)-sum(kuenster$snow), side=3, line=1, cex=0.7, at=17 )
+
+
+#Rattlesnake creek
+boxplot(log_stot_tot~snow, data=rattlesnake, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=19:20, yaxt='n')
+mtext("Rattlesnake", side=1, line=3, at=19.5)
+
+mtext( paste(round(100*sum(rattlesnake[rattlesnake$snow==1,]$ptot_tot)/sum(rattlesnake$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=19 )
+mtext( paste(round(100*sum(rattlesnake[rattlesnake$snow==0,]$ptot_tot)/sum(rattlesnake$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=20 )
+
+mtext(sum(rattlesnake$snow), side=3, line=1, cex=0.7, at=19 )
+mtext(length(rattlesnake$snow)-sum(rattlesnake$snow), side=3, line=1, cex=0.7, at=20 )
 
 mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
 mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
@@ -667,14 +698,15 @@ The data in this report comes from four Wisconsin streams that were monitored (w
 
 \begin{table}[h]
 \begin{center}
-\begin{tabular}{r l}
-        \textbf{Stream} & \textbf{Monitored} \\
-        Eagle & 1991-1994, 2003-2007\\
-        Joos Valley & 1990-1994, 2002-2007\\
-        Otter & 1990-1997, 2000-2002\\
-        Brewery & 1989, 1994-2002, 2004-2005\\
-        Garfoot & 1985, 1990-1993, 1995-1998\\
-        Kuenster & 1992-1995\\
+\begin{tabular}{r l c}
+        \textbf{Stream}  & \textbf{No. events} & \textbf{Monitored}\\
+        Eagle & 429 &1991-1994, 2003-2007\\
+        Joos Valley & 473 & 1990-1994, 2002-2007\\
+        Otter & 424 & 1990-1997, 2000-2002\\
+        Brewery & 670 & 1989, 1994-2002, 2004-2005\\
+        Garfoot & 527 & 1985, 1990-1993, 1995-1998\\
+        Kuenster & 218 & 1992-1995\\
+        Rattlesnake & 170 & 1991-1994\\
     \end{tabular}
 \end{center}
 \end{table}
@@ -736,54 +768,55 @@ prp_all = proportions(streams, "event", col.names=c("snowmelt-driven", "rainfall
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-    \multirow{4}{*}{Eagle} & \Sexpr{round(es$R2[1], 3)} & \Sexpr{names(es$ranked)[1]}\\
-    & \Sexpr{round(es$R2[2], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]}\\
-    & \Sexpr{round(es$R2[3], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]}\\
-    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]} + \Sexpr{names(es$ranked)[4]} \\
-    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]} + \Sexpr{names(es$ranked)[4]} + \Sexpr{names(es$ranked)[5]} \\
-    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{names(es$ranked)[1]} + \Sexpr{names(es$ranked)[2]} + \Sexpr{names(es$ranked)[3]} + \Sexpr{names(es$ranked)[4]} + \Sexpr{names(es$ranked)[5]} + \Sexpr{names(es$ranked)[6]}
+    \multirow{4}{*}{Eagle} & \Sexpr{round(es$R2[1], 3)} & \Sexpr{es$ranked[1]}\\
+    & \Sexpr{round(es$R2[2], 3)} & \Sexpr{es$ranked[1]} + \Sexpr{es$ranked[2]}\\
+    & \Sexpr{round(es$R2[3], 3)} & \Sexpr{es$ranked[1]} + \Sexpr{es$ranked[2]} + \Sexpr{es$ranked[3]}\\
+    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{es$ranked[1]} + \Sexpr{es$ranked[2]} + \Sexpr{es$ranked[3]} + \Sexpr{es$ranked[4]} \\
+    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{es$ranked[1]} + \Sexpr{es$ranked[2]} + \Sexpr{es$ranked[3]} + \Sexpr{es$ranked[4]} + \Sexpr{es$ranked[5]} \\
+    & \Sexpr{round(es$R2[4], 3)} & \Sexpr{es$ranked[1]} + \Sexpr{es$ranked[2]} + \Sexpr{es$ranked[3]} + \Sexpr{es$ranked[4]} + \Sexpr{es$ranked[5]} + \Sexpr{es$ranked[6]}
     \vspace{2mm}\\
-    \multirow{4}{*}{Joos} & \Sexpr{round(js$R2[1], 3)} & \Sexpr{names(js$ranked)[1]}\\
-    & \Sexpr{round(js$R2[2], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]}\\
-    & \Sexpr{round(js$R2[3], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]}\\
-    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]} + \Sexpr{names(js$ranked)[4]} \\
-    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]} + \Sexpr{names(js$ranked)[4]} + \Sexpr{names(js$ranked)[5]}\\
-    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{names(js$ranked)[1]} + \Sexpr{names(js$ranked)[2]} + \Sexpr{names(js$ranked)[3]} + \Sexpr{names(js$ranked)[4]} + \Sexpr{names(js$ranked)[5]} + \Sexpr{names(js$ranked)[6]}
+    \multirow{4}{*}{Joos} & \Sexpr{round(js$R2[1], 3)} & \Sexpr{js$ranked[1]}\\
+    & \Sexpr{round(js$R2[2], 3)} & \Sexpr{js$ranked[1]} + \Sexpr{js$ranked[2]}\\
+    & \Sexpr{round(js$R2[3], 3)} & \Sexpr{js$ranked[1]} + \Sexpr{js$ranked[2]} + \Sexpr{js$ranked[3]}\\
+    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{js$ranked[1]} + \Sexpr{js$ranked[2]} + \Sexpr{js$ranked[3]} + \Sexpr{js$ranked[4]} \\
+    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{js$ranked[1]} + \Sexpr{js$ranked[2]} + \Sexpr{js$ranked[3]} + \Sexpr{js$ranked[4]} + \Sexpr{js$ranked[5]}\\
+    & \Sexpr{round(js$R2[4], 3)} & \Sexpr{js$ranked[1]} + \Sexpr{js$ranked[2]} + \Sexpr{js$ranked[3]} + \Sexpr{js$ranked[4]} + \Sexpr{js$ranked[5]} + \Sexpr{js$ranked[6]}
     \vspace{2mm}\\
-    \multirow{4}{*}{Otter} & \Sexpr{round(os$R2[1], 3)} & \Sexpr{names(os$ranked)[1]}\\
-    & \Sexpr{round(os$R2[2], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]}\\
-    & \Sexpr{round(os$R2[3], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]}\\
-    & \Sexpr{round(os$R2[4], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]} + \Sexpr{names(os$ranked)[4]} \\
-    & \Sexpr{round(os$R2[4], 3)} & \Sexpr{names(os$ranked)[1]} + \Sexpr{names(os$ranked)[2]} + \Sexpr{names(os$ranked)[3]} + \Sexpr{names(os$ranked)[4]} + \Sexpr{names(os$ranked)[5]}
+    \multirow{4}{*}{Otter} & \Sexpr{round(os$R2[1], 3)} & \Sexpr{os$ranked[1]}\\
+    & \Sexpr{round(os$R2[2], 3)} & \Sexpr{os$ranked[1]} + \Sexpr{os$ranked[2]}\\
+    & \Sexpr{round(os$R2[3], 3)} & \Sexpr{os$ranked[1]} + \Sexpr{os$ranked[2]} + \Sexpr{os$ranked[3]}\\
+    & \Sexpr{round(os$R2[4], 3)} & \Sexpr{os$ranked[1]} + \Sexpr{os$ranked[2]} + \Sexpr{os$ranked[3]} + \Sexpr{os$ranked[4]} \\
+    & \Sexpr{round(os$R2[4], 3)} & \Sexpr{os$ranked[1]} + \Sexpr{os$ranked[2]} + \Sexpr{os$ranked[3]} + \Sexpr{os$ranked[4]} + \Sexpr{os$ranked[5]}
     \vspace{2mm}\\
-    \multirow{3}{*}{Brewery} & \Sexpr{round(bs$R2[1], 3)} & \Sexpr{names(bs$ranked)[1]}\\
-    & \Sexpr{round(bs$R2[2], 3)} & \Sexpr{names(bs$ranked)[1]} + \Sexpr{names(bs$ranked)[2]}\\
-    & \Sexpr{round(bs$R2[3], 3)} & \Sexpr{names(bs$ranked)[1]} + \Sexpr{names(bs$ranked)[2]} + \Sexpr{names(bs$ranked)[3]}
+    \multirow{3}{*}{Brewery} & \Sexpr{round(bs$R2[1], 3)} & \Sexpr{bs$ranked[1]}\\
+    & \Sexpr{round(bs$R2[2], 3)} & \Sexpr{bs$ranked[1]} + \Sexpr{bs$ranked[2]}\\
+    & \Sexpr{round(bs$R2[3], 3)} & \Sexpr{bs$ranked[1]} + \Sexpr{bs$ranked[2]} + \Sexpr{bs$ranked[3]}
     \vspace{6mm}\\
 
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-    \multirow{4}{*}{Eagle} & \Sexpr{round(ep$R2[1], 3)} & \Sexpr{names(ep$ranked)[1]}\\
-    & \Sexpr{round(ep$R2[2], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]}\\
-    & \Sexpr{round(ep$R2[3], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]}\\
-    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]} + \Sexpr{names(ep$ranked)[4]} \\
-    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]} + \Sexpr{names(ep$ranked)[5]} \\
-    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{names(ep$ranked)[1]} + \Sexpr{names(ep$ranked)[2]} + \Sexpr{names(ep$ranked)[3]} + \Sexpr{names(ep$ranked)[4]} + \Sexpr{names(ep$ranked)[5]} + \Sexpr{names(ep$ranked)[6]}
+    \multirow{4}{*}{Eagle} & \Sexpr{round(ep$R2[1], 3)} & \Sexpr{ep$ranked[1]}\\
+    & \Sexpr{round(ep$R2[2], 3)} & \Sexpr{ep$ranked[1]} + \Sexpr{ep$ranked[2]}\\
+    & \Sexpr{round(ep$R2[3], 3)} & \Sexpr{ep$ranked[1]} + \Sexpr{ep$ranked[2]} + \Sexpr{ep$ranked[3]}\\
+    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{ep$ranked[1]} + \Sexpr{ep$ranked[2]} + \Sexpr{ep$ranked[3]} + \Sexpr{ep$ranked[4]} \\
+    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{ep$ranked[1]} + \Sexpr{ep$ranked[2]} + \Sexpr{ep$ranked[3]} + \Sexpr{ep$ranked[4]} + \Sexpr{ep$ranked[5]}\\
+    & \Sexpr{round(ep$R2[4], 3)} & \Sexpr{ep$ranked[1]} + \Sexpr{ep$ranked[2]} + \Sexpr{ep$ranked[3]} + \Sexpr{ep$ranked[4]} + \Sexpr{ep$ranked[5]} + \Sexpr{ep$ranked[6]}
     \vspace{2mm}\\
-    \multirow{4}{*}{Joos} & \Sexpr{round(jp$R2[1], 3)} & \Sexpr{names(jp$ranked)[1]}\\
-    & \Sexpr{round(jp$R2[2], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]}\\
-    & \Sexpr{round(jp$R2[3], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]} + \Sexpr{names(jp$ranked)[3]}\\
-    & \Sexpr{round(jp$R2[4], 3)} & \Sexpr{names(jp$ranked)[1]} + \Sexpr{names(jp$ranked)[2]} + \Sexpr{names(jp$ranked)[3]} + \Sexpr{names(jp$ranked)[4]}
+    \multirow{4}{*}{Joos} & \Sexpr{round(jp$R2[1], 3)} & \Sexpr{jp$ranked[1]}\\
+    & \Sexpr{round(jp$R2[2], 3)} & \Sexpr{jp$ranked[1]} + \Sexpr{jp$ranked[2]}\\
+    & \Sexpr{round(jp$R2[3], 3)} & \Sexpr{jp$ranked[1]} + \Sexpr{jp$ranked[2]} + \Sexpr{jp$ranked[3]}\\
+    & \Sexpr{round(jp$R2[4], 3)} & \Sexpr{jp$ranked[1]} + \Sexpr{jp$ranked[2]} + \Sexpr{jp$ranked[3]} + \Sexpr{jp$ranked[4]}
     \vspace{2mm}\\
-    \multirow{4}{*}{Otter} & \Sexpr{round(op$R2[1], 3)} & \Sexpr{names(op$ranked)[1]}\\
-    & \Sexpr{round(op$R2[2], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]}\\
-    & \Sexpr{round(op$R2[3], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]}\\
-    & \Sexpr{round(op$R2[4], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]} + \Sexpr{names(op$ranked)[4]}\\
-    & \Sexpr{round(op$R2[4], 3)} & \Sexpr{names(op$ranked)[1]} + \Sexpr{names(op$ranked)[2]} + \Sexpr{names(op$ranked)[3]} + \Sexpr{names(op$ranked)[4]} + \Sexpr{names(op$ranked)[5]}
+    \multirow{4}{*}{Otter} & \Sexpr{round(op$R2[1], 3)} & \Sexpr{op$ranked[1]}\\
+    & \Sexpr{round(op$R2[2], 3)} & \Sexpr{op$ranked[1]} + \Sexpr{op$ranked[2]}\\
+    & \Sexpr{round(op$R2[3], 3)} & \Sexpr{op$ranked[1]} + \Sexpr{op$ranked[2]} + \Sexpr{op$ranked[3]}\\
+    & \Sexpr{round(op$R2[4], 3)} & \Sexpr{op$ranked[1]} + \Sexpr{op$ranked[2]} + \Sexpr{op$ranked[3]} + \Sexpr{op$ranked[4]}\\
+    & \Sexpr{round(op$R2[4], 3)} & \Sexpr{op$ranked[1]} + \Sexpr{op$ranked[2]} + \Sexpr{op$ranked[3]} + \Sexpr{op$ranked[4]} + \Sexpr{op$ranked[5]}
     \vspace{2mm}\\
-    \multirow{3}{*}{Brewery} & \Sexpr{round(bp$R2[1], 3)} & \Sexpr{names(bp$ranked)[1]}\\
-    & \Sexpr{round(bp$R2[2], 3)} & \Sexpr{names(bp$ranked)[1]} + \Sexpr{names(bp$ranked)[2]}\\
-    & \Sexpr{round(bp$R2[3], 3)} & \Sexpr{names(bp$ranked)[1]} + \Sexpr{names(bp$ranked)[2]} + \Sexpr{names(bp$ranked)[3]} + \Sexpr{names(bp$ranked)[4]}\\
+    \multirow{3}{*}{Brewery} & \Sexpr{round(bp$R2[1], 3)} & \Sexpr{bp$ranked[1]}\\
+    & \Sexpr{round(bp$R2[2], 3)} & \Sexpr{bp$ranked[1]} + \Sexpr{bp$ranked[2]}\\
+    & \Sexpr{round(bp$R2[2], 3)} & \Sexpr{bp$ranked[1]} + \Sexpr{bp$ranked[2]} + \Sexpr{bp$ranked[3]}\\
+    & \Sexpr{round(bp$R2[3], 3)} & \Sexpr{bp$ranked[1]} + \Sexpr{bp$ranked[2]} + \Sexpr{bp$ranked[3]} + \Sexpr{bp$ranked[4]}\\
 
     \end{tabular}
     \caption{\label{r_square_nosnow}}
@@ -893,20 +926,22 @@ In order to make a model of the load carried by the stream, we need to select th
     \begin{center}
     \begin{tabular}{ll}
         \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs$ranked), collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ paste(names(gs$ranked), collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ paste(names(ks$ranked), collapse=", ") }
+        \hspace{5mm} Eagle: & \Sexpr{ paste(es$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(js$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(os$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(bs$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ paste(gs$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ paste(ks$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlesnake: & \Sexpr{ paste(rs$ranked, collapse=", ") }
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ paste(names(gp$ranked), collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ paste(names(kp$ranked), collapse=", ") }\\
+        \hspace{5mm} Eagle: & \Sexpr{ paste(ep$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(jp$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(op$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(bp$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ paste(gp$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ paste(kp$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlenake: & \Sexpr{ paste(rp$ranked, collapse=", ") }\\
     \end{tabular}
     \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the load. \label{nosnow_predictor_list}}
     \end{center}
@@ -922,20 +957,22 @@ At most sites, the most important predictor was a temperature measurement, eithe
     \begin{center}
     \begin{tabular}{ll}
         \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ paste(names(es_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ paste(names(js_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ paste(names(os_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bs_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ paste(names(gs_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ paste(names(ks_snow$ranked), collapse=", ") }
+        \hspace{5mm} Eagle: & \Sexpr{ paste(es_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(js_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(os_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(bs_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ paste(gs_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ paste(ks_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlesnake: & \Sexpr{ paste(rs_snow$ranked, collapse=", ") }
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ paste(names(ep_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ paste(names(jp_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ paste(names(op_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ paste(names(bp_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ paste(names(gp_snow$ranked), collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ paste(names(kp_snow$ranked), collapse=", ") }\\
+        \hspace{5mm} Eagle: & \Sexpr{ paste(ep_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ paste(jp_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ paste(op_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ paste(bp_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ paste(gp_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ paste(kp_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlesnake: & \Sexpr{ paste(rp_snow$ranked, collapse=", ") }\\
     \end{tabular}
     \caption{The most important variables in the models for snowmelt-driven loading. The variables are ordered by their importance to the model of the load. \label{snow_predictor_list}}
     \end{center}
@@ -953,16 +990,16 @@ There are at least two more creeks to include in the analysis. We also need to d
 %    \begin{center}
 %    \begin{tabular}{lrl}
 %        Solids: & & \\
-%        & Eagle & \Sexpr{ paste(names(es$ranked), collapse=", ") }\\
-%        & Joos & \Sexpr{ paste(names(js$ranked), collapse=", ") }\\
-%        & Otter & \Sexpr{ paste(names(os$ranked), collapse=", ") }\\
-%        & Brewery & \Sexpr{ paste(names(bs$ranked), collapse=", ") }\\
+%        & Eagle & \Sexpr{ paste(es$ranked, collapse=", ") }\\
+%        & Joos & \Sexpr{ paste(js$ranked, collapse=", ") }\\
+%        & Otter & \Sexpr{ paste(os$ranked, collapse=", ") }\\
+%        & Brewery & \Sexpr{ paste(bs$ranked, collapse=", ") }\\
 %        \hline \\
 %        Phosphorus: & & \\
-%        & Eagle & \Sexpr{ paste(names(ep$ranked), collapse=", ") }\\
-%        & Joos & \Sexpr{ paste(names(jp$ranked), collapse=", ") }\\
-%        & Otter & \Sexpr{ paste(names(op$ranked), collapse=", ") }\\
-%        & Brewery & \Sexpr{ paste(names(bp$ranked), collapse=", ") }\\
+%        & Eagle & \Sexpr{ paste(ep$ranked, collapse=", ") }\\
+%        & Joos & \Sexpr{ paste(jp$ranked, collapse=", ") }\\
+%        & Otter & \Sexpr{ paste(op$ranked, collapse=", ") }\\
+%        & Brewery & \Sexpr{ paste(bp$ranked, collapse=", ") }\\
 %    \end{tabular}
 %    \end{center}
 %\end{table}

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009) (format=xelatex 2009.11.7)  9 SEP 2011 13:00
+This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009) (format=xelatex 2009.11.7)  14 SEP 2011 13:22
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -415,7 +415,7 @@ File: loadings-fig2.pdf Graphic file (type QTm)
 
 <use  "loadings-fig2.pdf" >
 
-LaTeX Warning: Float too large for page by 0.84747pt on input line 53.
+LaTeX Warning: Float too large for page by 0.84747pt on input line 42.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -425,105 +425,81 @@ File: loadings-boxplot_stot.pdf Graphic file (type QTm)
 File: loadings-boxplot_ptot.pdf Graphic file (type QTm)
  <use  "loadings-boxplot_ptot.pdf" >
 
-LaTeX Warning: Float too large for page by 16.99103pt on input line 75.
+LaTeX Warning: Float too large for page by 16.99103pt on input line 64.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--114
+Underfull \hbox (badness 10000) in paragraph at lines 103--104
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--116
+Underfull \hbox (badness 10000) in paragraph at lines 105--106
 
  []
 
 [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 118--119
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
 
  []
 
 
-LaTeX Warning: Reference `tab:stot' on page 2 undefined on input line 120.
-
-
-LaTeX Warning: Reference `tab:ptot' on page 2 undefined on input line 120.
-
-
-LaTeX Warning: Reference `bars' on page 2 undefined on input line 120.
-
-
-LaTeX Warning: Reference `boxplots' on page 2 undefined on input line 120.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 120--121
+Underfull \hbox (badness 10000) in paragraph at lines 110--111
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--123
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
+Underfull \hbox (badness 10000) in paragraph at lines 114--115
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
+Underfull \hbox (badness 10000) in paragraph at lines 154--155
 
  []
 
 
-Overfull \hbox (100.32709pt too wide) in paragraph at lines 187--240
+Overfull \hbox (45.90598pt too wide) in paragraph at lines 179--233
  [] 
  []
 
 
-LaTeX Warning: Float too large for page by 78.0379pt on input line 242.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: Float too large for page by 64.43791pt on input line 235.
 
 [2]
 
-LaTeX Warning: Reference `nosnow_predictor_list' on page 3 undefined on input l
-ine 341.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--342
-
- []
-
-
-Overfull \hbox (108.20113pt too wide) in paragraph at lines 345--362
- [] 
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: Reference `r_square_nosnow' on page 3 undefined on input line 36
-6.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 366--367
+Underfull \hbox (badness 10000) in paragraph at lines 334--335
 
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 368--369
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 361--362
 
  []
 
 
-Overfull \hbox (28.63895pt too wide) in paragraph at lines 374--391
+Underfull \hbox (badness 10000) in paragraph at lines 363--364
+
+ []
+
+
+Overfull \hbox (41.45271pt too wide) in paragraph at lines 369--388
  [] 
  []
 
@@ -531,20 +507,14 @@ Overfull \hbox (28.63895pt too wide) in paragraph at lines 374--391
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 396--397
+Underfull \hbox (badness 10000) in paragraph at lines 393--394
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 398--399
+Underfull \hbox (badness 10000) in paragraph at lines 395--396
 
  []
-
-
-LaTeX Warning: Reference `cdf-s' on page 4 undefined on input line 401.
-
-
-LaTeX Warning: Reference `cdf-p' on page 4 undefined on input line 401.
 
 [4]
 File: loadings-figure2.pdf Graphic file (type QTm)
@@ -554,10 +524,7 @@ File: loadings-figure3.pdf Graphic file (type QTm)
 File: loadings-figure4.pdf Graphic file (type QTm)
 
 <use  "loadings-figure4.pdf" > (./loadings.bbl) [5] [6] [7] [8] [9] [10]
-[11] [12] (./loadings.aux)
-
-LaTeX Warning: There were undefined references.
-
+[11] [12] [13] (./loadings.aux)
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
@@ -565,10 +532,10 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 Here is how much of TeX's memory you used:
  5820 strings out of 494665
  80608 string characters out of 3163743
- 170860 words of memory out of 3000000
+ 169860 words of memory out of 3000000
  8960 multiletter control sequences out of 15000+200000
  26722 words of font info for 59 fonts, out of 3000000 for 9000
  669 hyphenation exceptions out of 8191
- 44i,10n,73p,752b,456s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,10n,73p,745b,456s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on loadings.pdf (12 pages).
+Output written on loadings.pdf (13 pages).
