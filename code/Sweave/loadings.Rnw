@@ -38,6 +38,16 @@ nws_files = list("eagle"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona
                     "kuenster"=c("Kuenster/NWS data/Guttenberg_raw.txt"),
                     "rattlesnake"=c("Kuenster/NWS data/Guttenberg_raw.txt"))
 
+#Location of the raw loading data file for each creek
+daily_load_data = list()
+raw_load_files = list("eagle"=c("eagle/eagle_loads.txt"),
+                    "joosvalley"=c("joosvalley/joos_loads.txt"),
+                    "otter"=c("otter/otter_loads.txt"),
+                    "brewery"=c("brewery/brewery_loads.txt"),
+                    "garfoot"=c("garfoot/garfoot_loads.txt"),
+                    "kuenster"=c("Kuenster/kuenster_loads.txt"),
+                    "rattlesnake"=c("Rattlesnake/rattle_loads.txt"))
+
 
 #loop through the streams, reading them in one by one
 for(stream_name in streams) {
@@ -74,6 +84,14 @@ for(stream_name in streams) {
         event <- rep(1, length(m))
         } )
 
+    #Get the raw daily loads at each site
+    daily_load = data.frame()
+    for( raw_load_file in get(stream_name, pos=raw_load_files)) {
+        raw_path = paste("../../data/", raw_load_file, sep="")
+        daily_load = rbind(daily_load, read.table(raw_path, na.strings=c("", "99999", "-1.23E+25"), header=TRUE)) }
+    daily_load$date = with( daily_load, as.POSIXlt( as.character(date), format="%m/%d/%Y" ) )
+    daily_load_data[[stream_name]] = daily_load
+    
     #Find the base flow that immediately preceded each event
     antecedent_qbase = rep(NA, length(stream$start_day))
     for( i in 1:length(antecedent_qbase) ) {
@@ -89,7 +107,7 @@ for(stream_name in streams) {
         nws_path = paste("../../data/", nws_file, sep="")
         nws = rbind(nws, read.csv(nws_path, na.strings=c("", "99999", "-1.23E+25"))) }
     nws$date = with(nws, ISOdate(year=year, month=month, day=day))
-    
+
     #Now find the antecedent air temperature for each event
     #We will compute the mean, min, and range of air temps before this event began.
     antecedent_tmean = rep(NA, length(stream$start_day))

@@ -1,24 +1,21 @@
-This is XeTeX, Version 3.1415926-2.2-0.9997.4 (TeX Live 2010) (format=xelatex 2010.7.21)  14 SEP 2011 19:38
+This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009) (format=xelatex 2009.11.7)  16 SEP 2011 12:12
 entering extended mode
- restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **loadings.tex
 (./loadings.tex
 LaTeX2e <2009/09/24>
-Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
-rman-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, arabic, armenian
-, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutch, u
-kenglish, usenglishmax, esperanto, estonian, farsi, finnish, french, galician, 
-german, ngerman, swissgerman, monogreek, greek, hungarian, icelandic, assamese,
- bengali, gujarati, hindi, kannada, malayalam, marathi, oriya, panjabi, tamil, 
-telugu, indonesian, interlingua, irish, italian, kurmanji, lao, latin, latvian,
- lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, polish, portuguese, roma
-nian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, turkish,
- turkmen, ukrainian, uppersorbian, welsh, loaded.
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/article.cls
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, german-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, ar
+abic, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutc
+h, esperanto, estonian, farsi, finnish, french, galician, german, ngerman, mono
+greek, greek, hungarian, icelandic, indonesian, interlingua, irish, italian, ku
+rmanji, latin, latvian, lithuanian, mongolian, mongolian2a, bokmal, nynorsk, po
+lish, portuguese, romanian, russian, sanskrit, serbian, slovak, slovenian, span
+ish, swedish, turkish, ukenglish, ukrainian, uppersorbian, welsh, loaded.
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/size12.clo
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count80
@@ -33,19 +30,19 @@ File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(/usr/local/texlive/2010/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2010/07/13 v5.5 Page Geometry
+(/usr/local/texlive/2009/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2008/12/21 v4.2 Page Geometry
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/graphics/keyval.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-(/usr/local/texlive/2010/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2010/01/28 v2.1 Provides the ifpdf switch (HO)
+(/usr/local/texlive/2009/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in pdf mode not detected.
 )
-(/usr/local/texlive/2010/texmf-dist/tex/generic/oberdiek/ifvtex.sty
-Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
+(/usr/local/texlive/2009/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
 Package ifvtex Info: VTeX not detected.
 )
 \Gm@cnth=\count88
@@ -55,37 +52,34 @@ Package ifvtex Info: VTeX not detected.
 \Gm@wd@mp=\dimen104
 \Gm@odd@mp=\dimen105
 \Gm@even@mp=\dimen106
-\Gm@layoutwidth=\dimen107
-\Gm@layoutheight=\dimen108
-\Gm@layouthoffset=\dimen109
-\Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks15
-)
-(/usr/local/texlive/2010/texmf-dist/tex/latex/graphics/graphicx.sty
+
+(/usr/local/texlive/2009/texmf-dist/tex/xelatex/xetexconfig/geometry.cfg))
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/graphics/trig.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/local/texlive/2010/texmf-dist/tex/latex/latexconfig/graphics.cfg
-File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+(/usr/local/texlive/2009/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: xetex.def on input line 91.
 
-(/usr/local/texlive/2010/texmf-dist/tex/xelatex/xetex-def/xetex.def
-File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
-
+(/usr/local/texlive/2009/texmf-dist/tex/xelatex/xetex-def/xetex.def
+File: xetex.def 2009/10/28 v0.93 LaTeX color/graphics driver for XeTeX (RRM, mo
+d. JK)
 ))
-\Gin@req@height=\dimen111
-\Gin@req@width=\dimen112
+\Gin@req@height=\dimen107
+\Gin@req@width=\dimen108
 )
-(/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2009/06/22 v3.00
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \@emptytoks=\toks16
 \symAMSa=\mathgroup4
@@ -93,26 +87,26 @@ Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
-(/usr/local/texlive/2010/texmf-dist/tex/latex/subfig/subfig.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2011/08/06 v3.2 Customizing captions (AR)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2009/10/09 v3.1k Customizing captions (AR)
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2011/08/06 v1.3 caption3 kernel (AR)
-\captionmargin=\dimen113
-\captionmargin@=\dimen114
-\captionwidth=\dimen115
-\caption@indent=\dimen116
-\caption@parindent=\dimen117
-\caption@hangindent=\dimen118
+(/usr/local/texlive/2009/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
+\captionmargin=\dimen109
+\captionmargin@=\dimen110
+\captionwidth=\dimen111
+\caption@indent=\dimen112
+\caption@parindent=\dimen113
+\caption@hangindent=\dimen114
 )
 \c@ContinuedFloat=\count91
 )
 \c@KVtest=\count92
 \sf@farskip=\skip43
-\sf@captopadj=\dimen119
+\sf@captopadj=\dimen115
 \sf@capskip=\skip44
 \sf@nearskip=\skip45
 \c@subfigure=\count93
@@ -124,99 +118,62 @@ Package: caption3 2011/08/06 v1.3 caption3 kernel (AR)
 \sf@top=\skip46
 \sf@bottom=\skip47
 )
-(/usr/local/texlive/2010/texmf-dist/tex/latex/multirow/multirow.sty
-\bigstrutjot=\dimen120
+(/usr/local/texlive/2009/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen116
 )
-(/usr/local/texlive/2010/texmf-dist/tex/latex/pstricks/pstricks.sty
-Package: pstricks 2011/04/23 v0.50 LaTeX wrapper for `PSTricks' (RN,HV)
 
-(/usr/local/texlive/2010/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-)
-(/usr/local/texlive/2010/texmf-dist/tex/generic/pstricks/pstricks.tex
-(/usr/local/texlive/2010/texmf-dist/tex/generic/xkeyval/pst-xkey.tex
-File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
+./loadings.tex:11: LaTeX Error: Option clash for package caption.
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2008/08/13 v2.6a package option processing (HA)
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.11 \usepackage
+                {pstricks, pst-node,pst-tree}
+? 
+(/usr/local/texlive/2009/texmf-dist/tex/latex/pstricks/pstricks.sty
+Package: pstricks 2008/11/26 v0.40 LaTeX wrapper for `PSTricks' (RN,HV)
 
-(/usr/local/texlive/2010/texmf-dist/tex/generic/xkeyval/xkeyval.tex
-\XKV@toks=\toks17
-\XKV@tempa@toks=\toks18
-\XKV@depth=\count99
-File: xkeyval.tex 2008/08/13 v2.6a key=value parser (HA)
-)))
-(/usr/local/texlive/2010/texmf-dist/tex/generic/pstricks/pst-fp.tex
-`pst-fp' v0.05, 2010/01/17 (hv)
-\pstFP@xs=\count100
-\pstFP@xia=\count101
-\pstFP@xib=\count102
-\pstFP@xfa=\count103
-\pstFP@xfb=\count104
-\pstFP@rega=\count105
-\pstFP@regb=\count106
-\pstFP@regs=\count107
-\pstFP@times=\count108
-)
-\psLoopIndex=\count109
-
-`PSTricks' v2.20  <2011/04/23> (tvz)
-\pst@dima=\dimen121
-\pst@dimb=\dimen122
-\pst@dimc=\dimen123
-\pst@dimd=\dimen124
-\pst@dimg=\dimen125
-\pst@dimh=\dimen126
-\pst@dimm=\dimen127
-\pst@dimn=\dimen128
-\pst@dimo=\dimen129
-\pst@dimp=\dimen130
+(/usr/local/texlive/2009/texmf-dist/tex/generic/pstricks/pstricks.tex
+`PSTricks' v1.29  <2009/05/19> (tvz)
+\pst@dima=\dimen117
+\pst@dimb=\dimen118
+\pst@dimc=\dimen119
+\pst@dimd=\dimen120
+\pst@dimg=\dimen121
+\pst@dimh=\dimen122
 \pst@hbox=\box26
-\pst@ibox=\box27
-\pst@boxg=\box28
-\pst@cnta=\count110
-\pst@cntb=\count111
-\pst@cntc=\count112
-\pst@cntd=\count113
-\pst@cntg=\count114
-\pst@cnth=\count115
-\pst@cntm=\count116
-\pst@cntn=\count117
-\pst@cnto=\count118
-\pst@cntp=\count119
-\@zero=\count120
-\pst@toks=\toks19
-(/usr/local/texlive/2010/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
-(/usr/local/texlive/2010/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg))
-\psunit=\dimen131
-\psxunit=\dimen132
-\psyunit=\dimen133
-\pst@C@@rType=\count121
-\pslinewidth=\dimen134
-\psk@startLW=\dimen135
-\psk@endLW=\dimen136
-\pst@customdefs=\toks20
-\pslinearc=\dimen137
-\pst@symbolStep=\dimen138
-\pst@symbolWidth=\dimen139
-\everypsbox=\toks21
-\psframesep=\dimen140
-\pslabelsep=\dimen141
-\pst@shift=\dimen142
-\theoverlaybox=\box29
-(/usr/local/texlive/2010/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
-(/usr/local/texlive/2010/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg
+\pst@boxg=\box27
+\pst@cnta=\count99
+\pst@cntb=\count100
+\pst@cntc=\count101
+\pst@cntd=\count102
+\pst@cntg=\count103
+\pst@cnth=\count104
+\pst@toks=\toks17
+(/usr/local/texlive/2009/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
+(/usr/local/texlive/2009/texmf-dist/tex/generic/pstricks/xdvipdfmx.con))
+\psunit=\dimen123
+\psxunit=\dimen124
+\psyunit=\dimen125
+\pslinewidth=\dimen126
+\pst@customdefs=\toks18
+\pslinearc=\dimen127
+\everypsbox=\toks19
+\psframesep=\dimen128
+\pslabelsep=\dimen129
+\pst@shift=\dimen130
+\theoverlaybox=\box28
+
+(/usr/local/texlive/2009/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
+(/usr/local/texlive/2009/texmf-dist/tex/generic/pstricks/xdvipdfmx.con
 Using PSTricks configuration for XeTeX+xdvipdfmx
 )))
-File: pstricks.tex 2011/04/23 v2.20 `PSTricks' (tvz,hv)
- (/usr/local/texlive/2010/texmf-dist/tex/generic/pstricks/pst-fp.tex)
-File: pst-fp.tex 2011/04/23 v2.20 `PST-fp' (hv)
-
-(/usr/local/texlive/2010/texmf-dist/tex/latex/xcolor/xcolor.sty
+File: pstricks.tex 2009/05/19 v1.29 `PSTricks' (tvz,hv)
+ (/usr/local/texlive/2009/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/latexconfig/color.cfg
+(/usr/local/texlive/2009/texmf-dist/tex/latex/latexconfig/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package xcolor Info: Driver file: xetex.def on input line 225.
@@ -229,57 +186,68 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 ))
-(/usr/local/texlive/2010/texmf-dist/tex/latex/pst-node/pst-node.sty
-Package: pst-node 2010/04/22 package wrapper for pst-node.tex
+(/usr/local/texlive/2009/texmf-dist/tex/latex/pstricks/pst-node.sty
+Package: pst-node 2006/01/01 package wrapper for pst-node.tex
 
-(/usr/local/texlive/2010/texmf-dist/tex/generic/pst-node/pst-node.tex
- v1.15, 2011/02/28
-\psrow=\count122
-\pscol=\count123
-\psmatrixcnt=\count124
+(/usr/local/texlive/2009/texmf-dist/tex/generic/pstricks/pst-node.tex
+ v1.01, 2008/11/26
+\psrow=\count105
+\pscol=\count106
+\psmatrixcnt=\count107
 \psrowsep=\skip48
 \pscolsep=\skip49
-\pst@args=\count125
-\num@pts=\count126
-\pst@argcnt=\count127
 )
-File: pst-node.tex 2011/02/28 1.15 `pst-node' (tvz)
+File: pst-node.tex 2008/11/26 1.01 `pst-node' (tvz)
 )
-(/usr/local/texlive/2010/texmf-dist/tex/latex/pst-tree/pst-tree.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/pst-tree/pst-tree.sty
 Package: pst-tree 2009/01/25 package wrapper for pst-tree.tex
 
-(/usr/local/texlive/2010/texmf-dist/tex/generic/pst-tree/pst-tree.tex
- v1.12, 2011/02/28(tvz,dg,hv)
-\pstree@rootbox=\box30
-\pstree@box=\box31
-\psnodecnt=\count128
-\pstreelevel=\count129
-\pstreecnt=\count130
-\pstree@cnt=\count131
-\pstree@stop=\count132
+(/usr/local/texlive/2009/texmf-dist/tex/generic/pst-tree/pst-tree.tex
+(/usr/local/texlive/2009/texmf-dist/tex/generic/xkeyval/pst-xkey.tex
+File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2008/08/13 v2.6a package option processing (HA)
+
+(/usr/local/texlive/2009/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+\XKV@toks=\toks20
+\XKV@tempa@toks=\toks21
+\XKV@depth=\count108
+File: xkeyval.tex 2008/08/13 v2.6a key=value parser (HA)
+)))
+ v1.11, 2009/09/17(tvz,dg,hv)
+\pstree@rootbox=\box29
+\pstree@box=\box30
+\psnodecnt=\count109
+\pstreelevel=\count110
+\pstreecnt=\count111
+\pstree@cnt=\count112
+\pstree@stop=\count113
 )
-File: pst-tree.tex 2011/02/28 1.12 `pst-tree' (tvz,hv)
+File: pst-tree.tex 2009/09/17 1.11 `pst-tree' (tvz,hv)
 ) (./Sweave.sty
 Package: Sweave 
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/ifthen.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-(/usr/local/texlive/2010/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
 Package: fancyvrb 2008/02/07
 
 Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
 <2008/02/07> (tvz)
-\FV@CodeLineNo=\count133
+\FV@CodeLineNo=\count114
 \FV@InFile=\read1
-\FV@TabBox=\box32
-\c@FancyVerbLine=\count134
-\FV@StepNumber=\count135
+\FV@TabBox=\box31
+\c@FancyVerbLine=\count115
+\FV@StepNumber=\count116
 \FV@OutFile=\write3
-) (/usr/local/texlive/2010/texmf/tex/latex/Sweave/upquote.sty
+)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/Sweave/upquote.sty
 Package: upquote 2003/08/11 v1.1 Covington's upright-quote modification to verb
 atim and verb
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/textcomp.sty
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -294,7 +262,7 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/ts1enc.def
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 )
 LaTeX Info: Redefining \oldstylenums on input line 266.
@@ -346,26 +314,26 @@ Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 324.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 325.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 326.
 ))
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/t1enc.def
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/t1enc.def
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 ))
-(/usr/local/texlive/2010/texmf-dist/tex/latex/ae/ae.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/ae/ae.sty
 Package: ae 2001/02/12 1.3 Almost European Computer Modern
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/t1enc.def
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/t1enc.def
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 )
 LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/ae/t1aer.fd
+(/usr/local/texlive/2009/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
 )))) (./loadings.aux)
 \openout1 = `loadings.aux'.
@@ -385,60 +353,70 @@ LaTeX Font Info:    ... okay on input line 19.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 19.
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/base/ts1cmr.fd
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 19.
 
-*geometry* driver: auto-detecting
-*geometry* detected driver: xetex
-*geometry* verbose mode - [ preamble ] result:
-* driver: xetex
-* paper: letterpaper
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: 
-* h-part:(L,W,R)=(92.14519pt, 430.00462pt, 92.14519pt)
-* v-part:(T,H,B)=(95.39737pt, 556.47656pt, 143.09605pt)
-* \paperwidth=614.295pt
-* \paperheight=794.96999pt
-* \textwidth=430.00462pt
-* \textheight=556.47656pt
-* \oddsidemargin=19.8752pt
-* \evensidemargin=19.8752pt
-* \topmargin=-13.87262pt
-* \headheight=12.0pt
-* \headsep=25.0pt
-* \topskip=12.0pt
-* \footskip=30.0pt
-* \marginparwidth=44.0pt
-* \marginparsep=10.0pt
-* \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+*geometry detected driver: pdftex*
+-------------------- Geometry parameters
+paper: letterpaper
+landscape: --
+twocolumn: --
+twoside: --
+asymmetric: --
+h-parts: 92.14519pt, 0.7\paperwidth , 92.14519pt (default)
+v-parts: 95.39737pt, 0.7\paperheight , 143.09605pt (default)
+hmarginratio: 1:1
+vmarginratio: 2:3
+lines: --
+heightrounded: --
+bindingoffset: 0.0pt
+truedimen: --
+includehead: --
+includefoot: --
+includemp: --
+driver: pdftex
+-------------------- Page layout dimensions and switches
+\paperwidth  614.295pt
+\paperheight 794.96999pt
+\textwidth  430.00462pt
+\textheight 556.47656pt
+\oddsidemargin  19.8752pt
+\evensidemargin 19.8752pt
+\topmargin  -13.87262pt
+\headheight 12.0pt
+\headsep    25.0pt
+\footskip   30.0pt
+\marginparwidth 44.0pt
+\marginparsep   10.0pt
+\columnsep  10.0pt
+\skip\footins  10.8pt plus 4.0pt minus 2.0pt
+\hoffset 0.0pt
+\voffset 0.0pt
+\mag 1000
 
+(1in=72.27pt, 1cm=28.45pt)
+-----------------------
 Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: subfig package 1.2 or 1.3 is loaded.
+Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
+LaTeX Info: Redefining \subref on input line 19.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Try loading font information for U+msa on input line 21.
-(/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsa.fd
+(/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 21.
 
-(/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsb.fd
+(/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 File: loadings-fig2.pdf Graphic file (type QTm)
 
 <use  "loadings-fig2.pdf" >
+
+LaTeX Warning: Float too large for page by 0.84747pt on input line 42.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -447,7 +425,7 @@ File: loadings-boxplot_stot.pdf Graphic file (type QTm)
 File: loadings-boxplot_ptot.pdf Graphic file (type QTm)
  <use  "loadings-boxplot_ptot.pdf" >
 
-LaTeX Warning: Float too large for page by 15.19104pt on input line 64.
+LaTeX Warning: Float too large for page by 16.99103pt on input line 64.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -495,7 +473,7 @@ Overfull \hbox (45.90598pt too wide) in paragraph at lines 179--233
  []
 
 
-LaTeX Warning: Float too large for page by 63.53792pt on input line 235.
+LaTeX Warning: Float too large for page by 64.43791pt on input line 235.
 
 [2]
 
@@ -548,12 +526,12 @@ File: loadings-figure4.pdf Graphic file (type QTm)
 <use  "loadings-figure4.pdf" > (./loadings.bbl) [5] [6] [7] [8] [9] [10]
 [11] [12] [13] (./loadings.aux) ) 
 Here is how much of TeX's memory you used:
- 6494 strings out of 494542
- 93524 string characters out of 3157455
- 194271 words of memory out of 3000000
- 9645 multiletter control sequences out of 15000+200000
- 28382 words of font info for 60 fonts, out of 3000000 for 9000
+ 5820 strings out of 494665
+ 80608 string characters out of 3163743
+ 169860 words of memory out of 3000000
+ 8960 multiletter control sequences out of 15000+200000
+ 26722 words of font info for 59 fonts, out of 3000000 for 9000
  669 hyphenation exceptions out of 8191
- 44i,10n,74p,745b,463s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,10n,73p,745b,456s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on loadings.pdf (13 pages).

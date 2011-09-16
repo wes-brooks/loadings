@@ -1,5 +1,4 @@
-DV_date	QTOT	QGW_fixed	QGW_slide	QGW_locmin
-10D	12N	12N	12N	12N
+date	solids_tot	solids_storm	QGW_slide	QGW_locmin
 10/01/1990	    0.09	    0.09	    0.09	    0.09
 10/02/1990	    0.09	    0.09	    0.09	    0.09
 10/03/1990	    0.13	    0.09	    0.09	    0.11

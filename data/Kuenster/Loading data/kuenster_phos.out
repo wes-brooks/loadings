@@ -1,5 +1,4 @@
-DV_date	QTOT	QGW_fixed	QGW_slide	QGW_locmin
-10D	12N	12N	12N	12N
+date	phot_tot	phos_storm	QGW_slide	QGW_locmin
 10/01/1991	    5.36	    5.36	    5.36	    5.36
 10/02/1991	    5.53	    5.36	    5.36	    5.53
 10/03/1991	    5.53	    5.36	    5.53	    5.53
