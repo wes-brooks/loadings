@@ -355,7 +355,7 @@ proportions <- function(streams, target, col.names) {
 		result[i,] = sapply(c(TRUE, FALSE), (function(x) sum(stream[stream$snow==x,target], na.rm=T)/sum(stream[,target], na.rm=T))) }
     result = data.frame(result)
     names(result) = col.names
-    row.names(result) = streams
+    row.names(result) = sapply(streams, (function(x) get(x=x, pos=stream_names)))
 	return( result ) }
     
 percentages <- function(streams, target, col.names, decimals=1) {
@@ -717,7 +717,7 @@ The data in this report comes from four Wisconsin streams that were monitored (w
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{r c l}
-        \textbf{Stream}  & \textbf{Events} & \textbf{Monitored}\\
+        \textbf{Stream}  & \textbf{Events} & \textbf{Years}\\
         Eagle & 429 &1991-1994, 2003-2007\\
         Joos Valley & 473 & 1990-1994, 2002-2007\\
         Otter & 424 & 1990-1997, 2000-2002\\

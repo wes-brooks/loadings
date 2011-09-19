@@ -1,23 +1,242 @@
- \documentclass[12pt]{article}
- %File creation date: 08/15/11  at 20:55
+ \documentclass{article}
+ %File creation date: 09/19/11  at 12:15
  \usepackage{pstricks,pst-node,pst-tree}
- \usepackage{geometry}
+ \usepackage[left=0.25in,right=0.25in,top=0.75in,bottom=0.75in]{geometry}
  \usepackage{lscape}
  \pagestyle{empty}
  \begin{document}
- %\begin{landscape}
+ \begin{landscape}
  \begin{center}
-\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.3cm,levelsep=40pt,radius=10pt}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.1cm,levelsep=40pt,radius=5pt}
 %     \def\psedge#1#2{\ncangle{#2}{#1}}
 %     \pstree[treemode=R]
-  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 49.50}}}{
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 2 }~{\textit{0.00}}
-    \Tcircle[fillcolor=yellow,fillstyle=solid]{ 3 }~{\textit{0.33}}
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 1.07}}}{
+  \pstree{\Tcircle{ 2 }~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 6.20}}}{
+  \pstree{\Tcircle{ 4 }~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 2.96}}}{
+  \pstree{\Tcircle{ 8 }~[tnpos=l]{\shortstack[r]{stream\\in $S_{8}$}}}{
+  \pstree{\Tcircle{\small 16}~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 2.29}}}{
+  \pstree{\Tcircle{\small 32}~[tnpos=l]{\shortstack[r]{meltsnow\\$\leq$ 3.55}}}{
+  \pstree{\Tcircle{\small 64}~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 0.4450}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 128}~{\textit{-0.91}}
+  \pstree{\Tcircle{\tiny 129}~[tnpos=l]{\shortstack[r]{cosjulian\\$\leq$ 0.3090}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 258}~{\textit{-0.85}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 259}~{\textit{-0.31}}
+   }
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 65}~{\textit{-0.02}}
+   }
+  \pstree{\Tcircle{\small 33}~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 0.4290}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 66}~{\textit{-0.68}}
+  \pstree{\Tcircle{\small 67}~[tnpos=l]{\shortstack[r]{sinjulian\\$\leq$ 0.6994}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 134}~{\textit{-0.47}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 135}~{\textit{0.12}}
+   }
+   }
+   }
+  \pstree{\Tcircle{\small 17}~[tnpos=l]{\shortstack[r]{stream\\in $S_{17}$}}}{
+  \pstree{\Tcircle{\small 34}~[tnpos=l]{\shortstack[r]{stream\\in $S_{34}$}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 68}~{\textit{-0.26}}
+  \pstree{\Tcircle{\small 69}~[tnpos=l]{\shortstack[r]{antecedenttmean\\$\leq$ 31.75}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 138}~{\textit{0.05}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 139}~{\textit{-0.70}}
+   }
+   }
+  \pstree{\Tcircle{\small 35}~[tnpos=l]{\shortstack[r]{tmean\\$\leq$ 59.50}}}{
+  \pstree{\Tcircle{\small 70}~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 38.50}}}{
+  \pstree{\Tcircle{\tiny 140}~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 30.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 280}~{\textit{-0.06}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 281}~{\textit{-0.55}}
+   }
+  \pstree{\Tcircle{\tiny 141}~[tnpos=l]{\shortstack[r]{ap1day\\$\leq$  1.50E-03}}}{
+  \pstree{\Tcircle{\tiny 282}~[tnpos=l]{\shortstack[r]{antecedenttmean\\$\leq$ 30.75}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 564}~{\textit{0.80}}
+  \pstree{\Tcircle{\tiny 565}~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 0.5055}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1130}~{\textit{-0.19}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1131}~{\textit{0.43}}
+   }
+   }
+  \pstree{\Tcircle{\tiny 283}~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 50.50}}}{
+  \pstree{\Tcircle{\tiny 566}~[tnpos=l]{\shortstack[r]{nwssnow\\$\leq$ 1.10}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1132}~{\textit{-0.39}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1133}~{\textit{0.38}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 567}~{\textit{0.14}}
+   }
+   }
+   }
+  \pstree{\Tcircle{\small 71}~[tnpos=l]{\shortstack[r]{tmin\\$\leq$ 56.50}}}{
+  \pstree{\Tcircle{\tiny 142}~[tnpos=l]{\shortstack[r]{tmean\\$\leq$ 65.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 284}~{\textit{-0.55}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 285}~{\textit{0.08}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 143}~{\textit{-0.65}}
+   }
+   }
+   }
+   }
+  \pstree{\Tcircle{ 9 }~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 0.6895}}}{
+  \pstree{\Tcircle{\small 18}~[tnpos=l]{\shortstack[r]{stream\\in $S_{18}$}}}{
+  \pstree{\Tcircle{\small 36}~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 0.3650}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 72}~{\textit{0.03}}
+  \pstree{\Tcircle{\small 73}~[tnpos=l]{\shortstack[r]{meltsnow\\$\leq$ 0.8000}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 146}~{\textit{0.09}}
+  \pstree{\Tcircle{\tiny 147}~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 42.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 294}~{\textit{0.22}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 295}~{\textit{0.68}}
+   }
+   }
+   }
+  \pstree{\Tcircle{\small 37}~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 3.96}}}{
+  \pstree{\Tcircle{\small 74}~[tnpos=l]{\shortstack[r]{theisen = NA}}}{
+  \pstree{\Tcircle{\tiny 148}~[tnpos=l]{\shortstack[r]{meltsnow = NA}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 296}~{\textit{-0.44}}
+  \pstree{\Tcircle{\tiny 297}~[tnpos=l]{\shortstack[r]{stream\\in $S_{297}$}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 594}~{\textit{-0.56}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 595}~{\textit{0.38}}
+   }
+   }
+  \pstree{\Tcircle{\tiny 149}~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 0.2750}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 298}~{\textit{-0.69}}
+  \pstree{\Tcircle{\tiny 299}~[tnpos=l]{\shortstack[r]{stream\\in $S_{299}$}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 598}~{\textit{-0.15}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 599}~{\textit{-0.55}}
+   }
+   }
+   }
+  \pstree{\Tcircle{\small 75}~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 0.3285}}}{
+  \pstree{\Tcircle{\tiny 150}~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 0.4250}}}{
+  \pstree{\Tcircle{\tiny 300}~[tnpos=l]{\shortstack[r]{ei\\$\leq$ 0.4030}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 600}~{\textit{-0.16}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 601}~{\textit{-0.52}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 301}~{\textit{0.17}}
+   }
+  \pstree{\Tcircle{\tiny 151}~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 47.50}}}{
+  \pstree{\Tcircle{\tiny 302}~[tnpos=l]{\shortstack[r]{antecedentqbase = NA}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 604}~{\textit{0.07}}
+  \pstree{\Tcircle{\tiny 605}~[tnpos=l]{\shortstack[r]{p30max = NA}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1210}~{\textit{-0.24}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1211}~{\textit{0.35}}
+   }
+   }
+  \pstree{\Tcircle{\tiny 303}~[tnpos=l]{\shortstack[r]{stream\\in $S_{303}$}}}{
+  \pstree{\Tcircle{\tiny 606}~[tnpos=l]{\shortstack[r]{tmean\\$\leq$ 54.00}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1212}~{\textit{0.40}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1213}~{\textit{-0.08}}
+   }
+  \pstree{\Tcircle{\tiny 607}~[tnpos=l]{\shortstack[r]{ap1day = NA}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1214}~{\textit{0.46}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 1215}~{\textit{0.12}}
+   }
+   }
+   }
+   }
+   }
+   }
+  \pstree{\Tcircle{\small 19}~[tnpos=l]{\shortstack[r]{antecedenttmax\\$\leq$ 46.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 38}~{\textit{0.80}}
+  \pstree{\Tcircle{\small 39}~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 3.88}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 78}~{\textit{-0.04}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 79}~{\textit{0.42}}
+   }
+   }
+   }
+   }
+  \pstree{\Tcircle{ 5 }~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 9.15}}}{
+  \pstree{\Tcircle{\small 10}~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 0.5945}}}{
+  \pstree{\Tcircle{\small 20}~[tnpos=l]{\shortstack[r]{stream\\in $S_{20}$}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 40}~{\textit{0.39}}
+  \pstree{\Tcircle{\small 41}~[tnpos=l]{\shortstack[r]{stream\\in $S_{41}$}}}{
+  \pstree{\Tcircle{\small 82}~[tnpos=l]{\shortstack[r]{tmin\\$\leq$ 29.50}}}{
+  \pstree{\Tcircle{\tiny 164}~[tnpos=l]{\shortstack[r]{tmean\\$\leq$ 35.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 328}~{\textit{0.31}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 329}~{\textit{1.43}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 165}~{\textit{-0.04}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 83}~{\textit{0.08}}
+   }
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 21}~{\textit{0.80}}
+   }
+  \pstree{\Tcircle{\small 11}~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 23.37}}}{
+  \pstree{\Tcircle{\small 22}~[tnpos=l]{\shortstack[r]{stream\\in $S_{22}$}}}{
+  \pstree{\Tcircle{\small 44}~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 58.50}}}{
+  \pstree{\Tcircle{\small 88}~[tnpos=l]{\shortstack[r]{p15max = NA}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 176}~{\textit{0.67}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 177}~{\textit{1.21}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 89}~{\textit{0.31}}
+   }
+  \pstree{\Tcircle{\small 45}~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 0.2670}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 90}~{\textit{0.51}}
+  \pstree{\Tcircle{\small 91}~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 12.25}}}{
+  \pstree{\Tcircle{\tiny 182}~[tnpos=l]{\shortstack[r]{sinjulian\\$\leq$ 0.4366}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 364}~{\textit{0.72}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 365}~{\textit{1.23}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 183}~{\textit{1.39}}
+   }
+   }
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 23}~{\textit{1.43}}
+   }
+   }
+   }
+  \pstree{\Tcircle{ 3 }~[tnpos=l]{\shortstack[r]{ei\\$\leq$ 14.64}}}{
+  \pstree{\Tcircle{ 6 }~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 7.25}}}{
+  \pstree{\Tcircle{\small 12}~[tnpos=l]{\shortstack[r]{tmax\\$\leq$ 71.50}}}{
+  \pstree{\Tcircle{\small 24}~[tnpos=l]{\shortstack[r]{stream\\in $S_{24}$}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 48}~{\textit{0.82}}
+  \pstree{\Tcircle{\small 49}~[tnpos=l]{\shortstack[r]{nwsprec\\$\leq$ 1.38}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 98}~{\textit{0.64}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 99}~{\textit{1.36}}
+   }
+   }
+  \pstree{\Tcircle{\small 25}~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 3.77}}}{
+  \pstree{\Tcircle{\small 50}~[tnpos=l]{\shortstack[r]{tmin\\$\leq$ 51.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 100}~{\textit{0.54}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 101}~{\textit{0.06}}
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 51}~{\textit{0.83}}
+   }
+   }
+  \pstree{\Tcircle{\small 13}~[tnpos=l]{\shortstack[r]{theisen\\$\leq$ 1.64}}}{
+  \pstree{\Tcircle{\small 26}~[tnpos=l]{\shortstack[r]{numevents\\$\leq$ 1.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 52}~{\textit{1.59}}
+  \pstree{\Tcircle{\small 53}~[tnpos=l]{\shortstack[r]{tmin\\$\leq$ 53.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 106}~{\textit{1.12}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\tiny 107}~{\textit{1.85}}
+   }
+   }
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 27}~{\textit{2.26}}
+   }
+   }
+  \pstree{\Tcircle{ 7 }~[tnpos=l]{\shortstack[r]{sinjulian\\$\leq$ -0.1287}}}{
+  \pstree{\Tcircle{\small 14}~[tnpos=l]{\shortstack[r]{antecedenttrange\\$\leq$ 3.50}}}{
+  \pstree{\Tcircle{\small 28}~[tnpos=l]{\shortstack[r]{antecedentqbase\\$\leq$ 5.15}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 56}~{\textit{1.31}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 57}~{\textit{2.19}}
+   }
+  \pstree{\Tcircle{\small 29}~[tnpos=l]{\shortstack[r]{antecedenttrange\\$\leq$ 5.50}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 58}~{\textit{0.96}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 59}~{\textit{1.70}}
+   }
+   }
+  \pstree{\Tcircle{\small 15}~[tnpos=l]{\shortstack[r]{stream\\in $S_{15}$}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 30}~{\textit{2.77}}
+  \pstree{\Tcircle{\small 31}~[tnpos=l]{\shortstack[r]{p30max\\$\leq$ 1.68}}}{
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 62}~{\textit{1.59}}
+    \Tcircle[fillcolor=yellow,fillstyle=solid]{\small 63}~{\textit{2.15}}
+ }
+ }
+ }
+ }
  }
  \end{center}
 GUIDE piecewise constant least-squares regression tree model.
 At each intermediate node, a case goes to the left branch 
   if and only if the condition is satisfied.
-Number in italics beneath leaf node is sample mean of major.
- %\end{landscape}
+Number in italics beneath leaf node is sample mean of logstottot.
+ \end{landscape}
  \end{document}

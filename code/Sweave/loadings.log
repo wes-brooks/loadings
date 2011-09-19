@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009) (format=xelatex 2009.11.7)  16 SEP 2011 12:12
+This is XeTeX, Version 3.1415926-2.2-0.9995.2 (TeX Live 2009) (format=xelatex 2009.11.7)  19 SEP 2011 11:41
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -415,7 +415,7 @@ File: loadings-fig2.pdf Graphic file (type QTm)
 
 <use  "loadings-fig2.pdf" >
 
-LaTeX Warning: Float too large for page by 0.84747pt on input line 42.
+LaTeX Warning: Float too large for page by 0.84747pt on input line 47.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -425,24 +425,12 @@ File: loadings-boxplot_stot.pdf Graphic file (type QTm)
 File: loadings-boxplot_ptot.pdf Graphic file (type QTm)
  <use  "loadings-boxplot_ptot.pdf" >
 
-LaTeX Warning: Float too large for page by 16.99103pt on input line 64.
+LaTeX Warning: Float too large for page by 16.99103pt on input line 69.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 103--104
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 105--106
-
- []
-
-[1
-
-]
 Underfull \hbox (badness 10000) in paragraph at lines 108--109
 
  []
@@ -452,35 +440,46 @@ Underfull \hbox (badness 10000) in paragraph at lines 110--111
 
  []
 
+[1
 
-Underfull \hbox (badness 10000) in paragraph at lines 112--113
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 114--115
+]
+Underfull \hbox (badness 10000) in paragraph at lines 113--114
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--155
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
 
  []
 
 
-Overfull \hbox (45.90598pt too wide) in paragraph at lines 179--233
+Underfull \hbox (badness 10000) in paragraph at lines 117--118
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 119--120
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
+
+ []
+
+[2]
+Overfull \hbox (45.90598pt too wide) in paragraph at lines 184--238
  [] 
  []
 
 
-LaTeX Warning: Float too large for page by 64.43791pt on input line 235.
+LaTeX Warning: Float too large for page by 64.43791pt on input line 240.
 
-[2]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 334--335
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
 
  []
 
@@ -489,17 +488,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 334--335
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 361--362
+Underfull \hbox (badness 10000) in paragraph at lines 366--367
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 363--364
+Underfull \hbox (badness 10000) in paragraph at lines 368--369
 
  []
 
 
-Overfull \hbox (41.45271pt too wide) in paragraph at lines 369--388
+Overfull \hbox (41.45271pt too wide) in paragraph at lines 374--393
  [] 
  []
 
@@ -507,12 +506,12 @@ Overfull \hbox (41.45271pt too wide) in paragraph at lines 369--388
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 393--394
+Underfull \hbox (badness 10000) in paragraph at lines 398--399
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 395--396
+Underfull \hbox (badness 10000) in paragraph at lines 400--401
 
  []
 
@@ -524,7 +523,11 @@ File: loadings-figure3.pdf Graphic file (type QTm)
 File: loadings-figure4.pdf Graphic file (type QTm)
 
 <use  "loadings-figure4.pdf" > (./loadings.bbl) [5] [6] [7] [8] [9] [10]
-[11] [12] [13] (./loadings.aux) ) 
+[11] [12] [13] (./loadings.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
  5820 strings out of 494665
  80608 string characters out of 3163743
