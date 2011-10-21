@@ -1,0 +1,9 @@
+STATION NAME                   COOPID  WBANID  ELEM  YEAR  # OF MONTHS (DATA ROWS) AVAILABLE
+-----------------------------  ------  ------  ----  ----  ------------------------------------
+GREEN BAY A S INTL AP          473269   14898   WTEQ  2006  3
+GREEN BAY A S INTL AP          473269   14898   WTEQ  2007  12
+GREEN BAY A S INTL AP          473269   14898   WTEQ  2008  12
+GREEN BAY A S INTL AP          473269   14898   WTEQ  2009  9
+Total Data Rows: 36
+Total Station-Years: 4
+
