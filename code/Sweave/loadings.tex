@@ -38,6 +38,10 @@
 
 
 
+
+
+
+
 \begin{figure}[h!]
     \begin{center}
 \includegraphics{loadings-fig2}
@@ -101,6 +105,7 @@ The data in this report comes from four Wisconsin streams that were monitored (w
         Garfoot & 527 & 1985, 1990-1993, 1995-1998\\
         Kuenster & 218 & 1992-1995\\
         Rattlesnake & 170 & 1991-1994\\
+        Bower & 373 & 1990-1994, 2006-2009\\
     \end{tabular}
 \end{center}
 \end{table}
@@ -118,8 +123,8 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
-% latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Mon Sep 19 11:38:53 2011
+% latex table generated in R 2.14.0 by xtable 1.6-0 package
+% Mon Jan  9 17:55:36 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -132,13 +137,14 @@ Eagle & 27.0\% & 73.0\% \\
   Garfoot & 55.6\% & 44.4\% \\ 
   Kuenster & 68.5\% & 31.5\% \\ 
   Rattlesnake & 48.9\% & 51.1\% \\ 
+  Bower & 28.8\% & 71.2\% \\ 
   \end{tabular}
 \caption{Proportion of total suspended solids loading contributed by each type of event}
 \label{tab:stot}
 \end{center}
 \end{table}
-% latex table generated in R 2.13.0 by xtable 1.5-6 package
-% Mon Sep 19 11:38:53 2011
+% latex table generated in R 2.14.0 by xtable 1.6-0 package
+% Mon Jan  9 17:55:36 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -151,12 +157,13 @@ Eagle & 32.8\% & 67.2\% \\
   Garfoot & 55.2\% & 44.8\% \\ 
   Kuenster & 61.1\% & 38.9\% \\ 
   Rattlesnake & 52.6\% & 47.4\% \\ 
+  Bower & 62.9\% & 37.1\% \\ 
   \end{tabular}
 \caption{Proportion of total phosphorus loading contributed by each type of event}
 \label{tab:ptot}
 \end{center}
 \end{table}
-Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between 73.1\% (at Otter) and 93.9\% (at Kuenster) of the total sediment load; the same events produced between 64.6\% (at Otter) and 88\% (at Joos) of the total phosphorus load.\\
+Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between 73.1\% (at Otter) and 96.9\% (at Bower) of the total sediment load; the same events produced between 64.6\% (at Otter) and 88\% (at Joos) of the total phosphorus load.\\
 
 
 %\begin{table}[h]
@@ -167,11 +174,7 @@ Over the course of the monitoring period, the majority of the total load (both o
 %        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Rainfall} \\
 %        Creek & All Events & Major Events & All Events & Major Events \\
 %        \hline 
-NA
-NA
-NA
-NA
-        
+
 %    \end{tabular}
 %    \end{center}
 %    \caption{Each pair of columns represents either snowmelt-driven or rainfall-driven events. The column on the left of each pair is the proportion of all events in the study that occured during this period; the column on the right is the proportion of major events that occured during this period. \label{proportion_of_majors}}
@@ -207,6 +210,10 @@ NA
     \multirow{3}{*}{Brewery} & 0.124 & p60max\\
     & 0.436 & p60max + theisen\\
     & 0.466 & p60max + theisen + tmin
+    \vspace{2mm}\\
+    \multirow{3}{*}{Bower} & 0.121 & antecedent\_qbase\\
+    & 0.517 & antecedent\_qbase + theisen\\
+    & 0.626 & antecedent\_qbase + theisen + tmin
     \vspace{6mm}\\
 
     \textbf{Phosphorus} & $R^2$ & Model terms \\
@@ -233,6 +240,11 @@ NA
     & 0.606 & theisen + p60max\\
     & 0.606 & theisen + p60max + ap\_5day\\
     & 0.638 & theisen + p60max + ap\_5day + tmin\\
+    \vspace{2mm}\\
+    \multirow{3}{*}{Bower} & 0.075 & antecedent\_qbase\\
+    & 0.231 & antecedent\_qbase + tmin\\
+    & 0.231 & antecedent\_qbase + tmin + tmax\\
+    & 0.307 & antecedent\_qbase + tmin + tmax + theisen\\
 
     \end{tabular}
     \caption{\label{r_square_nosnow}}
@@ -253,16 +265,16 @@ NA
 %        \hline 
 %        \multirow{2}{*}{Aggregated} & Snowmelt & 
 %        50\% &
-%        42\% & 
-%        42\% & 
-%        49\% & 
-%        48\% \\
+%        40\% & 
+%        44\% & 
+%        51\% & 
+%        51\% \\
 %        & Post-snow & 
 %        50\% &
-%        58\% & 
-%        58\% & 
-%        51\% & 
-%        52\%
+%        60\% & 
+%        56\% & 
+%        49\% & 
+%        49\%
 %        
 %        \vspace{2mm}\\
 %        
@@ -348,7 +360,8 @@ In order to make a model of the load carried by the stream, we need to select th
         \hspace{5mm} Brewery: & p60max, theisen, tmin\\
         \hspace{5mm} Garfoot: & theisen, antecedent\_qbase, p30max, ei, tmean\\
         \hspace{5mm} Kuenster: & theisen, antecedent\_qbase, sin\_julian\\
-        \hspace{5mm} Rattlesnake: & antecedent\_qbase, theisen, ap\_3day, ap\_1day, ei, p60max
+        \hspace{5mm} Rattlesnake: & antecedent\_qbase, theisen, ap\_3day, ap\_1day, ei, p60max \\
+        \hspace{5mm} Bower: & antecedent\_qbase, theisen, tmin, duration, tmax, ap\_3day
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
         \hspace{5mm} Eagle: & theisen, antecedent\_qbase, p5max, tmin, p30max, tmax\\
@@ -358,6 +371,7 @@ In order to make a model of the load carried by the stream, we need to select th
         \hspace{5mm} Garfoot: & theisen, antecedent\_qbase, nws\_prec, ap\_5day\\
         \hspace{5mm} Kuenster: & theisen, antecedent\_qbase, ap\_3day, ap\_1day\\
         \hspace{5mm} Rattlenake: & theisen, antecedent\_qbase, ap\_5day\\
+        \hspace{5mm} Bower: & antecedent\_qbase, tmin, tmax, theisen, ap\_3day, sin\_julian, antecedent\_trange, cos\_julian\\
     \end{tabular}
     \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the load. \label{nosnow_predictor_list}}
     \end{center}
@@ -379,7 +393,8 @@ At most sites, the most important predictor was a temperature measurement, eithe
         \hspace{5mm} Brewery: & num\_days, nws\_prec, sin\_julian, antecedent\_qbase\\
         \hspace{5mm} Garfoot: & nws\_prec, num\_days, antecedent\_qbase, nws\_snow, antecedent\_tmax\\
         \hspace{5mm} Kuenster: & num\_days, antecedent\_qbase\\
-        \hspace{5mm} Rattlesnake: & num\_days, antecedent\_qbase, nws\_prec
+        \hspace{5mm} Rattlesnake: & num\_days, antecedent\_qbase, nws\_prec \\
+        \hspace{5mm} Bower: & nws\_prec, antecedent\_qbase, num\_days, antecedent\_trange
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
         \hspace{5mm} Eagle: & tmax, antecedent\_qbase, num\_days, nws\_prec\\
@@ -389,6 +404,7 @@ At most sites, the most important predictor was a temperature measurement, eithe
         \hspace{5mm} Garfoot: & nws\_prec, num\_days, antecedent\_qbase, nws\_snow, sin\_julian, cos\_julian, tmin\\
         \hspace{5mm} Kuenster: & num\_days, antecedent\_qbase\\
         \hspace{5mm} Rattlesnake: & num\_days, antecedent\_qbase, nws\_prec\\
+        \hspace{5mm} Bower: & nws\_prec, antecedent\_qbase, num\_days, tmin\\
     \end{tabular}
     \caption{The most important variables in the models for snowmelt-driven loading. The variables are ordered by their importance to the model of the load. \label{snow_predictor_list}}
     \end{center}
