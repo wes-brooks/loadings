@@ -8,7 +8,7 @@
 \usepackage{subfig}
 \usepackage{multirow}
 \usepackage[margin=20pt, font=small,labelfont=sc, labelsep=endash]{caption}
-\usepackage{pstricks, pst-node,pst-tree}
+%\usepackage{pstricks, pst-node,pst-tree}
 
 
 \title{Analysis of loadings}
@@ -19,6 +19,8 @@
 \begin{document}
 \setkeys{Gin}{width=0.9\textwidth}    %make figures a bit wider than the Sweave default.
 \maketitle
+
+
 
 
 
@@ -124,7 +126,7 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
 % latex table generated in R 2.14.0 by xtable 1.6-0 package
-% Mon Jan  9 17:55:36 2012
+% Tue Jan 10 18:16:09 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -144,7 +146,7 @@ Eagle & 27.0\% & 73.0\% \\
 \end{center}
 \end{table}
 % latex table generated in R 2.14.0 by xtable 1.6-0 package
-% Mon Jan  9 17:55:36 2012
+% Tue Jan 10 18:16:10 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -174,11 +176,18 @@ Over the course of the monitoring period, the majority of the total load (both o
 %        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Rainfall} \\
 %        Creek & All Events & Major Events & All Events & Major Events \\
 %        \hline 
-
+NA
+NA
+NA
+NA
+        
 %    \end{tabular}
 %    \end{center}
 %    \caption{Each pair of columns represents either snowmelt-driven or rainfall-driven events. The column on the left of each pair is the proportion of all events in the study that occured during this period; the column on the right is the proportion of major events that occured during this period. \label{proportion_of_majors}}
 %\end{table}
+
+
+
 
 
 
@@ -187,66 +196,60 @@ Over the course of the monitoring period, the majority of the total load (both o
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-    \multirow{4}{*}{Eagle} & 0.503 & theisen\\
-    & 0.755 & theisen + antecedent\_qbase\\
-    & 0.767 & theisen + antecedent\_qbase + p5max\\
-    & 0.774 & theisen + antecedent\_qbase + p5max + p60max \\
-NA
-NA
-    \vspace{2mm}\\
-    \multirow{4}{*}{Joos} & 0.49 & theisen\\
-    & 0.665 & theisen + antecedent\_qbase\\
-    & 0.692 & theisen + antecedent\_qbase + p15max\\
-    & 0.713 & theisen + antecedent\_qbase + p15max + ap\_3day \\
-NA
-NA
-    \vspace{2mm}\\
-    \multirow{4}{*}{Otter} & 0.486 & theisen\\
-    & 0.738 & theisen + antecedent\_qbase\\
-    & 0.764 & theisen + antecedent\_qbase + antecedent\_tmean\\
-    & 0.781 & theisen + antecedent\_qbase + antecedent\_tmean + sin\_julian \\
-    & 0.781 & theisen + antecedent\_qbase + antecedent\_tmean + sin\_julian + ap\_5day
-    \vspace{2mm}\\
-    \multirow{3}{*}{Brewery} & 0.124 & p60max\\
-    & 0.436 & p60max + theisen\\
-    & 0.466 & p60max + theisen + tmin
-    \vspace{2mm}\\
-    \multirow{3}{*}{Bower} & 0.121 & antecedent\_qbase\\
-    & 0.517 & antecedent\_qbase + theisen\\
-    & 0.626 & antecedent\_qbase + theisen + tmin
-    \vspace{6mm}\\
+\multirow{5}{*}{Eagle} & 0.503 & theisen\\ 
+ & 0.755 & theisen + antecedent\_qbase\\ 
+ & 0.767 & theisen + antecedent\_qbase + p5max\\ 
+ & 0.774 & theisen + antecedent\_qbase + p5max + p60max\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.49 & theisen\\ 
+ & 0.665 & theisen + antecedent\_qbase\\ 
+ & 0.692 & theisen + antecedent\_qbase + p15max\\ 
+ & 0.713 & theisen + antecedent\_qbase + p15max + ap\_3day\\ 
+\vspace{2mm}\\ \multirow{6}{*}{Otter} & 0.486 & theisen\\ 
+ & 0.738 & theisen + antecedent\_qbase\\ 
+ & 0.764 & theisen + antecedent\_qbase + antecedent\_tmean\\ 
+ & 0.781 & theisen + antecedent\_qbase + antecedent\_tmean + sin\_julian\\ 
+ & 0.788 & theisen + antecedent\_qbase + antecedent\_tmean + sin\_julian + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Brewery} & 0.124 & p60max\\ 
+ & 0.436 & p60max + theisen\\ 
+ & 0.466 & p60max + theisen + tmin\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Bower} & 0.121 & antecedent\_qbase\\ 
+ & 0.517 & antecedent\_qbase + theisen\\ 
+ & 0.626 & antecedent\_qbase + theisen + tmin\\ 
+ & 0.627 & antecedent\_qbase + theisen + tmin + duration\\ 
+ & 0.636 & antecedent\_qbase + theisen + tmin + duration + tmax\\ 
+ & 0.636 & antecedent\_qbase + theisen + tmin + duration + tmax + ap\_3day\\ 
+\vspace{2mm}\\     \vspace{6mm}\\
 
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-    \multirow{4}{*}{Eagle} & 0.579 & theisen\\
-    & 0.783 & theisen + antecedent\_qbase\\
-    & 0.794 & theisen + antecedent\_qbase + p5max\\
-    & 0.8 & theisen + antecedent\_qbase + p5max + tmin \\
-    & 0.8 & theisen + antecedent\_qbase + p5max + tmin + p30max\\
-    & 0.8 & theisen + antecedent\_qbase + p5max + tmin + p30max + tmax
-    \vspace{2mm}\\
-    \multirow{4}{*}{Joos} & 0.543 & theisen\\
-    & 0.715 & theisen + antecedent\_qbase\\
-    & 0.733 & theisen + antecedent\_qbase + p15max\\
-    & 0.755 & theisen + antecedent\_qbase + p15max + ap\_3day
-    \vspace{2mm}\\
-    \multirow{4}{*}{Otter} & 0.483 & theisen\\
-    & 0.737 & theisen + antecedent\_qbase\\
-    & 0.762 & theisen + antecedent\_qbase + tmin\\
-    & 0.776 & theisen + antecedent\_qbase + tmin + sin\_julian\\
-    & 0.776 & theisen + antecedent\_qbase + tmin + sin\_julian + ap\_5day
-    \vspace{2mm}\\
-    \multirow{3}{*}{Brewery} & 0.602 & theisen\\
-    & 0.606 & theisen + p60max\\
-    & 0.606 & theisen + p60max + ap\_5day\\
-    & 0.638 & theisen + p60max + ap\_5day + tmin\\
-    \vspace{2mm}\\
-    \multirow{3}{*}{Bower} & 0.075 & antecedent\_qbase\\
-    & 0.231 & antecedent\_qbase + tmin\\
-    & 0.231 & antecedent\_qbase + tmin + tmax\\
-    & 0.307 & antecedent\_qbase + tmin + tmax + theisen\\
-
-    \end{tabular}
+\multirow{7}{*}{Eagle} & 0.579 & theisen\\ 
+ & 0.783 & theisen + antecedent\_qbase\\ 
+ & 0.794 & theisen + antecedent\_qbase + p5max\\ 
+ & 0.8 & theisen + antecedent\_qbase + p5max + tmin\\ 
+ & 0.805 & theisen + antecedent\_qbase + p5max + tmin + p30max\\ 
+ & 0.81 & theisen + antecedent\_qbase + p5max + tmin + p30max + tmax\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.543 & theisen\\ 
+ & 0.715 & theisen + antecedent\_qbase\\ 
+ & 0.733 & theisen + antecedent\_qbase + p15max\\ 
+ & 0.755 & theisen + antecedent\_qbase + p15max + ap\_3day\\ 
+\vspace{2mm}\\ \multirow{6}{*}{Otter} & 0.483 & theisen\\ 
+ & 0.737 & theisen + antecedent\_qbase\\ 
+ & 0.762 & theisen + antecedent\_qbase + tmin\\ 
+ & 0.776 & theisen + antecedent\_qbase + tmin + sin\_julian\\ 
+ & 0.781 & theisen + antecedent\_qbase + tmin + sin\_julian + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Brewery} & 0.602 & theisen\\ 
+ & 0.606 & theisen + p60max\\ 
+ & 0.638 & theisen + p60max + ap\_5day\\ 
+ & 0.658 & theisen + p60max + ap\_5day + tmin\\ 
+\vspace{2mm}\\ \multirow{9}{*}{Bower} & 0.075 & antecedent\_qbase\\ 
+ & 0.231 & antecedent\_qbase + tmin\\ 
+ & 0.307 & antecedent\_qbase + tmin + tmax\\ 
+ & 0.612 & antecedent\_qbase + tmin + tmax + theisen\\ 
+ & 0.616 & antecedent\_qbase + tmin + tmax + theisen + ap\_3day\\ 
+ & 0.645 & antecedent\_qbase + tmin + tmax + theisen + ap\_3day + sin\_julian\\ 
+ & 0.762 & antecedent\_qbase + tmin + tmax + theisen + ap\_3day + sin\_julian + antecedent\_trange\\ 
+ & 0.778 & antecedent\_qbase + tmin + tmax + theisen + ap\_3day + sin\_julian + antecedent\_trange + cos\_julian\\ 
+\vspace{2mm}\\     \end{tabular}
     \caption{\label{r_square_nosnow}}
     \end{center}
 \end{table}

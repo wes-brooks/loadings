@@ -1,35 +1,23 @@
-This is XeTeX, Version 3.1415926-2.3-0.9997.5 (TeX Live 2011) (format=xelatex 2011.7.3)  9 JAN 2012 18:01
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  10 JAN 2012 18:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**loadings.tex
-(./loadings.tex
-LaTeX2e <2009/09/24>
-Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
-rman-x-2009-06-19, ngerman-x-2009-06-19, afrikaans, ancientgreek, ibycus, arabi
-c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
-h, dutch, ukenglish, usenglishmax, esperanto, estonian, ethiopic, farsi, finnis
-h, french, galician, german, ngerman, swissgerman, monogreek, greek, hungarian,
- icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, marathi, or
-iya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, kurmanji,
- lao, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, pol
-ish, portuguese, romanian, russian, sanskrit, serbian, serbianc, slovak, sloven
-ian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, welsh, loaded
-.
+**\nonstopmode \input /Users/wesley/git/loadings/code/Sweave/loadings.tex
+(/Users/wesley/git/loadings/code/Sweave/loadings.tex
 (/usr/local/texlive/2011/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/local/texlive/2011/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
-\c@part=\count80
-\c@section=\count81
-\c@subsection=\count82
-\c@subsubsection=\count83
-\c@paragraph=\count84
-\c@subparagraph=\count85
-\c@figure=\count86
-\c@table=\count87
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
@@ -43,7 +31,7 @@ Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 )
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is not detected.
+Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
 (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ifvtex.sty
 Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
@@ -52,9 +40,9 @@ Package ifvtex Info: VTeX not detected.
 (/usr/local/texlive/2011/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count88
-\Gm@cntv=\count89
-\c@Gm@tempcnt=\count90
+\Gm@cnth=\count87
+\Gm@cntv=\count88
+\c@Gm@tempcnt=\count89
 \Gm@bindingoffset=\dimen103
 \Gm@wd@mp=\dimen104
 \Gm@odd@mp=\dimen105
@@ -77,11 +65,18 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 (/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: xetex.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/local/texlive/2011/texmf-dist/tex/xelatex/xetex-def/xetex.def
-File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
+(/usr/local/texlive/2011/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count90
 ))
 \Gin@req@height=\dimen111
 \Gin@req@width=\dimen112
@@ -132,151 +127,27 @@ Package: caption3 2010/01/14 v3.1m caption3 kernel (AR)
 \bigstrutjot=\dimen120
 )
 
-./loadings.tex:11: LaTeX Error: Option clash for package caption.
+/Users/wesley/git/loadings/code/Sweave/loadings.tex:12: LaTeX Error: Option cla
+sh for package caption.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.11 \usepackage
-                {pstricks, pst-node,pst-tree}
-? 
-(/usr/local/texlive/2011/texmf-dist/tex/latex/pstricks/pstricks.sty
-Package: pstricks 2011/04/23 v0.50 LaTeX wrapper for `PSTricks' (RN,HV)
+l.12 
+     
+The package caption has already been loaded with options:
+  []
+There has now been an attempt to load it with options
+  [margin=20pt, font=small,labelfont=sc, labelsep=endash]
+Adding the global options:
+  ,margin=20pt, font=small,labelfont=sc, labelsep=endash
+to your \documentclass declaration may fix this.
+Try typing  <return>  to proceed.
 
-(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-)
-(/usr/local/texlive/2011/texmf-dist/tex/generic/pstricks/pstricks.tex
-(/usr/local/texlive/2011/texmf-dist/tex/generic/xkeyval/pst-xkey.tex
-File: pst-xkey.tex 2005/11/25 v1.6 PSTricks specialization of xkeyval (HA)
-
-(/usr/local/texlive/2011/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2008/08/13 v2.6a package option processing (HA)
-
-(/usr/local/texlive/2011/texmf-dist/tex/generic/xkeyval/xkeyval.tex
-\XKV@toks=\toks17
-\XKV@tempa@toks=\toks18
-\XKV@depth=\count99
-File: xkeyval.tex 2008/08/13 v2.6a key=value parser (HA)
-)))
-(/usr/local/texlive/2011/texmf-dist/tex/generic/pstricks/pst-fp.tex
-`pst-fp' v0.05, 2010/01/17 (hv)
-\pstFP@xs=\count100
-\pstFP@xia=\count101
-\pstFP@xib=\count102
-\pstFP@xfa=\count103
-\pstFP@xfb=\count104
-\pstFP@rega=\count105
-\pstFP@regb=\count106
-\pstFP@regs=\count107
-\pstFP@times=\count108
-)
-\psLoopIndex=\count109
-
-`PSTricks' v2.20  <2011/04/23> (tvz)
-\pst@dima=\dimen121
-\pst@dimb=\dimen122
-\pst@dimc=\dimen123
-\pst@dimd=\dimen124
-\pst@dimg=\dimen125
-\pst@dimh=\dimen126
-\pst@dimm=\dimen127
-\pst@dimn=\dimen128
-\pst@dimo=\dimen129
-\pst@dimp=\dimen130
-\pst@hbox=\box26
-\pst@ibox=\box27
-\pst@boxg=\box28
-\pst@cnta=\count110
-\pst@cntb=\count111
-\pst@cntc=\count112
-\pst@cntd=\count113
-\pst@cntg=\count114
-\pst@cnth=\count115
-\pst@cntm=\count116
-\pst@cntn=\count117
-\pst@cnto=\count118
-\pst@cntp=\count119
-\@zero=\count120
-\pst@toks=\toks19
-(/usr/local/texlive/2011/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
-(/usr/local/texlive/2011/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg))
-\psunit=\dimen131
-\psxunit=\dimen132
-\psyunit=\dimen133
-\pst@C@@rType=\count121
-\pslinewidth=\dimen134
-\psk@startLW=\dimen135
-\psk@endLW=\dimen136
-\pst@customdefs=\toks20
-\pslinearc=\dimen137
-\pst@symbolStep=\dimen138
-\pst@symbolWidth=\dimen139
-\everypsbox=\toks21
-\psframesep=\dimen140
-\pslabelsep=\dimen141
-\pst@shift=\dimen142
-\theoverlaybox=\box29
-(/usr/local/texlive/2011/texmf-dist/tex/xelatex/xetex-pstricks/pstricks.con
-(/usr/local/texlive/2011/texmf-dist/tex/generic/pstricks/config/xdvipdfmx.cfg
-Using PSTricks configuration for XeTeX+xdvipdfmx
-)))
-File: pstricks.tex 2011/04/23 v2.20 `PSTricks' (tvz,hv)
- (/usr/local/texlive/2011/texmf-dist/tex/generic/pstricks/pst-fp.tex)
-File: pst-fp.tex 2011/04/23 v2.20 `PST-fp' (hv)
-
-(/usr/local/texlive/2011/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
-
-(/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/color.cfg
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
-)
-Package xcolor Info: Driver file: xetex.def on input line 225.
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
-Package xcolor Info: Model `RGB' extended on input line 1353.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
-))
-(/usr/local/texlive/2011/texmf-dist/tex/latex/pst-node/pst-node.sty
-Package: pst-node 2010/04/22 package wrapper for pst-node.tex
-
-(/usr/local/texlive/2011/texmf-dist/tex/generic/pst-node/pst-node.tex
- v1.16, 2011/05/05
-\psrow=\count122
-\pscol=\count123
-\psmatrixcnt=\count124
-\psrowsep=\skip48
-\pscolsep=\skip49
-\pst@args=\count125
-\num@pts=\count126
-\pst@argcnt=\count127
-)
-File: pst-node.tex 2011/05/05 1.16 `pst-node' (tvz)
-)
-(/usr/local/texlive/2011/texmf-dist/tex/latex/pst-tree/pst-tree.sty
-Package: pst-tree 2009/01/25 package wrapper for pst-tree.tex
-
-(/usr/local/texlive/2011/texmf-dist/tex/generic/pst-tree/pst-tree.tex
- v1.12, 2011/02/28(tvz,dg,hv)
-\pstree@rootbox=\box30
-\pstree@box=\box31
-\psnodecnt=\count128
-\pstreelevel=\count129
-\pstreecnt=\count130
-\pstree@cnt=\count131
-\pstree@stop=\count132
-)
-File: pst-tree.tex 2011/02/28 1.12 `pst-tree' (tvz,hv)
-) (./Sweave.sty
+(./Sweave.sty
 Package: Sweave 
-
-(/usr/local/texlive/2011/texmf-dist/tex/latex/base/ifthen.sty
+ (/usr/local/texlive/2011/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 (/usr/local/texlive/2011/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
@@ -284,14 +155,14 @@ Package: fancyvrb 2008/02/07
 
 Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
 <2008/02/07> (tvz)
-\FV@CodeLineNo=\count133
+\FV@CodeLineNo=\count99
 \FV@InFile=\read1
-\FV@TabBox=\box32
-\c@FancyVerbLine=\count134
-\FV@StepNumber=\count135
+\FV@TabBox=\box26
+\c@FancyVerbLine=\count100
+\FV@StepNumber=\count101
 \FV@OutFile=\write3
 )
-(/usr/local/texlive/2011/texmf-dist/tex/latex/upquote/upquote.sty
+(/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/upquote.sty
 Package: upquote 2003/08/11 v1.1 Covington's upright-quote modification to verb
 atim and verb
 
@@ -407,9 +278,9 @@ File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    ... okay on input line 19.
 
 *geometry* driver: auto-detecting
-*geometry* detected driver: xetex
+*geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
-* driver: xetex
+* driver: pdftex
 * paper: letterpaper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
@@ -440,11 +311,68 @@ LaTeX Font Info:    ... okay on input line 19.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+(/usr/local/texlive/2011/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count102
+\scratchdimen=\dimen121
+\scratchbox=\box27
+\nofMPsegments=\count103
+\nofMParguments=\count104
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count105
+\MPscratchDim=\dimen122
+\MPnumerator=\count106
+\makeMPintoPDFobject=\count107
+\everyMPtoPDFconversion=\toks18
+) (/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2011/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Managing graphics extensions (HO)
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
+))
+(/usr/local/texlive/2011/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
+
+(/usr/local/texlive/2011/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
 LaTeX Info: Redefining \subref on input line 19.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Try loading font information for U+msa on input line 21.
+
 (/usr/local/texlive/2011/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
@@ -453,58 +381,66 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 21.
 (/usr/local/texlive/2011/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-File: loadings-fig2.pdf Graphic file (type QTm)
+<loadings-fig2.pdf, id=1, 433.62pt x 614.295pt>
+File: loadings-fig2.pdf Graphic file (type pdf)
+ <use loadings-fig2.pdf>
+Package pdftex.def Info: loadings-fig2.pdf used on input line 49.
+(pdftex.def)             Requested size: 387.00153pt x 548.2768pt.
 
-<use  "loadings-fig2.pdf" >
 
-LaTeX Warning: Float too large for page by 0.84747pt on input line 51.
+LaTeX Warning: Float too large for page by 0.84747pt on input line 53.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-File: loadings-boxplot_stot.pdf Graphic file (type QTm)
-<use  "loadings-boxplot_stot.pdf" >
-File: loadings-boxplot_ptot.pdf Graphic file (type QTm)
- <use  "loadings-boxplot_ptot.pdf" >
+<loadings-boxplot_stot.pdf, id=2, 650.43pt x 361.35pt>
+File: loadings-boxplot_stot.pdf Graphic file (type pdf)
 
-LaTeX Warning: Float too large for page by 16.99103pt on input line 73.
+<use loadings-boxplot_stot.pdf>
+Package pdftex.def Info: loadings-boxplot_stot.pdf used on input line 70.
+(pdftex.def)             Requested size: 430.00462pt x 238.89424pt.
+
+<loadings-boxplot_ptot.pdf, id=3, 650.43pt x 361.35pt>
+File: loadings-boxplot_ptot.pdf Graphic file (type pdf)
+
+<use loadings-boxplot_ptot.pdf>
+Package pdftex.def Info: loadings-boxplot_ptot.pdf used on input line 72.
+(pdftex.def)             Requested size: 430.00462pt x 238.89424pt.
+
+
+LaTeX Warning: Float too large for page by 16.99103pt on input line 75.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 113--114
-
- []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 115--116
 
  []
 
-[1
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 118--119
+Underfull \hbox (badness 10000) in paragraph at lines 117--118
 
  []
 
+[1
 
-LaTeX Warning: Reference `tab:stot' on page 2 undefined on input line 120.
-
-
-LaTeX Warning: Reference `tab:ptot' on page 2 undefined on input line 120.
-
-
-LaTeX Warning: Reference `bars' on page 2 undefined on input line 120.
-
-
-LaTeX Warning: Reference `boxplots' on page 2 undefined on input line 120.
-
-
+{/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 Underfull \hbox (badness 10000) in paragraph at lines 120--121
 
  []
+
+
+LaTeX Warning: Reference `tab:stot' on page 2 undefined on input line 122.
+
+
+LaTeX Warning: Reference `tab:ptot' on page 2 undefined on input line 122.
+
+
+LaTeX Warning: Reference `bars' on page 2 undefined on input line 122.
+
+
+LaTeX Warning: Reference `boxplots' on page 2 undefined on input line 122.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 122--123
@@ -517,32 +453,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 124--125
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--167
+Underfull \hbox (badness 10000) in paragraph at lines 126--127
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 168--169
 
  []
 
 [2]
-Overfull \hbox (45.90598pt too wide) in paragraph at lines 187--250
+Overfull \hbox (183.45781pt too wide) in paragraph at lines 196--253
  [] 
  []
 
 
-LaTeX Warning: Float too large for page by 184.61891pt on input line 252.
+LaTeX Warning: Float too large for page by 399.99985pt on input line 255.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 LaTeX Warning: Reference `nosnow_predictor_list' on page 3 undefined on input l
-ine 351.
+ine 354.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 351--352
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
 
  []
 
 [3]
-Overfull \hbox (94.5807pt too wide) in paragraph at lines 355--376
+Overfull \hbox (94.5807pt too wide) in paragraph at lines 358--379
  [] 
  []
 
@@ -551,20 +492,20 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 LaTeX Warning: Reference `r_square_nosnow' on page 4 undefined on input line 38
-0.
+3.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 380--381
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 382--383
+Underfull \hbox (badness 10000) in paragraph at lines 383--384
 
  []
 
 
-Overfull \hbox (41.45271pt too wide) in paragraph at lines 388--409
+Underfull \hbox (badness 10000) in paragraph at lines 385--386
+
+ []
+
+
+Overfull \hbox (41.45271pt too wide) in paragraph at lines 391--412
  [] 
  []
 
@@ -572,29 +513,42 @@ Overfull \hbox (41.45271pt too wide) in paragraph at lines 388--409
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 414--415
+Underfull \hbox (badness 10000) in paragraph at lines 417--418
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 416--417
+Underfull \hbox (badness 10000) in paragraph at lines 419--420
 
  []
 
 
-LaTeX Warning: Reference `cdf-s' on page 5 undefined on input line 419.
+LaTeX Warning: Reference `cdf-s' on page 5 undefined on input line 422.
 
 
-LaTeX Warning: Reference `cdf-p' on page 5 undefined on input line 419.
+LaTeX Warning: Reference `cdf-p' on page 5 undefined on input line 422.
 
-File: loadings-figure2.pdf Graphic file (type QTm)
-<use  "loadings-figure2.pdf" >
-File: loadings-figure3.pdf Graphic file (type QTm)
- <use  "loadings-figure3.pdf" >
-File: loadings-figure4.pdf Graphic file (type QTm)
+<loadings-figure2.pdf, id=23, 433.62pt x 361.35pt>
+File: loadings-figure2.pdf Graphic file (type pdf)
+ <use loadings-figure2.pdf>
+Package pdftex.def Info: loadings-figure2.pdf used on input line 457.
+(pdftex.def)             Requested size: 387.00153pt x 322.51578pt.
 
-<use  "loadings-figure4.pdf" > (./loadings.bbl) [5] [6] [7] [8] [9] [10]
-[11] [12] [13] (./loadings.aux)
+<loadings-figure3.pdf, id=24, 433.62pt x 361.35pt>
+File: loadings-figure3.pdf Graphic file (type pdf)
+ <use loadings-figure3.pdf>
+Package pdftex.def Info: loadings-figure3.pdf used on input line 464.
+(pdftex.def)             Requested size: 387.00153pt x 322.51578pt.
+
+<loadings-figure4.pdf, id=25, 867.24pt x 1084.05pt>
+File: loadings-figure4.pdf Graphic file (type pdf)
+ <use loadings-figure4.pdf>
+Package pdftex.def Info: loadings-figure4.pdf used on input line 471.
+(pdftex.def)             Requested size: 387.00153pt x 483.74886pt.
+
+(./loadings.bbl) [5] [6 <./loadings-fig2.pdf>] [7 <./loadings-boxplot_stot.pdf>
+ <./loadings-boxplot_ptot.pdf>] [8] [9] [10] [11 <./loadings-figure2.pdf>]
+[12 <./loadings-figure3.pdf>] [13 <./loadings-figure4.pdf>] (./loadings.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -603,12 +557,25 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 6440 strings out of 494150
- 92570 string characters out of 3152950
- 195746 words of memory out of 3000000
- 9596 multiletter control sequences out of 15000+200000
- 26722 words of font info for 59 fonts, out of 3000000 for 9000
- 1018 hyphenation exceptions out of 8191
- 44i,10n,73p,752b,457s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 4578 strings out of 493633
+ 68873 string characters out of 3143378
+ 145453 words of memory out of 3000000
+ 7763 multiletter control sequences out of 15000+200000
+ 37097 words of font info for 91 fonts, out of 3000000 for 9000
+ 831 hyphenation exceptions out of 8191
+ 44i,9n,42p,811b,341s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
+usr/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
+local/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/lo
+cal/texlive/2011/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
+Output written on loadings.pdf (13 pages, 177529 bytes).
+PDF statistics:
+ 116 PDF objects out of 1000 (max. 8388607)
+ 80 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-Output written on loadings.pdf (13 pages).
