@@ -1,13 +1,14 @@
-\documentclass[12pt]{article}
+\documentclass[10pt]{article}
 \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
 %\geometry{landscape}                % Activate for for rotated page geometry
-%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[cm]{fullpage}
 \usepackage{graphicx}
 \usepackage{amssymb}
+\usepackage[margin=20pt, font=small, labelfont=sc, labelsep=endash]{caption}
 \usepackage{subfig}
 \usepackage{multirow}
-\usepackage[margin=20pt, font=small,labelfont=sc, labelsep=endash]{caption}
 %\usepackage{pstricks, pst-node,pst-tree}
 
 
@@ -20,423 +21,591 @@
 \maketitle
 
 <<label=read_data, echo=FALSE>>=
-#Read data into R and do some basic manipulation to get it into a usable format:
-setwd('~/git/loadings/code/Sweave')
-source('~/git/loadings/code/guide.r')
-streams = c('eagle', 'joosvalley', 'otter', 'brewery', 'garfoot', 'kuenster', 'rattlesnake', 'bower')
-stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter', bower='Bower',
-                    brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster', rattlesnake="Rattlesnake")
-outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
-                'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
-
-#Names of the NWS data files for each creek
-nws_files = list("eagle"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
-                    "joosvalley"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
-                    "otter"=c("otter/NWS/Sheboygan_Otter_raw.txt"),
-                    "brewery"=c("brewery/NWS/Madison_SND.txt"),
-                    "garfoot"=c("garfoot/NWS data/madison_daily.txt"),
-                    "kuenster"=c("Kuenster/NWS data/Guttenberg_raw.txt"),
-                    "rattlesnake"=c("Kuenster/NWS data/Guttenberg_raw.txt"),
-                    "bower"=c("bower/NWS data/greenbay_raw.txt", "bower/NWS data/greenbaypost_raw.txt"))
-
-#Location of the raw loading data file for each creek
-daily_load_data = list()
-raw_load_files = list("eagle"=c("eagle/eagle_loads.txt"),
-                    "joosvalley"=c("joosvalley/joos_loads.txt"),
-                    "otter"=c("otter/otter_loads.txt"),
-                    "brewery"=c("brewery/brewery_loads.txt"),
-                    "garfoot"=c("garfoot/garfoot_loads.txt"),
-                    "kuenster"=c("Kuenster/kuenster_loads.txt"),
-                    "rattlesnake"=c("Rattlesnake/rattle_loads.txt"),
-                    "bower"=c("bower/bower_loads.txt"))
-
-
-#loop through the streams, reading them in one by one
-for(stream_name in streams) {
-    data_file = paste('../../data/', stream_name, '/', stream_name, 'creek.csv', sep='')
-    stream = read.csv(data_file, header=T, na.strings=c('NA', 'na')) 
+    #Read data into R and do some basic manipulation to get it into a usable format:
+    setwd('c:/Users/wrbrooks/git/loadings/code/Sweave')
+    source('c:/Users/wrbrooks/git/loadings/code/guide.r')
+    streams = c('eagle', 'joosvalley', 'otter', 'brewery', 'garfoot', 'kuenster', 'rattlesnake', 'bower')
+    stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter', bower='Bower',
+                        brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster', rattlesnake="Rattlesnake")
+    outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
+                    'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
     
-    #read the daily flow file, which we use for antecedent moisture contitions
-    daily_flow = paste("../../data/", stream_name, "/", stream_name, "_q.out", sep="")
-    head = strsplit( readLines(daily_flow)[1], "\t" )
-    daily_flow = read.table(daily_flow, skip=2, col.names=unlist(head))
-    daily_flow$DV_date = with( daily_flow, as.POSIXlt( as.character(DV_date), format="%m/%d/%Y" ) )
+    #Names of the NWS data files for each creek
+    nws_files = list("eagle"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
+                        "joosvalley"=c("eagle/NWS/Winona_91-94_ASCII.txt", "eagle/NWS/Winona_03-07_ASCII.txt"),
+                        "otter"=c("otter/NWS/Sheboygan_Otter_raw.txt"),
+                        "brewery"=c("brewery/NWS/Madison_SND.txt"),
+                        "garfoot"=c("garfoot/NWS data/madison_daily.txt"),
+                        "kuenster"=c("Kuenster/NWS data/Guttenberg_raw.txt"),
+                        "rattlesnake"=c("Kuenster/NWS data/Guttenberg_raw.txt"),
+                        "bower"=c("bower/NWS data/greenbay_raw.txt", "bower/NWS data/greenbaypost_raw.txt"))
     
-    #do some basic data transformations:
-    stream = within( stream, {
-        event_type <- factor(event_type)
-        year <- factor(year)
-        melt_snow[melt_snow=='N' | melt_snow=='Z' | melt_snow=='U'] <- NA
-        melt_snow <- as.numeric(levels(melt_snow)[melt_snow])
-        sweq <- as.numeric(sub("%", "e-2", sweq))
-        ap_1day <- as.numeric(ap_1day)
-        ap_3day <- as.numeric(ap_3day)
-        ap_5day <- as.numeric(ap_5day) 
-        tmax <- as.numeric(tmax)
-        tmin <- as.numeric(tmin)
-        tmean <- as.numeric(tmean)
-        stream <- as.factor(stream_name)
-        start_day <- as.POSIXlt( as.character(start_day), format="%m/%d/%y" )
-        julian <- start_day$yday + 1
-        sin_julian <- sin(julian*2*pi/365)
-        cos_julian <- cos(julian*2*pi/365)
-        for(output in outputs) {
-            assign( paste('log_', output, sep=""), log10(get(output)+0.01) ) }
-        m <- as.factor(ifelse(is.na(m),0,ifelse(m=='M','M',0)))
-        event <- rep(1, length(m))
-        } )
-
-    #Get the raw daily loads at each site
-    daily_load = data.frame()
-    for( raw_load_file in get(stream_name, pos=raw_load_files)) {
-        raw_path = paste("../../data/", raw_load_file, sep="")
-        daily_load = rbind(daily_load, read.table(raw_path, na.strings=c("", "99999", "-1.23E+25"), header=TRUE)) }
-    daily_load$date = with( daily_load, as.POSIXlt( as.character(date), format="%m/%d/%Y" ) )
-    daily_load_data[[stream_name]] = daily_load
+    #Location of the raw loading data file for each creek
+    daily_load_data = list()
+    raw_load_files = list("eagle"=c("eagle/eagle_loads.txt"),
+                        "joosvalley"=c("joosvalley/joos_loads.txt"),
+                        "otter"=c("otter/otter_loads.txt"),
+                        "brewery"=c("brewery/brewery_loads.txt"),
+                        "garfoot"=c("garfoot/garfoot_loads.txt"),
+                        "kuenster"=c("Kuenster/kuenster_loads.txt"),
+                        "rattlesnake"=c("Rattlesnake/rattle_loads.txt"),
+                        "bower"=c("bower/bower_loads.txt"))
     
-    #Find the base flow that immediately preceded each event
-    antecedent_qbase = rep(NA, length(stream$start_day))
-    for( i in 1:length(antecedent_qbase) ) {
-        #get the date just prior to row i (subtraction is in units of seconds)
-        unmatched = identical(which( daily_flow$DV_date == stream$start_day[i]-86400 ), integer(0))
-        antecedent_qbase[i] = ifelse(unmatched, NA, daily_flow[which( daily_flow$DV_date == stream$start_day[i]-86400 ), 'QGW_fixed']) }
-    stream$antecedent_qbase = antecedent_qbase
-
-    #Find the average air temperature in the days before the event:
-    #first, read the raw air temperature data
-    nws = data.frame()
-    for( nws_file in get(stream_name, pos=nws_files)) {
-        nws_path = paste("../../data/", nws_file, sep="")
-        nws = rbind(nws, read.csv(nws_path, na.strings=c("", "99999", "-1.23E+25", "null"), header=TRUE)) }
-    nws$date = with(nws, ISOdate(year=year, month=month, day=day))
-
-    #Now find the antecedent air temperature for each event
-    #We will compute the mean, min, and range of air temps before this event began.
-    antecedent_tmean = rep(NA, length(stream$start_day))
-    antecedent_trange = rep(NA, length(stream$start_day))
-    antecedent_tmax = rep(NA, length(stream$start_day))
-    period = 2 #how far back in days to do the averaging
-    for( i in 1:length(antecedent_tmean) ) {
-        to_average = which(nws$date < stream$start_day[i] & nws$date >= stream$start_day[i] - period*86400)
-        antecedent_tmean[i] = mean(nws$Tmean[to_average], na.rm=TRUE)
-        antecedent_tmax[i] = max(nws$Tmean[to_average], na.rm=TRUE) 
-        antecedent_trange[i] = diff(range(nws$Tmean[to_average], na.rm=TRUE)) }
-    stream$antecedent_tmean = antecedent_tmean
-    stream$antecedent_tmax = ifelse(antecedent_tmax>-Inf, antecedent_tmax, NA)
-    stream$antecedent_trange = ifelse(antecedent_trange>-Inf, antecedent_trange, NA)
-
-    #Now add this stream's data to the frame.
-    assign(stream_name, stream)
-    assign(paste(stream_name, "_flow", sep=""), daily_flow)}
-
-#Now mark the class of each event (1:snowmelt-driven, 2:pre-vegetation, 3:post-vegetation)
-#We will gather all the data into one frame:
-aggregate = data.frame()
-
-#loop through the stream sites:
-for(stream_name in streams) {
-	stream = get(stream_name)
-
-	#Decide which events are snowmelt-driven:         
-	class = vector()
-	prev_class = 0
-	num_events = dim(stream)[1]
-                
-	#loop through the events                        
-	for(row in 1:num_events) {
-		#first look for the beginning of each year's snowmelt events
-		if(stream$m[row]=='M') {
-			class=c(class, 1)
-			prev_class=1 }
-		else if(prev_class==1 & (stream$month[row]>=10 | stream$julian[row]<=135)) {
-			class=c(class, 1)
-			prev_class=1 }
-		else {
-			class=c(class, 3)
-			prev_class=3 } }
-      
-	prev_class = 0
-	for(row in num_events:1) {
-		#now look for the end of the snowmelt events
-		if(stream$m[row]=='M') {
-			class[row]=1
-			prev_class=1 }
-		else if(class[row]==3) {
-			class[row]=3
-			prev_class=3 }
-		else if(stream$julian[row]<=135 & prev_class!=1) {
-			class[row]=2
-			prev_class=2 }
-		else { class[row]=1 } }
-      
-	#save the class identifiers back to the stream's data frame
-	stream$event_class = as.factor(class)
-    stream$snow = ifelse(stream$event_class==1,TRUE, FALSE)
-	assign(stream_name, stream)
-    aggregate = rbind(aggregate, stream) }
-@
-
-
-<<label=sanitize, include=False, echo=False>>=
-sanitize <- function(str) {
-    gsub('([#$%&~_\\^\\\\{}])', '\\\\\\1', str, perl=TRUE);
-}
-
-sanitize2 <- function(str) {
-    gsub('([#$%&~_\\^\\\\{}])', '\\\\\\\\\\1', str, perl=TRUE);
-}
+    
+    #loop through the streams, reading them in one by one
+    for(stream_name in streams)
+    {
+        data_file = paste('../../data/', stream_name, '/', stream_name, 'creek.csv', sep='')
+        stream = read.csv(data_file, header=T, na.strings=c('NA', 'na')) 
+        
+        #read the daily flow file, which we use for antecedent moisture contitions
+        daily_flow = paste("../../data/", stream_name, "/", stream_name, "_q.out", sep="")
+        head = strsplit( readLines(daily_flow)[1], "\t" )
+        daily_flow = read.table(daily_flow, skip=2, col.names=unlist(head))
+        daily_flow$DV_date = with( daily_flow, as.POSIXlt( as.character(DV_date), format="%m/%d/%Y" ) )
+        
+        #do some basic data transformations:
+        stream = within( stream, {
+            event_type <- factor(event_type)
+            year <- factor(year)
+            melt_snow[melt_snow=='N' | melt_snow=='Z' | melt_snow=='U'] <- NA
+            melt_snow <- as.numeric(levels(melt_snow)[melt_snow])
+            sweq <- as.numeric(sub("%", "e-2", sweq))
+            ap_1day <- as.numeric(ap_1day)
+            ap_3day <- as.numeric(ap_3day)
+            ap_5day <- as.numeric(ap_5day) 
+            tmax <- as.numeric(tmax)
+            tmin <- as.numeric(tmin)
+            tmean <- as.numeric(tmean)
+            stream <- as.factor(stream_name)
+            start_day <- as.POSIXlt( as.character(start_day), format="%m/%d/%Y" )
+            year <- as.numeric(as.character(year))
+            julian <- start_day$yday + 1
+            sin_julian <- sin(julian*2*pi/365)
+            cos_julian <- cos(julian*2*pi/365)
+            for(output in outputs)
+                assign( paste('log_', output, sep=""), log10(get(output)+0.01) )
+            m <- as.factor(ifelse(is.na(m),0,ifelse(m=='M','M',0)))
+            event <- rep(1, length(m))
+            } )
+    
+        #Get the raw daily loads at each site
+        daily_load = data.frame()
+        for( raw_load_file in get(stream_name, pos=raw_load_files)) {
+            raw_path = paste("../../data/", raw_load_file, sep="")
+            daily_load = rbind(daily_load, read.table(raw_path, na.strings=c("", "99999", "-1.23E+25"), header=TRUE)) }
+        daily_load$date = with( daily_load, as.POSIXlt( as.character(date), format="%m/%d/%Y" ) )
+        daily_load_data[[stream_name]] = daily_load
+        
+        #Find the base flow that immediately preceded each event
+        antecedent_qbase = rep(NA, length(stream$start_day))
+        for( i in 1:length(antecedent_qbase) ) {
+            #get the date just prior to row i (subtraction is in units of seconds)
+            unmatched = identical(which( daily_flow$DV_date == stream$start_day[i]-86400 ), integer(0))
+            antecedent_qbase[i] = ifelse(unmatched, NA, daily_flow[which( daily_flow$DV_date == stream$start_day[i]-86400 ), 'QGW_fixed']) }
+        stream$antecedent_qbase = antecedent_qbase
+    
+        #Find the average air temperature in the days before the event:
+        #first, read the raw air temperature data
+        nws = data.frame()
+        for( nws_file in get(stream_name, pos=nws_files))
+        {
+            nws_path = paste("../../data/", nws_file, sep="")
+            nws = rbind(nws, read.csv(nws_path, na.strings=c("", "99999", "-1.23E+25", "null"), header=TRUE))
+        }
+        nws$date = with(nws, ISOdate(year=year, month=month, day=day))
+    
+        #Now find the antecedent air temperature for each event
+        #We will compute the mean, min, and range of air temps before this event began.
+        antecedent_tmean = rep(NA, length(stream$start_day))
+        antecedent_trange = rep(NA, length(stream$start_day))
+        antecedent_tmax = rep(NA, length(stream$start_day))
+        period = 2 #how far back in days to do the averaging
+        for( i in 1:length(antecedent_tmean) )
+        {
+            to_average = which(nws$date < stream$start_day[i] & nws$date >= stream$start_day[i] - period*86400)
+            antecedent_tmean[i] = mean(nws$Tmean[to_average], na.rm=TRUE)
+            antecedent_tmax[i] = max(nws$Tmean[to_average], na.rm=TRUE) 
+            antecedent_trange[i] = diff(range(nws$Tmean[to_average], na.rm=TRUE))
+        }
+        stream$antecedent_tmean = antecedent_tmean
+        stream$antecedent_tmax = ifelse(antecedent_tmax>-Inf, antecedent_tmax, NA)
+        stream$antecedent_trange = ifelse(antecedent_trange>-Inf, antecedent_trange, NA)
+    
+        #Now add this stream's data to the frame.
+        assign(stream_name, stream)
+        assign(paste(stream_name, "_flow", sep=""), daily_flow)
+    }
+    
+    #Now mark the class of each event (1:snowmelt-driven, 2:pre-vegetation, 3:post-vegetation)
+    #We will gather all the data into one frame:
+    aggregate = data.frame()
+    
+    #loop through the stream sites:
+    for(stream_name in streams)
+    {
+    	stream = get(stream_name)
+    
+    	#Decide which events are snowmelt-driven:         
+    	class = vector()
+    	prev_class = 0
+    	num_events = dim(stream)[1]
+                    
+    	#loop through the events                        
+    	for(row in 1:num_events)
+        {
+    		#first look for the beginning of each year's snowmelt events
+    		if(stream$m[row]=='M')
+            {
+    			class = c(class, 1)
+    			prev_class = 1
+            }
+    		else if(prev_class==1 & (stream$month[row]>=10 | stream$julian[row]<=135))
+            {
+    			class = c(class, 1)
+    			prev_class = 1
+            }
+    		else
+            {
+    			class = c(class, 3)
+    			prev_class = 3
+            }
+        }
+          
+    	prev_class = 0
+    	for(row in num_events:1)
+        {
+    		#now look for the end of the snowmelt events
+    		if(stream$m[row]=='M')
+            {
+    			class[row] = 1
+    			prev_class = 1
+            }
+    		else if(class[row]==3)
+            {
+    			class[row] = 3
+    			prev_class = 3
+            }
+    		else if(stream$julian[row]<=135 & prev_class!=1)
+            {
+    			class[row] = 2
+    			prev_class = 2
+            }
+    		else
+                class[row] = 1
+        }
+    
+          
+    	#save the class identifiers back to the stream's data frame
+    	stream$event_class = as.factor(class)
+        stream$snow = ifelse(stream$event_class==1,TRUE, FALSE)
+    	assign(stream_name, stream)
+        aggregate = rbind(aggregate, stream)
+    }
 @
 
 
 <<label=bubble_plots, echo=False, include=False>>=
-#The "_nosnow" dataframes exclude the snowfall-influenced events.
-num_rows = ceiling(length(streams)/2)
-layout(matrix(1:(2*num_rows), num_rows, 2))
-for(stream_name in streams) {
-    stream = get(stream_name)
-    assign( paste(stream_name, "_nosnow", sep=""), stream[stream$snow==FALSE,] )
-    assign( paste(stream_name, "_snow", sep=""), stream[stream$snow==TRUE,] )
-
-    #Produce the bubble plots
-    symbols(stream[stream$snow==FALSE,]$antecedent_qbase,
-            stream[stream$snow==FALSE,]$theisen,
-            circles=sqrt( stream[stream$snow==FALSE,]$sstorm_tot/pi ),
-            inches=0.25, fg="white", bg="red", bty='n',
-            xlim=range(stream[!is.na(stream$antecedent_qbase),]$antecedent_qbase)*c(0.9,1.1),
-            ylim=range(stream[!is.na(stream$theisen),]$theisen)*c(0.9,1.1),
-            xlab="Antecedent baseflow",
-            ylab="Theisen rainfall") }
+    #The "_nosnow" dataframes exclude the snowfall-influenced events.
+    num_rows = ceiling(length(streams)/2)
+    layout(matrix(1:(2*num_rows), num_rows, 2))
+    for(stream_name in streams)
+    {
+        stream = get(stream_name)
+        assign( paste(stream_name, "_nosnow", sep=""), stream[stream$snow==FALSE,] )
+        assign( paste(stream_name, "_snow", sep=""), stream[stream$snow==TRUE,] )
+    
+        #Produce the bubble plots
+        symbols(stream[stream$snow==FALSE,]$antecedent_qbase,
+                stream[stream$snow==FALSE,]$theisen,
+                circles=sqrt( stream[stream$snow==FALSE,]$sstorm_tot/pi ),
+                inches=0.25, fg="white", bg="red", bty='n',
+                xlim=range(stream[!is.na(stream$antecedent_qbase) & stream$snow==FALSE,]$antecedent_qbase)*c(0.8,1.2),
+                ylim=range(stream[!is.na(stream$theisen),]$theisen)*c(0.8,1.2),
+                xlab="Antecedent baseflow",
+                ylab="Theisen rainfall") 
+        
+        mtext(stream_names[[stream_name]], side=3, line=-1, cex=1.2,
+              at=sum(range(stream[!is.na(stream$antecedent_qbase) & stream$snow==FALSE,]$antecedent_qbase))/1.7)
+    }
 @
 
-<<label=stepwise_BIC, echo=False, include=False>>=
-#This function extracts the terms in the model formula.
-parse_args <- function(model) {
-    s = attr(model$model, 'names')
-    return( s ) }
-    
-    
-#This function ranks the predictors in the model based on their impact on the output.
-#rank_predictors <- function(model) {
-#    terms = parse_args(model)
-#    target = terms[1]
-#    predictors = terms[-1]
-#    coefs = model$coefficients
-#    data = model$x
-    
-#    influence = vector()
-#    for(predictor in predictors) {
-#        influence = c(influence, abs(coefs[predictor]*sd(data[,predictor], na.rm=T))) }
-    
-#    influence = sort(influence, decreasing=T)
-#    return(influence) }
 
-
-r2 <- function(model){
-    actual = model$residual+model$fitted
+<<label=function_definitions, echo=False, include=False>>=
+    #Import the GAM library
+    library(mgcv)
     
-    rss = sum(model$residual**2)
-    tss = sum((actual-mean(actual))**2)
+    #Backslash-escape special characters.
+    sanitize <- function(str)
+        gsub('([#$%&~_\\^\\\\{}])', '\\\\\\1', str, perl=TRUE)
     
-    return( 1-rss/tss ) }
-
-
-#This function adds variables one-by-one to the model, finding the R^2 at each step.
-r2_step <- function(model, variables, data) {
-    output = attr(model$model, "names")[1]
-    call = paste(output, "~", variables[1], sep="")
     
-    r_square = vector()
-
-    for(variable in variables[-1]) {
-        f = as.formula(call)
-        model = lm(formula=f, data=data)
+    #Double-backslash-escape special characters.
+    sanitize2 <- function(str)
+        gsub('([#$%&~_\\^\\\\{}])', '\\\\\\\\\\1', str, perl=TRUE)
+    
+    
+    #Paste together a list of strings, backslash-escaping special characters in each one.
+    sanipaste <- function(pastelist, ...)
+        paste(sanitize(pastelist), ...)
+    
+    
+    #Paste together a list of strings, double-backslash-escaping special characers in each one.
+    sanipaste2 <- function(pastelist, ...)
+        paste(sanitize2(pastelist), ...)
+    
+    
+    #Determine what proportion of loadings comes from each event class
+    proportions <- function(streams, target, col.names)
+    {
+        result = matrix( nrow=length(streams), ncol=length(col.names) )
+    	for(i in 1:length(streams))
+        {
+    		stream = get(streams[i])
+    		result[i,] = sapply(c(TRUE, FALSE), function(x) sum(stream[stream$snow==x,target], na.rm=T) / sum(stream[,target], na.rm=T))
+        }
+        result = data.frame(result)
+        names(result) = col.names
+        row.names(result) = sapply(streams, function(x) get(x=x, pos=stream_names))
+    	return(result)
+    }
+    
+    
+    #Determine what percentage of loadings comes from each event class
+    percentages <- function(streams, target, col.names, decimals=1)
+    {
+        props = proportions(streams, target, col.names)
+        result = matrix( nrow=0, ncol=length(col.names) )
+        rows = dim(props)[1]
+        for( row in 1:rows )
+        {
+            result = rbind( result, paste( ifelse(round(props[row,]*100, decimals)%%1 == 0,
+                paste(as.character( round(props[row,]*100, 0) ), ".0", sep=""),
+                as.character( round(props[row,]*100, decimals) )), "%", sep="" ))
+        }
+        result=data.frame(result)
+        names(result) = names(props)
+        row.names(result) = row.names(props)
+        return(result)
+    }
+    
+    
+    #Extracts the terms in the model formula.
+    parse_args <- function(model)
+        return(attr(model$model, 'names'))
+    
+    
+    #Compute the model's R**2.
+    r2 <- function(model)
+    {
+        actual = model$residual+model$fitted
+        rss = sum(model$residual**2)
+        tss = sum((actual-mean(actual))**2)
+        return(1 - rss/tss)
+    }
+    
+    
+    #Adds variables one-by-one to the model, finding the R^2 at each step.
+    r2_step <- function(model, variables, data)
+    {
+        output = attr(model$model, "names")[1]
+        call = paste(output, "~", variables[1], sep="")
+        
+        r_square = vector()
+    
+        for(variable in variables[-1]) {
+            f = as.formula(call)
+            model = lm(formula=f, data=data)
+            r_square = c(r_square, r2(model))
+            call = paste(call, "+", variable) }
+        
+        model = update(model, formula=call)
         r_square = c(r_square, r2(model))
-        call = paste(call, "+", variable) }
+        
+        return(r_square)
+    }
     
-    model = update(model, formula=call)
-    r_square = c(r_square, r2(model))
     
-    return( r_square ) }
-
-
-#This function uses the BIC to screen variables, returning the 'step' object.
-stepwise_BIC <- function(target, data, sites) {
-    predictors = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
-    d = data[,c(target, predictors)]
-    result = list()
+    #This function uses the BIC to screen variables, returning the 'step' object.
+    stepwise_BIC <- function(target, data, sites)
+    {
+        predictors = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", 
+                       "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", 
+                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", 
+                       "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+        d = data[,c(target, predictors)]
+        result = list()
+        
+        full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
+        intercept_only = as.formula( paste(target, "~1") )
+        fm1 <- lm(full_model, data=d, x=T)
+        
+        d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
+        names(d)[1] = target
+        fm2 <- lm(intercept_only, data=d)
+        screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=FALSE)
+        
+        terms = parse_args(screened)
+        target = terms[1]
+        predictors = terms[-1]
+        formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
+        
+        model = lm(formula, data=data, x=T)
+        
+        #Put the results in a list object
+        result$site = sites[[as.character(unique(data$stream)[1])]]
+        result$model = model
+        result$ranked = names(model$model)[-1] # rank_predictors(model)
+        result$R2 = r2_step(model, result$ranked, data)
+        return(result)
+    }
     
-    full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
-    intercept_only = as.formula( paste(target, "~1") )
-    fm1 <- lm(full_model, data=d, x=T)
     
-    d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
-    names(d)[1] = target
-    fm2 <- lm(intercept_only, data=d)
-    screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=FALSE)
+    #This function uses the BIC to screen variables, returning the 'step' object.
+    stepwise_BIC_gam <- function(target, data, sites)
+    {
+        predictors = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", 
+                       "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", 
+                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", 
+                       "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+        d = data[,c(target, predictors)]
+        result = list()
+        
+        full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
+        intercept_only = as.formula( paste(target, "~1") )
+        fm1 <- lm(full_model, data=d, x=T)
+        
+        d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
+        names(d)[1] = target
+        fm2 <- gam(intercept_only, data=d)
+        screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=FALSE)
+        
+        terms = parse_args(screened)
+        target = terms[1]
+        predictors = terms[-1]
+        formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
+        
+        model = lm(formula, data=data, x=T)
+        
+        #Put the results in a list object
+        result$site = sites[[as.character(unique(data$stream)[1])]]
+        result$model = model
+        result$ranked = names(model$model)[-1] # rank_predictors(model)
+        result$R2 = r2_step(model, result$ranked, data)
+        return(result)
+    }
     
-    terms = parse_args(screened)
-    target = terms[1]
-    predictors = terms[-1]
-    formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
     
-    model = lm(formula, data=data, x=T)
+    #Use the BIC to screen the predictors that are available when snow is on the ground.
+    stepwise_BIC_snow <- function(target, data, sites)
+    {
+        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", 
+                       "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+        d = data[,c(target, predictors)]
+        result = list()
     
-    #Put the results in a list object
-    result$site = sites[[as.character(unique(data$stream)[1])]]
-    result$model = model
-    result$ranked = names(model$model)[-1] # rank_predictors(model)
-    result$R2 = r2_step(model, result$ranked, data)
-    return(result) }
-
-
-#Use the BIC to screen the predictors that are available when snow is on the ground.
-stepwise_BIC_snow <- function(target, data, sites) {
-    predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
-    d = data[,c(target, predictors)]
-    result = list()
-
-    full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
-    intercept_only = as.formula( paste(target, "~1") )
-    fm1 <- lm(full_model, data=d, x=T)
+        full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
+        intercept_only = as.formula( paste(target, "~1") )
+        fm1 <- lm(full_model, data=d, x=T)
+        
+        d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
+        names(d)[1] = target
+        fm2 <- lm(intercept_only, data=d)
+        screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=FALSE)
+        
+        terms = parse_args(screened)
+        target = terms[1]
+        predictors = terms[-1]
+        formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
+        
+        model = lm(formula, data=data, x=T)
+        
+        #Put the results in a list object
+        result$site = sites[[as.character(unique(data$stream)[1])]]
+        result$model = model
+        result$ranked = names(model$model)[-1] #rank_predictors(model)
+        result$R2 = r2_step(model, result$ranked, data)
+        return(result)
+    }
     
-    d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
-    names(d)[1] = target
-    fm2 <- lm(intercept_only, data=d)
-    screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=FALSE)
     
-    terms = parse_args(screened)
-    target = terms[1]
-    predictors = terms[-1]
-    formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
+    #Use the BIC to screen the predictors that are available when snow is on the ground.
+    stepwise_BIC_snow2 <- function(target, data, sites)
+    {
+        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "total_water", "melt_water", 
+                       "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+        d = data[,c(target, predictors)]
+        result = list()
     
-    model = lm(formula, data=data, x=T)
+        full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
+        intercept_only = as.formula( paste(target, "~1") )
+        fm1 <- lm(full_model, data=d, x=T)
+        
+        d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
+        names(d)[1] = target
+        fm2 <- lm(intercept_only, data=d)
+        screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=FALSE)
+        
+        terms = parse_args(screened)
+        target = terms[1]
+        predictors = terms[-1]
+        formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
+        
+        model = lm(formula, data=data, x=T)
+        
+        #Put the results in a list object
+        result$site = sites[[as.character(unique(data$stream)[1])]]
+        result$model = model
+        result$ranked = names(model$model)[-1] #rank_predictors(model)
+        result$R2 = r2_step(model, result$ranked, data)
+        return(result)
+    }
     
-    #Put the results in a list object
-    result$site = sites[[as.character(unique(data$stream)[1])]]
-    result$model = model
-    result$ranked = names(model$model)[-1] #rank_predictors(model)
-    result$R2 = r2_step(model, result$ranked, data)
-    return(result) }
+    
+    #Function to flag the largest observations of a certain variable.
+    major <- function(data, target, q=0.9, strata='')
+    {
+        #Flag the major events within each level of strata
+        if(strata != '') {
+            major = rep(0, length(data[,target]))
+            
+            #Loop through the strata
+            for(stratum in unique(data[,strata])) {
+                indx = which(data[,strata]==stratum)
+                major[indx] = ifelse(data[indx,target] > quantile(data[indx,target], q, na.rm=TRUE), 1, 0) } }
+                
+        #If no stratification is provided, then just flag the overall major events
+        else { major = ifelse(data[,target]>quantile(data[,target], q, na.rm=TRUE), 1, 0) }
+        
+        #Either way, return the result
+        return(major)
+    }
+    
+    
+    #Produce a boxplot of the per-event loading, showing rainfall- and snowmelt-driven events separately.
+    bplot <- function(formula, data, loc, classes, site, ...)
+    {
+        boxplot(formula, data=data, bty='n', ylim=yy, cex=0.6, pch=4,
+                boxwex=0.4, frame.plot=F, ann=F, names=classes, add=T, at=loc:(loc+1), yaxt='n', ...)
+        mtext(site, side=1, line=3, at=(loc+0.5))
+        
+        mtext( paste(round(100*sum(data[data$snow==1,]$ptot_tot)/sum(data$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=loc )
+        mtext( paste(round(100*sum(data[data$snow==0,]$ptot_tot)/sum(data$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=(loc+1) )
+        
+        mtext(sum(data$snow), side=3, line=1, cex=0.7, at=loc )
+        mtext(length(data$snow) - sum(data$snow), side=3, line=1, cex=0.7, at=(loc+1) )
+    }
+    
+    
+    #Produce a table that shows how the R**2 grows as new variables are added to the model.
+    R2_table <- function(varlist)
+    {
+        numvars = length(varlist$R2)
+        cat(paste("\\multirow{", as.character(numvars+1), "}{*}{", varlist$site, "}", sep=""))
+        for(i in 1:numvars)
+        {
+            cat(paste(" & ", as.character(round(varlist$R2[i], 3)), " & ", sep=""))
+            
+            for(j in 1:i)
+            {
+                cat(sanitize(varlist$ranked[j]))
+                if(j<i)
+                    cat(" + ")
+            }
+            cat("\\\\ \n")
+        }
+        cat("\\vspace{2mm}\\\\ \n")
+    }
 @
 
 
 
 <<label=variable_selection_nosnow, echo=False, include=False>>=
-es = stepwise_BIC(target="log_stot_tot", data=eagle_nosnow, sites=stream_names)
-js = stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow, sites=stream_names)
-os = stepwise_BIC(target="log_stot_tot", data=otter_nosnow, sites=stream_names)
-bs = stepwise_BIC(target="log_stot_tot", data=brewery_nosnow, sites=stream_names)
-gs = stepwise_BIC(target="log_stot_tot", data=garfoot_nosnow, sites=stream_names)
-ks = stepwise_BIC(target="log_stot_tot", data=kuenster_nosnow, sites=stream_names)
-rs = stepwise_BIC(target="log_stot_tot", data=rattlesnake_nosnow, sites=stream_names)
-bows = stepwise_BIC(target="log_stot_tot", data=bower_nosnow, sites=stream_names)
-
-ep = stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow, sites=stream_names)
-jp = stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow, sites=stream_names)
-op = stepwise_BIC(target="log_ptot_tot", data=otter_nosnow, sites=stream_names)
-bp = stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow, sites=stream_names)
-gp = stepwise_BIC(target="log_ptot_tot", data=garfoot_nosnow, sites=stream_names)
-kp = stepwise_BIC(target="log_ptot_tot", data=kuenster_nosnow, sites=stream_names)
-rp = stepwise_BIC(target="log_ptot_tot", data=rattlesnake_nosnow, sites=stream_names)
-bowp = stepwise_BIC(target="log_ptot_tot", data=bower_nosnow, sites=stream_names)
+    es = stepwise_BIC(target="log_stot_tot", data=eagle_nosnow, sites=stream_names)
+    js = stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow, sites=stream_names)
+    os = stepwise_BIC(target="log_stot_tot", data=otter_nosnow, sites=stream_names)
+    bs = stepwise_BIC(target="log_stot_tot", data=brewery_nosnow, sites=stream_names)
+    gs = stepwise_BIC(target="log_stot_tot", data=garfoot_nosnow, sites=stream_names)
+    ks = stepwise_BIC(target="log_stot_tot", data=kuenster_nosnow, sites=stream_names)
+    rs = stepwise_BIC(target="log_stot_tot", data=rattlesnake_nosnow, sites=stream_names)
+    bows = stepwise_BIC(target="log_stot_tot", data=bower_nosnow, sites=stream_names)
+    
+    ep = stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow, sites=stream_names)
+    jp = stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow, sites=stream_names)
+    op = stepwise_BIC(target="log_ptot_tot", data=otter_nosnow, sites=stream_names)
+    bp = stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow, sites=stream_names)
+    gp = stepwise_BIC(target="log_ptot_tot", data=garfoot_nosnow, sites=stream_names)
+    kp = stepwise_BIC(target="log_ptot_tot", data=kuenster_nosnow, sites=stream_names)
+    rp = stepwise_BIC(target="log_ptot_tot", data=rattlesnake_nosnow, sites=stream_names)
+    bowp = stepwise_BIC(target="log_ptot_tot", data=bower_nosnow, sites=stream_names)
 @
 
 <<label=variable_selection_snow, include=False, echo=False>>=
-es_snow = stepwise_BIC_snow(target="log_stot_tot", data=eagle_snow, sites=stream_names)
-js_snow = stepwise_BIC_snow(target="log_stot_tot", data=joosvalley_snow, sites=stream_names)
-os_snow = stepwise_BIC_snow(target="log_stot_tot", data=otter_snow, sites=stream_names)
-bs_snow = stepwise_BIC_snow(target="log_stot_tot", data=brewery_snow, sites=stream_names)
-gs_snow = stepwise_BIC_snow(target="log_stot_tot", data=garfoot_snow, sites=stream_names)
-ks_snow = stepwise_BIC_snow(target="log_stot_tot", data=kuenster_snow, sites=stream_names)
-rs_snow = stepwise_BIC_snow(target="log_stot_tot", data=rattlesnake_snow, sites=stream_names)
-bows_snow = stepwise_BIC_snow(target="log_stot_tot", data=bower_snow, sites=stream_names)
-
-ep_snow = stepwise_BIC_snow(target="log_ptot_tot", data=eagle_snow, sites=stream_names)
-jp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=joosvalley_snow, sites=stream_names)
-op_snow = stepwise_BIC_snow(target="log_ptot_tot", data=otter_snow, sites=stream_names)
-bp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=brewery_snow, sites=stream_names)
-gp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=garfoot_snow, sites=stream_names)
-kp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=kuenster_snow, sites=stream_names)
-rp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=rattlesnake_snow, sites=stream_names)
-bowp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=bower_snow, sites=stream_names)
-@
-
-<<label=proportions, echo=False, include=False>>=
-targets = c('ptot_tot', 'pstorm_tot', 'stot_tot', 'sstorm_tot')
-
-#Define the function that we will use to determine what proportion of loadings comes from each event class
-proportions <- function(streams, target, col.names) {
-	result = matrix( nrow=length(streams), ncol=length(col.names) )
-	for(i in 1:length(streams)) {
-		stream = get(streams[i])
-		result[i,] = sapply(c(TRUE, FALSE), (function(x) sum(stream[stream$snow==x,target], na.rm=T)/sum(stream[,target], na.rm=T))) }
-    result = data.frame(result)
-    names(result) = col.names
-    row.names(result) = sapply(streams, (function(x) get(x=x, pos=stream_names)))
-	return( result ) }
+    es_snow = stepwise_BIC_snow(target="log_stot_tot", data=eagle_snow, sites=stream_names)
+    js_snow = stepwise_BIC_snow(target="log_stot_tot", data=joosvalley_snow, sites=stream_names)
+    os_snow = stepwise_BIC_snow(target="log_stot_tot", data=otter_snow, sites=stream_names)
+    bs_snow = stepwise_BIC_snow(target="log_stot_tot", data=brewery_snow, sites=stream_names)
+    gs_snow = stepwise_BIC_snow(target="log_stot_tot", data=garfoot_snow, sites=stream_names)
+    ks_snow = stepwise_BIC_snow(target="log_stot_tot", data=kuenster_snow, sites=stream_names)
+    rs_snow = stepwise_BIC_snow(target="log_stot_tot", data=rattlesnake_snow, sites=stream_names)
+    bows_snow = stepwise_BIC_snow(target="log_stot_tot", data=bower_snow, sites=stream_names)
     
-percentages <- function(streams, target, col.names, decimals=1) {
-    props = proportions(streams, target, col.names)
-    result = matrix( nrow=0, ncol=length(col.names) )
-    rows = dim(props)[1]
-    for( row in 1:rows ) {
-        result = rbind( result, paste( ifelse(round(props[row,]*100, decimals)%%1 == 0,
-            paste(as.character( round(props[row,]*100, 0) ), ".0", sep=""),
-            as.character( round(props[row,]*100, decimals) )), "%", sep="" )) }
-    result=data.frame(result)
-    names(result) = names(props)
-    row.names(result) = row.names(props)
-    return( result ) }
+    ep_snow = stepwise_BIC_snow(target="log_ptot_tot", data=eagle_snow, sites=stream_names)
+    jp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=joosvalley_snow, sites=stream_names)
+    op_snow = stepwise_BIC_snow(target="log_ptot_tot", data=otter_snow, sites=stream_names)
+    bp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=brewery_snow, sites=stream_names)
+    gp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=garfoot_snow, sites=stream_names)
+    kp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=kuenster_snow, sites=stream_names)
+    rp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=rattlesnake_snow, sites=stream_names)
+    bowp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=bower_snow, sites=stream_names)
 @
 
 
+<<label=variable_selection_snow2, include=False, echo=False>>=
+    es_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=eagle_snow, sites=stream_names)
+    js_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=joosvalley_snow, sites=stream_names)
+    os_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=otter_snow, sites=stream_names)
+    bs_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=brewery_snow, sites=stream_names)
+    gs_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=garfoot_snow, sites=stream_names)
+    ks_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=kuenster_snow, sites=stream_names)
+    rs_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=rattlesnake_snow, sites=stream_names)
+    bows_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=bower_snow, sites=stream_names)
+    
+    ep_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=eagle_snow, sites=stream_names)
+    jp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=joosvalley_snow, sites=stream_names)
+    op_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=otter_snow, sites=stream_names)
+    bp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=brewery_snow, sites=stream_names)
+    gp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=garfoot_snow, sites=stream_names)
+    kp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=kuenster_snow, sites=stream_names)
+    rp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=rattlesnake_snow, sites=stream_names)
+    bowp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=bower_snow, sites=stream_names)
+@
 
-<<label=major_function, echo=False, include=False>>=
-#Function to flag the largest observations of a certain variable.
-major <- function(data, target, q=0.9, strata='') {
-    #Flag the major events within each level of strata
-    if(strata != '') {
-        major = rep(0, length(data[,target]))
+
+<<label=breakdown_snow_or_rain, include=False, echo=False>>=
+    for(target in c('ptot_tot', 'pstorm_tot', 'stot_tot', 'sstorm_tot'))
+    {
+        p = percentages(streams, target, col.names=c("snowmelt-driven", "rainfall-driven"))
+        pp = as.matrix( proportions(streams, target, col.names=c("snowmelt-driven", "rainfall-driven")) )
         
-        #Loop through the strata
-        for(stratum in unique(data[,strata])) {
-            indx = which(data[,strata]==stratum)
-            major[indx] = ifelse(data[indx,target] > quantile(data[indx,target], q, na.rm=TRUE), 1, 0) } }
-            
-    #If no stratification is provided, then just flag the overall major events
-    else { major = ifelse(data[,target]>quantile(data[,target], q, na.rm=TRUE), 1, 0) }
-    
-    #Either way, return the result
-    return(major) }
+        variable_name = paste(target, "_percentages", sep="")
+        variable_name2 = paste(target, "_proportions", sep="")
+        
+        assign(variable_name, value=p)
+        assign(variable_name2, value=pp)
+    }
 @
-
-
-<<include=False, echo=False>>=
-for( target in targets ) {
-    p = percentages(streams, target, col.names=c("snowmelt-driven", "rainfall-driven"))
-    pp = as.matrix( proportions(streams, target, col.names=c("snowmelt-driven", "rainfall-driven")) )
-    
-    variable_name = paste(target, "_percentages", sep="")
-    variable_name2 = paste(target, "_proportions", sep="")
-    
-    assign(variable_name, value=p)
-    assign(variable_name2, value=pp) }
-@
-
-
-
-
 
 
 <<label=barchart, echo=False, include=False>>=
-layout(matrix(1:4,2,2))
-colors <- gray.colors(dim(ptot_tot_proportions)[1])
-
-barplot(ptot_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of phosphorus")
-barplot(stot_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of solids")
-barplot(pstorm_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of phosphorus")
-barplot(sstorm_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of solids")
-legend(x="topleft", legend=streams, fill=colors, bty='n')
+    layout(matrix(1:4,2,2))
+    colors <- gray.colors(dim(ptot_tot_proportions)[1])
+    
+    barplot(ptot_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of phosphorus")
+    barplot(stot_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of solids")
+    barplot(pstorm_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of phosphorus")
+    barplot(sstorm_tot_proportions, beside=T, names.arg=c("snow","rain"), ylab="proportion of solids")
+    legend(x="topleft", legend=streams, fill=colors, bty='n')
 @
 
 
@@ -452,206 +621,41 @@ legend(x="topleft", legend=streams, fill=colors, bty='n')
 \end{figure}
 
 
-
-
 <<label=stot_boxplots, echo=False, include=False>>=
-yy=c(-2, 3.5)
-par(mar=c(4, 4, 2, 0))
-event_classes = c("snow","rain")
-
-#Eagle creek
-boxplot(log_stot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Sediment Load )", names=event_classes, xlim=c(1,20))
-mtext("Eagle", side=1, line=3, at=1.5)
-
-mtext( paste(round(100*sum(eagle[eagle$snow==1,]$stot_tot)/sum(eagle$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=1 )
-mtext( paste(round(100*sum(eagle[eagle$snow==0,]$stot_tot)/sum(eagle$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=2 )
-
-mtext(sum(eagle$snow), side=3, line=1, cex=0.7, at=1 )
-mtext(length(eagle$snow)-sum(eagle$snow), side=3, line=1, cex=0.7, at=2 )
-
-
-#Otter creek
-boxplot(log_stot_tot~snow, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=4:5, yaxt='n')
-mtext("Otter", side=1, line=3, at=4.5)
-
-mtext( paste(round(100*sum(otter[otter$snow==1,]$stot_tot)/sum(otter$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=4 )
-mtext( paste(round(100*sum(otter[otter$snow==0,]$stot_tot)/sum(otter$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=5 )
-
-mtext(sum(otter$snow), side=3, line=1, cex=0.7, at=4 )
-mtext(length(otter$snow)-sum(otter$snow), side=3, line=1, cex=0.7, at=5 )
-
-
-#Joos Valley creek
-boxplot(log_stot_tot~snow, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=7:8, yaxt='n')
-mtext("Joos", side=1, line=3, at=7.5)
-
-mtext( paste(round(100*sum(joosvalley[joosvalley$snow==1,]$stot_tot)/sum(joosvalley$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=7 )
-mtext( paste(round(100*sum(joosvalley[joosvalley$snow==0,]$stot_tot)/sum(joosvalley$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=8 )
-
-mtext(sum(joosvalley$snow), side=3, line=1, cex=0.7, at=7 )
-mtext(length(joosvalley$snow)-sum(joosvalley$snow), side=3, line=1, cex=0.7, at=8 )
-
-
-#Brewery creek
-boxplot(log_stot_tot~snow, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=10:11, yaxt='n')
-mtext("Brewery", side=1, line=3, at=10.5)
-
-mtext( paste(round(100*sum(brewery[brewery$snow==1,]$stot_tot)/sum(brewery$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=10 )
-mtext( paste(round(100*sum(brewery[brewery$snow==0,]$stot_tot)/sum(brewery$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=11 )
-
-mtext(sum(brewery$snow), side=3, line=1, cex=0.7, at=10 )
-mtext(length(brewery$snow)-sum(brewery$snow), side=3, line=1, cex=0.7, at=11 )
-
-
-#Garfoot creek
-boxplot(log_stot_tot~snow, data=garfoot, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=13:14, yaxt='n')
-mtext("Garfoot", side=1, line=3, at=13.5)
-
-mtext( paste(round(100*sum(garfoot[garfoot$snow==1,]$stot_tot)/sum(garfoot$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=13 )
-mtext( paste(round(100*sum(garfoot[garfoot$snow==0,]$stot_tot)/sum(garfoot$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=14 )
-
-mtext(sum(garfoot$snow), side=3, line=1, cex=0.7, at=13 )
-mtext(length(garfoot$snow)-sum(garfoot$snow), side=3, line=1, cex=0.7, at=14 )
-
-
-#Kuenster creek
-boxplot(log_stot_tot~snow, data=kuenster, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=16:17, yaxt='n')
-mtext("Kuenster", side=1, line=3, at=16.5)
-
-mtext( paste(round(100*sum(kuenster[kuenster$snow==1,]$stot_tot)/sum(kuenster$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=16 )
-mtext( paste(round(100*sum(kuenster[kuenster$snow==0,]$stot_tot)/sum(kuenster$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=17 )
-
-mtext(sum(kuenster$snow), side=3, line=1, cex=0.7, at=16 )
-mtext(length(kuenster$snow)-sum(kuenster$snow), side=3, line=1, cex=0.7, at=17 )
-
-
-#Rattlesnake creek
-boxplot(log_stot_tot~snow, data=rattlesnake, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=19:20, yaxt='n')
-mtext("Rattlesnake", side=1, line=3, at=19.5)
-
-mtext( paste(round(100*sum(rattlesnake[rattlesnake$snow==1,]$stot_tot)/sum(rattlesnake$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=19 )
-mtext( paste(round(100*sum(rattlesnake[rattlesnake$snow==0,]$stot_tot)/sum(rattlesnake$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=20 )
-
-mtext(sum(rattlesnake$snow), side=3, line=1, cex=0.7, at=19 )
-mtext(length(rattlesnake$snow)-sum(rattlesnake$snow), side=3, line=1, cex=0.7, at=20 )
-
-mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
-mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
-
-
-#Bower creek
-#boxplot(log_stot_tot~snow, data=bower, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=19:20, yaxt='n')
-#mtext("Bower", side=1, line=3, at=19.5)
-
-#mtext( paste(round(100*sum(bower[bower$snow==1,]$stot_tot)/sum(bower$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=19 )
-#mtext( paste(round(100*sum(bower[bower$snow==0,]$stot_tot)/sum(bower$stot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=20 )
-
-#mtext(sum(bower$snow), side=3, line=1, cex=0.7, at=19 )
-#mtext(length(bower$snow)-sum(bower$snow), side=3, line=1, cex=0.7, at=20 )
-
-#mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
-#mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
+    yy = c(-2, 3.5)
+    xx = c(1, 3*length(streams) + 1)
+    par(mar=c(4, 4, 2, 0))
+    plot.new()
+    plot.window(xlim=xx, ylim=yy)
+    
+    for(i in 1:length(streams))
+    {
+        data = get(streams[i])
+        site = stream_names[[streams[i]]]
+        bplot(log_stot_tot~snow, data=eagle, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx)
+    }
+    
+    mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
+    mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
 @
 
 
 
 <<label=ptot_boxplots, echo=False, include=False>>=
-yy=c(-1, 4)
-event_classes = c("snow","rain")
-par(mar=c(4, 4, 2, 0))
-
-#Eagle creek
-boxplot(log_ptot_tot~snow, data=eagle, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ylab="log( Phosphorus Load )", names=event_classes, xlim=c(1,20))
-mtext("Eagle", side=1, line=3, at=1.5)
-
-mtext( paste(round(100*sum(eagle[eagle$snow==1,]$ptot_tot)/sum(eagle$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=1 )
-mtext( paste(round(100*sum(eagle[eagle$snow==0,]$ptot_tot)/sum(eagle$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=2 )
-
-mtext(sum(eagle$snow), side=3, line=1, cex=0.7, at=1 )
-mtext(length(eagle$snow)-sum(eagle$snow), side=3, line=1, cex=0.7, at=2 )
-
-
-#Otter creek
-boxplot(log_ptot_tot~snow, data=otter, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=4:5)
-mtext("Otter", side=1, line=3, at=4.5)
-
-mtext( paste(round(100*sum(otter[otter$snow==1,]$ptot_tot)/sum(otter$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=4 )
-mtext( paste(round(100*sum(otter[otter$snow==0,]$ptot_tot)/sum(otter$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=5 )
-
-mtext(sum(otter$snow), side=3, line=1, cex=0.7, at=4 )
-mtext(length(otter$snow)-sum(otter$snow), side=3, line=1, cex=0.7, at=5 )
-
-
-#Joos Valley creek
-boxplot(log_ptot_tot~snow, data=joosvalley, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=7:8)
-mtext("Joos", side=1, line=3, at=7.5)
-
-mtext( paste(round(100*sum(joosvalley[joosvalley$snow==1,]$ptot_tot)/sum(joosvalley$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=7 )
-mtext( paste(round(100*sum(joosvalley[joosvalley$snow==0,]$ptot_tot)/sum(joosvalley$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=8 )
-
-mtext(sum(joosvalley$snow), side=3, line=1, cex=0.7, at=7 )
-mtext(length(joosvalley$snow)-sum(joosvalley$snow), side=3, line=1, cex=0.7, at=8 )
-
-
-#Brewery creek
-boxplot(log_ptot_tot~snow, data=brewery, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, yaxt='n', ann=F, names=event_classes, add=T, at=10:11)
-mtext("Brewery", side=1, line=3, at=10.5)
-
-mtext( paste(round(100*sum(brewery[brewery$snow==1,]$ptot_tot)/sum(brewery$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=10 )
-mtext( paste(round(100*sum(brewery[brewery$snow==0,]$ptot_tot)/sum(brewery$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=11 )
-
-mtext(sum(brewery$snow), side=3, line=1, cex=0.7, at=10 )
-mtext(length(brewery$snow)-sum(brewery$snow), side=3, line=1, cex=0.7, at=11 )
-
-
-#Garfoot creek
-boxplot(log_stot_tot~snow, data=garfoot, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=13:14, yaxt='n')
-mtext("Garfoot", side=1, line=3, at=13.5)
-
-mtext( paste(round(100*sum(garfoot[garfoot$snow==1,]$ptot_tot)/sum(garfoot$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=13 )
-mtext( paste(round(100*sum(garfoot[garfoot$snow==0,]$ptot_tot)/sum(garfoot$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=14 )
-
-mtext(sum(garfoot$snow), side=3, line=1, cex=0.7, at=13 )
-mtext(length(garfoot$snow)-sum(garfoot$snow), side=3, line=1, cex=0.7, at=14 )
-
-
-#Kuenster creek
-boxplot(log_stot_tot~snow, data=kuenster, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=16:17, yaxt='n')
-mtext("Kuenster", side=1, line=3, at=16.5)
-
-mtext( paste(round(100*sum(kuenster[kuenster$snow==1,]$ptot_tot)/sum(kuenster$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=16 )
-mtext( paste(round(100*sum(kuenster[kuenster$snow==0,]$ptot_tot)/sum(kuenster$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=17 )
-
-mtext(sum(kuenster$snow), side=3, line=1, cex=0.7, at=16 )
-mtext(length(kuenster$snow)-sum(kuenster$snow), side=3, line=1, cex=0.7, at=17 )
-
-
-#Rattlesnake creek
-boxplot(log_stot_tot~snow, data=rattlesnake, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=19:20, yaxt='n')
-mtext("Rattlesnake", side=1, line=3, at=19.5)
-
-mtext( paste(round(100*sum(rattlesnake[rattlesnake$snow==1,]$ptot_tot)/sum(rattlesnake$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=19 )
-mtext( paste(round(100*sum(rattlesnake[rattlesnake$snow==0,]$ptot_tot)/sum(rattlesnake$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=20 )
-
-mtext(sum(rattlesnake$snow), side=3, line=1, cex=0.7, at=19 )
-mtext(length(rattlesnake$snow)-sum(rattlesnake$snow), side=3, line=1, cex=0.7, at=20 )
-
-mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
-mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
-
-
-#Rattlesnake creek
-#boxplot(log_stot_tot~snow, data=bower, bty='n', ylim=yy, cex=0.6, pch=4, boxwex=0.4, frame.plot=F, ann=F, names=event_classes, add=T, at=19:20, yaxt='n')
-#mtext("Bower", side=1, line=3, at=19.5)
-
-#mtext( paste(round(100*sum(bower[bower$snow==1,]$ptot_tot)/sum(bower$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=19 )
-#mtext( paste(round(100*sum(bower[bower$snow==0,]$ptot_tot)/sum(bower$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=20 )
-
-#mtext(sum(bower$snow), side=3, line=1, cex=0.7, at=19 )
-#mtext(length(bower$snow)-sum(bower$snow), side=3, line=1, cex=0.7, at=20 )
-
-#mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
-#mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
+    xx = c(1, 3*length(streams) + 1)
+    par(mar=c(4, 4, 2, 0))
+    plot.new()
+    plot.window(xlim=xx, ylim=yy)
+    
+    for(i in 1:length(streams))
+    {
+        data = get(streams[i])
+        site = stream_names[[streams[i]]]
+        bplot(log_ptot_tot~snow, data=eagle, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx)
+    }
+    
+    mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
+    mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
 @
 
 
@@ -677,84 +681,88 @@ mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
 
 
 <<label=cumulative_sloading_by_rainfall, include=False, echo=False>>=
-line_type=1
-color=1
-yy=c(0,1)
-xx = c(0,max(aggregate[aggregate$snow==FALSE,]$theisen, na.rm=T))
-
-for(stream in streams) {
-    stream_data = get(stream)
+    line_type=1
+    color=1
+    yy=c(0,1)
+    xx = c(0,max(aggregate[aggregate$snow==FALSE,]$theisen, na.rm=T))
     
-    non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot),]
-    non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
-    y = cumsum(non_snow_sorted$stot_tot)/sum(stream_data$stot_tot, na.rm=T)
-    
-    stream_data = get(stream)
-    plot( x=non_snow_sorted$theisen, y=y, type='l', xlab="Theisen rainfall",
-        ylab=paste('proportion of total sediment load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy, xlim=xx)
-    par(new=T, ann=F, xaxt='n', yaxt='n')
-    line_type = line_type+1 }
-legend(x='topleft', bty='n', legend=streams, lty=1:length(streams))
+    for(stream in streams)
+    {
+        stream_data = get(stream)
+        
+        non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot),]
+        non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
+        y = cumsum(non_snow_sorted$stot_tot)/sum(stream_data$stot_tot, na.rm=T)
+        
+        stream_data = get(stream)
+        plot( x=non_snow_sorted$theisen, y=y, type='l', xlab="Theisen rainfall",
+            ylab=paste('proportion of total sediment load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy, xlim=xx)
+        par(new=T, ann=F, xaxt='n', yaxt='n')
+        line_type = line_type+1
+    }
+    legend(x='topleft', bty='n', legend=streams, lty=1:length(streams))
 @
 
 <<label=cumulative_ploading_by_rainfall, include=False, echo=False>>=
-line_type=1
-color=1
-yy=c(0,1)
-xx = c(0,max(aggregate[aggregate$snow==FALSE,]$theisen, na.rm=T))
-
-for(stream in streams) {
-    stream_data = get(stream)
+    line_type=1
+    color=1
+    yy=c(0,1)
+    xx = c(0,max(aggregate[aggregate$snow==FALSE,]$theisen, na.rm=T))
     
-    non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot) & !is.na(stream_data$theisen),]
-    non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
-    y = cumsum(non_snow_sorted$ptot_tot)/sum(stream_data$ptot_tot, na.rm=T)
-    
-    stream_data = get(stream)
-    plot( x=non_snow_sorted$theisen, y=y, type='l', xlab="Theisen rainfall",
-        ylab=paste('proportion of total phosphorus load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy, xlim=xx)
-    par(new=T, ann=F, xaxt='n', yaxt='n')
-    line_type = line_type+1 }
-legend(x='topleft', bty='n', legend=streams, lty=1:length(streams))
+    for(stream in streams)
+    {
+        stream_data = get(stream)
+        
+        non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot) & !is.na(stream_data$theisen),]
+        non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
+        y = cumsum(non_snow_sorted$ptot_tot)/sum(stream_data$ptot_tot, na.rm=T)
+        
+        stream_data = get(stream)
+        plot( x=non_snow_sorted$theisen, y=y, type='l', xlab="Theisen rainfall",
+            ylab=paste('proportion of total phosphorus load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy, xlim=xx)
+        par(new=T, ann=F, xaxt='n', yaxt='n')
+        line_type = line_type+1
+    }
+    legend(x='topleft', bty='n', legend=streams, lty=1:length(streams))
 @
 
 
 <<label=cdf_plot, include=False, echo=False>>=
-line_type=1
-color=1
-for(stream in streams) {
-    stream_data = get(stream)
-    plot( y=cumsum(sort(stream_data[,'sstorm_tot'], decreasing=T)) / sum(stream_data[,'sstorm_tot']), x=1:length(stream_data[,'sstorm_tot']) / length(stream_data[,'sstorm_tot']), type='l', xlab='fraction of events', ylab='fraction of loading', lty=line_type, col=color, bty='n', lwd=2)
-    par(new=T, ann=F, xaxt='n', yaxt='n')
-    line_type = line_type+1 }
-legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3,4))
+    line_type=1
+    color=1
+    for(stream in streams)
+    {
+        stream_data = get(stream)
+        plot( y=cumsum(sort(stream_data[,'sstorm_tot'], decreasing=T)) / sum(stream_data[,'sstorm_tot']),
+              x=1:length(stream_data[,'sstorm_tot']) / length(stream_data[,'sstorm_tot']), type='l', 
+              xlab='fraction of events', ylab='fraction of loading', lty=line_type, col=color, bty='n', lwd=2)
+        par(new=T, ann=F, xaxt='n', yaxt='n')
+        line_type = line_type+1
+    }
+    legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3,4))
 @
-
-
-
 
 
 
 <<label=proportion, include=False, echo=False>>=
-targets = c("stot_tot", "ptot_tot")
-
-q_90 = list()
-
-for(target in targets) {
-    output = paste(target, "_major", sep="")
-    q=vector()
-    for(stream_name in streams){
-        stream = get(stream_name)
-        stream[output] <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
-        stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
-        proportion = sum(stream[stream[output]==1,target], na.rm=T)/sum(stream[,target], na.rm=T)
-        q = c(q, proportion)
-        assign(stream_name, stream) }
-        
-    names(q) = streams
-    q_90[[target]] = q }
+    q_90 = list()
+    
+    for(target in c("stot_tot", "ptot_tot"))
+    {
+        output = paste(target, "_major", sep="")
+        q=vector()
+        for(stream_name in streams){
+            stream = get(stream_name)
+            stream[output] <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
+            stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
+            proportion = sum(stream[stream[output]==1,target], na.rm=T)/sum(stream[,target], na.rm=T)
+            q = c(q, proportion)
+            assign(stream_name, stream) }
+            
+        names(q) = streams
+        q_90[[target]] = q
+    }
 @
-
 
 
 
@@ -762,7 +770,7 @@ for(target in targets) {
 \section{Data}
 
 \paragraph{Description}
-The data in this report comes from four Wisconsin streams that were monitored (with some gaps in data collection) between 1989 and 2007. The streams and the period during which each was monitored are:
+The data in this report comes from eight Wisconsin streams that were monitored (with some gaps in data collection) between 1989 and 2009. The streams and the period during which each was monitored are:
 
 \begin{table}[h]
 \begin{center}
@@ -771,7 +779,7 @@ The data in this report comes from four Wisconsin streams that were monitored (w
         Eagle & 429 &1991-1994, 2003-2007\\
         Joos Valley & 473 & 1990-1994, 2002-2007\\
         Otter & 424 & 1990-1997, 2000-2002\\
-        Brewery & 670 & 1989, 1994-2002, 2004-2005\\
+        Brewery & 670 & 1985, 1990-1998, 2000-2001\\
         Garfoot & 527 & 1985, 1990-1993, 1995-1998\\
         Kuenster & 218 & 1992-1995\\
         Rattlesnake & 170 & 1991-1994\\
@@ -780,13 +788,13 @@ The data in this report comes from four Wisconsin streams that were monitored (w
 \end{center}
 \end{table}
 
-Each entry in our data set represents one loading event, which is defined based on the hydrograph - the event begins when the loading rises from a base level toward a peak, and ends when the loading falls back to its new base level. Two kinds of load are measured for each event - the sediment load and the phosphorus load. There are two typical ways that sediment and phosphorus get into streams - they can be carried either by runoff during a rainstorm or by melting snow.\\
+Each entry in our data set represents one loading event, which is defined based on the hydrograph - the event begins when the loading rises from a base level toward a peak, and ends when the loading falls back to its new base level. Two kinds of load are measured for each event - the sediment load and the phosphorus load. There are two typical ways that sediment and phosphorus get into streams: they can be carried by runoff during a rainstorm or by melting snow. The load from each event can be divided into two components: the base flow component and the storm flow component. The two components refer, respectively, to the load carried by the stream's underlying base flow and to that carried by the additional stormwater pulse.\\
 
-Not all of the data can be collected for each event. For instance, rainfall is measured only when the ground is free of snow because snow interferes with the rain gauges. And the amount of snowmelt is estimated by multiplying the water content of the snow by the change in snow depth a warm snap, which is inaccurate when additional snow falls during that event. Broadly, there is one set of measurements that are made during rainfall-driven events and a different set of measurements that are made during snowmelt-driven events. Because of this, the two types of event are modeled separately.\\
+The phosphorus loading was not measured at Brewery Creek from October 1999 onward.\\
+
+Not all of the data can be collected for each event. For instance, rainfall is measured only when the ground is free of snow, because snow interferes with the rain gauges. And the amount of snowmelt is estimated by multiplying the snow's water content by the change in snow depth during a warm snap, which is inaccurate when additional snow falls during the event. Broadly, there is one set of measurements that are made during rainfall-driven events and a different set of measurements that are made during snowmelt-driven events. Because of this, the two types of event are modeled separately.\\
 
 \paragraph{Exploratory Analysis}
-Our anaysis targets the phosphorus and sediment loads carried by each stream. Using Rainmaker software, each load can be broken into two parts: base load and storm load. We will consider models of the storm load and of the total load.\\
-
 The first task was to decide whether most of the annual load is produced by snowmelt-driven or rainfall-driven events. The total loads from each kind of event are tabulated in Tables \ref{tab:stot} (sediment) and \ref{tab:ptot} (phosphorus). Figure \ref{bars} presents the same information as the tables, while Figure \ref{boxplots} also compares the load from indivudual snowmelt- and rainfall-driven events. About two thirds of the sediment loading comes from rainfall-driven events, along with about half of the phosphorus loading.\\
 
 We investigated dividing the snow-free seasons into early and late subseasons, separating the two on May 15th of each year. If vegetation serves to hold the soil together, and to increase both evapotranspiration and infiltration, then erosion may be more common early in the spring before most of the summer's vegetation appears. If so, the relationship between rainfall and the stream's loading might change during the summer.\\
@@ -794,75 +802,26 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
 <<label=total_solids_table,echo=FALSE,results=tex>>=
-library(xtable)
-print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event", label="tab:stot", align=c('l', 'c', 'c')),
-caption.placement="bottom", hline.after=0 )
+    library(xtable)
+    print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event",
+                 label="tab:stot", align=c('l', 'c', 'c')),
+    caption.placement="bottom", hline.after=0 )
 @
 
 <<label=total_phosphorus_table,echo=FALSE,results=tex>>=
-library(xtable)
-print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loading contributed by each type of event", label="tab:ptot", align=c('l', 'c', 'c')),
-caption.placement="bottom", hline.after=0 )
+    library(xtable)
+    print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loading contributed by each type of event",
+                 label="tab:ptot", align=c('l', 'c', 'c')), 
+          caption.placement="bottom", hline.after=0 )
 @
 
-Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==min(q_90$stot_tot)]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$stot_tot)[q_90$stot_tot==max(q_90$stot_tot)]]}) of the total sediment load; the same events produced between \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==min(q_90$ptot_tot)]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[names(q_90$ptot_tot)[q_90$ptot_tot==max(q_90$ptot_tot)]]}) of the total phosphorus load.\\
+Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$stot_tot))]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$stot_tot))]]}) of the total sediment load; the same events produced between \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$ptot_tot))]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$ptot_tot))]]}) of the total phosphorus load.\\
 
-<<echo=False>>=
-prp_major = proportions(streams, "stot_tot_major", col.names=c("snowmelt-driven", "rainfall-driven"))
-prp_all = proportions(streams, "event", col.names=c("snowmelt-driven", "rainfall-driven"))
+
+<<label=breakdown_major_events_rain_or_snow, echo=False>>=
+    prp_major = proportions(streams, "stot_tot_major", col.names=c("snowmelt-driven", "rainfall-driven"))
+    prp_all = proportions(streams, "event", col.names=c("snowmelt-driven", "rainfall-driven"))
 @
-
-%\begin{table}[h]
-%    \begin{center}
-%    \begin{tabular}{l r|l r|l}
-%        & \multicolumn{4}{c} {Proportion of events driven by:} 
-%        \vspace{1mm} \\
-%        & \multicolumn{2}{c}{Snowmelt    }\ & \multicolumn{2}{c}{Rainfall} \\
-%        Creek & All Events & Major Events & All Events & Major Events \\
-%        \hline 
-%#        Eagle & \Sexpr{round(100*prp_all['eagle',1], 0)}\% & \Sexpr{round(100*prp_major['eagle',1], 0)}\% & \Sexpr{round(100*prp_all['eagle',2], 0)}\% & \Sexpr{round(100*prp_major['eagle',2], 0)}\% \\
-%#        Otter & \Sexpr{round(100*prp_all['otter',1], 0)}\% & \Sexpr{round(100*prp_major['otter',1], 0)}\% & \Sexpr{round(100*prp_all['otter',2], 0)}\% & \Sexpr{round(100*prp_major['otter',2], 0)}\% \\
-%#        Joos & \Sexpr{round(100*prp_all['joosvalley',1], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',1], 0)}\% & \Sexpr{round(100*prp_all['joosvalley',2], 0)}\% & \Sexpr{round(100*prp_major['joosvalley',2], 0)}\% \\
-%#        Brewery & \Sexpr{round(100*prp_all['brewery',1], 0)}\% & \Sexpr{round(100*prp_major['brewery',1], 0)}\% & \Sexpr{round(100*prp_all['brewery',2], 0)}\% & \Sexpr{round(100*prp_major['brewery',2], 0)}\% \\
-        
-%    \end{tabular}
-%    \end{center}
-%    \caption{Each pair of columns represents either snowmelt-driven or rainfall-driven events. The column on the left of each pair is the proportion of all events in the study that occured during this period; the column on the right is the proportion of major events that occured during this period. \label{proportion_of_majors}}
-%\end{table}
-
-
-
-<<label=R2_table, include=False, echo=False>>=
-sanipaste <- function(pastelist, ...)
-{
-    paste(sanitize(pastelist), ...)
-}
-
-sanipaste2 <- function(pastelist, ...)
-{
-    paste(sanitize2(pastelist), ...)
-}
-
-R2_table <- function(varlist)
-{
-    numvars = length(varlist$R2)
-    cat(paste("\\multirow{", as.character(numvars+1), "}{*}{", varlist$site, "}", sep=""))
-    for(i in 1:numvars)
-    {
-        cat(paste(" & ", as.character(round(varlist$R2[i], 3)), " & ", sep=""))
-        
-        for(j in 1:i)
-        {
-            cat(sanitize(varlist$ranked[j]))
-            if(j<i)
-                cat(" + ")
-        }
-        cat("\\\\ \n")
-    }
-    cat("\\vspace{2mm}\\\\ \n")
-}
-@
-
 
 
 \begin{table}[h] \small
@@ -870,119 +829,40 @@ R2_table <- function(varlist)
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-<<solids_selection_table, echo=False, include=True, results=tex>>=
+<<sediment_selection_table, echo=False, include=True, results=tex>>=
 R2_table(es)
 R2_table(js)
 R2_table(os)
 R2_table(bs)
+R2_table(gs)
+R2_table(ks)
+R2_table(rs)
 R2_table(bows)
 @
-    \vspace{6mm}\\
+    \end{tabular}
+    \caption{\label{sed_r_square_nosnow}}
+    \end{center}
+\end{table}
 
+\begin{table}[h] \small
+    \begin{center}
+    \begin{tabular}{lrl}
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-<<solids_selection_table, echo=False, include=True, results=tex>>=
+<<phosphorus_selection_table, echo=False, include=True, results=tex>>=
 R2_table(ep)
 R2_table(jp)
 R2_table(op)
 R2_table(bp)
+R2_table(gp)
+R2_table(kp)
+R2_table(rp)
 R2_table(bowp)
 @
     \end{tabular}
-    \caption{\label{r_square_nosnow}}
+    \caption{\label{phos_r_square_nosnow}}
     \end{center}
 \end{table}
-
-
-
-
-
-
-
-%\begin{table}[h]
-%    \begin{center}
-%    \begin{tabular}{llccccc}
-%        &  &  & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
-%        Creek & Period & All events & Loading & Major events & Loading & Major events \\
-%        \hline 
-%        \multirow{2}{*}{Aggregated} & Snowmelt & 
-%        \Sexpr{round(100*sum(aggregate$snow==TRUE)/sum(aggregate$event), 0)}\% &
-%        \Sexpr{round(100*sum(aggregate[aggregate$snow==TRUE,'stot_tot'], na.rm=T)/sum(aggregate$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$snow==TRUE))/sum(major(aggregate, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(aggregate[aggregate$snow==TRUE,'ptot_tot'], na.rm=T)/sum(aggregate$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$snow==TRUE))/sum(major(aggregate, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-%        & Post-snow & 
-%        \Sexpr{round(100*sum(aggregate$snow==FALSE)/sum(aggregate$event), 0)}\% &
-%        \Sexpr{round(100*sum(aggregate[aggregate$snow==FALSE,'stot_tot'], na.rm=T)/sum(aggregate$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(aggregate, target="stot_tot", strata="stream")==1 & aggregate$snow==FALSE))/sum(major(aggregate, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(aggregate[aggregate$snow==FALSE,'ptot_tot'], na.rm=T)/sum(aggregate$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(aggregate, target="ptot_tot", strata="stream")==1 & aggregate$snow==FALSE))/sum(major(aggregate, target="ptot_tot", strata="stream"), na.rm=T), 0)}\%
-%        
-%        \vspace{2mm}\\
-%        
-%        \multirow{2}{*}{Eagle} & Snowmelt & 
-%        \Sexpr{round(100*sum(eagle$snow==TRUE)/sum(eagle$event), 0)}\% &
-%        \Sexpr{round(100*sum(eagle[eagle$snow==TRUE,'stot_tot'], na.rm=T)/sum(eagle$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$snow==TRUE))/sum(major(eagle, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(eagle[eagle$snow==TRUE,'ptot_tot'], na.rm=T)/sum(eagle$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$snow==TRUE))/sum(major(eagle, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-%        & Post-snow & 
-%        \Sexpr{round(100*sum(eagle$snow==FALSE)/sum(eagle$event), 0)}\% &
-%        \Sexpr{round(100*sum(eagle[eagle$snow==FALSE,'stot_tot'], na.rm=T)/sum(eagle$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(eagle, target="stot_tot", strata="stream")==1 & eagle$snow==FALSE))/sum(major(eagle, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(eagle[eagle$snow==FALSE,'ptot_tot'], na.rm=T)/sum(eagle$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(eagle, target="ptot_tot", strata="stream")==1 & eagle$snow==FALSE))/sum(major(eagle, target="ptot_tot", strata="stream"), na.rm=T), 0)}\%
-%        
-%        \vspace{2mm}\\
-%        
-%        \multirow{2}{*}{Joos} & Snowmelt & 
-%        \Sexpr{round(100*sum(joosvalley$snow==TRUE)/sum(joosvalley$event), 0)}\% &
-%        \Sexpr{round(100*sum(joosvalley[joosvalley$snow==TRUE,'stot_tot'], na.rm=T)/sum(joosvalley$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$snow==TRUE))/sum(major(joosvalley, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(joosvalley[joosvalley$snow==TRUE,'ptot_tot'], na.rm=T)/sum(joosvalley$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$snow==TRUE))/sum(major(joosvalley, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-%        & Post-snow & 
-%        \Sexpr{round(100*sum(joosvalley$snow==FALSE)/sum(joosvalley$event), 0)}\% &
-%        \Sexpr{round(100*sum(joosvalley[joosvalley$snow==FALSE,'stot_tot'], na.rm=T)/sum(joosvalley$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(joosvalley, target="stot_tot", strata="stream")==1 & joosvalley$snow==FALSE))/sum(major(joosvalley, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(joosvalley[joosvalley$snow==FALSE,'ptot_tot'], na.rm=T)/sum(joosvalley$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(joosvalley, target="ptot_tot", strata="stream")==1 & joosvalley$snow==FALSE))/sum(major(joosvalley, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% 
-%        
-%        \vspace{2mm}\\
-%        
-%        \multirow{2}{*}{Otter} & Snowmelt & 
-%        \Sexpr{round(100*sum(otter$snow==TRUE)/sum(otter$event), 0)}\% &
-%        \Sexpr{round(100*sum(otter[otter$snow==TRUE,'stot_tot'], na.rm=T)/sum(otter$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$snow==TRUE))/sum(major(otter, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(otter[otter$snow==TRUE,'ptot_tot'], na.rm=T)/sum(otter$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$snow==TRUE))/sum(major(otter, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-%        & Post-snow & 
-%        \Sexpr{round(100*sum(otter$snow==FALSE)/sum(otter$event), 0)}\% &
-%        \Sexpr{round(100*sum(otter[otter$snow==FALSE,'stot_tot'], na.rm=T)/sum(otter$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(otter, target="stot_tot", strata="stream")==1 & otter$snow==FALSE))/sum(major(otter, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(otter[otter$snow==FALSE,'ptot_tot'], na.rm=T)/sum(otter$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(otter, target="ptot_tot", strata="stream")==1 & otter$snow==FALSE))/sum(major(otter, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% 
-%        
-%        \vspace{2mm}\\
-%
-%        \multirow{2}{*}{Brewery} & Snowmelt & 
-%        \Sexpr{round(100*sum(brewery$snow==TRUE)/sum(brewery$event), 0)}\% &
-%        \Sexpr{round(100*sum(brewery[brewery$snow==TRUE,'stot_tot'], na.rm=T)/sum(brewery$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(brewery, target="stot_tot", strata="stream")==1 & brewery$snow==TRUE))/sum(major(brewery, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(brewery[brewery$snow==TRUE,'ptot_tot'], na.rm=T)/sum(brewery$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(brewery, target="ptot_tot", strata="stream")==1 & brewery$snow==TRUE))/sum(major(brewery, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-%        & Post-snow & 
-%        \Sexpr{round(100*sum(brewery$snow==FALSE)/sum(brewery$event), 0)}\% &
-%        \Sexpr{round(100*sum(brewery[brewery$snow==FALSE,'stot_tot'], na.rm=T)/sum(brewery$stot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(brewery, target="stot_tot", strata="stream")==1 & brewery$snow==FALSE))/sum(major(brewery, target="stot_tot", strata="stream"), na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*sum(brewery[brewery$snow==FALSE,'ptot_tot'], na.rm=T)/sum(brewery$ptot_tot, na.rm=T), 0)}\% & 
-%        \Sexpr{round(100*length(which(major(brewery, target="ptot_tot", strata="stream")==1 & brewery$snow==FALSE))/sum(major(brewery, target="ptot_tot", strata="stream"), na.rm=T), 0)}\% \\
-%    \end{tabular}
-%    \end{center}
-%\end{table}
-
-
-
 
 
 \section{Analysis}
@@ -1019,7 +899,7 @@ In order to make a model of the load carried by the stream, we need to select th
     \end{center}
 \end{table}
 
-In every case, the theisen rainfall is the most important predictor, followed usually by antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (the exception is at Brewery Creek - see Table \ref{r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how wet is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water in the system. At Brewery Creek, the intensity of rainfall is a more important predictor than the total quantity of rain.\\
+In every case, the theisen rainfall is the most important predictor, followed usually by antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (the exception is at Brewery Creek - see Tables \ref{sed_r_square_nosnow} and \ref{phos_r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how wet is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water in the system. At Brewery Creek, the intensity of rainfall is a more important predictor than the total quantity of rain.\\
 
 \paragraph{Snowmelt-driven events} We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order (like they were for the rainfall-driven events). What's more, the models for snowmelt-driven events were less accurate than for rainfall-driven events, ranging in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
 
@@ -1060,36 +940,6 @@ Most of the annual loading seems to be produced by a few major events. Character
 \section{Next steps}
 There are at least two more creeks to include in the analysis. We also need to decide if there is an effective way to predict whether any given event will be one of the major events that produce most of the loading. Figures \ref{cdf-s} and \ref{cdf-p} make it look like the majority of the ranfall-driven loading comes from storms that drop at least two inches of rain. Mitigating the effect of large storms will probably require slowing the water's movement through the watershed - for instance, by impounding runoff before it can flow into the creeks. Our analysis will look at the frequency of big storms in order to get an idea of how quickly impounded water must be dealt with in order to be ready for the next event.
 
-%\begin{table}[h]
-%    \begin{center}
-%    \begin{tabular}{lrl}
-%        Solids: & & \\
-%        & Eagle & \Sexpr{ paste(es$ranked, collapse=", ") }\\
-%        & Joos & \Sexpr{ paste(js$ranked, collapse=", ") }\\
-%        & Otter & \Sexpr{ paste(os$ranked, collapse=", ") }\\
-%        & Brewery & \Sexpr{ paste(bs$ranked, collapse=", ") }\\
-%        \hline \\
-%        Phosphorus: & & \\
-%        & Eagle & \Sexpr{ paste(ep$ranked, collapse=", ") }\\
-%        & Joos & \Sexpr{ paste(jp$ranked, collapse=", ") }\\
-%        & Otter & \Sexpr{ paste(op$ranked, collapse=", ") }\\
-%        & Brewery & \Sexpr{ paste(bp$ranked, collapse=", ") }\\
-%    \end{tabular}
-%    \end{center}
-%\end{table}
-
-
-
-
-%\begin{figure}
-%    \begin{center}
-%<<label=figure1, fig=True, echo=False, width=7, height=4.5>>=
-%%<<cdf_plot>>
-%@
-%    \end{center}
-%    \caption{Cumulative storm loadings at the three creeks.\label{cdf}}
-%\end{figure}
-
 
 \begin{figure}
     \begin{center}
@@ -1118,18 +968,18 @@ There are at least two more creeks to include in the analysis. We also need to d
     \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load contributed by that event. \label{bubbles}}
 \end{figure}
 
-<<echo=False, results=tex, include=False, eval=False>>=
-stream = "eagle"
-stream = get(stream)
-
-snow = stream[stream$snow==TRUE,]
-guide(stot_tot~nws_prec + total_water + nws_snow + melt_snow + tmean + tmax + tmin + sweq + julian + sin_julian + cos_julian, data=snow, sweave=T, cv_gain=0)
-
-rain = stream[stream$snow==FALSE,]
-guide(stot_tot~nws_prec+event_type+ap_1day+ap_2day+ap_3day+total_water+theisen+sweq+julian+sin_julian+cos_julian+tmean+tmax+tmin, data=rain, sweave=T, cv_gain=0)
-
+<<label=guide, echo=False, results=tex, include=False, eval=False>>=
+    stream = "eagle"
+    stream = get(stream)
+    
+    snow = stream[stream$snow==TRUE,]
+    guide(stot_tot~nws_prec + total_water + nws_snow + melt_snow + tmean + tmax + tmin + sweq + julian + sin_julian + cos_julian,
+          data=snow, sweave=T, cv_gain=0)
+    
+    rain = stream[stream$snow==FALSE,]
+    guide(stot_tot~nws_prec+event_type+ap_1day+ap_2day+ap_3day+total_water+theisen+sweq+julian+sin_julian+cos_julian+tmean+tmax+tmin,
+          data=rain, sweave=T, cv_gain=0)
 @
-
 
 
 \bibliographystyle{plain}
