@@ -22,8 +22,8 @@
 
 <<label=read_data, echo=FALSE>>=
     #Read data into R and do some basic manipulation to get it into a usable format:
-    setwd('~/git/loadings/code/Sweave')
-    source('~/git/loadings/code/guide.r')
+    setwd('c:/Users/wrbrooks/git/loadings/code/Sweave')
+    source('c:/Users/wrbrooks/git/loadings/code/guide.r')
     streams = c('eagle', 'joosvalley', 'otter', 'brewery', 'garfoot', 'kuenster', 'rattlesnake', 'bower')
     stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter', bower='Bower',
                         brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster', rattlesnake="Rattlesnake")
@@ -80,6 +80,7 @@
             stream <- as.factor(stream_name)
             start_day <- as.POSIXlt( as.character(start_day), format="%m/%d/%Y" )
             year <- as.numeric(as.character(year))
+            water_year <- ifelse(month>=10, year+1, year)
             julian <- start_day$yday + 1
             sin_julian <- sin(julian*2*pi/365)
             cos_julian <- cos(julian*2*pi/365)
@@ -761,6 +762,60 @@
             
         names(q) = streams
         q_90[[target]] = q
+    }
+@
+
+
+<<label=kruskal, include=False, echo=False>>=
+    library(coin)
+    
+    targets = c("stot_tot", "ptot_tot")
+    kruskal_results = list()
+    
+    for (stream in streams)
+    {
+        result = list()
+        stream_data = get(stream)
+        
+        for (target in targets)
+        {
+            target_data = stream_data[!is.na(stream_data[,target]), ]
+            annual = list()
+            
+            for (year in unique(target_data$year))
+            {
+                if (dim(target_data[target_data$year==year, ])[1] >= 20)
+                    annual[[as.character(year)]] = target_data[target_data$year==year, target]
+            }
+            result[[target]] = kruskal.test(annual)
+        }
+        kruskal_results[[stream]] = result
+    }
+@
+    
+    
+<<label=by_year, include=False, echo=False, eval=False>>=
+    for (year in unique(bower$water_year))
+    {
+        annual = bower[bower$water_year==year,]
+        major_s <- with(annual, ifelse(get("stot_tot")>quantile(get("stot_tot"), 0.9, na.rm=T),1,0))
+        major_p <- with(annual, ifelse(get("ptot_tot")>quantile(get("ptot_tot"), 0.9, na.rm=T),1,0))
+        cat( paste(year, "\n") )
+        cat( paste("number of events: ", dim(annual)[1], "\n", sep="") )
+        cat( paste("sediment: total: ", sum(annual$stot_tot), ", rain: ", sum(annual$stot_tot[annual$snow==FALSE]),
+                   ", snow: ", sum(annual$stot_tot[annual$snow==TRUE]), "\n") )
+        cat( paste("proportion of sediment carried by year's biggest events: ", 
+                   round(sum(annual$stot_tot[major_s==1], na.rm=T)/sum(annual$stot_tot, na.rm=T), 3), "\n") )
+        cat( paste("proportion of sediment carried by year's biggest event: ", 
+                   round(max(annual$stot_tot, na.rm=T)/sum(annual$stot_tot, na.rm=T), 3), "\n") )
+        cat( paste("date of biggest sediment event: ",  annual$start_day[which.max(annual$stot_tot)], "\n") )
+        cat( paste("phosphorus: total: ", sum(annual$ptot_tot), ", rain: ", sum(annual$ptot_tot[annual$snow==FALSE]), 
+                   ", snow: ", sum(annual$ptot_tot[annual$snow==TRUE]), "\n") )
+        cat( paste("proportion of phosphorus carried by year's biggest events: ", 
+                   round(sum(annual$ptot_tot[major_p==1], na.rm=T)/sum(annual$ptot_tot, na.rm=T), 3), "\n") )
+        cat( paste("proportion of phosphorus carried by year's biggest event: ", 
+                   round(max(annual$ptot_tot, na.rm=T)/sum(annual$ptot_tot, na.rm=T), 3), "\n") )
+        cat( paste("date of biggest phosphorus event: ",  annual$start_day[which.max(annual$ptot_tot)], "\n") )
     }
 @
 
