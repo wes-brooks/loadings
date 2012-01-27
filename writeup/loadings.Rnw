@@ -22,12 +22,12 @@
 
 <<label=read_data, echo=FALSE>>=
     #Read data into R and do some basic manipulation to get it into a usable format:
-    setwd('c:/Users/wrbrooks/git/loadings/code/Sweave')
+    setwd('c:/Users/wrbrooks/git/loadings/writeup')
     source('c:/Users/wrbrooks/git/loadings/code/guide.r')
     streams = c('eagle', 'joosvalley', 'otter', 'brewery', 'garfoot', 'kuenster', 'rattlesnake', 'bower')
     stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter', bower='Bower',
                         brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster', rattlesnake="Rattlesnake")
-    outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max',
+    outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max', 'stot_yield', 'ptot_yield', 
                     'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
     
     #Names of the NWS data files for each creek
@@ -51,15 +51,16 @@
                         "rattlesnake"=c("Rattlesnake/rattle_loads.txt"),
                         "bower"=c("bower/bower_loads.txt"))
     
+    watersheds = read.csv("../data/watersheds.csv", header=T)
     
     #loop through the streams, reading them in one by one
     for(stream_name in streams)
     {
-        data_file = paste('../../data/', stream_name, '/', stream_name, 'creek.csv', sep='')
+        data_file = paste('../data/', stream_name, '/', stream_name, 'creek.csv', sep='')
         stream = read.csv(data_file, header=T, na.strings=c('NA', 'na')) 
         
         #read the daily flow file, which we use for antecedent moisture contitions
-        daily_flow = paste("../../data/", stream_name, "/", stream_name, "_q.out", sep="")
+        daily_flow = paste("../data/", stream_name, "/", stream_name, "_q.out", sep="")
         head = strsplit( readLines(daily_flow)[1], "\t" )
         daily_flow = read.table(daily_flow, skip=2, col.names=unlist(head))
         daily_flow$DV_date = with( daily_flow, as.POSIXlt( as.character(DV_date), format="%m/%d/%Y" ) )
@@ -67,6 +68,8 @@
         #do some basic data transformations:
         stream = within( stream, {
             event_type <- factor(event_type)
+            stot_yield <- stot_tot / watersheds$area[watersheds$stream==stream_name]
+            ptot_yield <- ptot_tot / watersheds$area[watersheds$stream==stream_name]
             year <- factor(year)
             melt_snow[melt_snow=='N' | melt_snow=='Z' | melt_snow=='U'] <- NA
             melt_snow <- as.numeric(levels(melt_snow)[melt_snow])
@@ -88,12 +91,20 @@
                 assign( paste('log_', output, sep=""), log10(get(output)+0.01) )
             m <- as.factor(ifelse(is.na(m),0,ifelse(m=='M','M',0)))
             event <- rep(1, length(m))
+            area <- watersheds$area[watersheds$stream==stream_name]
+            slope <- watersheds$slope[watersheds$stream==stream_name]
+            urb <- watersheds$urb[watersheds$stream==stream_name]
+            ag <- watersheds$ag[watersheds$stream==stream_name]
+            forest <- watersheds$forest[watersheds$stream==stream_name]
+            water <- watersheds$water[watersheds$stream==stream_name]
+            wetland <- watersheds$wetland[watersheds$stream==stream_name]
+            other <- watersheds$other[watersheds$stream==stream_name]
             } )
     
         #Get the raw daily loads at each site
         daily_load = data.frame()
         for( raw_load_file in get(stream_name, pos=raw_load_files)) {
-            raw_path = paste("../../data/", raw_load_file, sep="")
+            raw_path = paste("../data/", raw_load_file, sep="")
             daily_load = rbind(daily_load, read.table(raw_path, na.strings=c("", "99999", "-1.23E+25"), header=TRUE)) }
         daily_load$date = with( daily_load, as.POSIXlt( as.character(date), format="%m/%d/%Y" ) )
         daily_load_data[[stream_name]] = daily_load
@@ -111,7 +122,7 @@
         nws = data.frame()
         for( nws_file in get(stream_name, pos=nws_files))
         {
-            nws_path = paste("../../data/", nws_file, sep="")
+            nws_path = paste("../data/", nws_file, sep="")
             nws = rbind(nws, read.csv(nws_path, na.strings=c("", "99999", "-1.23E+25", "null"), header=TRUE))
         }
         nws$date = with(nws, ISOdate(year=year, month=month, day=day))
@@ -333,7 +344,7 @@
         predictors = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", 
                        "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", 
                        "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", 
-                       "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+                       "antecedent_tmean", "antecedent_tmax", "antecedent_trange", "slope", "area")
         d = data[,c(target, predictors)]
         result = list()
         
@@ -372,6 +383,7 @@
         d = data[,c(target, predictors)]
         result = list()
         
+        predictors = c(predictors, "antecedent_qbase:slope", "antecedent_qbase:area", "total_water:slope", "total_water:area")
         full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
         intercept_only = as.formula( paste(target, "~1") )
         fm1 <- lm(full_model, data=d, x=T)
@@ -433,11 +445,12 @@
     #Use the BIC to screen the predictors that are available when snow is on the ground.
     stepwise_BIC_snow2 <- function(target, data, sites)
     {
-        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "total_water", "melt_water", 
+        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "total_water", "melt_water", "slope", "area",
                        "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
         d = data[,c(target, predictors)]
         result = list()
     
+        predictors = c(predictors, "antecedent_qbase:slope", "antecedent_qbase:area", "total_water:slope", "total_water:area")
         full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
         intercept_only = as.formula( paste(target, "~1") )
         fm1 <- lm(full_model, data=d, x=T)
@@ -522,64 +535,85 @@
 
 
 <<label=variable_selection_nosnow, echo=False, include=False>>=
-    es = stepwise_BIC(target="log_stot_tot", data=eagle_nosnow, sites=stream_names)
-    js = stepwise_BIC(target="log_stot_tot", data=joosvalley_nosnow, sites=stream_names)
-    os = stepwise_BIC(target="log_stot_tot", data=otter_nosnow, sites=stream_names)
-    bs = stepwise_BIC(target="log_stot_tot", data=brewery_nosnow, sites=stream_names)
-    gs = stepwise_BIC(target="log_stot_tot", data=garfoot_nosnow, sites=stream_names)
-    ks = stepwise_BIC(target="log_stot_tot", data=kuenster_nosnow, sites=stream_names)
-    rs = stepwise_BIC(target="log_stot_tot", data=rattlesnake_nosnow, sites=stream_names)
-    bows = stepwise_BIC(target="log_stot_tot", data=bower_nosnow, sites=stream_names)
+    es = stepwise_BIC(target="log_stot_yield", data=eagle_nosnow, sites=stream_names)
+    js = stepwise_BIC(target="log_stot_yield", data=joosvalley_nosnow, sites=stream_names)
+    os = stepwise_BIC(target="log_stot_yield", data=otter_nosnow, sites=stream_names)
+    bs = stepwise_BIC(target="log_stot_yield", data=brewery_nosnow, sites=stream_names)
+    gs = stepwise_BIC(target="log_stot_yield", data=garfoot_nosnow, sites=stream_names)
+    ks = stepwise_BIC(target="log_stot_yield", data=kuenster_nosnow, sites=stream_names)
+    rs = stepwise_BIC(target="log_stot_yield", data=rattlesnake_nosnow, sites=stream_names)
+    bows = stepwise_BIC(target="log_stot_yield", data=bower_nosnow, sites=stream_names)
     
-    ep = stepwise_BIC(target="log_ptot_tot", data=eagle_nosnow, sites=stream_names)
-    jp = stepwise_BIC(target="log_ptot_tot", data=joosvalley_nosnow, sites=stream_names)
-    op = stepwise_BIC(target="log_ptot_tot", data=otter_nosnow, sites=stream_names)
-    bp = stepwise_BIC(target="log_ptot_tot", data=brewery_nosnow, sites=stream_names)
-    gp = stepwise_BIC(target="log_ptot_tot", data=garfoot_nosnow, sites=stream_names)
-    kp = stepwise_BIC(target="log_ptot_tot", data=kuenster_nosnow, sites=stream_names)
-    rp = stepwise_BIC(target="log_ptot_tot", data=rattlesnake_nosnow, sites=stream_names)
-    bowp = stepwise_BIC(target="log_ptot_tot", data=bower_nosnow, sites=stream_names)
+    ep = stepwise_BIC(target="log_ptot_yield", data=eagle_nosnow, sites=stream_names)
+    jp = stepwise_BIC(target="log_ptot_yield", data=joosvalley_nosnow, sites=stream_names)
+    op = stepwise_BIC(target="log_ptot_yield", data=otter_nosnow, sites=stream_names)
+    bp = stepwise_BIC(target="log_ptot_yield", data=brewery_nosnow, sites=stream_names)
+    gp = stepwise_BIC(target="log_ptot_yield", data=garfoot_nosnow, sites=stream_names)
+    kp = stepwise_BIC(target="log_ptot_yield", data=kuenster_nosnow, sites=stream_names)
+    rp = stepwise_BIC(target="log_ptot_yield", data=rattlesnake_nosnow, sites=stream_names)
+    bowp = stepwise_BIC(target="log_ptot_yield", data=bower_nosnow, sites=stream_names)
 @
 
 <<label=variable_selection_snow, include=False, echo=False>>=
-    es_snow = stepwise_BIC_snow(target="log_stot_tot", data=eagle_snow, sites=stream_names)
-    js_snow = stepwise_BIC_snow(target="log_stot_tot", data=joosvalley_snow, sites=stream_names)
-    os_snow = stepwise_BIC_snow(target="log_stot_tot", data=otter_snow, sites=stream_names)
-    bs_snow = stepwise_BIC_snow(target="log_stot_tot", data=brewery_snow, sites=stream_names)
-    gs_snow = stepwise_BIC_snow(target="log_stot_tot", data=garfoot_snow, sites=stream_names)
-    ks_snow = stepwise_BIC_snow(target="log_stot_tot", data=kuenster_snow, sites=stream_names)
-    rs_snow = stepwise_BIC_snow(target="log_stot_tot", data=rattlesnake_snow, sites=stream_names)
-    bows_snow = stepwise_BIC_snow(target="log_stot_tot", data=bower_snow, sites=stream_names)
+    es_snow = stepwise_BIC_snow(target="log_stot_yield", data=eagle_snow, sites=stream_names)
+    js_snow = stepwise_BIC_snow(target="log_stot_yield", data=joosvalley_snow, sites=stream_names)
+    os_snow = stepwise_BIC_snow(target="log_stot_yield", data=otter_snow, sites=stream_names)
+    bs_snow = stepwise_BIC_snow(target="log_stot_yield", data=brewery_snow, sites=stream_names)
+    gs_snow = stepwise_BIC_snow(target="log_stot_yield", data=garfoot_snow, sites=stream_names)
+    ks_snow = stepwise_BIC_snow(target="log_stot_yield", data=kuenster_snow, sites=stream_names)
+    rs_snow = stepwise_BIC_snow(target="log_stot_yield", data=rattlesnake_snow, sites=stream_names)
+    bows_snow = stepwise_BIC_snow(target="log_stot_yield", data=bower_snow, sites=stream_names)
     
-    ep_snow = stepwise_BIC_snow(target="log_ptot_tot", data=eagle_snow, sites=stream_names)
-    jp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=joosvalley_snow, sites=stream_names)
-    op_snow = stepwise_BIC_snow(target="log_ptot_tot", data=otter_snow, sites=stream_names)
-    bp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=brewery_snow, sites=stream_names)
-    gp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=garfoot_snow, sites=stream_names)
-    kp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=kuenster_snow, sites=stream_names)
-    rp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=rattlesnake_snow, sites=stream_names)
-    bowp_snow = stepwise_BIC_snow(target="log_ptot_tot", data=bower_snow, sites=stream_names)
+    ep_snow = stepwise_BIC_snow(target="log_ptot_yield", data=eagle_snow, sites=stream_names)
+    jp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=joosvalley_snow, sites=stream_names)
+    op_snow = stepwise_BIC_snow(target="log_ptot_yield", data=otter_snow, sites=stream_names)
+    bp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=brewery_snow, sites=stream_names)
+    gp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=garfoot_snow, sites=stream_names)
+    kp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=kuenster_snow, sites=stream_names)
+    rp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=rattlesnake_snow, sites=stream_names)
+    bowp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=bower_snow, sites=stream_names)
 @
 
 
 <<label=variable_selection_snow2, include=False, echo=False>>=
-    es_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=eagle_snow, sites=stream_names)
-    js_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=joosvalley_snow, sites=stream_names)
-    os_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=otter_snow, sites=stream_names)
-    bs_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=brewery_snow, sites=stream_names)
-    gs_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=garfoot_snow, sites=stream_names)
-    ks_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=kuenster_snow, sites=stream_names)
-    rs_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=rattlesnake_snow, sites=stream_names)
-    bows_snow2 = stepwise_BIC_snow2(target="log_stot_tot", data=bower_snow, sites=stream_names)
+    es_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=eagle_snow, sites=stream_names)
+    js_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=joosvalley_snow, sites=stream_names)
+    os_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=otter_snow, sites=stream_names)
+    bs_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=brewery_snow, sites=stream_names)
+    gs_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=garfoot_snow, sites=stream_names)
+    ks_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=kuenster_snow, sites=stream_names)
+    rs_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=rattlesnake_snow, sites=stream_names)
+    bows_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=bower_snow, sites=stream_names)
     
-    ep_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=eagle_snow, sites=stream_names)
-    jp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=joosvalley_snow, sites=stream_names)
-    op_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=otter_snow, sites=stream_names)
-    bp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=brewery_snow, sites=stream_names)
-    gp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=garfoot_snow, sites=stream_names)
-    kp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=kuenster_snow, sites=stream_names)
-    rp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=rattlesnake_snow, sites=stream_names)
-    bowp_snow2 = stepwise_BIC_snow2(target="log_ptot_tot", data=bower_snow, sites=stream_names)
+    ep_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=eagle_snow, sites=stream_names)
+    jp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=joosvalley_snow, sites=stream_names)
+    op_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=otter_snow, sites=stream_names)
+    bp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=brewery_snow, sites=stream_names)
+    gp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=garfoot_snow, sites=stream_names)
+    kp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=kuenster_snow, sites=stream_names)
+    rp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=rattlesnake_snow, sites=stream_names)
+    bowp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=bower_snow, sites=stream_names)
+@
+
+
+<<label=variable_selection_snow2_yield, include=False, echo=False>>=
+    esy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=eagle_snow, sites=stream_names)
+    jsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=joosvalley_snow, sites=stream_names)
+    osy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=otter_snow, sites=stream_names)
+    bsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=brewery_snow, sites=stream_names)
+    gsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=garfoot_snow, sites=stream_names)
+    ksy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=kuenster_snow, sites=stream_names)
+    rsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=rattlesnake_snow, sites=stream_names)
+    bowsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=bower_snow, sites=stream_names)
+    
+    epy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=eagle_snow, sites=stream_names)
+    jpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=joosvalley_snow, sites=stream_names)
+    opy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=otter_snow, sites=stream_names)
+    bpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=brewery_snow, sites=stream_names)
+    gpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=garfoot_snow, sites=stream_names)
+    kpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=kuenster_snow, sites=stream_names)
+    rpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=rattlesnake_snow, sites=stream_names)
+    bowpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=bower_snow, sites=stream_names)
 @
 
 
@@ -633,7 +667,7 @@
     {
         data = get(streams[i])
         site = stream_names[[streams[i]]]
-        bplot(log_stot_tot~snow, data=eagle, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx)
+        bplot(log_stot_yield~snow, data=eagle, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx)
     }
     
     mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
@@ -652,7 +686,7 @@
     {
         data = get(streams[i])
         site = stream_names[[streams[i]]]
-        bplot(log_ptot_tot~snow, data=eagle, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx)
+        bplot(log_ptot_yield~snow, data=eagle, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx)
     }
     
     mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
@@ -766,7 +800,7 @@
 @
 
 
-<<label=kruskal, include=False, echo=False>>=
+<<label=kruskal, include=False, echo=False, eval=False>>=
     library(coin)
     
     targets = c("stot_tot", "ptot_tot")
@@ -822,7 +856,7 @@
 
 
 \section{Goal}
-Stream health is threatened by high sediment and phosphorus loads, which are carried into the streams by runoff from the surrounding landscape. It has been shown previously\ref{Danz:2010} that the phosphorus and sediment loads in Wisconsin are not evenly distributed in time - rather, most of the annual loading arrives during two pulses: one in early spring, associated with the melting of the winter snowpack, and the other in midsummer, at the same time as the most intense summer thunderstorms. In this study, we define loading "events" that can span multiple days of continuous runoff. Our goal is to then characterize the events that produce the greatest loading, in order to inform management practices that aim to improve stream health by reducing sediment and phosphorus loads.\\
+Stream health is threatened by high sediment and phosphorus loads, which are carried into the streams by runoff from the surrounding landscape. It has been shown previously\cite{Danz:2010} that the phosphorus and sediment loads in Wisconsin are not evenly distributed in time - rather, most of the annual loading arrives during two pulses: one in early spring, associated with the melting of the winter snowpack, and the other in midsummer, at the same time as the most intense summer thunderstorms. In this study, we define loading "events" that can span multiple days of continuous runoff. Our goal is to then characterize the events that produce the greatest loading, in order to inform management practices that aim to improve stream health by reducing sediment and phosphorus loads.\\
 
 \section{Data}
 \paragraph{Description}
@@ -916,6 +950,49 @@ R2_table(gp)
 R2_table(kp)
 R2_table(rp)
 R2_table(bowp)
+@
+    \end{tabular}
+    \caption{\label{phos_r_square_nosnow}}
+    \end{center}
+\end{table}
+
+
+\begin{table}[h] \small
+    \begin{center}
+    \begin{tabular}{lrl}
+    \textbf{Sediment} & $R^2$ & Model terms \\
+    \hline
+<<sediment_selection_table, echo=False, include=True, results=tex>>=
+R2_table(es_snow2)
+R2_table(js_snow2)
+R2_table(os_snow2)
+R2_table(bs_snow2)
+R2_table(gs_snow2)
+R2_table(ks_snow2)
+R2_table(rs_snow2)
+R2_table(bows_snow2) 
+@
+    \end{tabular}
+    \caption{\label{sed_r_square_nosnow}}
+    \end{center}
+\end{table}
+
+
+
+\begin{table}[h] \small
+    \begin{center}
+    \begin{tabular}{lrl}
+    \textbf{Phosphorus} & $R^2$ & Model terms \\
+    \hline
+<<phosphorus_selection_table, echo=False, include=True, results=tex>>=
+R2_table(ep_snow2)
+R2_table(jp_snow2)
+R2_table(op_snow2)
+R2_table(bp_snow2)
+R2_table(gp_snow2)
+R2_table(kp_snow2)
+R2_table(rp_snow2)
+R2_table(bowp_snow2)
 @
     \end{tabular}
     \caption{\label{phos_r_square_nosnow}}
@@ -1038,7 +1115,6 @@ There are at least two more creeks to include in the analysis. We also need to d
     guide(stot_tot~nws_prec+event_type+ap_1day+ap_2day+ap_3day+total_water+theisen+sweq+julian+sin_julian+cos_julian+tmean+tmax+tmin,
           data=rain, sweave=T, cv_gain=0)
 @
-
 
 \bibliographystyle{plain}
 \bibliography{../references/loadings}
