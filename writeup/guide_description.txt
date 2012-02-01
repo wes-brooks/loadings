@@ -1,0 +1,5 @@
+"c:/Users/wrbrooks/git/loadings/writeup/guide_data.csv"
+NA
+column varname vartype
+1 ignored d
+2 stottot n

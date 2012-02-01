@@ -1,0 +1,384 @@
+             GGG   U   U  I  DDDD   EEEE
+            G   G  U   U  I  D   D  E
+            G      U   U  I  D   D  E
+            G  GG  U   U  I  D   D  EEE
+            G   G  U   U  I  D   D  E
+            G   G  U   U  I  D   D  E
+             GGG    UUU   I  DDDD   EEEE
+   
+ GUIDE Classification and Regression Trees
+ Version 11.1 (build date: May 3, 2011)            
+ Copyright (c) 1997-2010 by Wei-Yin Loh
+ This software is based upon work supported by the U.S. Army Research Office,
+ the National Science Foundation and the National Institutes of Health.
+  
+ This job was started on: 01/31/12 at 13:54
+  
+ Classification tree
+ Pruning by cross-validation
+ Data description file: 
+ c:/Users/wrbrooks/git/loadings/writeup/guide_description.txt
+ Training sample file: c:/Users/wrbrooks/git/loadings/writeup/guide_data.csv
+ Missing value code: NA
+ Warning: N variables changed to S
+ Dependent variable is ignored
+ Length of longest data entry =  7
+ Number of classes =  2
+ Class name          Num. cases   Proportion
+ FALSE                       74   0.40659341
+ TRUE                       108   0.59340659
+  
+ Summary information (without x variables)
+ d=dependent, b=split and fit cat variable using 0-1 dummies, c=split-only categorical,
+ n=split and fit numerical, f=fit-only numerical, s=split-only numerical, w=weight
+ For categorical variables, #categories include one for missing values
+ Column  Variable          Variable  Minimum      Maximum    Number of     Number
+ number    name              type     value        value     categories    missing
+       1  ignored               d                                   2
+       2  stottot               s   1.2000E-01   1.5334E+03
+  
+      Total  #cases w/  #cases w/
+     #cases    miss. D  miss. val   #X-var   #N-var   #F-var   #S-var   #B-var   #C-var
+        182          0          0        0        0        0        1        0        0
+ Number of cases used for training =  182
+  
+ Interaction tests on all variables
+ Linear splits
+ Pruning by v-fold cross-validation, with v =  10
+ Simple node models
+ Equal priors
+ Unit misclassification costs
+ Split values for N and S variables based on exhaustive search
+ Max number of split levels =  10
+ Minimum node size =  5
+ Number of SE's for pruned tree =   0.0000E+00
+  
+ Size and CV mean cost and SE of subtrees:
+  Tree   #Tnodes  Mean Cost   SE(Mean)   BSE(Mean)  Median Cost  BSE(Median)
+    1       23   3.812E-01   3.727E-02   2.532E-02   3.782E-01   2.481E-02
+    2       22   3.812E-01   3.727E-02   2.532E-02   3.782E-01   2.481E-02
+    3       21   3.812E-01   3.727E-02   2.532E-02   3.782E-01   2.481E-02
+    4       20   3.812E-01   3.727E-02   2.532E-02   3.782E-01   2.481E-02
+    5       19   3.812E-01   3.727E-02   2.532E-02   3.782E-01   2.481E-02
+    6       18   3.663E-01   3.666E-02   2.115E-02   3.663E-01   1.916E-02
+    7       17   3.663E-01   3.666E-02   2.115E-02   3.663E-01   1.916E-02
+    8       16   3.663E-01   3.666E-02   2.115E-02   3.663E-01   1.916E-02
+    9       15   3.663E-01   3.666E-02   2.115E-02   3.663E-01   1.916E-02
+   10**     14   3.499E-01   3.628E-02   2.169E-02   3.612E-01   3.145E-02
+   11       13   3.743E-01   3.704E-02   2.126E-02   3.765E-01   4.243E-02
+   12       12   3.919E-01   3.703E-02   2.134E-02   4.152E-01   2.538E-02
+   13        7   3.998E-01   3.860E-02   1.648E-02   4.078E-01   2.438E-02
+   14        3   4.017E-01   3.917E-02   1.756E-02   3.981E-01   2.123E-02
+   15        2   3.872E-01   4.067E-02   1.378E-02   3.896E-01   1.703E-02
+   16        1   5.000E-01   3.074E-02   5.123E-17   5.000E-01   1.074E-17
+  
+ 0-SE tree based on mean is marked with *
+ 0-SE tree based on median with bootstrap SE is marked with +
+ Selected-SE tree based on mean using naive SE is marked with **
+ Selected-SE tree based on mean using bootstrap SE is marked with --
+ Selected-SE tree based on median and bootstrap SE is marked with ++
+ * tree, ** tree, + tree, and ++ tree all the same
+  
+ Following tree is based on mean CV with naive SE estimate.
+  
+ Structure of final tree. Each terminal node is marked with a T.
+  
+ Node cost is node misclassification cost divided by number of training cases
+        Node    Total    Train    Predicted        Node    Split      Interacting
+       label    cases    cases    class            cost    variable   variable
+           1      182      182    FALSE          5.000E-01 stottot   
+           2      140      140    TRUE           4.245E-01 stottot   
+           4T       9        9    TRUE           0.000E+00           
+           5      131      131    TRUE           4.495E-01 stottot   
+          10      119      119    TRUE           4.702E-01 stottot   
+          20       90       90    TRUE           4.219E-01 stottot   
+          40       82       82    TRUE           4.440E-01 stottot   
+          80       73       73    TRUE           4.169E-01 stottot   
+         160       68       68    TRUE           4.432E-01 stottot   
+         320T      17       17    TRUE           3.099E-01 stottot   
+         321       51       51    TRUE           4.850E-01 stottot   
+         642       22       22    FALSE          4.066E-01 stottot   
+        1284T      17       17    TRUE           4.432E-01 stottot   
+        1285T       5        5    FALSE          0.000E+00           
+         643       29       29    TRUE           3.964E-01 stottot   
+        1286T      10       10    TRUE           1.395E-01           
+        1287T      19       19    FALSE          4.851E-01 stottot   
+         161T       5        5    TRUE           0.000E+00           
+          81T       9        9    FALSE          3.541E-01           
+          41T       8        8    TRUE           1.725E-01           
+          21       29       29    FALSE          3.901E-01 stottot   
+          42T      13       13    FALSE          1.705E-01 stottot   
+          43T      16       16    TRUE           3.988E-01 stottot   
+          11T      12       12    TRUE           2.259E-01 stottot   
+           3       42       42    FALSE          2.757E-01 stottot   
+           6T      36       36    FALSE          2.086E-01 stottot   
+           7T       6        6    TRUE           2.259E-01           
+  
+ Number of terminal nodes of final tree: 14
+ Total number of nodes of final tree:    27
+  
+ Classification tree:
+  
+  Node 1: stottot <=    6.36500
+    Node 2: stottot <=    0.21500
+      Node 4: TRUE
+    Node 2: stottot >    0.21500
+      Node 5: stottot <=    3.52500
+        Node 10: stottot <=    2.04000
+          Node 20: stottot <=    1.62500
+            Node 40: stottot <=    1.37000
+              Node 80: stottot <=    1.25000
+                Node 160: stottot <=    0.39500
+                  Node 320: TRUE
+                Node 160: stottot >    0.39500
+                  Node 321: stottot <=    0.68500
+                    Node 642: stottot <=    0.64500
+                      Node 1284: TRUE
+                    Node 642: stottot >    0.64500
+                      Node 1285: FALSE
+                  Node 321: stottot >    0.68500
+                    Node 643: stottot <=    0.84500
+                      Node 1286: TRUE
+                    Node 643: stottot >    0.84500
+                      Node 1287: FALSE
+              Node 80: stottot >    1.25000
+                Node 161: TRUE
+            Node 40: stottot >    1.37000
+              Node 81: FALSE
+          Node 20: stottot >    1.62500
+            Node 41: TRUE
+        Node 10: stottot >    2.04000
+          Node 21: stottot <=    2.91000
+            Node 42: FALSE
+          Node 21: stottot >    2.91000
+            Node 43: TRUE
+      Node 5: stottot >    3.52500
+        Node 11: TRUE
+  Node 1: stottot >    6.36500
+    Node 3: stottot <=  5.07470E+02
+      Node 6: FALSE
+    Node 3: stottot >  5.07470E+02
+      Node 7: TRUE
+ 
+ ***************************************************************
+  
+ Node 1: Intermediate node
+ A case goes into Node 2 if stottot <=  6.3650000E+00
+              stottot  mean =  4.8343E+01
+ ClassName      Number ClassPrior
+ FALSE              74     0.5000
+ TRUE              108     0.5000
+ Number of training cases misclassified =  108
+ ----------------------------
+ Node 2: Intermediate node
+ A case goes into Node 4 if stottot <=  2.1500000E-01
+              stottot  mean =  1.5308E+00
+ ClassName      Number ClassPrior
+ FALSE              47     0.4245
+ TRUE               93     0.5755
+ Number of training cases misclassified =  47
+ ----------------------------
+ Node 4: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               0     0.0000
+ TRUE                9     1.0000
+ Predicted class is TRUE
+ Number of training cases misclassified =  0
+ ----------------------------
+ Node 5: Intermediate node
+ A case goes into Node 10 if stottot <=  3.5250000E+00
+              stottot  mean =  1.6237E+00
+ ClassName      Number ClassPrior
+ FALSE              47     0.4495
+ TRUE               84     0.5505
+ Number of training cases misclassified =  47
+ ----------------------------
+ Node 10: Intermediate node
+ A case goes into Node 20 if stottot <=  2.0400000E+00
+              stottot  mean =  1.3506E+00
+ ClassName      Number ClassPrior
+ FALSE              45     0.4702
+ TRUE               74     0.5298
+ Number of training cases misclassified =  45
+ ----------------------------
+ Node 20: Intermediate node
+ A case goes into Node 40 if stottot <=  1.6250000E+00
+              stottot  mean =  8.6644E-01
+ ClassName      Number ClassPrior
+ FALSE              30     0.4219
+ TRUE               60     0.5781
+ Number of training cases misclassified =  30
+ ----------------------------
+ Node 40: Intermediate node
+ A case goes into Node 80 if stottot <=  1.3700000E+00
+              stottot  mean =  7.7512E-01
+ ClassName      Number ClassPrior
+ FALSE              29     0.4440
+ TRUE               53     0.5560
+ Number of training cases misclassified =  29
+ ----------------------------
+ Node 80: Intermediate node
+ A case goes into Node 160 if stottot <=  1.2500000E+00
+              stottot  mean =  6.8041E-01
+ ClassName      Number ClassPrior
+ FALSE              24     0.4169
+ TRUE               49     0.5831
+ Number of training cases misclassified =  24
+ ----------------------------
+ Node 160: Intermediate node
+ A case goes into Node 320 if stottot <=  3.9500000E-01
+              stottot  mean =  6.3544E-01
+ ClassName      Number ClassPrior
+ FALSE              24     0.4432
+ TRUE               44     0.5568
+ Number of training cases misclassified =  24
+ ----------------------------
+ Node 320: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               4     0.3099
+ TRUE               13     0.6901
+ Predicted class is TRUE
+ Number of training cases misclassified =  4
+ ----------------------------
+ Node 321: Intermediate node
+ A case goes into Node 642 if stottot <=  6.8500000E-01
+              stottot  mean =  7.4569E-01
+ ClassName      Number ClassPrior
+ FALSE              20     0.4850
+ TRUE               31     0.5150
+ Number of training cases misclassified =  20
+ ----------------------------
+ Node 642: Intermediate node
+ A case goes into Node 1284 if stottot <=  6.4500000E-01
+              stottot  mean =  5.2500E-01
+ ClassName      Number ClassPrior
+ FALSE              11     0.5934
+ TRUE               11     0.4066
+ Number of training cases misclassified =  11
+ ----------------------------
+ Node 1284: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               6     0.4432
+ TRUE               11     0.5568
+ Predicted class is TRUE
+ Number of training cases misclassified =  6
+ ----------------------------
+ Node 1285: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               5     1.0000
+ TRUE                0     0.0000
+ Predicted class is FALSE
+ Number of training cases misclassified =  0
+ ----------------------------
+ Node 643: Intermediate node
+ A case goes into Node 1286 if stottot <=  8.4500000E-01
+              stottot  mean =  9.1310E-01
+ ClassName      Number ClassPrior
+ FALSE               9     0.3964
+ TRUE               20     0.6036
+ Number of training cases misclassified =  9
+ ----------------------------
+ Node 1286: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               1     0.1395
+ TRUE                9     0.8605
+ Predicted class is TRUE
+ Number of training cases misclassified =  1
+ ----------------------------
+ Node 1287: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               8     0.5149
+ TRUE               11     0.4851
+ Predicted class is FALSE
+ Number of training cases misclassified =  11
+ ----------------------------
+ Node 161: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               0     0.0000
+ TRUE                5     1.0000
+ Predicted class is TRUE
+ Number of training cases misclassified =  0
+ ----------------------------
+ Node 81: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               5     0.6459
+ TRUE                4     0.3541
+ Predicted class is FALSE
+ Number of training cases misclassified =  4
+ ----------------------------
+ Node 41: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               1     0.1725
+ TRUE                7     0.8275
+ Predicted class is TRUE
+ Number of training cases misclassified =  1
+ ----------------------------
+ Node 21: Intermediate node
+ A case goes into Node 42 if stottot <=  2.9100000E+00
+              stottot  mean =  2.8531E+00
+ ClassName      Number ClassPrior
+ FALSE              15     0.6099
+ TRUE               14     0.3901
+ Number of training cases misclassified =  14
+ ----------------------------
+ Node 42: Terminal node
+ ClassName      Number ClassPrior
+ FALSE              10     0.8295
+ TRUE                3     0.1705
+ Predicted class is FALSE
+ Number of training cases misclassified =  3
+ ----------------------------
+ Node 43: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               5     0.3988
+ TRUE               11     0.6012
+ Predicted class is TRUE
+ Number of training cases misclassified =  5
+ ----------------------------
+ Node 11: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               2     0.2259
+ TRUE               10     0.7741
+ Predicted class is TRUE
+ Number of training cases misclassified =  2
+ ----------------------------
+ Node 3: Intermediate node
+ A case goes into Node 6 if stottot <=  5.0747000E+02
+              stottot  mean =  2.0439E+02
+ ClassName      Number ClassPrior
+ FALSE              27     0.7243
+ TRUE               15     0.2757
+ Number of training cases misclassified =  15
+ ----------------------------
+ Node 6: Terminal node
+ ClassName      Number ClassPrior
+ FALSE              26     0.7914
+ TRUE               10     0.2086
+ Predicted class is FALSE
+ Number of training cases misclassified =  10
+ ----------------------------
+ Node 7: Terminal node
+ ClassName      Number ClassPrior
+ FALSE               1     0.2259
+ TRUE                5     0.7741
+ Predicted class is TRUE
+ Number of training cases misclassified =  1
+ ----------------------------
+  
+ LaTeX code for tree is in file: 
+ c:/Users/wrbrooks/git/loadings/writeup/guide_latex_out.tex
+ 
+ 
+ Classification matrix for training sample:
+ Predicted      True class
+class          FALSE      TRUE
+ FALSE             54        28
+ TRUE              20        80
+ Total             74       108
+ 
+ Number of cases used for tree construction =  182
+ Number misclassified =  48
+ Resubstitution estimate of mean misclassification cost = 
+  0.264764764764765     
+ 
+ Elapsed time in seconds:   4.6800300E-02

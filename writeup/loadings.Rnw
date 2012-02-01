@@ -53,6 +53,9 @@
     
     watersheds = read.csv("../data/watersheds.csv", header=T)
     
+    #A list to hold the ecdf functions for antecedent base flow.
+    flow_cdf = list()
+    
     #loop through the streams, reading them in one by one
     for(stream_name in streams)
     {
@@ -85,8 +88,8 @@
             year <- as.numeric(as.character(year))
             water_year <- ifelse(month>=10, year+1, year)
             julian <- start_day$yday + 1
-            sin_julian <- sin(julian*2*pi/365)
-            cos_julian <- cos(julian*2*pi/365)
+            sin_julian <- sin(julian*2*pi/365 - 0.35)
+            cos_julian <- cos(julian*2*pi/365 - 0.35)
             for(output in outputs)
                 assign( paste('log_', output, sep=""), log10(get(output)+0.01) )
             m <- as.factor(ifelse(is.na(m),0,ifelse(m=='M','M',0)))
@@ -117,6 +120,9 @@
             antecedent_qbase[i] = ifelse(unmatched, NA, daily_flow[which( daily_flow$DV_date == stream$start_day[i]-86400 ), 'QGW_fixed']) }
         stream$antecedent_qbase = antecedent_qbase
     
+        flow_cdf[[stream_name]] = ecdf(antecedent_qbase)
+        stream$antecedent_qbase_quantile = flow_cdf[[stream_name]](antecedent_qbase)
+        
         #Find the average air temperature in the days before the event:
         #first, read the raw air temperature data
         nws = data.frame()
@@ -274,7 +280,7 @@
     	for(i in 1:length(streams))
         {
     		stream = get(streams[i])
-    		result[i,] = sapply(c(TRUE, FALSE), function(x) sum(stream[stream$snow==x,target], na.rm=T) / sum(stream[,target], na.rm=T))
+    		result[i,] = sapply(c(TRUE, FALSE), function(x) sum(stream[stream$snow==x, target], na.rm=T) / sum(stream[,target], na.rm=T))
         }
         result = data.frame(result)
         names(result) = col.names
@@ -342,8 +348,8 @@
     stepwise_BIC <- function(target, data, sites)
     {
         predictors = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", 
-                       "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", 
-                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", 
+                       "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", "antecedent_qbase_quantile", 
+                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", 
                        "antecedent_tmean", "antecedent_tmax", "antecedent_trange", "slope", "area")
         d = data[,c(target, predictors)]
         result = list()
@@ -374,23 +380,25 @@
     
     
     #This function uses the BIC to screen variables, returning the 'step' object.
-    stepwise_BIC_gam <- function(target, data, sites)
+    stepwise_BIC_ag <- function(target, data, sites)
     {
-        predictors = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", 
-                       "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", 
-                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", "antecedent_qbase", 
-                       "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
-        d = data[,c(target, predictors)]
+        predictors_raw = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", 
+                       "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", "antecedent_qbase_quantile", 
+                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", 
+                       "antecedent_tmean", "antecedent_tmax", "antecedent_trange", "slope", "area")
+        d = data[,c(target, predictors_raw)]
         result = list()
         
-        predictors = c(predictors, "antecedent_qbase:slope", "antecedent_qbase:area", "total_water:slope", "total_water:area")
+        #predictors_raw = predictors_raw[-which(predictors_raw=="area")]
+        #predictors_raw = predictors[-which(predictors=="slope")]
+        predictors = c(predictors_raw, "slope:theisen", "slope:antecedent_qbase_quantile", "slope:duration", "slope:area")
         full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
         intercept_only = as.formula( paste(target, "~1") )
         fm1 <- lm(full_model, data=d, x=T)
         
         d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
         names(d)[1] = target
-        fm2 <- gam(intercept_only, data=d)
+        fm2 <- lm(intercept_only, data=d)
         screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=FALSE)
         
         terms = parse_args(screened)
@@ -412,8 +420,8 @@
     #Use the BIC to screen the predictors that are available when snow is on the ground.
     stepwise_BIC_snow <- function(target, data, sites)
     {
-        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", 
-                       "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "antecedent_qbase_quantile", 
+                       "cos_julian", "sin_julian", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
         d = data[,c(target, predictors)]
         result = list()
     
@@ -445,8 +453,8 @@
     #Use the BIC to screen the predictors that are available when snow is on the ground.
     stepwise_BIC_snow2 <- function(target, data, sites)
     {
-        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "total_water", "melt_water", "slope", "area",
-                       "cos_julian", "sin_julian", "antecedent_qbase", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
+        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "total_water", "melt_water", "slope", "area", "antecedent_qbase_quantile",
+                       "cos_julian", "sin_julian", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
         d = data[,c(target, predictors)]
         result = list()
     
@@ -884,11 +892,14 @@ The phosphorus loading was not measured at Brewery Creek from October 1999 onwar
 
 Not all of the data can be collected for each event. For instance, rainfall is measured only when the ground is free of snow, because snow interferes with the rain gauges. And the amount of snowmelt is estimated by multiplying the snow's water content by the change in snow depth during a warm snap, which is inaccurate when additional snow falls during the event. Broadly, there is one set of measurements that are made during rainfall-driven events and a different set of measurements that are made during snowmelt-driven events. Because of this, the two types of event are modeled separately.\\
 
+
 \paragraph{Exploratory Analysis}
 The first task was to determine how loads are distributed between snowmelt-driven and rainfall-driven events. The total loads from each kind of event are tabulated in Tables \ref{tab:stot} (sediment) and \ref{tab:ptot} (phosphorus). Figure \ref{bars} presents the same information as the tables, while Figure \ref{boxplots} also compares the load from indivudual snowmelt- and rainfall-driven events. In general, more of the load of both phosphorus and sediment is from rainfall-driven events, but at Garfoot and Kuenster more of the both kinds of load came from snowmelt-driven events. At all sites except Garfoot and Kuenster, snowmelt-driven events contributed a larger proportion of phosphorus loading than of sediment loading (and at Garfoot and Kuenster, difference between the proportions was small.) At most sites the difference between the proportion of sediment load produced by snowmelt-driven events and the proportion of phosphorus load produced by snowmelt-driven events was less than ten percentage points, but at Bower the difference was about 34 percentage points. This suggests that melting snow carries proportionally more phosphorus than does rainfall-runoff, which might be the case if the the phosphorus is from animal poop that accumulates on fallen snow, while the sediment comes from dirt that is mainly trapped under the snowpack.\\
 
 Note: initial analysis suggests that the major events are not evenly distributed, but occur more often in some years than in others. It may also be the case that the major phosphorus-loading events and the major sediment-loading events occur in different years, and that the years with more major snowmelt-driven events are not the same years as those with more rainfall-driven events. We need to test the hypotheses that there is no significant difference between years in the proportion of events that become major events. This could be done by a rank-sum test, where phosphorus- (or sediment-)loading events are ranked and then the sum of the ranks for 2007, say, is compared to what we should see under a uniform hypothesis... How to test whether the major sediment and phosphorus events occur in the same years, and whether the major snowmelt-driven and rainfall-driven events happen in the same years? I do not yet know.
 
+
+\subparagraph{Rainfall-driven events}
 We investigated dividing the snow-free seasons into early and late subseasons, separating the two on May 15th of each year. If vegetation serves to hold the soil together, and to increase both evapotranspiration and infiltration, then erosion may be more common early in the spring before most of the summer's vegetation appears. If so, the relationship between rainfall and the stream's loading might change during the summer.\\
 
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
@@ -907,6 +918,68 @@ The investigation was done by making linear models to describe the sediment and 
           caption.placement="bottom", hline.after=0 )
 @
 
+\subparagraph{Snowmelt-driven events}
+Since sediment and phosphorus are carried into streams by runoff, it makes intuitive sense that the amount of loading during an event should depend on the amount of water that runs off during that event. In the case of rainfall-driven loading events, it is straightforward to use rain gauges to measure the amount of water entering the stream system. In the case of snowmelt-driven loading events, though, it is not easy to measure how much water melts out of the snowpack, especially when there is also additional snow falling at the same time. There is a subset of events for which we are able to estimate the amount of melting water: Those are the events when we have a measurement of the snow's water content and of the snow depth both before and after the event, and no additional snow falls during the event.\\
+
+We would like to make a model that uses the available event data to describe the amount of sediment and phosphorus loading. In order to use our estimate of the snowmelt as a predictor of loading, we must ignore the snowmelt-driven events for which we cannot estimate the snowmelt. In order to determine whether that will bias our results, we first look at the overall proportion of loading that is provided by the events we will not be modeling.\\
+
+<<label=ignored_snowmelt_props, echo=FALSE, results=tex>>=
+    library(xtable)
+        
+    ignored_props = matrix( nrow=length(streams), ncol=2 )
+    for(i in 1:length(streams))
+    {
+    	stream = get(streams[i])
+		ignored_props[i,] = sapply(c("stot_tot", "ptot_tot"), function(x) sum(stream[is.na(stream$total_water), x], na.rm=T) / sum(stream[,x], na.rm=T))
+    }
+    ignored_props = data.frame(ignored_props)
+    names(ignored_props) = c("Sediment", "Phosphorus")
+    row.names(ignored_props) = sapply(streams, function(x) get(x=x, pos=stream_names))
+@
+
+We can also compare the size of events that will be ignored versus the size of events that will be modeled. The p-values of the tests comparing the sediment and phosphorus loads from each event at each stream are tabulated in table \ref{tab:ignored_test1}.\\
+
+<<label=ignored_snowmelt_test1, echo=FALSE, results=tex>>=
+    library(xtable)
+    ignored_tests1 = matrix( nrow=length(streams), ncol=2 )
+    
+    for(i in 1:length(streams))
+    {
+        stream = get(streams[i])
+        ignored_tests1[i,] = sapply(c("stot_tot", "ptot_tot"), function(x) wilcox.test(stream[is.na(stream$total_water) & stream$snow==TRUE, x],
+                                                                                       stream[!is.na(stream$total_water) & stream$snow==TRUE, x])$p.value)
+    }
+    ignored_tests1 = data.frame(ignored_tests1)
+    names(ignored_tests1) = c("Sediment", "Phosphorus")
+    row.names(ignored_tests1) = sapply(streams, function(x) get(x=x, pos=stream_names))
+
+    print(xtable(ignored_tests1, caption="P-values of tests of the difference in the load contributed by ignored and modeled snowmelt-driven events.", 
+                 digits=3, label="tab:ignored_test1", align=c('l', 'c', 'c')), caption.placement="bottom", hline.after=0)
+@
+
+Finally, we compare the dates when the ignored events occured to the dates when the modeled events occured. The p-values for the test at each stream are tabulated in Table \ref{tab:ignored_test2}.\\
+
+<<label=ignored_snowmelt_test2, echo=FALSE, results=tex>>=
+    library(xtable)
+    ignored_tests2 = matrix( nrow=length(streams), ncol=1 )
+    
+    for(i in 1:length(streams))
+    {
+        stream = get(streams[i])
+        ignored_tests2[i,] = sapply(c("sin_julian"), function(x) wilcox.test(stream[is.na(stream$total_water) & stream$snow==TRUE, x],
+                                                                             stream[!is.na(stream$total_water) & stream$snow==TRUE, x])$p.value)
+    }
+    ignored_tests2 = data.frame(ignored_tests2)
+    names(ignored_tests2) = c("p-value")
+    row.names(ignored_tests2) = sapply(streams, function(x) get(x=x, pos=stream_names))
+
+    print(xtable(ignored_tests2, caption="P-values of tests of the difference in the date of modeled snowmelt-driven events compared to the ignored events.",
+                 digits=3, label="tab:ignored_test2", align=c('l', 'c')), caption.placement="bottom", hline.after=0)
+@
+
+It looks like the model results won't be badly biased by ignoring the events for which we don't have an estimate of the snowmelt.\\
+
+\subparagraph{Major events}
 Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$stot_tot))]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$stot_tot))]]}) of the total sediment load; the same events produced between \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$ptot_tot))]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$ptot_tot))]]}) of the total phosphorus load.\\
 
 

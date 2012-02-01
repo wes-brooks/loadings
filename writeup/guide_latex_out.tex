@@ -1,0 +1,59 @@
+ \documentclass{article}
+ %File creation date: 01/31/12  at 13:54
+ \usepackage{pstricks,pst-node,pst-tree}
+ \usepackage[left=0.5in,right=0.5in,top=1in,bottom=1in]{geometry}
+ \usepackage{lscape}
+ \pagestyle{empty}
+ \begin{document}
+ \begin{landscape}
+ \begin{center}
+\psset{linecolor=black,tnsep=2pt,tnheight=0cm,treesep=.2cm,levelsep=46pt,radius=7pt}
+%     \def\psedge#1#2{\ncangle{#2}{#1}}
+%     \pstree[treemode=R]
+  \pstree{\Tcircle{ 1 }~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ 6.37}}}{
+  \pstree{\Tcircle{ 2 }~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ .2150}}}{
+    \Tcircle[fillcolor=red,fillstyle=solid]{ 4 }~[tnpos=l]{9}~{\shortstack{TRUE\\.00}}
+  \pstree{\Tcircle{ 5 }~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ 3.52}}}{
+  \pstree{\Tcircle{\small 10}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ 2.04}}}{
+  \pstree{\Tcircle{\small 20}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ 1.62}}}{
+  \pstree{\Tcircle{\small 40}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ 1.37}}}{
+  \pstree{\Tcircle{\small 80}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ 1.25}}}{
+  \pstree{\Tcircle{\tiny 160}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ .3950}}}{
+    \Tcircle[fillcolor=red,fillstyle=solid]{\tiny 320}~[tnpos=l]{17}~{\shortstack{TRUE\\.31}}
+  \pstree{\Tcircle{\tiny 321}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ .6850}}}{
+  \pstree{\Tcircle{\tiny 642}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ .6450}}}{
+    \Tcircle[fillcolor=red,fillstyle=solid]{\tiny 1284}~[tnpos=l]{17}~{\shortstack{TRUE\\.44}}
+    \Tcircle[fillcolor=green,fillstyle=solid]{\tiny 1285}~[tnpos=l]{5}~{\shortstack{FALSE\\.00}}
+   }
+  \pstree{\Tcircle{\tiny 643}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ .8450}}}{
+    \Tcircle[fillcolor=red,fillstyle=solid]{\tiny 1286}~[tnpos=l]{10}~{\shortstack{TRUE\\.14}}
+    \Tcircle[fillcolor=green,fillstyle=solid]{\tiny 1287}~[tnpos=l]{19}~{\shortstack{FALSE\\.49}}
+   }
+   }
+   }
+    \Tcircle[fillcolor=red,fillstyle=solid]{\tiny 161}~[tnpos=l]{5}~{\shortstack{TRUE\\.00}}
+   }
+    \Tcircle[fillcolor=green,fillstyle=solid]{\small 81}~[tnpos=l]{9}~{\shortstack{FALSE\\.35}}
+   }
+    \Tcircle[fillcolor=red,fillstyle=solid]{\small 41}~[tnpos=l]{8}~{\shortstack{TRUE\\.17}}
+   }
+  \pstree{\Tcircle{\small 21}~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ 2.91}}}{
+    \Tcircle[fillcolor=green,fillstyle=solid]{\small 42}~[tnpos=l]{13}~{\shortstack{FALSE\\.17}}
+    \Tcircle[fillcolor=red,fillstyle=solid]{\small 43}~[tnpos=l]{16}~{\shortstack{TRUE\\.40}}
+   }
+   }
+    \Tcircle[fillcolor=red,fillstyle=solid]{\small 11}~[tnpos=l]{12}~{\shortstack{TRUE\\.23}}
+   }
+   }
+  \pstree{\Tcircle{ 3 }~[tnpos=l]{\shortstack[r]{stottot\\$\leq$ 507.47}}}{
+    \Tcircle[fillcolor=green,fillstyle=solid]{ 6 }~[tnpos=l]{36}~{\shortstack{FALSE\\.21}}
+    \Tcircle[fillcolor=red,fillstyle=solid]{ 7 }~[tnpos=l]{6}~{\shortstack{TRUE\\.23}}
+ }
+ }
+ \end{center}
+GUIDE classification tree model.
+At each intermediate node, a case goes to the left branch 
+  if and only if the condition is satisfied.
+Predicted class and estimated mean misclassification cost beneath each leaf node; number of cases on its left.
+ \end{landscape}
+ \end{document}
