@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2012.1.11)  31 JAN 2012 18:00
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2012.1.11)  31 JAN 2012 20:03
 entering extended mode
 **C:/Users/wrbrooks/git/loadings/writeup/loadings.tex
 (C:/Users/wrbrooks/git/loadings/writeup/loadings.tex
@@ -313,7 +313,7 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ) <loadings-fig2.pdf, id=1, 433.62pt x 614.295pt>
 File: loadings-fig2.pdf Graphic file (type pdf)
 <use loadings-fig2.pdf>
-Package pdftex.def Info: loadings-fig2.pdf used on input line 45.
+Package pdftex.def Info: loadings-fig2.pdf used on input line 43.
 (pdftex.def)             Requested size: 476.03984pt x 674.42368pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -321,18 +321,28 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <loadings-boxplot_stot.pdf, id=2, 650.43pt x 361.35pt>
 File: loadings-boxplot_stot.pdf Graphic file (type pdf)
 <use loadings-boxplot_stot.pdf>
-Package pdftex.def Info: loadings-boxplot_stot.pdf used on input line 64.
+Package pdftex.def Info: loadings-boxplot_stot.pdf used on input line 62.
 (pdftex.def)             Requested size: 528.93675pt x 293.87735pt.
 <loadings-boxplot_ptot.pdf, id=3, 650.43pt x 361.35pt>
 File: loadings-boxplot_ptot.pdf Graphic file (type pdf)
 <use loadings-boxplot_ptot.pdf>
-Package pdftex.def Info: loadings-boxplot_ptot.pdf used on input line 66.
+Package pdftex.def Info: loadings-boxplot_ptot.pdf used on input line 64.
 (pdftex.def)             Requested size: 528.93675pt x 293.87735pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--89
+Underfull \hbox (badness 10000) in paragraph at lines 84--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 106--107
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
 
  []
 
@@ -342,59 +352,49 @@ Underfull \hbox (badness 10000) in paragraph at lines 110--111
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 112--113
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 114--115
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 118--119
 
  []
 
 [1
 
 {C:/Users/wrbrooks/AppData/Local/MiKTeX/2.8/pdftex/config/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
+Underfull \hbox (badness 10000) in paragraph at lines 120--121
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--127
+Underfull \hbox (badness 10000) in paragraph at lines 122--123
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 169--170
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 171--172
+Underfull \hbox (badness 10000) in paragraph at lines 167--168
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--175
+Underfull \hbox (badness 10000) in paragraph at lines 170--171
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--197
+Underfull \hbox (badness 10000) in paragraph at lines 192--193
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 218--219
+Underfull \hbox (badness 10000) in paragraph at lines 214--215
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 221--222
+Underfull \hbox (badness 10000) in paragraph at lines 217--218
 
  []
 
@@ -406,13 +406,23 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Overfull \hbox (63.66623pt too wide) in paragraph at lines 322--365
+ [] 
+ []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 412--413
+Overfull \hbox (36.92854pt too wide) in paragraph at lines 373--414
+ [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 424--425
 
  []
 
@@ -420,12 +430,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 412--413
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 441--442
+Underfull \hbox (badness 10000) in paragraph at lines 454--455
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 443--444
+Underfull \hbox (badness 10000) in paragraph at lines 456--457
 
  []
 
@@ -433,29 +443,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 443--444
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 475--476
+Underfull \hbox (badness 10000) in paragraph at lines 488--489
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 477--478
+Underfull \hbox (badness 10000) in paragraph at lines 490--491
 
  []
 
 [4] <loadings-figure2.pdf, id=26, 433.62pt x 361.35pt>
 File: loadings-figure2.pdf Graphic file (type pdf)
 <use loadings-figure2.pdf>
-Package pdftex.def Info: loadings-figure2.pdf used on input line 485.
+Package pdftex.def Info: loadings-figure2.pdf used on input line 498.
 (pdftex.def)             Requested size: 476.03984pt x 396.71982pt.
 <loadings-figure3.pdf, id=27, 433.62pt x 361.35pt>
 File: loadings-figure3.pdf Graphic file (type pdf)
 <use loadings-figure3.pdf>
-Package pdftex.def Info: loadings-figure3.pdf used on input line 492.
+Package pdftex.def Info: loadings-figure3.pdf used on input line 505.
 (pdftex.def)             Requested size: 476.03984pt x 396.71982pt.
 <loadings-figure4.pdf, id=28, 867.24pt x 1084.05pt>
 File: loadings-figure4.pdf Graphic file (type pdf)
 <use loadings-figure4.pdf>
-Package pdftex.def Info: loadings-figure4.pdf used on input line 499.
+Package pdftex.def Info: loadings-figure4.pdf used on input line 512.
 (pdftex.def)             Requested size: 476.03984pt x 595.05492pt.
 (C:\Users\wrbrooks\git\loadings\writeup\loadings.bbl) [5] [6 <C:/Users/wrbrooks
 /git/loadings/writeup/loadings-fig2.pdf>] [7 <C:/Users/wrbrooks/git/loadings/wr
@@ -471,7 +481,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  4317 strings out of 495285
  64047 string characters out of 3180048
- 157982 words of memory out of 3000000
+ 160982 words of memory out of 3000000
  7412 multiletter control sequences out of 15000+200000
  39124 words of font info for 93 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -488,7 +498,7 @@ les (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files
 86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/
 MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKT
 eX 2.8/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on loadings.pdf (15 pages, 245694 bytes).
+Output written on loadings.pdf (15 pages, 246231 bytes).
 PDF statistics:
  136 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

@@ -26,7 +26,7 @@
     source('c:/Users/wrbrooks/git/loadings/code/guide.r')
     streams = c('eagle', 'joosvalley', 'otter', 'brewery', 'garfoot', 'kuenster', 'rattlesnake', 'bower')
     stream_names = list(eagle='Eagle', joosvalley='Joos', otter='Otter', bower='Bower',
-                        brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster', rattlesnake="Rattlesnake")
+                        brewery='Brewery', garfoot='Garfoot', kuenster='Kuenster', rattlesnake="Rattlesnake", aggregate="Aggregate")
     outputs = c('sstorm_tot', 'sstorm_max', 'sstorm_avg', 'stot_tot', 'stot_max', 'stot_yield', 'ptot_yield', 
                     'stot_avg', 'pstorm_tot', 'pstorm_max', 'pstorm_avg', 'ptot_tot', 'ptot_max', 'ptot_avg')
     
@@ -122,6 +122,7 @@
     
         flow_cdf[[stream_name]] = ecdf(antecedent_qbase)
         stream$antecedent_qbase_quantile = flow_cdf[[stream_name]](antecedent_qbase)
+        stream$antecedent_qbase2 = antecedent_qbase / watersheds$area[watersheds$stream==stream_name]
         
         #Find the average air temperature in the days before the event:
         #first, read the raw air temperature data
@@ -246,6 +247,10 @@
         mtext(stream_names[[stream_name]], side=3, line=-1, cex=1.2,
               at=sum(range(stream[!is.na(stream$antecedent_qbase) & stream$snow==FALSE,]$antecedent_qbase))/1.7)
     }
+    
+    aggregate_nosnow = aggregate[aggregate$snow==FALSE,]
+    aggregate_snow = aggregate[aggregate$snow==TRUE,]
+    aggregate$stream = rep("aggregate", dim(aggregate)[1])
 @
 
 
@@ -347,50 +352,13 @@
     #This function uses the BIC to screen variables, returning the 'step' object.
     stepwise_BIC <- function(target, data, sites)
     {
-        predictors = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", 
-                       "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", "antecedent_qbase_quantile", 
-                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", 
-                       "antecedent_tmean", "antecedent_tmax", "antecedent_trange", "slope", "area")
-        d = data[,c(target, predictors)]
-        result = list()
-        
-        full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
-        intercept_only = as.formula( paste(target, "~1") )
-        fm1 <- lm(full_model, data=d, x=T)
-        
-        d = data.frame(cbind(target=fm1$fitted+fm1$residual, fm1$x))
-        names(d)[1] = target
-        fm2 <- lm(intercept_only, data=d)
-        screened = step(fm2, scope=full_model, direction='both', k=log(dim(d)[1]), trace=FALSE)
-        
-        terms = parse_args(screened)
-        target = terms[1]
-        predictors = terms[-1]
-        formula = as.formula(paste(target, "~", paste(predictors, collapse="+")))
-        
-        model = lm(formula, data=data, x=T)
-        
-        #Put the results in a list object
-        result$site = sites[[as.character(unique(data$stream)[1])]]
-        result$model = model
-        result$ranked = names(model$model)[-1] # rank_predictors(model)
-        result$R2 = r2_step(model, result$ranked, data)
-        return(result)
-    }
-    
-    
-    #This function uses the BIC to screen variables, returning the 'step' object.
-    stepwise_BIC_ag <- function(target, data, sites)
-    {
         predictors_raw = c("num_events", "theisen", "p5max", "p10max", "p15max", "p30max", "p60max", 
                        "ei", "duration", "ap_1day", "ap_3day", "ap_5day", "tmax", "tmean", "tmin", "antecedent_qbase_quantile", 
-                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian", 
+                       "nws_prec", "nws_snow", "melt_snow", "cos_julian", "sin_julian",
                        "antecedent_tmean", "antecedent_tmax", "antecedent_trange", "slope", "area")
         d = data[,c(target, predictors_raw)]
         result = list()
         
-        #predictors_raw = predictors_raw[-which(predictors_raw=="area")]
-        #predictors_raw = predictors[-which(predictors=="slope")]
         predictors = c(predictors_raw, "slope:theisen", "slope:antecedent_qbase_quantile", "slope:duration", "slope:area")
         full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
         intercept_only = as.formula( paste(target, "~1") )
@@ -420,11 +388,12 @@
     #Use the BIC to screen the predictors that are available when snow is on the ground.
     stepwise_BIC_snow <- function(target, data, sites)
     {
-        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "antecedent_qbase_quantile", 
-                       "cos_julian", "sin_julian", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
-        d = data[,c(target, predictors)]
+        predictors_raw = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "antecedent_qbase_quantile", 
+                       "cos_julian", "sin_julian", "antecedent_tmean", "antecedent_tmax", "antecedent_trange", "slope", "area")
+        d = data[,c(target, predictors_raw)]
         result = list()
     
+        predictors = c(predictors_raw, "slope:nws_prec", "slope:antecedent_qbase_quantile","slope:area")
         full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
         intercept_only = as.formula( paste(target, "~1") )
         fm1 <- lm(full_model, data=d, x=T)
@@ -453,12 +422,12 @@
     #Use the BIC to screen the predictors that are available when snow is on the ground.
     stepwise_BIC_snow2 <- function(target, data, sites)
     {
-        predictors = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "total_water", "melt_water", "slope", "area", "antecedent_qbase_quantile",
+        predictors_raw = c("num_days", "tmax", "tmean", "tmin", "nws_prec", "nws_snow", "total_water", "melt_water", "slope", "area", "antecedent_qbase_quantile",
                        "cos_julian", "sin_julian", "antecedent_tmean", "antecedent_tmax", "antecedent_trange")
-        d = data[,c(target, predictors)]
+        d = data[,c(target, predictors_raw)]
         result = list()
     
-        predictors = c(predictors, "antecedent_qbase:slope", "antecedent_qbase:area", "total_water:slope", "total_water:area")
+        predictors = c(predictors_raw, "antecedent_qbase_quantile:slope", "antecedent_qbase_quantile:area", "total_water:slope", "total_water:area")
         full_model = as.formula( paste(target, "~", paste(predictors, collapse="+")) )
         intercept_only = as.formula( paste(target, "~1") )
         fm1 <- lm(full_model, data=d, x=T)
@@ -551,6 +520,7 @@
     ks = stepwise_BIC(target="log_stot_yield", data=kuenster_nosnow, sites=stream_names)
     rs = stepwise_BIC(target="log_stot_yield", data=rattlesnake_nosnow, sites=stream_names)
     bows = stepwise_BIC(target="log_stot_yield", data=bower_nosnow, sites=stream_names)
+    as = stepwise_BIC(target="log_stot_yield", data=aggregate_nosnow, sites=stream_names)
     
     ep = stepwise_BIC(target="log_ptot_yield", data=eagle_nosnow, sites=stream_names)
     jp = stepwise_BIC(target="log_ptot_yield", data=joosvalley_nosnow, sites=stream_names)
@@ -560,6 +530,7 @@
     kp = stepwise_BIC(target="log_ptot_yield", data=kuenster_nosnow, sites=stream_names)
     rp = stepwise_BIC(target="log_ptot_yield", data=rattlesnake_nosnow, sites=stream_names)
     bowp = stepwise_BIC(target="log_ptot_yield", data=bower_nosnow, sites=stream_names)
+    ap = stepwise_BIC(target="log_ptot_yield", data=aggregate_nosnow, sites=stream_names)
 @
 
 <<label=variable_selection_snow, include=False, echo=False>>=
@@ -571,6 +542,7 @@
     ks_snow = stepwise_BIC_snow(target="log_stot_yield", data=kuenster_snow, sites=stream_names)
     rs_snow = stepwise_BIC_snow(target="log_stot_yield", data=rattlesnake_snow, sites=stream_names)
     bows_snow = stepwise_BIC_snow(target="log_stot_yield", data=bower_snow, sites=stream_names)
+    as_snow = stepwise_BIC_snow(target="log_stot_yield", data=aggregate_snow, sites=stream_names)
     
     ep_snow = stepwise_BIC_snow(target="log_ptot_yield", data=eagle_snow, sites=stream_names)
     jp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=joosvalley_snow, sites=stream_names)
@@ -580,6 +552,7 @@
     kp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=kuenster_snow, sites=stream_names)
     rp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=rattlesnake_snow, sites=stream_names)
     bowp_snow = stepwise_BIC_snow(target="log_ptot_yield", data=bower_snow, sites=stream_names)
+    ap_snow = stepwise_BIC_snow(target="log_ptot_yield", data=aggregate_snow, sites=stream_names)
 @
 
 
@@ -592,6 +565,7 @@
     ks_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=kuenster_snow, sites=stream_names)
     rs_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=rattlesnake_snow, sites=stream_names)
     bows_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=bower_snow, sites=stream_names)
+    as_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=aggregate_snow, sites=stream_names)
     
     ep_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=eagle_snow, sites=stream_names)
     jp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=joosvalley_snow, sites=stream_names)
@@ -601,27 +575,7 @@
     kp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=kuenster_snow, sites=stream_names)
     rp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=rattlesnake_snow, sites=stream_names)
     bowp_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=bower_snow, sites=stream_names)
-@
-
-
-<<label=variable_selection_snow2_yield, include=False, echo=False>>=
-    esy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=eagle_snow, sites=stream_names)
-    jsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=joosvalley_snow, sites=stream_names)
-    osy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=otter_snow, sites=stream_names)
-    bsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=brewery_snow, sites=stream_names)
-    gsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=garfoot_snow, sites=stream_names)
-    ksy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=kuenster_snow, sites=stream_names)
-    rsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=rattlesnake_snow, sites=stream_names)
-    bowsy_snow2 = stepwise_BIC_snow2(target="log_stot_yield", data=bower_snow, sites=stream_names)
-    
-    epy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=eagle_snow, sites=stream_names)
-    jpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=joosvalley_snow, sites=stream_names)
-    opy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=otter_snow, sites=stream_names)
-    bpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=brewery_snow, sites=stream_names)
-    gpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=garfoot_snow, sites=stream_names)
-    kpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=kuenster_snow, sites=stream_names)
-    rpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=rattlesnake_snow, sites=stream_names)
-    bowpy_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=bower_snow, sites=stream_names)
+    ap_snow2 = stepwise_BIC_snow2(target="log_ptot_yield", data=aggregate_snow, sites=stream_names)
 @
 
 
@@ -806,34 +760,6 @@
         q_90[[target]] = q
     }
 @
-
-
-<<label=kruskal, include=False, echo=False, eval=False>>=
-    library(coin)
-    
-    targets = c("stot_tot", "ptot_tot")
-    kruskal_results = list()
-    
-    for (stream in streams)
-    {
-        result = list()
-        stream_data = get(stream)
-        
-        for (target in targets)
-        {
-            target_data = stream_data[!is.na(stream_data[,target]), ]
-            annual = list()
-            
-            for (year in unique(target_data$year))
-            {
-                if (dim(target_data[target_data$year==year, ])[1] >= 20)
-                    annual[[as.character(year)]] = target_data[target_data$year==year, target]
-            }
-            result[[target]] = kruskal.test(annual)
-        }
-        kruskal_results[[stream]] = result
-    }
-@
     
     
 <<label=by_year, include=False, echo=False, eval=False>>=
@@ -1003,6 +929,7 @@ R2_table(gs)
 R2_table(ks)
 R2_table(rs)
 R2_table(bows)
+R2_table(as)
 @
     \end{tabular}
     \caption{\label{sed_r_square_nosnow}}
@@ -1023,6 +950,7 @@ R2_table(gp)
 R2_table(kp)
 R2_table(rp)
 R2_table(bowp)
+R2_table(ap)
 @
     \end{tabular}
     \caption{\label{phos_r_square_nosnow}}
@@ -1043,7 +971,8 @@ R2_table(bs_snow2)
 R2_table(gs_snow2)
 R2_table(ks_snow2)
 R2_table(rs_snow2)
-R2_table(bows_snow2) 
+R2_table(bows_snow2)
+R2_table(as_snow2)
 @
     \end{tabular}
     \caption{\label{sed_r_square_nosnow}}
@@ -1066,6 +995,7 @@ R2_table(gp_snow2)
 R2_table(kp_snow2)
 R2_table(rp_snow2)
 R2_table(bowp_snow2)
+R2_table(ap_snow2)
 @
     \end{tabular}
     \caption{\label{phos_r_square_nosnow}}
@@ -1092,6 +1022,7 @@ In order to make a model of the load carried by the stream, we need to select th
         \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(ks$ranked, collapse=", ") }\\
         \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste2(rs$ranked, collapse=", ") } \\
         \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bows$ranked, collapse=", ") }
+        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste2(as$ranked, collapse=", ") }
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
         \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(ep$ranked, collapse=", ") }\\
@@ -1102,6 +1033,7 @@ In order to make a model of the load carried by the stream, we need to select th
         \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(kp$ranked, collapse=", ") }\\
         \hspace{5mm} Rattlenake: & \Sexpr{ sanipaste2(rp$ranked, collapse=", ") }\\
         \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bowp$ranked, collapse=", ") }\\
+        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste2(ap$ranked, collapse=", ") }\\
     \end{tabular}
     \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the load. \label{nosnow_predictor_list}}
     \end{center}
@@ -1117,24 +1049,26 @@ At most sites, the most important predictor was a temperature measurement, eithe
     \begin{center}
     \begin{tabular}{ll}
         \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(es_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ sanipaste2(js_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ sanipaste2(os_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ sanipaste2(bs_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste2(gs_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(ks_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste2(rs_snow$ranked, collapse=", ") } \\
-        \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bows_snow$ranked, collapse=", ") }
+        \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(es_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ sanipaste2(js_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ sanipaste2(os_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ sanipaste2(bs_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste2(gs_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(ks_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste2(rs_snow2$ranked, collapse=", ") } \\
+        \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bows_snow2$ranked, collapse=", ") }
+        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste2(as_snow2$ranked, collapse=", ") }
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(ep_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ sanipaste2(jp_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ sanipaste2(op_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ sanipaste2(bp_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste2(gp_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(kp_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste2(rp_snow$ranked, collapse=", ") }\\
-        \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bowp_snow$ranked, collapse=", ") }\\
+        \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(ep_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ sanipaste2(jp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ sanipaste2(op_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ sanipaste2(bp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste2(gp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(kp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste2(rp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bowp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste2(ap_snow2$ranked, collapse=", ") }\\
     \end{tabular}
     \caption{The most important variables in the models for snowmelt-driven loading. The variables are ordered by their importance to the model of the load. \label{snow_predictor_list}}
     \end{center}
