@@ -238,17 +238,17 @@
         assign( paste(stream_name, "_snow", sep=""), stream[stream$snow==TRUE,] )
     
         #Produce the bubble plots
-        symbols(stream[stream$snow==FALSE,]$antecedent_qbase,
+        symbols(stream[stream$snow==FALSE,]$antecedent_qbase_quantile,
                 stream[stream$snow==FALSE,]$theisen,
                 circles=sqrt( stream[stream$snow==FALSE,]$sstorm_tot/pi ),
                 inches=0.25, fg="white", bg="red", bty='n',
-                xlim=range(stream[!is.na(stream$antecedent_qbase) & stream$snow==FALSE,]$antecedent_qbase)*c(0.8,1.2),
+                xlim=c(-0.05, 1.05),
                 ylim=range(stream[!is.na(stream$theisen),]$theisen)*c(0.8,1.2),
                 xlab="Antecedent baseflow",
                 ylab="Theisen rainfall") 
         
         mtext(stream_names[[stream_name]], side=3, line=-1, cex=1.2,
-              at=sum(range(stream[!is.na(stream$antecedent_qbase) & stream$snow==FALSE,]$antecedent_qbase))/1.7)
+              at=0.6)
     }
     
     aggregate$stream = rep("aggregate", dim(aggregate)[1])
@@ -477,14 +477,16 @@
     
     
     #Produce a boxplot of the per-event loading, showing rainfall- and snowmelt-driven events separately.
-    bplot <- function(formula, data, loc, classes, site, ...)
+    bplot <- function(formula, data, loc, classes, site, ylim, ...)
     {
-        boxplot(formula, data=data, bty='n', ylim=yy, cex=0.6, pch=4,
+        boxplot(formula, data=data, bty='n', ylim=ylim, cex=0.6, pch=4,
                 boxwex=0.4, frame.plot=F, ann=F, names=classes, add=T, at=loc:(loc+1), yaxt='n', ...)
         mtext(site, side=1, line=3, at=(loc+0.5))
         
-        mtext( paste(round(100*sum(data[data$snow==1,]$ptot_tot)/sum(data$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=loc )
-        mtext( paste(round(100*sum(data[data$snow==0,]$ptot_tot)/sum(data$ptot_tot), 0), "%", sep=""), side=3, line=0, cex=0.7, at=(loc+1) )
+        target = as.character(formula)[2]    
+        target = paste(strsplit(target, "_", fixed=TRUE)[[1]][2], "_tot", sep="")
+        mtext( paste(round(100*sum(data[data$snow==1,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=3, line=0, cex=0.7, at=loc )
+        mtext( paste(round(100*sum(data[data$snow==0,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=3, line=0, cex=0.7, at=(loc+1) )
         
         mtext(sum(data$snow), side=3, line=1, cex=0.7, at=loc )
         mtext(length(data$snow) - sum(data$snow), side=3, line=1, cex=0.7, at=(loc+1) )
@@ -632,7 +634,7 @@
     {
         data = get(streams[i])
         site = stream_names[[streams[i]]]
-        bplot(log_stot_yield~snow, data=eagle, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx)
+        bplot(log_stot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy)
     }
     
     mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
@@ -651,7 +653,7 @@
     {
         data = get(streams[i])
         site = stream_names[[streams[i]]]
-        bplot(log_ptot_yield~snow, data=eagle, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx)
+        bplot(log_ptot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy)
     }
     
     mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
@@ -1017,7 +1019,9 @@ R2_table(ap_snow2)
 \subsection{Variable selection}
 In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We used stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables. We begin the selection with an intercept-only model, and at each step we add or remove one variable. The variable that is added or removed is the one whose addition or removal will do the most to reduce the BIC. If no such variable is found, then selection is considered complete.\\
 
-\paragraph{Rainfall-driven events} The predictors that survived the screening at each stream are listed in Table \ref{nosnow_predictor_list}. The variables are listed in the order of their importance to the model.\\
+\paragraph{Rainfall-driven events}
+
+The predictors that survived the screening at each stream are listed in Table \ref{nosnow_predictor_list}. The variables are listed in the order of their importance to the model.\\
 
 \begin{table}[h!]\small
     \begin{center}
@@ -1050,7 +1054,7 @@ In order to make a model of the load carried by the stream, we need to select th
 
 In each case, the two most important predictors are the theisen rainfall and the antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (see Tables \ref{sed_r_square_nosnow} and \ref{phos_r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how much water is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water moving through the system. At Brewery Creek, the intensity of rainfall is a more important predictor than the total quantity of rain.\\
 
-The performance of the global (aggregate) model is quite good: with just two predictors (sediment: \Sexp{paste(as$ranked[1:2], sep=", ")}, phosphorus: \Sexp{paste(ap$ranked[1:2], sep=", ")}) the $\text{R}^2$ is \Sexp{round(as$R2[2], 2)} and \Sexp{round(ap$R2[2], 2)}, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to \Sexp{round(ap$R2[3], 2)}.\\
+The performance of the global (aggregate) model is quite good: with just two predictors (sediment: \Sexpr{paste(as$ranked[1:2], sep=", ")}, phosphorus: \Sexpr{paste(ap$ranked[1:2], sep=", ")}) the $\text{R}^2$ is \Sexpr{round(as$R2[2], 2)} and \Sexpr{round(ap$R2[2], 2)}, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to \Sexpr{round(ap$R2[3], 2)}.\\
 
 \paragraph{Snowmelt-driven events} We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order (like they were for the rainfall-driven events). What's more, the models for snowmelt-driven events were less accurate than for rainfall-driven events, ranging in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
 

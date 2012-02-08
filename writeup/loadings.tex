@@ -128,7 +128,7 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Thu Feb 02 19:31:50 2012
+% Tue Feb 07 10:55:02 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -148,7 +148,7 @@ Eagle & 27.0\% & 73.0\% \\
 \end{center}
 \end{table}
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Thu Feb 02 19:31:50 2012
+% Tue Feb 07 10:55:02 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -176,7 +176,7 @@ We would like to make a model that uses the available event data to describe the
 We can also compare the size of events that will be ignored versus the size of events that will be modeled. The p-values of the tests comparing the sediment and phosphorus loads from each event at each stream are tabulated in table \ref{tab:ignored_test1}.\\
 
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Thu Feb 02 19:31:50 2012
+% Tue Feb 07 10:55:02 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -198,7 +198,7 @@ Eagle & 0.002 & 0.026 \\
 Finally, we compare the dates when the ignored events occured to the dates when the modeled events occured. The p-values for the test at each stream are tabulated in Table \ref{tab:ignored_test2}.\\
 
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Thu Feb 02 19:31:50 2012
+% Tue Feb 07 10:55:02 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lc}
@@ -427,7 +427,9 @@ Over the course of the monitoring period, the majority of the total load (both o
 \subsection{Variable selection}
 In order to make a model of the load carried by the stream, we need to select the predictor variables that have explanatory power. We used stepwise regression with the Bayesian Information Criterion (BIC) to screen the potential predictor variables. We begin the selection with an intercept-only model, and at each step we add or remove one variable. The variable that is added or removed is the one whose addition or removal will do the most to reduce the BIC. If no such variable is found, then selection is considered complete.\\
 
-\paragraph{Rainfall-driven events} The predictors that survived the screening at each stream are listed in Table \ref{nosnow_predictor_list}. The variables are listed in the order of their importance to the model.\\
+\paragraph{Rainfall-driven events}
+
+The predictors that survived the screening at each stream are listed in Table \ref{nosnow_predictor_list}. The variables are listed in the order of their importance to the model.\\
 
 \begin{table}[h!]\small
     \begin{center}
@@ -460,7 +462,7 @@ In order to make a model of the load carried by the stream, we need to select th
 
 In each case, the two most important predictors are the theisen rainfall and the antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (see Tables \ref{sed_r_square_nosnow} and \ref{phos_r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how much water is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water moving through the system. At Brewery Creek, the intensity of rainfall is a more important predictor than the total quantity of rain.\\
 
-The performance of the global (aggregate) model is quite good: with just two predictors (sediment: \Sexp{paste(as$ranked[1:2], sep=", ")}, phosphorus: \Sexp{paste(ap$ranked[1:2], sep=", ")}) the $\text{R}^2$ is \Sexp{round(as$R2[2], 2)} and \Sexp{round(ap$R2[2], 2)}, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to \Sexp{round(ap$R2[3], 2)}.\\
+The performance of the global (aggregate) model is quite good: with just two predictors (sediment: theisen, phosphorus: theisen) the $\text{R}^2$ is 0.69 and 0.61, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to 0.62.\\
 
 \paragraph{Snowmelt-driven events} We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order (like they were for the rainfall-driven events). What's more, the models for snowmelt-driven events were less accurate than for rainfall-driven events, ranging in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
 
