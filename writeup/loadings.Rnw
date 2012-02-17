@@ -477,19 +477,18 @@
     
     
     #Produce a boxplot of the per-event loading, showing rainfall- and snowmelt-driven events separately.
-    bplot <- function(formula, data, loc, classes, site, ylim, ...)
+    bplot <- function(formula, data, loc, classes, site, ylim, horizontal=FALSE, site.names=TRUE, ...)
     {
-        boxplot(formula, data=data, bty='n', ylim=ylim, cex=0.6, pch=4,
-                boxwex=0.4, frame.plot=F, ann=F, names=classes, add=T, at=loc:(loc+1), yaxt='n', ...)
-        mtext(site, side=1, line=3, at=(loc+0.5))
+        boxplot(formula, data=data, bty='n', ylim=ylim, cex=0.6, pch=4, horizontal=horizontal, 
+                boxwex=0.4, frame.plot=F, ann=F, names=classes, add=T, at=loc:(loc+1), yaxt='n', xaxt='n', ...)
+        
+        if (site.names)
+            mtext(site, side=2, line=0, at=(loc+0.5), las=1, cex=0.9)
         
         target = as.character(formula)[2]    
         target = paste(strsplit(target, "_", fixed=TRUE)[[1]][2], "_tot", sep="")
-        mtext( paste(round(100*sum(data[data$snow==1,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=3, line=0, cex=0.7, at=loc )
-        mtext( paste(round(100*sum(data[data$snow==0,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=3, line=0, cex=0.7, at=(loc+1) )
-        
-        mtext(sum(data$snow), side=3, line=1, cex=0.7, at=loc )
-        mtext(length(data$snow) - sum(data$snow), side=3, line=1, cex=0.7, at=(loc+1) )
+        mtext( paste(round(100*sum(data[data$snow==1,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=4, line=1.2, at=loc, las=1, adj=1 )
+        mtext( paste(round(100*sum(data[data$snow==0,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=4, line=1.2, at=(loc+1), las=1, adj=1 )
     }
     
     
@@ -623,41 +622,47 @@
 \end{figure}
 
 
-<<label=stot_boxplots, echo=False, include=False>>=
-    yy = c(-2, 3.5)
-    xx = c(1, 3*length(streams) + 1)
-    par(mar=c(4, 4, 2, 0))
+<<label=boxplots, echo=False, include=False>>=
+    yy = c(-2.5, 2.8)
+    xx = c(2, 3*length(streams) + 1)
     plot.new()
-    plot.window(xlim=xx, ylim=yy)
+    par(mfcol=c(1,2), mar=c(4, 4, 1, 1), oma=c(0,0,0,0))
+    plot.window(xlim=yy, ylim=xx)
+    
+    par(mfg=c(1,1))
+    axis(side=1, cex=0.8)
+    title(xlab="log sediment yield", line=2.2, cex=0.8)
+    
+    
+    
+    for(i in 1:length(streams))
+    {
+        #Put in the count of rainfall and snowmelt events
+        data = get(streams[i])
+        mtext(sum(data$snow), side=2, line=-1.6, at=3*i, las=1, adj=1 )
+        mtext(length(data$snow) - sum(data$snow), side=2, line=-1.6, at=(3*i+1), las=1, adj=1 )
+        
+        #Plot the boxplots of sediment yields
+        site = stream_names[[streams[i]]]
+        bplot(log_stot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy, horizontal=TRUE, site.names=TRUE)
+    }
+    mtext("count:", side=3, line=0, at=yy[1], adj=0.6 )
+    mtext("proportion:", side=3, line=0, at=yy[2], adj=0.39 )
+
+    yy = c(-2.5, 3.1)
+    par(mfg=c(1,2), mar=c(4, 1.6, 1, 2), oma=c(0,0,0,0))
+    plot.window(xlim=yy, ylim=xx)
+    title(xlab="log phosphorus yield", line=2.2, cex=0.8)
+    axis(side=1, cex=0.8)
     
     for(i in 1:length(streams))
     {
         data = get(streams[i])
         site = stream_names[[streams[i]]]
-        bplot(log_stot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy)
+        bplot(log_ptot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy, horizontal=TRUE, site.names=FALSE)
     }
     
-    mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
-    mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
-@
-
-
-
-<<label=ptot_boxplots, echo=False, include=False>>=
-    xx = c(1, 3*length(streams) + 1)
-    par(mar=c(4, 4, 2, 0))
-    plot.new()
-    plot.window(xlim=xx, ylim=yy)
-    
-    for(i in 1:length(streams))
-    {
-        data = get(streams[i])
-        site = stream_names[[streams[i]]]
-        bplot(log_ptot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy)
-    }
-    
-    mtext("count:", side=3, line=1, cex=0.7, at=0, adj=1 )
-    mtext("proportion:", side=3, line=0, cex=0.7, at=0, adj=1 )
+    mtext("proportion:", side=3, line=0, at=yy[2], adj=0.35 )
 @
 
 
@@ -668,12 +673,8 @@
 \begin{figure}[h]
     \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
     \begin{center}
-<<label=boxplot_stot, fig=True, echo=False, width=9, height=5>>=
-<<stot_boxplots>>
-@ \\
-    \vspace{15mm}
-<<label=boxplot_ptot, fig=True, echo=False, width=9, height=5>>=
-<<ptot_boxplots>>
+<<label=show_boxplots, fig=True, echo=False, width=9, height=11>>=
+<<boxplots>>
 @
     \caption{Boxplots showing the sediment and phosphorus load produced by individual events at all four streams.\label{boxplots}}
     \end{center}

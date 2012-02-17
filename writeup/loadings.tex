@@ -52,16 +52,11 @@
 
 
 
-
-
-
 %Boxplots of the contribution from individual storm events
 \begin{figure}[h]
     \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
     \begin{center}
-\includegraphics{loadings-boxplot_stot}
-    \vspace{15mm}
-\includegraphics{loadings-boxplot_ptot}
+\includegraphics{loadings-show_boxplots}
     \caption{Boxplots showing the sediment and phosphorus load produced by individual events at all four streams.\label{boxplots}}
     \end{center}
 \end{figure}
@@ -128,7 +123,7 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Feb 07 10:55:02 2012
+% Tue Feb 14 18:16:03 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -148,7 +143,7 @@ Eagle & 27.0\% & 73.0\% \\
 \end{center}
 \end{table}
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Feb 07 10:55:02 2012
+% Tue Feb 14 18:16:03 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -176,7 +171,7 @@ We would like to make a model that uses the available event data to describe the
 We can also compare the size of events that will be ignored versus the size of events that will be modeled. The p-values of the tests comparing the sediment and phosphorus loads from each event at each stream are tabulated in table \ref{tab:ignored_test1}.\\
 
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Feb 07 10:55:02 2012
+% Tue Feb 14 18:16:03 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -198,7 +193,7 @@ Eagle & 0.002 & 0.026 \\
 Finally, we compare the dates when the ignored events occured to the dates when the modeled events occured. The p-values for the test at each stream are tabulated in Table \ref{tab:ignored_test2}.\\
 
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Feb 07 10:55:02 2012
+% Tue Feb 14 18:16:03 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lc}
