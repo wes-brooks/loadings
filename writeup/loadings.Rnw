@@ -193,35 +193,39 @@
     			prev_class = 3
             }
         }
-          
-    	prev_class = 0
-    	for(row in num_events:1)
-        {
-    		#now look for the end of the snowmelt events
-    		if(stream$m[row]=='M')
-            {
-    			class[row] = 1
-    			prev_class = 1
-            }
-    		else if(class[row]==3)
-            {
-    			class[row] = 3
-    			prev_class = 3
-            }
-    		else if(stream$julian[row]<=135 & prev_class!=1)
-            {
-    			class[row] = 2
-    			prev_class = 2
-            }
-    		else
-                class[row] = 1
-        }
-    
-          
+         
+        #Old way of finding snowmelt-driven events and breaking rainfall-driven events into early and late subseasons:
+    	#prev_class = 0
+    	#for(row in num_events:1)
+        #{
+    	#	#now look for the end of the snowmelt events
+    	#	if(stream$m[row]=='M')
+        #    {
+    	#		class[row] = 1
+    	#		prev_class = 1
+        #    }
+    	#	else if(class[row]==3)
+        #    {
+    	#		class[row] = 3
+    	#		prev_class = 3
+        #    }
+    	#	else if(stream$julian[row]<=135 & prev_class!=1)
+        #    {
+    	#		class[row] = 2
+    	#		prev_class = 2
+        #    }
+    	#	else
+        #        class[row] = 1
+        #}
+        #
     	#save the class identifiers back to the stream's data frame
-    	stream$event_class = as.factor(class)
-        stream$snow = ifelse(stream$event_class==1,TRUE, FALSE)
-    	assign(stream_name, stream)
+    	#stream$event_class = as.factor(class)
+        #stream$snow = ifelse(stream$event_class==1,TRUE, FALSE)
+    	
+        #New way of separating the rainfall-driven and snowmelt-driven events, based on Mari's categories:
+        stream$snow = ifelse(stream$event_type==1, 0, 1)
+        
+        assign(stream_name, stream)
         aggregate = rbind(aggregate, stream)
     }
 @
@@ -244,7 +248,7 @@
                 inches=0.25, fg="white", bg="red", bty='n',
                 xlim=c(-0.05, 1.05),
                 ylim=range(stream[!is.na(stream$theisen),]$theisen)*c(0.8,1.2),
-                xlab="Antecedent baseflow",
+                xlab="Antecedent baseflow quantile",
                 ylab="Theisen rainfall") 
         
         mtext(stream_names[[stream_name]], side=3, line=-1, cex=1.2,
@@ -586,7 +590,7 @@
 <<label=breakdown_snow_or_rain, include=False, echo=False>>=
     for(target in c('ptot_tot', 'pstorm_tot', 'stot_tot', 'sstorm_tot'))
     {
-        p = percentages(streams, target, col.names=c("snowmelt-driven", "rainfall-driven"))
+        p = percentages(streams, target, col.names=c("snowmelt-driven", "rainfall-driven"), decimals=0)
         pp = as.matrix( proportions(streams, target, col.names=c("snowmelt-driven", "rainfall-driven")) )
         
         variable_name = paste(target, "_percentages", sep="")
@@ -652,7 +656,7 @@
     yy = c(-2.5, 3.1)
     par(mfg=c(1,2), mar=c(4, 1.6, 1, 2), oma=c(0,0,0,0))
     plot.window(xlim=yy, ylim=xx)
-    title(xlab="log phosphorus yield", line=2.2, cex=0.8)
+    title(xlab="log phosphorus yield (log kg/m^2)", line=2.2, cex=0.8)
     axis(side=1, cex=0.8)
     
     for(i in 1:length(streams))
@@ -842,14 +846,22 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
-<<label=total_solids_table,echo=FALSE,results=tex>>=
+
+<<label=combined_table,echo=FALSE,results=tex>>=
+    library(xtable)
+    print(xtable(cbind(stot_tot_percentages, ptot_tot_percentages), caption="Proportion of total loading contributed by each type of event",
+                 label="tab:stot", align=c('l', 'c', 'c', 'c', 'c')),
+    caption.placement="bottom", hline.after=0 )
+@
+
+<<label=total_solids_table,echo=FALSE,results=tex,eval=FALSE>>=
     library(xtable)
     print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event",
                  label="tab:stot", align=c('l', 'c', 'c')),
     caption.placement="bottom", hline.after=0 )
 @
 
-<<label=total_phosphorus_table,echo=FALSE,results=tex>>=
+<<label=total_phosphorus_table,echo=FALSE,results=tex,eval=FALSE>>=
     library(xtable)
     print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loading contributed by each type of event",
                  label="tab:ptot", align=c('l', 'c', 'c')), 
