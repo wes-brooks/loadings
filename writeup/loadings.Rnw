@@ -193,34 +193,6 @@
     			prev_class = 3
             }
         }
-         
-        #Old way of finding snowmelt-driven events and breaking rainfall-driven events into early and late subseasons:
-    	#prev_class = 0
-    	#for(row in num_events:1)
-        #{
-    	#	#now look for the end of the snowmelt events
-    	#	if(stream$m[row]=='M')
-        #    {
-    	#		class[row] = 1
-    	#		prev_class = 1
-        #    }
-    	#	else if(class[row]==3)
-        #    {
-    	#		class[row] = 3
-    	#		prev_class = 3
-        #    }
-    	#	else if(stream$julian[row]<=135 & prev_class!=1)
-        #    {
-    	#		class[row] = 2
-    	#		prev_class = 2
-        #    }
-    	#	else
-        #        class[row] = 1
-        #}
-        #
-    	#save the class identifiers back to the stream's data frame
-    	#stream$event_class = as.factor(class)
-        #stream$snow = ifelse(stream$event_class==1,TRUE, FALSE)
     	
         #New way of separating the rainfall-driven and snowmelt-driven events, based on Mari's categories:
         stream$snow = ifelse(stream$event_type==1, 0, 1)
@@ -854,80 +826,8 @@ The investigation was done by making linear models to describe the sediment and 
     caption.placement="bottom", hline.after=0 )
 @
 
-<<label=total_solids_table,echo=FALSE,results=tex,eval=FALSE>>=
-    library(xtable)
-    print(xtable(stot_tot_percentages, caption="Proportion of total suspended solids loading contributed by each type of event",
-                 label="tab:stot", align=c('l', 'c', 'c')),
-    caption.placement="bottom", hline.after=0 )
-@
-
-<<label=total_phosphorus_table,echo=FALSE,results=tex,eval=FALSE>>=
-    library(xtable)
-    print(xtable(ptot_tot_percentages, caption="Proportion of total phosphorus loading contributed by each type of event",
-                 label="tab:ptot", align=c('l', 'c', 'c')), 
-          caption.placement="bottom", hline.after=0 )
-@
-
 \subparagraph{Snowmelt-driven events}
 Since sediment and phosphorus are carried into streams by runoff, it makes intuitive sense that the amount of loading during an event should depend on the amount of runoff during that event. In the case of rainfall-driven loading events, it is straightforward to use rain gauges to measure the amount of water entering the stream system. In the case of snowmelt-driven loading events, though, it is not easy to measure how much water melts out of the snowpack, especially when there is also additional snow falling at the same time. There is a subset of events for which we are able to estimate the amount of melting water: Those are the events when we have a measurement of the snow's water content and of the snow depth both before and after the event, and no additional snow falls during the event.\\
-
-We would like to make a model that uses the available event data to describe the amount of sediment and phosphorus loading. In order to use our estimate of the snowmelt as a predictor of loading, we must ignore the snowmelt-driven events for which we cannot estimate the snowmelt. In order to determine whether that will bias our results, we first look at the overall proportion of loading that is provided by the events we will not be modeling.\\
-
-<<label=ignored_snowmelt_props, echo=FALSE, results=tex>>=
-    library(xtable)
-        
-    ignored_props = matrix( nrow=length(streams), ncol=2 )
-    for(i in 1:length(streams))
-    {
-    	stream = get(streams[i])
-		ignored_props[i,] = sapply(c("stot_tot", "ptot_tot"), function(x) sum(stream[is.na(stream$total_water), x], na.rm=T) / sum(stream[,x], na.rm=T))
-    }
-    ignored_props = data.frame(ignored_props)
-    names(ignored_props) = c("Sediment", "Phosphorus")
-    row.names(ignored_props) = sapply(streams, function(x) get(x=x, pos=stream_names))
-@
-
-We can also compare the size of events that will be ignored versus the size of events that will be modeled. The p-values of the tests comparing the sediment and phosphorus loads from each event at each stream are tabulated in table \ref{tab:ignored_test1}.\\
-
-<<label=ignored_snowmelt_test1, echo=FALSE, results=tex>>=
-    library(xtable)
-    ignored_tests1 = matrix( nrow=length(streams), ncol=2 )
-    
-    for(i in 1:length(streams))
-    {
-        stream = get(streams[i])
-        ignored_tests1[i,] = sapply(c("stot_tot", "ptot_tot"), function(x) wilcox.test(stream[is.na(stream$total_water) & stream$snow==TRUE, x],
-                                                                                       stream[!is.na(stream$total_water) & stream$snow==TRUE, x])$p.value)
-    }
-    ignored_tests1 = data.frame(ignored_tests1)
-    names(ignored_tests1) = c("Sediment", "Phosphorus")
-    row.names(ignored_tests1) = sapply(streams, function(x) get(x=x, pos=stream_names))
-
-    print(xtable(ignored_tests1, caption="P-values of tests of the difference in the load contributed by ignored and modeled snowmelt-driven events.", 
-                 digits=3, label="tab:ignored_test1", align=c('l', 'c', 'c')), caption.placement="bottom", hline.after=0)
-@
-
-Finally, we compare the dates when the ignored events occured to the dates when the modeled events occured. The p-values for the test at each stream are tabulated in Table \ref{tab:ignored_test2}.\\
-
-<<label=ignored_snowmelt_test2, echo=FALSE, results=tex>>=
-    library(xtable)
-    ignored_tests2 = matrix( nrow=length(streams), ncol=1 )
-    
-    for(i in 1:length(streams))
-    {
-        stream = get(streams[i])
-        ignored_tests2[i,] = sapply(c("sin_julian"), function(x) wilcox.test(stream[is.na(stream$total_water) & stream$snow==TRUE, x],
-                                                                             stream[!is.na(stream$total_water) & stream$snow==TRUE, x])$p.value)
-    }
-    ignored_tests2 = data.frame(ignored_tests2)
-    names(ignored_tests2) = c("p-value")
-    row.names(ignored_tests2) = sapply(streams, function(x) get(x=x, pos=stream_names))
-
-    print(xtable(ignored_tests2, caption="P-values of tests of the difference in the date of modeled snowmelt-driven events compared to the ignored events.",
-                 digits=3, label="tab:ignored_test2", align=c('l', 'c')), caption.placement="bottom", hline.after=0)
-@
-
-in most cases there is not a statistically significant difference in size or date between the events for which \verb+total_water+ is known, and those for which it is not. It therefore looks like the model results won't be badly biased by ignoring the events for which we don't have an estimate of the snowmelt.\\
 
 \subparagraph{Major events}
 Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$stot_tot))]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$stot_tot))]]}) of the total sediment load; the same events produced between \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$ptot_tot))]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$ptot_tot))]]}) of the total phosphorus load.\\
