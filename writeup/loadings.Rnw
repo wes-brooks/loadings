@@ -832,6 +832,15 @@ Since sediment and phosphorus are carried into streams by runoff, it makes intui
 \subparagraph{Major events}
 Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$stot_tot))]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$stot_tot))]]}) of the total sediment load; the same events produced between \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$ptot_tot))]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$ptot_tot))]]}) of the total phosphorus load.\\
 
+<<label=major_table,echo=FALSE,results=tex>>=
+    library(xtable)
+    s = sapply(q_90$sediment, function(x) {paste(round(x*100, 0), "%", sep="")})
+    p = sapply(q_90$phosphorus, function(x) {paste(round(x*100, 0), "%", sep="")})
+    print(xtable(cbind(s,p), caption="Percentage of loading that comes from the biggest ten percent of events at each site.",
+                 label="tab:stot", align=c('l', 'c', 'c'), digits=0),
+    caption.placement="bottom", hline.after=0 )
+@
+
 
 <<label=breakdown_major_events_rain_or_snow, echo=False>>=
     prp_major = proportions(streams, "stot_tot_major", col.names=c("snowmelt-driven", "rainfall-driven"))
