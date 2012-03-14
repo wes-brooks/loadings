@@ -214,17 +214,17 @@
         assign( paste(stream_name, "_snow", sep=""), stream[stream$snow==TRUE,] )
     
         #Produce the bubble plots
-        symbols(stream[stream$snow==FALSE,]$antecedent_qbase_quantile,
+        symbols(stream[stream$snow==FALSE,]$antecedent_qbase,
                 stream[stream$snow==FALSE,]$theisen,
                 circles=sqrt( stream[stream$snow==FALSE,]$sstorm_tot/pi ),
-                inches=0.25, fg="white", bg="red", bty='n',
-                xlim=c(-0.05, 1.05),
-                ylim=range(stream[!is.na(stream$theisen),]$theisen)*c(0.8,1.2),
-                xlab="Antecedent baseflow quantile",
+                inches=0.25, fg="red", bg="red", bty='n',
+                xlim=range(stream$antecedent_qbase, na.rm=TRUE)*c(0.8,1.2),
+                ylim=c(0, max(stream$theisen, na.rm=TRUE)*1.2),
+                xlab="Antecedent baseflow",
                 ylab="Theisen rainfall") 
         
         mtext(stream_names[[stream_name]], side=3, line=-1, cex=1.2,
-              at=0.6)
+              at=mean(stream$antecedent_qbase, na.rm=TRUE))
     }
     
     aggregate$stream = rep("aggregate", dim(aggregate)[1])
@@ -281,7 +281,7 @@
         rows = dim(props)[1]
         for( row in 1:rows )
         {
-            result = rbind( result, paste( ifelse(round(props[row,]*100, decimals)%%1 == 0,
+            result = rbind( result, paste( ifelse(round(props[row,]*100, decimals)%%1 == 0 & decimals > 0,
                 paste(as.character( round(props[row,]*100, 0) ), ".0", sep=""),
                 as.character( round(props[row,]*100, decimals) )), "%", sep="" ))
         }
@@ -607,7 +607,7 @@
     
     par(mfg=c(1,1))
     axis(side=1, cex=0.8)
-    title(xlab="log sediment yield", line=2.2, cex=0.8)
+    title(xlab="log sediment yield (log tons / mi^2)", line=2.2, cex=0.8)
     
     
     
@@ -628,7 +628,7 @@
     yy = c(-2.5, 3.1)
     par(mfg=c(1,2), mar=c(4, 1.6, 1, 2), oma=c(0,0,0,0))
     plot.window(xlim=yy, ylim=xx)
-    title(xlab="log phosphorus yield (log kg/m^2)", line=2.2, cex=0.8)
+    title(xlab="log phosphorus yield (log pounds / mi^2)", line=2.2, cex=0.8)
     axis(side=1, cex=0.8)
     
     for(i in 1:length(streams))
@@ -821,9 +821,7 @@ The investigation was done by making linear models to describe the sediment and 
 
 <<label=combined_table,echo=FALSE,results=tex>>=
     library(xtable)
-    print(xtable(cbind(stot_tot_percentages, ptot_tot_percentages), caption="Proportion of total loading contributed by each type of event",
-                 label="tab:stot", align=c('l', 'c', 'c', 'c', 'c')),
-    caption.placement="bottom", hline.after=0 )
+    print(xtable(cbind(stot_tot_percentages, ptot_tot_percentages), caption="Proportion of total loading contributed by each type of event", label="tab:stot", align=c('l', 'c', 'c', 'c', 'c')), caption.placement="bottom", hline.after=0, add.to.row=list(pos=list(-1), command=" & \\multicolumn{2}{c}{Sediment} & \\multicolumn{2}{c}{Phosphorus} \\\\\n") )
 @
 
 \subparagraph{Snowmelt-driven events}
@@ -834,11 +832,10 @@ Over the course of the monitoring period, the majority of the total load (both o
 
 <<label=major_table,echo=FALSE,results=tex>>=
     library(xtable)
+    names(q_90) = c("sediment", "phosphorus")
     s = sapply(q_90$sediment, function(x) {paste(round(x*100, 0), "%", sep="")})
     p = sapply(q_90$phosphorus, function(x) {paste(round(x*100, 0), "%", sep="")})
-    print(xtable(cbind(s,p), caption="Percentage of loading that comes from the biggest ten percent of events at each site.",
-                 label="tab:stot", align=c('l', 'c', 'c'), digits=0),
-    caption.placement="bottom", hline.after=0 )
+    print(xtable(cbind(sediment=s,phosphorus=p), caption="Percentage of loading that comes from the biggest ten percent of events at each site.", label="tab:stot", align=c('l', 'c', 'c')), caption.placement="bottom", hline.after=0 )
 @
 
 
@@ -1043,7 +1040,7 @@ Most of the annual loading seems to be produced by a few major events. If the go
 <<bubble_plots>>
 @
     \end{center}
-    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load contributed by that event. \label{bubbles}}
+    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load (in tons) contributed by that event. \label{bubbles}}
 \end{figure}
 
 <<label=guide, echo=False, results=tex, include=False, eval=False>>=

@@ -122,101 +122,54 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
+
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Feb 14 18:16:03 2012
+% Tue Mar 13 20:49:01 2012
 \begin{table}[ht]
 \begin{center}
-\begin{tabular}{lcc}
-  & snowmelt-driven & rainfall-driven \\ 
+\begin{tabular}{lcccc}
+   & \multicolumn{2}{c}{Sediment} & \multicolumn{2}{c}{Phosphorus} \\
+ & snowmelt-driven & rainfall-driven & snowmelt-driven & rainfall-driven \\ 
   \hline
-Eagle & 27.0\% & 73.0\% \\ 
-  Joos & 26.9\% & 73.1\% \\ 
-  Otter & 35.4\% & 64.6\% \\ 
-  Brewery & 32.8\% & 67.2\% \\ 
-  Garfoot & 55.6\% & 44.4\% \\ 
-  Kuenster & 68.5\% & 31.5\% \\ 
-  Rattlesnake & 48.9\% & 51.1\% \\ 
-  Bower & 28.8\% & 71.2\% \\ 
+Eagle & 26\% & 74\% & 31\% & 69\% \\ 
+  Joos & 26\% & 74\% & 35\% & 65\% \\ 
+  Otter & 31\% & 69\% & 42\% & 58\% \\ 
+  Brewery & 32\% & 68\% & 49\% & 51\% \\ 
+  Garfoot & 55\% & 45\% & 54\% & 46\% \\ 
+  Kuenster & 68\% & 32\% & 61\% & 39\% \\ 
+  Rattlesnake & 49\% & 51\% & 53\% & 47\% \\ 
+  Bower & 29\% & 71\% & 62\% & 38\% \\ 
   \end{tabular}
-\caption{Proportion of total suspended solids loading contributed by each type of event}
+\caption{Proportion of total loading contributed by each type of event}
 \label{tab:stot}
-\end{center}
-\end{table}
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Feb 14 18:16:03 2012
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{lcc}
-  & snowmelt-driven & rainfall-driven \\ 
-  \hline
-Eagle & 32.8\% & 67.2\% \\ 
-  Joos & 36.4\% & 63.6\% \\ 
-  Otter & 46.5\% & 53.5\% \\ 
-  Brewery & 49.6\% & 50.4\% \\ 
-  Garfoot & 55.2\% & 44.8\% \\ 
-  Kuenster & 61.1\% & 38.9\% \\ 
-  Rattlesnake & 52.6\% & 47.4\% \\ 
-  Bower & 62.9\% & 37.1\% \\ 
-  \end{tabular}
-\caption{Proportion of total phosphorus loading contributed by each type of event}
-\label{tab:ptot}
 \end{center}
 \end{table}
 \subparagraph{Snowmelt-driven events}
 Since sediment and phosphorus are carried into streams by runoff, it makes intuitive sense that the amount of loading during an event should depend on the amount of runoff during that event. In the case of rainfall-driven loading events, it is straightforward to use rain gauges to measure the amount of water entering the stream system. In the case of snowmelt-driven loading events, though, it is not easy to measure how much water melts out of the snowpack, especially when there is also additional snow falling at the same time. There is a subset of events for which we are able to estimate the amount of melting water: Those are the events when we have a measurement of the snow's water content and of the snow depth both before and after the event, and no additional snow falls during the event.\\
 
-We would like to make a model that uses the available event data to describe the amount of sediment and phosphorus loading. In order to use our estimate of the snowmelt as a predictor of loading, we must ignore the snowmelt-driven events for which we cannot estimate the snowmelt. In order to determine whether that will bias our results, we first look at the overall proportion of loading that is provided by the events we will not be modeling.\\
-
-
-We can also compare the size of events that will be ignored versus the size of events that will be modeled. The p-values of the tests comparing the sediment and phosphorus loads from each event at each stream are tabulated in table \ref{tab:ignored_test1}.\\
-
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Feb 14 18:16:03 2012
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{lcc}
-  & Sediment & Phosphorus \\ 
-  \hline
-Eagle & 0.002 & 0.026 \\ 
-  Joos & 0.002 & 0.004 \\ 
-  Otter & 0.833 & 0.491 \\ 
-  Brewery & 0.779 & 0.444 \\ 
-  Garfoot & 0.573 & 0.157 \\ 
-  Kuenster & 0.302 & 0.623 \\ 
-  Rattlesnake & 0.835 & 0.699 \\ 
-  Bower & 0.017 & 0.014 \\ 
-  \end{tabular}
-\caption{P-values of tests of the difference in the load contributed by ignored and modeled snowmelt-driven events.}
-\label{tab:ignored_test1}
-\end{center}
-\end{table}
-Finally, we compare the dates when the ignored events occured to the dates when the modeled events occured. The p-values for the test at each stream are tabulated in Table \ref{tab:ignored_test2}.\\
-
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Feb 14 18:16:03 2012
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{lc}
-  & p-value \\ 
-  \hline
-Eagle & 0.942 \\ 
-  Joos & 0.278 \\ 
-  Otter & 0.234 \\ 
-  Brewery & 0.591 \\ 
-  Garfoot & 0.121 \\ 
-  Kuenster & 0.169 \\ 
-  Rattlesnake & 0.047 \\ 
-  Bower & 0.443 \\ 
-  \end{tabular}
-\caption{P-values of tests of the difference in the date of modeled snowmelt-driven events compared to the ignored events.}
-\label{tab:ignored_test2}
-\end{center}
-\end{table}
-in most cases there is not a statistically significant difference in size or date between the events for which \verb+total_water+ is known, and those for which it is not. It therefore looks like the model results won't be badly biased by ignoring the events for which we don't have an estimate of the snowmelt.\\
-
 \subparagraph{Major events}
 Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between 73.1\% (at Otter) and 97.1\% (at Bower) of the total sediment load; the same events produced between 64.6\% (at Otter) and 88\% (at Joos) of the total phosphorus load.\\
 
+% latex table generated in R 2.14.1 by xtable 1.6-0 package
+% Tue Mar 13 20:49:01 2012
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{lcc}
+  & sediment & phosphorus \\ 
+  \hline
+eagle & 89\% & 84\% \\ 
+  joosvalley & 93\% & 88\% \\ 
+  otter & 73\% & 65\% \\ 
+  brewery & 90\% & 86\% \\ 
+  garfoot & 74\% & 68\% \\ 
+  kuenster & 94\% & 82\% \\ 
+  rattlesnake & 93\% & 82\% \\ 
+  bower & 97\% & 83\% \\ 
+  \end{tabular}
+\caption{Percentage of loading that comes from the biggest ten percent of events at each site.}
+\label{tab:stot}
+\end{center}
+\end{table}
 
 
 
@@ -225,44 +178,45 @@ Over the course of the monitoring period, the majority of the total load (both o
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-\multirow{7}{*}{Eagle} & 0.515 & theisen\\ 
- & 0.769 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.781 & theisen + antecedent\_qbase\_quantile + p15max\\ 
- & 0.786 & theisen + antecedent\_qbase\_quantile + p15max + duration\\ 
- & 0.808 & theisen + antecedent\_qbase\_quantile + p15max + duration + ap\_1day\\ 
- & 0.814 & theisen + antecedent\_qbase\_quantile + p15max + duration + ap\_1day + p30max\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.501 & theisen\\ 
- & 0.718 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.745 & theisen + antecedent\_qbase\_quantile + p15max\\ 
- & 0.755 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Otter} & 0.508 & theisen\\ 
- & 0.798 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.808 & theisen + antecedent\_qbase\_quantile + ap\_1day\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Brewery} & 0.494 & theisen\\ 
+\multirow{7}{*}{Eagle} & 0.481 & theisen\\ 
+ & 0.763 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.775 & theisen + antecedent\_qbase\_quantile + p30max\\ 
+ & 0.78 & theisen + antecedent\_qbase\_quantile + p30max + duration\\ 
+ & 0.785 & theisen + antecedent\_qbase\_quantile + p30max + duration + tmin\\ 
+ & 0.788 & theisen + antecedent\_qbase\_quantile + p30max + duration + tmin + p15max\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.483 & theisen\\ 
  & 0.711 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.727 & theisen + antecedent\_qbase\_quantile + antecedent\_tmean\\ 
- & 0.744 & theisen + antecedent\_qbase\_quantile + antecedent\_tmean + p10max\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Garfoot} & 0.444 & theisen\\ 
- & 0.665 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.678 & theisen + antecedent\_qbase\_quantile + p30max\\ 
- & 0.702 & theisen + antecedent\_qbase\_quantile + p30max + ei\\ 
-\vspace{2mm}\\ \multirow{3}{*}{Kuenster} & 0.408 & theisen\\ 
+ & 0.733 & theisen + antecedent\_qbase\_quantile + p15max\\ 
+ & 0.739 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Otter} & 0.447 & theisen\\ 
+ & 0.782 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.792 & theisen + antecedent\_qbase\_quantile + ap\_1day\\ 
+ & 0.798 & theisen + antecedent\_qbase\_quantile + ap\_1day + antecedent\_tmean\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Brewery} & 0.484 & theisen\\ 
+ & 0.717 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.734 & theisen + antecedent\_qbase\_quantile + p10max\\ 
+ & 0.74 & theisen + antecedent\_qbase\_quantile + p10max + antecedent\_tmax\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Garfoot} & 0.448 & theisen\\ 
+ & 0.674 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.682 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
+ & 0.697 & theisen + antecedent\_qbase\_quantile + ap\_3day + nws\_prec\\ 
+\vspace{2mm}\\ \multirow{3}{*}{Kuenster} & 0.411 & theisen\\ 
  & 0.768 & theisen + antecedent\_qbase\_quantile\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Rattlesnake} & 0.479 & antecedent\_qbase\_quantile\\ 
- & 0.759 & antecedent\_qbase\_quantile + theisen\\ 
- & 0.778 & antecedent\_qbase\_quantile + theisen + ap\_5day\\ 
- & 0.791 & antecedent\_qbase\_quantile + theisen + ap\_5day + ap\_1day\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Bower} & 0.348 & antecedent\_qbase\_quantile\\ 
- & 0.737 & antecedent\_qbase\_quantile + theisen\\ 
- & 0.745 & antecedent\_qbase\_quantile + theisen + ap\_5day\\ 
-\vspace{2mm}\\ \multirow{9}{*}{Aggregate} & 0.414 & theisen\\ 
- & 0.688 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.705 & theisen + antecedent\_qbase\_quantile + slope\\ 
- & 0.711 & theisen + antecedent\_qbase\_quantile + slope + p15max\\ 
- & 0.724 & theisen + antecedent\_qbase\_quantile + slope + p15max + ei\\ 
- & 0.726 & theisen + antecedent\_qbase\_quantile + slope + p15max + ei + num\_events\\ 
- & 0.728 & theisen + antecedent\_qbase\_quantile + slope + p15max + ei + num\_events + p5max\\ 
- & 0.73 & theisen + antecedent\_qbase\_quantile + slope + p15max + ei + num\_events + p5max + p30max\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.485 & antecedent\_qbase\_quantile\\ 
+ & 0.761 & antecedent\_qbase\_quantile + theisen\\ 
+ & 0.78 & antecedent\_qbase\_quantile + theisen + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Bower} & 0.36 & antecedent\_qbase\_quantile\\ 
+ & 0.741 & antecedent\_qbase\_quantile + theisen\\ 
+ & 0.748 & antecedent\_qbase\_quantile + theisen + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{10}{*}{Aggregate} & 0.399 & theisen\\ 
+ & 0.68 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.698 & theisen + antecedent\_qbase\_quantile + slope\\ 
+ & 0.703 & theisen + antecedent\_qbase\_quantile + slope + p30max\\ 
+ & 0.712 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei\\ 
+ & 0.717 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max\\ 
+ & 0.719 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + num\_events\\ 
+ & 0.723 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + num\_events + tmin\\ 
+ & 0.724 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + num\_events + tmin + p5max\\ 
 \vspace{2mm}\\     \end{tabular}
     \caption{Results of variable selection for a model of sediment loading from rainfall-driven events\label{sed_r_square_nosnow}}
     \end{center}
@@ -273,45 +227,47 @@ Over the course of the monitoring period, the majority of the total load (both o
     \begin{tabular}{lrl}
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-\multirow{6}{*}{Eagle} & 0.58 & theisen\\ 
- & 0.772 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.783 & theisen + antecedent\_qbase\_quantile + p15max\\ 
- & 0.795 & theisen + antecedent\_qbase\_quantile + p15max + ap\_1day\\ 
- & 0.8 & theisen + antecedent\_qbase\_quantile + p15max + ap\_1day + p30max\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.544 & theisen\\ 
- & 0.747 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.764 & theisen + antecedent\_qbase\_quantile + p15max\\ 
- & 0.776 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Otter} & 0.486 & theisen\\ 
- & 0.801 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.807 & theisen + antecedent\_qbase\_quantile + ap\_1day\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Brewery} & 0.609 & theisen\\ 
- & 0.752 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.763 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Garfoot} & 0.545 & theisen\\ 
- & 0.67 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.704 & theisen + antecedent\_qbase\_quantile + nws\_prec\\ 
- & 0.716 & theisen + antecedent\_qbase\_quantile + nws\_prec + ap\_5day\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Kuenster} & 0.44 & theisen\\ 
- & 0.764 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.798 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.366 & theisen\\ 
- & 0.61 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.665 & theisen + antecedent\_qbase\_quantile + ap\_5day\\ 
-\vspace{2mm}\\ \multirow{7}{*}{Bower} & 0.517 & antecedent\_qbase\_quantile\\ 
- & 0.757 & antecedent\_qbase\_quantile + nws\_prec\\ 
- & 0.789 & antecedent\_qbase\_quantile + nws\_prec + theisen\\ 
- & 0.811 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin\\ 
- & 0.821 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin + tmean\\ 
- & 0.826 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin + tmean + ap\_5day\\ 
-\vspace{2mm}\\ \multirow{9}{*}{Aggregate} & 0.395 & theisen\\ 
- & 0.615 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.62 & theisen + antecedent\_qbase\_quantile + p15max\\ 
- & 0.63 & theisen + antecedent\_qbase\_quantile + p15max + ei\\ 
- & 0.636 & theisen + antecedent\_qbase\_quantile + p15max + ei + tmin\\ 
- & 0.643 & theisen + antecedent\_qbase\_quantile + p15max + ei + tmin + tmax\\ 
- & 0.646 & theisen + antecedent\_qbase\_quantile + p15max + ei + tmin + tmax + slope\\ 
- & 0.647 & theisen + antecedent\_qbase\_quantile + p15max + ei + tmin + tmax + slope + p30max\\ 
+\multirow{6}{*}{Eagle} & 0.542 & theisen\\ 
+ & 0.759 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.77 & theisen + antecedent\_qbase\_quantile + p30max\\ 
+ & 0.776 & theisen + antecedent\_qbase\_quantile + p30max + tmin\\ 
+ & 0.78 & theisen + antecedent\_qbase\_quantile + p30max + tmin + p15max\\ 
+\vspace{2mm}\\ \multirow{6}{*}{Joos} & 0.525 & theisen\\ 
+ & 0.735 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.748 & theisen + antecedent\_qbase\_quantile + p15max\\ 
+ & 0.757 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day\\ 
+ & 0.762 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day + antecedent\_tmax\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Otter} & 0.43 & theisen\\ 
+ & 0.789 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.797 & theisen + antecedent\_qbase\_quantile + cos\_julian\\ 
+ & 0.802 & theisen + antecedent\_qbase\_quantile + cos\_julian + ap\_1day\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Brewery} & 0.596 & theisen\\ 
+ & 0.756 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.767 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Garfoot} & 0.541 & theisen\\ 
+ & 0.669 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.7 & theisen + antecedent\_qbase\_quantile + nws\_prec\\ 
+ & 0.713 & theisen + antecedent\_qbase\_quantile + nws\_prec + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Kuenster} & 0.439 & theisen\\ 
+ & 0.756 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.789 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.372 & theisen\\ 
+ & 0.613 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.67 & theisen + antecedent\_qbase\_quantile + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Bower} & 0.53 & antecedent\_qbase\_quantile\\ 
+ & 0.761 & antecedent\_qbase\_quantile + nws\_prec\\ 
+ & 0.791 & antecedent\_qbase\_quantile + nws\_prec + theisen\\ 
+ & 0.816 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin\\ 
+ & 0.825 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin + tmean\\ 
+ & 0.83 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin + tmean + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{9}{*}{Aggregate} & 0.382 & theisen\\ 
+ & 0.609 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.612 & theisen + antecedent\_qbase\_quantile + tmin\\ 
+ & 0.621 & theisen + antecedent\_qbase\_quantile + tmin + tmax\\ 
+ & 0.627 & theisen + antecedent\_qbase\_quantile + tmin + tmax + p15max\\ 
+ & 0.636 & theisen + antecedent\_qbase\_quantile + tmin + tmax + p15max + ei\\ 
+ & 0.638 & theisen + antecedent\_qbase\_quantile + tmin + tmax + p15max + ei + slope\\ 
+ & 0.64 & theisen + antecedent\_qbase\_quantile + tmin + tmax + p15max + ei + slope + p30max\\ 
 \vspace{2mm}\\     \end{tabular}
     \caption{Results of variable selection for a model of phosphorus loading from rainfall-driven events\label{phos_r_square_nosnow}}
     \end{center}
@@ -323,45 +279,43 @@ Over the course of the monitoring period, the majority of the total load (both o
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-\multirow{4}{*}{Eagle} & 0.246 & antecedent\_qbase\_quantile\\ 
- & 0.4 & antecedent\_qbase\_quantile + tmax\\ 
- & 0.594 & antecedent\_qbase\_quantile + tmax + total\_water\\ 
-\vspace{2mm}\\ \multirow{6}{*}{Joos} & 0.217 & tmax\\ 
- & 0.405 & tmax + total\_water\\ 
- & 0.512 & tmax + total\_water + antecedent\_qbase\_quantile\\ 
- & 0.555 & tmax + total\_water + antecedent\_qbase\_quantile + sin\_julian\\ 
- & 0.583 & tmax + total\_water + antecedent\_qbase\_quantile + sin\_julian + num\_days\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Otter} & 0.262 & tmax\\ 
- & 0.294 & tmax + antecedent\_qbase\_quantile\\ 
- & 0.494 & tmax + antecedent\_qbase\_quantile + total\_water\\ 
- & 0.531 & tmax + antecedent\_qbase\_quantile + total\_water + cos\_julian\\ 
-\vspace{2mm}\\ \multirow{3}{*}{Brewery} & 0.33 & antecedent\_qbase\_quantile\\ 
- & 0.478 & antecedent\_qbase\_quantile + num\_days\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Garfoot} & 0.272 & num\_days\\ 
- & 0.455 & num\_days + antecedent\_qbase\_quantile\\ 
- & 0.607 & num\_days + antecedent\_qbase\_quantile + total\_water\\ 
- & 0.644 & num\_days + antecedent\_qbase\_quantile + total\_water + nws\_snow\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Kuenster} & 0.451 & melt\_water\\ 
- & 0.56 & melt\_water + num\_days\\ 
- & 0.639 & melt\_water + num\_days + sin\_julian\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.189 & num\_days\\ 
- & 0.196 & num\_days + antecedent\_tmax\\ 
- & 0.197 & num\_days + antecedent\_tmax + cos\_julian\\ 
-\vspace{2mm}\\ \multirow{7}{*}{Bower} & 0.422 & total\_water\\ 
- & 0.476 & total\_water + nws\_snow\\ 
- & 0.56 & total\_water + nws\_snow + antecedent\_tmean\\ 
- & 0.631 & total\_water + nws\_snow + antecedent\_tmean + num\_days\\ 
- & 0.689 & total\_water + nws\_snow + antecedent\_tmean + num\_days + antecedent\_qbase\_quantile\\ 
- & 0.718 & total\_water + nws\_snow + antecedent\_tmean + num\_days + antecedent\_qbase\_quantile + nws\_prec\\ 
-\vspace{2mm}\\ \multirow{10}{*}{Aggregate} & 0.139 & num\_days\\ 
- & 0.284 & num\_days + antecedent\_qbase\_quantile\\ 
- & 0.313 & num\_days + antecedent\_qbase\_quantile + tmax\\ 
- & 0.371 & num\_days + antecedent\_qbase\_quantile + tmax + nws\_prec\\ 
- & 0.392 & num\_days + antecedent\_qbase\_quantile + tmax + nws\_prec + slope\\ 
- & 0.416 & num\_days + antecedent\_qbase\_quantile + tmax + nws\_prec + slope + nws\_snow\\ 
- & 0.435 & num\_days + antecedent\_qbase\_quantile + tmax + nws\_prec + slope + nws\_snow + cos\_julian\\ 
- & 0.484 & num\_days + antecedent\_qbase\_quantile + tmax + nws\_prec + slope + nws\_snow + cos\_julian + total\_water\\ 
- & 0.492 & num\_days + antecedent\_qbase\_quantile + tmax + nws\_prec + slope + nws\_snow + cos\_julian + total\_water + sin\_julian\\ 
+\multirow{3}{*}{Eagle} & 0.296 & tmax\\ 
+ & 0.383 & tmax + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.228 & tmax\\ 
+ & 0.259 & tmax + nws\_prec\\ 
+ & 0.368 & tmax + nws\_prec + num\_days\\ 
+ & 0.487 & tmax + nws\_prec + num\_days + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Otter} & 0.278 & tmax\\ 
+ & 0.299 & tmax + antecedent\_qbase\_quantile\\ 
+ & 0.556 & tmax + antecedent\_qbase\_quantile + total\_water\\ 
+ & 0.606 & tmax + antecedent\_qbase\_quantile + total\_water + sin\_julian\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Brewery} & 0.323 & antecedent\_qbase\_quantile\\ 
+ & 0.472 & antecedent\_qbase\_quantile + num\_days\\ 
+ & 0.48 & antecedent\_qbase\_quantile + num\_days + tmax\\ 
+\vspace{2mm}\\ \multirow{6}{*}{Garfoot} & 0.277 & num\_days\\ 
+ & 0.448 & num\_days + antecedent\_qbase\_quantile\\ 
+ & 0.589 & num\_days + antecedent\_qbase\_quantile + total\_water\\ 
+ & 0.629 & num\_days + antecedent\_qbase\_quantile + total\_water + nws\_snow\\ 
+ & 0.646 & num\_days + antecedent\_qbase\_quantile + total\_water + nws\_snow + nws\_prec\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Kuenster} & 0.467 & melt\_water\\ 
+ & 0.573 & melt\_water + num\_days\\ 
+ & 0.695 & melt\_water + num\_days + sin\_julian\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.185 & num\_days\\ 
+ & 0.193 & num\_days + antecedent\_tmax\\ 
+ & 0.193 & num\_days + antecedent\_tmax + cos\_julian\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Bower} & 0.46 & total\_water\\ 
+ & 0.504 & total\_water + nws\_snow\\ 
+ & 0.562 & total\_water + nws\_snow + antecedent\_tmean\\ 
+ & 0.633 & total\_water + nws\_snow + antecedent\_tmean + num\_days\\ 
+ & 0.687 & total\_water + nws\_snow + antecedent\_tmean + num\_days + nws\_prec\\ 
+ & 0.726 & total\_water + nws\_snow + antecedent\_tmean + num\_days + nws\_prec + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{8}{*}{Aggregate} & 0.138 & tmax\\ 
+ & 0.218 & tmax + antecedent\_qbase\_quantile\\ 
+ & 0.311 & tmax + antecedent\_qbase\_quantile + num\_days\\ 
+ & 0.37 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec\\ 
+ & 0.39 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + slope\\ 
+ & 0.416 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + slope + nws\_snow\\ 
+ & 0.425 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + slope + nws\_snow + sin\_julian\\ 
 \vspace{2mm}\\     \end{tabular}
     \caption{Results of variable selection for a model of sediment loading from snowmelt-driven events.\label{sed_r_square_snow}}
     \end{center}
@@ -374,43 +328,46 @@ Over the course of the monitoring period, the majority of the total load (both o
     \begin{tabular}{lrl}
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-\multirow{4}{*}{Eagle} & 0.218 & antecedent\_qbase\_quantile\\ 
- & 0.41 & antecedent\_qbase\_quantile + tmax\\ 
- & 0.609 & antecedent\_qbase\_quantile + tmax + total\_water\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.228 & tmax\\ 
- & 0.286 & tmax + nws\_prec\\ 
- & 0.398 & tmax + nws\_prec + num\_days\\ 
- & 0.49 & tmax + nws\_prec + num\_days + antecedent\_qbase\_quantile\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Otter} & 0.29 & tmax\\ 
- & 0.434 & tmax + total\_water\\ 
- & 0.557 & tmax + total\_water + antecedent\_qbase\_quantile\\ 
- & 0.597 & tmax + total\_water + antecedent\_qbase\_quantile + cos\_julian\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Brewery} & 0.152 & num\_days\\ 
- & 0.308 & num\_days + antecedent\_qbase\_quantile\\ 
- & 0.34 & num\_days + antecedent\_qbase\_quantile + sin\_julian\\ 
- & 0.419 & num\_days + antecedent\_qbase\_quantile + sin\_julian + nws\_prec\\ 
-\vspace{2mm}\\ \multirow{5}{*}{Garfoot} & 0.237 & num\_days\\ 
- & 0.402 & num\_days + total\_water\\ 
- & 0.462 & num\_days + total\_water + antecedent\_qbase\_quantile\\ 
- & 0.501 & num\_days + total\_water + antecedent\_qbase\_quantile + nws\_snow\\ 
-\vspace{2mm}\\ \multirow{3}{*}{Kuenster} & 0.552 & total\_water\\ 
- & 0.669 & total\_water + nws\_snow\\ 
-\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.244 & num\_days\\ 
- & 0.254 & num\_days + antecedent\_tmax\\ 
- & 0.257 & num\_days + antecedent\_tmax + cos\_julian\\ 
-\vspace{2mm}\\ \multirow{6}{*}{Bower} & 0.36 & total\_water\\ 
- & 0.553 & total\_water + antecedent\_qbase\_quantile\\ 
- & 0.667 & total\_water + antecedent\_qbase\_quantile + num\_days\\ 
- & 0.754 & total\_water + antecedent\_qbase\_quantile + num\_days + antecedent\_tmean\\ 
- & 0.776 & total\_water + antecedent\_qbase\_quantile + num\_days + antecedent\_tmean + nws\_snow\\ 
-\vspace{2mm}\\ \multirow{9}{*}{Aggregate} & 0.139 & num\_days\\ 
- & 0.298 & num\_days + antecedent\_qbase\_quantile\\ 
- & 0.338 & num\_days + antecedent\_qbase\_quantile + tmax\\ 
- & 0.427 & num\_days + antecedent\_qbase\_quantile + tmax + total\_water\\ 
- & 0.434 & num\_days + antecedent\_qbase\_quantile + tmax + total\_water + nws\_prec\\ 
- & 0.452 & num\_days + antecedent\_qbase\_quantile + tmax + total\_water + nws\_prec + nws\_snow\\ 
- & 0.464 & num\_days + antecedent\_qbase\_quantile + tmax + total\_water + nws\_prec + nws\_snow + sin\_julian\\ 
- & 0.475 & num\_days + antecedent\_qbase\_quantile + tmax + total\_water + nws\_prec + nws\_snow + sin\_julian + cos\_julian\\ 
+\multirow{3}{*}{Eagle} & 0.338 & tmax\\ 
+ & 0.41 & tmax + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.237 & tmax\\ 
+ & 0.281 & tmax + nws\_prec\\ 
+ & 0.328 & tmax + nws\_prec + antecedent\_qbase\_quantile\\ 
+ & 0.48 & tmax + nws\_prec + antecedent\_qbase\_quantile + num\_days\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Otter} & 0.32 & tmax\\ 
+ & 0.37 & tmax + antecedent\_qbase\_quantile\\ 
+ & 0.616 & tmax + antecedent\_qbase\_quantile + total\_water\\ 
+ & 0.658 & tmax + antecedent\_qbase\_quantile + total\_water + sin\_julian\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Brewery} & 0.16 & num\_days\\ 
+ & 0.256 & num\_days + sin\_julian\\ 
+ & 0.345 & num\_days + sin\_julian + antecedent\_qbase\_quantile\\ 
+ & 0.357 & num\_days + sin\_julian + antecedent\_qbase\_quantile + tmax\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Garfoot} & 0.236 & num\_days\\ 
+ & 0.391 & num\_days + total\_water\\ 
+ & 0.449 & num\_days + total\_water + sin\_julian\\ 
+ & 0.489 & num\_days + total\_water + sin\_julian + antecedent\_qbase\_quantile\\ 
+ & 0.53 & num\_days + total\_water + sin\_julian + antecedent\_qbase\_quantile + nws\_snow\\ 
+ & 0.564 & num\_days + total\_water + sin\_julian + antecedent\_qbase\_quantile + nws\_snow + melt\_water\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Kuenster} & 0.553 & total\_water\\ 
+ & 0.668 & total\_water + nws\_snow\\ 
+ & 0.704 & total\_water + nws\_snow + sin\_julian\\ 
+ & 0.77 & total\_water + nws\_snow + sin\_julian + num\_days\\ 
+ & 0.81 & total\_water + nws\_snow + sin\_julian + num\_days + tmin\\ 
+ & 0.868 & total\_water + nws\_snow + sin\_julian + num\_days + tmin + tmean\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.239 & num\_days\\ 
+ & 0.25 & num\_days + antecedent\_tmax\\ 
+ & 0.251 & num\_days + antecedent\_tmax + cos\_julian\\ 
+\vspace{2mm}\\ \multirow{6}{*}{Bower} & 0.394 & total\_water\\ 
+ & 0.568 & total\_water + antecedent\_qbase\_quantile\\ 
+ & 0.672 & total\_water + antecedent\_qbase\_quantile + num\_days\\ 
+ & 0.756 & total\_water + antecedent\_qbase\_quantile + num\_days + antecedent\_tmean\\ 
+ & 0.778 & total\_water + antecedent\_qbase\_quantile + num\_days + antecedent\_tmean + nws\_snow\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Aggregate} & 0.166 & tmax\\ 
+ & 0.258 & tmax + antecedent\_qbase\_quantile\\ 
+ & 0.34 & tmax + antecedent\_qbase\_quantile + num\_days\\ 
+ & 0.397 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec\\ 
+ & 0.411 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + sin\_julian\\ 
+ & 0.431 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + sin\_julian + nws\_snow\\ 
 \vspace{2mm}\\     \end{tabular}
     \caption{Results of variable selection for a model of phosphorus loading from snowmelt-driven events.\label{phos_r_square_snow}}
     \end{center}
@@ -430,26 +387,26 @@ The predictors that survived the screening at each stream are listed in Table \r
     \begin{center}
     \begin{tabular}{ll}
         \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & theisen, antecedent\_qbase\_quantile, p15max, duration, ap\_1day, p30max\\
+        \hspace{5mm} Eagle: & theisen, antecedent\_qbase\_quantile, p30max, duration, tmin, p15max\\
         \hspace{5mm} Joos: & theisen, antecedent\_qbase\_quantile, p15max, ap\_3day\\
-        \hspace{5mm} Otter: & theisen, antecedent\_qbase\_quantile, ap\_1day\\
-        \hspace{5mm} Brewery: & theisen, antecedent\_qbase\_quantile, antecedent\_tmean, p10max\\
-        \hspace{5mm} Garfoot: & theisen, antecedent\_qbase\_quantile, p30max, ei\\
+        \hspace{5mm} Otter: & theisen, antecedent\_qbase\_quantile, ap\_1day, antecedent\_tmean\\
+        \hspace{5mm} Brewery: & theisen, antecedent\_qbase\_quantile, p10max, antecedent\_tmax\\
+        \hspace{5mm} Garfoot: & theisen, antecedent\_qbase\_quantile, ap\_3day, nws\_prec\\
         \hspace{5mm} Kuenster: & theisen, antecedent\_qbase\_quantile\\
-        \hspace{5mm} Rattlesnake: & antecedent\_qbase\_quantile, theisen, ap\_5day, ap\_1day \\
+        \hspace{5mm} Rattlesnake: & antecedent\_qbase\_quantile, theisen, ap\_5day \\
         \hspace{5mm} Bower: & antecedent\_qbase\_quantile, theisen, ap\_5day\\
-        \hspace{5mm} Aggregate: & theisen, antecedent\_qbase\_quantile, slope, p15max, ei, num\_events, p5max, p30max
+        \hspace{5mm} Aggregate: & theisen, antecedent\_qbase\_quantile, slope, p30max, ei, p15max, num\_events, tmin, p5max
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & theisen, antecedent\_qbase\_quantile, p15max, ap\_1day, p30max\\
-        \hspace{5mm} Joos: & theisen, antecedent\_qbase\_quantile, p15max, ap\_3day\\
-        \hspace{5mm} Otter: & theisen, antecedent\_qbase\_quantile, ap\_1day\\
+        \hspace{5mm} Eagle: & theisen, antecedent\_qbase\_quantile, p30max, tmin, p15max\\
+        \hspace{5mm} Joos: & theisen, antecedent\_qbase\_quantile, p15max, ap\_3day, antecedent\_tmax\\
+        \hspace{5mm} Otter: & theisen, antecedent\_qbase\_quantile, cos\_julian, ap\_1day\\
         \hspace{5mm} Brewery: & theisen, antecedent\_qbase\_quantile, ap\_3day\\
         \hspace{5mm} Garfoot: & theisen, antecedent\_qbase\_quantile, nws\_prec, ap\_5day\\
         \hspace{5mm} Kuenster: & theisen, antecedent\_qbase\_quantile, ap\_3day\\
         \hspace{5mm} Rattlenake: & theisen, antecedent\_qbase\_quantile, ap\_5day\\
         \hspace{5mm} Bower: & antecedent\_qbase\_quantile, nws\_prec, theisen, tmin, tmean, ap\_5day\\
-        \hspace{5mm} Aggregate: & theisen, antecedent\_qbase\_quantile, p15max, ei, tmin, tmax, slope, p30max\\
+        \hspace{5mm} Aggregate: & theisen, antecedent\_qbase\_quantile, tmin, tmax, p15max, ei, slope, p30max\\
     \end{tabular}
     \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the load. \label{nosnow_predictor_list}}
     \end{center}
@@ -457,7 +414,7 @@ The predictors that survived the screening at each stream are listed in Table \r
 
 In each case, the two most important predictors are the theisen rainfall and the antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (see Tables \ref{sed_r_square_nosnow} and \ref{phos_r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how much water is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water moving through the system. At Brewery Creek, the intensity of rainfall is a more important predictor than the total quantity of rain.\\
 
-The performance of the global (aggregate) model is quite good: with just two predictors (sediment: theisen, phosphorus: theisen) the $\text{R}^2$ is 0.69 and 0.61, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to 0.62.\\
+The performance of the global (aggregate) model is quite good: with just two predictors (sediment: theisen, phosphorus: theisen) the $\text{R}^2$ is 0.68 and 0.61, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to 0.61.\\
 
 \paragraph{Snowmelt-driven events} We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order (like they were for the rainfall-driven events). What's more, the models for snowmelt-driven events were less accurate than for rainfall-driven events, ranging in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
 
@@ -467,26 +424,26 @@ At most sites, the most important predictor was a temperature measurement, eithe
     \begin{center}
     \begin{tabular}{ll}
         \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & antecedent\_qbase\_quantile, tmax, total\_water\\
-        \hspace{5mm} Joos: & tmax, total\_water, antecedent\_qbase\_quantile, sin\_julian, num\_days\\
-        \hspace{5mm} Otter: & tmax, antecedent\_qbase\_quantile, total\_water, cos\_julian\\
-        \hspace{5mm} Brewery: & antecedent\_qbase\_quantile, num\_days\\
-        \hspace{5mm} Garfoot: & num\_days, antecedent\_qbase\_quantile, total\_water, nws\_snow\\
+        \hspace{5mm} Eagle: & tmax, antecedent\_qbase\_quantile\\
+        \hspace{5mm} Joos: & tmax, nws\_prec, num\_days, antecedent\_qbase\_quantile\\
+        \hspace{5mm} Otter: & tmax, antecedent\_qbase\_quantile, total\_water, sin\_julian\\
+        \hspace{5mm} Brewery: & antecedent\_qbase\_quantile, num\_days, tmax\\
+        \hspace{5mm} Garfoot: & num\_days, antecedent\_qbase\_quantile, total\_water, nws\_snow, nws\_prec\\
         \hspace{5mm} Kuenster: & melt\_water, num\_days, sin\_julian\\
         \hspace{5mm} Rattlesnake: & num\_days, antecedent\_tmax, cos\_julian \\
-        \hspace{5mm} Bower: & total\_water, nws\_snow, antecedent\_tmean, num\_days, antecedent\_qbase\_quantile, nws\_prec\\
-        \hspace{5mm} Aggregate: & num\_days, antecedent\_qbase\_quantile, tmax, nws\_prec, slope, nws\_snow, cos\_julian, total\_water, sin\_julian
+        \hspace{5mm} Bower: & total\_water, nws\_snow, antecedent\_tmean, num\_days, nws\_prec, antecedent\_qbase\_quantile\\
+        \hspace{5mm} Aggregate: & tmax, antecedent\_qbase\_quantile, num\_days, nws\_prec, slope, nws\_snow, sin\_julian
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & antecedent\_qbase\_quantile, tmax, total\_water\\
-        \hspace{5mm} Joos: & tmax, nws\_prec, num\_days, antecedent\_qbase\_quantile\\
-        \hspace{5mm} Otter: & tmax, total\_water, antecedent\_qbase\_quantile, cos\_julian\\
-        \hspace{5mm} Brewery: & num\_days, antecedent\_qbase\_quantile, sin\_julian, nws\_prec\\
-        \hspace{5mm} Garfoot: & num\_days, total\_water, antecedent\_qbase\_quantile, nws\_snow\\
-        \hspace{5mm} Kuenster: & total\_water, nws\_snow\\
+        \hspace{5mm} Eagle: & tmax, antecedent\_qbase\_quantile\\
+        \hspace{5mm} Joos: & tmax, nws\_prec, antecedent\_qbase\_quantile, num\_days\\
+        \hspace{5mm} Otter: & tmax, antecedent\_qbase\_quantile, total\_water, sin\_julian\\
+        \hspace{5mm} Brewery: & num\_days, sin\_julian, antecedent\_qbase\_quantile, tmax\\
+        \hspace{5mm} Garfoot: & num\_days, total\_water, sin\_julian, antecedent\_qbase\_quantile, nws\_snow, melt\_water\\
+        \hspace{5mm} Kuenster: & total\_water, nws\_snow, sin\_julian, num\_days, tmin, tmean\\
         \hspace{5mm} Rattlesnake: & num\_days, antecedent\_tmax, cos\_julian\\
         \hspace{5mm} Bower: & total\_water, antecedent\_qbase\_quantile, num\_days, antecedent\_tmean, nws\_snow\\
-        \hspace{5mm} Aggregate: & num\_days, antecedent\_qbase\_quantile, tmax, total\_water, nws\_prec, nws\_snow, sin\_julian, cos\_julian\\
+        \hspace{5mm} Aggregate: & tmax, antecedent\_qbase\_quantile, num\_days, nws\_prec, sin\_julian, nws\_snow\\
     \end{tabular}
     \caption{The most important variables in the models for snowmelt-driven loading. The variables are ordered by their importance to the model of the load. \label{snow_predictor_list}}
     \end{center}
@@ -518,7 +475,7 @@ Most of the annual loading seems to be produced by a few major events. If the go
     \begin{center}
 \includegraphics{loadings-figure4}
     \end{center}
-    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load contributed by that event. \label{bubbles}}
+    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load (in tons) contributed by that event. \label{bubbles}}
 \end{figure}
 
 
