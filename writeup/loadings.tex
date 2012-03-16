@@ -65,11 +65,6 @@
 
 
 
-
-
-
-
-
     
     
 
@@ -124,7 +119,7 @@ The investigation was done by making linear models to describe the sediment and 
 
 
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Mar 13 20:49:01 2012
+% Thu Mar 15 16:06:19 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcccc}
@@ -151,7 +146,7 @@ Since sediment and phosphorus are carried into streams by runoff, it makes intui
 Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between 73.1\% (at Otter) and 97.1\% (at Bower) of the total sediment load; the same events produced between 64.6\% (at Otter) and 88\% (at Joos) of the total phosphorus load.\\
 
 % latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Tue Mar 13 20:49:01 2012
+% Thu Mar 15 16:06:19 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcc}
@@ -449,6 +444,80 @@ At most sites, the most important predictor was a temperature measurement, eithe
     \end{center}
 \end{table}
 
+
+% latex table generated in R 2.14.1 by xtable 1.6-0 package
+% Thu Mar 15 16:06:19 2012
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & -1.6865 & 0.0441 & -38.25 & 0.0000 \\ 
+  theisen & 0.7502 & 0.0192 & 39.00 & 0.0000 \\ 
+  antecedent\_qbase\_quantile & 1.9302 & 0.0547 & 35.29 & 0.0000 \\ 
+  slope & 0.0045 & 0.0006 & 7.08 & 0.0000 \\ 
+   \hline
+\end{tabular}
+\caption{Summary table for of model for log(sediment loading) during the rainfall period.}
+\end{center}
+\end{table}
+
+% latex table generated in R 2.14.1 by xtable 1.6-0 package
+% Thu Mar 15 16:06:19 2012
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & -0.3517 & 0.0408 & -8.61 & 0.0000 \\ 
+  theisen & 0.7280 & 0.0233 & 31.20 & 0.0000 \\ 
+  antecedent\_qbase\_quantile & 1.5826 & 0.0622 & 25.43 & 0.0000 \\ 
+   \hline
+\end{tabular}
+\caption{Summary table for of model for log(phosphorus loading) during the rainfall period.}
+\end{center}
+\end{table}
+
+% latex table generated in R 2.14.1 by xtable 1.6-0 package
+% Thu Mar 15 16:06:20 2012
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & -1.7003 & 0.0712 & -23.89 & 0.0000 \\ 
+  tmax & 0.0118 & 0.0016 & 7.42 & 0.0000 \\ 
+  antecedent\_qbase\_quantile & 1.1051 & 0.0669 & 16.52 & 0.0000 \\ 
+  num\_days & 0.1629 & 0.0107 & 15.27 & 0.0000 \\ 
+  nws\_prec & 0.4829 & 0.0418 & 11.55 & 0.0000 \\ 
+   \hline
+\end{tabular}
+\caption{Summary table for of model for log(sediment loading) during the snowmelt period.}
+\end{center}
+\end{table}
+
+% latex table generated in R 2.14.1 by xtable 1.6-0 package
+% Thu Mar 15 16:06:20 2012
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & -0.6335 & 0.0668 & -9.48 & 0.0000 \\ 
+  tmax & 0.0131 & 0.0015 & 8.68 & 0.0000 \\ 
+  antecedent\_qbase\_quantile & 1.0560 & 0.0631 & 16.74 & 0.0000 \\ 
+  num\_days & 0.1399 & 0.0100 & 14.02 & 0.0000 \\ 
+  nws\_prec & 0.4481 & 0.0391 & 11.45 & 0.0000 \\ 
+   \hline
+\end{tabular}
+\caption{Summary table for of model for log(phosphorus loading) during the snowmelt period.}
+\end{center}
+\end{table}
+
 \section{Conclusions}
 We have an accurate global model that describes the loading that will result from a rainstorm, based just on the base flow before the storm and on the amount of rain that falls during the storm. Antecedent base flow is a measurement of how much water is in the watershed before a storm and any new water comes as rainfall, so it seems that the sediment and phosphorus loads are driven mainly by the quantity of water moving through the watershed. The stream slope also seems to be important; that could be because steeper slopes give surface water less time to infiltrate and therefore increase the intensity of a rainfall event.\\
 
@@ -461,22 +530,25 @@ Most of the annual loading seems to be produced by a few major events. If the go
     \begin{center}
 \includegraphics{loadings-figure2}
     \end{center}
-    \caption{Proportion of the total sediment load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-p}}
+    \caption{Proportion of the total load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
 \end{figure}
 
-\begin{figure}
-    \begin{center}
-\includegraphics{loadings-figure3}
-    \end{center}
-    \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-s}}
-\end{figure}
 
 \begin{figure}
     \begin{center}
 \includegraphics{loadings-figure4}
     \end{center}
-    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load (in tons) contributed by that event. \label{bubbles}}
+    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load (in tons) contributed by that event. \label{sed_bubbles}}
 \end{figure}
+
+
+\begin{figure}
+    \begin{center}
+\includegraphics{loadings-figure5}
+    \end{center}
+    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total phosphorus load (in pounds) contributed by that event. \label{phos_bubbles}}
+\end{figure}
+
 
 
 \bibliographystyle{plain}

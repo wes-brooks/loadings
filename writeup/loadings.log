@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2012.1.11)  13 MAR 2012 20:49
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2012.1.11)  15 MAR 2012 16:06
 entering extended mode
 **C:/Users/wrbrooks/git/loadings/writeup/loadings.tex
 (C:/Users/wrbrooks/git/loadings/writeup/loadings.tex
@@ -324,56 +324,66 @@ Package pdftex.def Info: loadings-show_boxplots.pdf used on input line 59.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 79--80
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 81--82
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
 
  []
 
 
-Package caption Warning: \label before \caption on input line 100.
+Package caption Warning: \label before \caption on input line 95.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `table:dates' on page 1 undefined on input line 85.
+LaTeX Warning: Reference `table:dates' on page 1 undefined on input line 80.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--86
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 106--107
+Underfull \hbox (badness 10000) in paragraph at lines 80--81
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 108--109
+Underfull \hbox (badness 10000) in paragraph at lines 101--102
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 103--104
 
  []
 
 [1
 
 {C:/Users/wrbrooks/AppData/Local/MiKTeX/2.8/pdftex/config/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 110--111
+Underfull \hbox (badness 10000) in paragraph at lines 105--106
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 112--113
+Underfull \hbox (badness 10000) in paragraph at lines 107--108
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 114--115
+Underfull \hbox (badness 10000) in paragraph at lines 109--110
 
  []
 
 
-LaTeX Warning: Reference `tab:ptot' on page 2 undefined on input line 118.
+LaTeX Warning: Reference `tab:ptot' on page 2 undefined on input line 113.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 113--114
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
+
+ []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 118--119
@@ -381,22 +391,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 118--119
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--122
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 148--149
+Underfull \hbox (badness 10000) in paragraph at lines 143--144
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 151--152
+Underfull \hbox (badness 10000) in paragraph at lines 146--147
 
  []
 
@@ -413,12 +413,12 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 380--381
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 384--385
+Underfull \hbox (badness 10000) in paragraph at lines 379--380
 
  []
 
@@ -427,11 +427,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 384--385
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 415--416
+Underfull \hbox (badness 10000) in paragraph at lines 410--411
 
  []
 
-C:/Users/wrbrooks/git/loadings/writeup/loadings.tex:417: Undefined control sequ
+C:/Users/wrbrooks/git/loadings/writeup/loadings.tex:412: Undefined control sequ
 ence
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -440,7 +440,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-C:/Users/wrbrooks/git/loadings/writeup/loadings.tex:417: Undefined control sequ
+C:/Users/wrbrooks/git/loadings/writeup/loadings.tex:412: Undefined control sequ
 ence
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -449,17 +449,17 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 417--418
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 419--420
+Underfull \hbox (badness 10000) in paragraph at lines 414--415
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 421--422
+Underfull \hbox (badness 10000) in paragraph at lines 416--417
 
  []
 
@@ -467,41 +467,48 @@ Underfull \hbox (badness 10000) in paragraph at lines 421--422
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 453--454
+Underfull \hbox (badness 10000) in paragraph at lines 522--523
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 455--456
+Underfull \hbox (badness 10000) in paragraph at lines 524--525
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 457--458
+LaTeX Warning: Reference `cdf-s' on page 4 undefined on input line 526.
+
+
+LaTeX Warning: Reference `cdf-p' on page 4 undefined on input line 526.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 526--527
 
  []
 
- <loadings-figure2.pdf, id=20, 433.62pt x 361.35pt>
+ <loadings-figure2.pdf, id=20, 867.24pt x 1084.05pt>
 File: loadings-figure2.pdf Graphic file (type pdf)
  <use loadings-figure2.pdf>
-Package pdftex.def Info: loadings-figure2.pdf used on input line 462.
-(pdftex.def)             Requested size: 476.03984pt x 396.71982pt.
- <loadings-figure3.pdf, id=21, 433.62pt x 361.35pt>
-File: loadings-figure3.pdf Graphic file (type pdf)
- <use loadings-figure3.pdf>
-Package pdftex.def Info: loadings-figure3.pdf used on input line 469.
-(pdftex.def)             Requested size: 476.03984pt x 396.71982pt.
- <loadings-figure4.pdf, id=22, 867.24pt x 1084.05pt>
+Package pdftex.def Info: loadings-figure2.pdf used on input line 531.
+(pdftex.def)             Requested size: 476.03984pt x 595.05492pt.
+ <loadings-figure4.pdf, id=21, 867.24pt x 1084.05pt>
 File: loadings-figure4.pdf Graphic file (type pdf)
  <use loadings-figure4.pdf>
-Package pdftex.def Info: loadings-figure4.pdf used on input line 476.
+Package pdftex.def Info: loadings-figure4.pdf used on input line 539.
+(pdftex.def)             Requested size: 476.03984pt x 595.05492pt.
+ <loadings-figure5.pdf, id=22, 867.24pt x 1084.05pt>
+File: loadings-figure5.pdf Graphic file (type pdf)
+ <use loadings-figure5.pdf>
+Package pdftex.def Info: loadings-figure5.pdf used on input line 547.
 (pdftex.def)             Requested size: 476.03984pt x 595.05492pt.
  (C:\Users\wrbrooks\git\loadings\writeup\loadings.bbl) [4] [5 <C:/Users/wrbrook
 s/git/loadings/writeup/loadings-fig2.pdf>] [6 <C:/Users/wrbrooks/git/loadings/w
-riteup/loadings-show_boxplots.pdf>] [7] [8] [9] [10] [11] [12 <C:/Users/wrbrook
-s/git/loadings/writeup/loadings-figure2.pdf>] [13 <C:/Users/wrbrooks/git/loadin
-gs/writeup/loadings-figure3.pdf>] [14 <C:/Users/wrbrooks/git/loadings/writeup/l
-oadings-figure4.pdf>] (C:\Users\wrbrooks\git\loadings\writeup\loadings.aux)
+riteup/loadings-show_boxplots.pdf>] [7] [8] [9] [10] [11] [12] [13 <C:/Users/wr
+brooks/git/loadings/writeup/loadings-figure2.pdf>] [14 <C:/Users/wrbrooks/git/l
+oadings/writeup/loadings-figure4.pdf>] [15 <C:/Users/wrbrooks/git/loadings/writ
+eup/loadings-figure5.pdf>] (C:\Users\wrbrooks\git\loadings\writeup\loadings.aux
+)
 
 LaTeX Warning: There were undefined references.
 
@@ -510,10 +517,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4314 strings out of 495285
- 63926 string characters out of 3180048
- 164013 words of memory out of 3000000
- 7410 multiletter control sequences out of 15000+200000
+ 4316 strings out of 495285
+ 63949 string characters out of 3180048
+ 170012 words of memory out of 3000000
+ 7412 multiletter control sequences out of 15000+200000
  39124 words of font info for 93 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  36i,9n,38p,1427b,370s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -528,10 +535,11 @@ les (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files
  (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files (x
 86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/
 MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKT
-eX 2.8/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on loadings.pdf (14 pages, 243411 bytes).
+eX 2.8/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/MiKTeX 2
+.8/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on loadings.pdf (15 pages, 274131 bytes).
 PDF statistics:
- 127 PDF objects out of 1000 (max. 8388607)
+ 135 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

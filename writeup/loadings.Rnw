@@ -198,38 +198,48 @@
         stream$snow = ifelse(stream$event_type==1, 0, 1)
         
         assign(stream_name, stream)
-        aggregate = rbind(aggregate, stream)
+        assign( paste(stream_name, "_nosnow", sep=""), stream[stream$snow==FALSE,] )
+        assign( paste(stream_name, "_snow", sep=""), stream[stream$snow==TRUE,] )
+        
+        aggregate = rbind(aggregate, stream)   
+        aggregate$stream = rep("aggregate", dim(aggregate)[1])
+        aggregate_nosnow = aggregate[aggregate$snow==FALSE,]
+        aggregate_snow = aggregate[aggregate$snow==TRUE,]
     }
 @
 
 
-<<label=bubble_plots, echo=False, include=False>>=
-    #The "_nosnow" dataframes exclude the snowfall-influenced events.
-    num_rows = ceiling(length(streams)/2)
-    layout(matrix(1:(2*num_rows), num_rows, 2))
-    for(stream_name in streams)
+<<label=bubble_function, echo=False, include=False>>=
+    bubble <- function(target, scale=0.25, fg="red", bg="red", cex.lab=1.5, cex.axis=2, cex.title=1.5, line.xaxis=1, las=0)
     {
-        stream = get(stream_name)
-        assign( paste(stream_name, "_nosnow", sep=""), stream[stream$snow==FALSE,] )
-        assign( paste(stream_name, "_snow", sep=""), stream[stream$snow==TRUE,] )
-    
-        #Produce the bubble plots
-        symbols(stream[stream$snow==FALSE,]$antecedent_qbase,
-                stream[stream$snow==FALSE,]$theisen,
-                circles=sqrt( stream[stream$snow==FALSE,]$sstorm_tot/pi ),
-                inches=0.25, fg="red", bg="red", bty='n',
-                xlim=range(stream$antecedent_qbase, na.rm=TRUE)*c(0.8,1.2),
-                ylim=c(0, max(stream$theisen, na.rm=TRUE)*1.2),
-                xlab="Antecedent baseflow",
-                ylab="Theisen rainfall") 
+        #The "_nosnow" dataframes exclude the snowfall-influenced events.
+        num_rows = ceiling(length(streams)/2)
+        layout(matrix(1:(2*num_rows), num_rows, 2))
+        par(mar=c(3,2,1,1)+0.1, oma=c(3,4,1,1), ann=FALSE)
+        for(stream_name in streams)
+        {
+            #Retrieve the data frame for this stream
+            stream = get(stream_name)
+            
+            #Produce the bubble plots
+            symbols(stream[stream$snow==FALSE,]$antecedent_qbase,
+                    stream[stream$snow==FALSE,]$theisen,
+                    circles=sqrt(stream[stream$snow==FALSE,target]),
+                    inches=scale, fg=fg, bg=bg, bty='n',
+                    xlim=c(0, max(stream$antecedent_qbase, na.rm=TRUE)*1.2),
+                    ylim=c(0, max(stream$theisen, na.rm=TRUE)*1.2),
+                    xaxt='n', yaxt='n')
+            
+            axis(side=1, cex.axis=cex.axis, las=las, mgp=c(3,line.xaxis,0))
+            axis(side=2, cex.axis=cex.axis, las=las)
+            
+            mtext(stream_names[[stream_name]], side=3, line=-9, cex=cex.title,
+                  at=0.75*max(stream$antecedent_qbase, na.rm=TRUE) )
+        }
         
-        mtext(stream_names[[stream_name]], side=3, line=-1, cex=1.2,
-              at=mean(stream$antecedent_qbase, na.rm=TRUE))
+        mtext("Antecedent baseflow (Cfs[?])", side=1, line=1, cex=cex.lab, at=NA, outer=TRUE)
+        mtext("Theisen rainfall (in)", side=2, line=2, cex=cex.lab, at=NA, outer=TRUE)
     }
-    
-    aggregate$stream = rep("aggregate", dim(aggregate)[1])
-    aggregate_nosnow = aggregate[aggregate$snow==FALSE,]
-    aggregate_snow = aggregate[aggregate$snow==TRUE,]
 @
 
 
@@ -459,12 +469,12 @@
                 boxwex=0.4, frame.plot=F, ann=F, names=classes, add=T, at=loc:(loc+1), yaxt='n', xaxt='n', ...)
         
         if (site.names)
-            mtext(site, side=2, line=0, at=(loc+0.5), las=1, cex=0.9)
+            mtext(site, side=2, line=6.5, at=(loc+0.5), las=1, cex=0.9, adj=0)
         
         target = as.character(formula)[2]    
         target = paste(strsplit(target, "_", fixed=TRUE)[[1]][2], "_tot", sep="")
-        mtext( paste(round(100*sum(data[data$snow==1,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=4, line=1.2, at=loc, las=1, adj=1 )
-        mtext( paste(round(100*sum(data[data$snow==0,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=4, line=1.2, at=(loc+1), las=1, adj=1 )
+        mtext( paste(round(100*sum(data[data$snow==0,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=4, line=1.2, at=loc, las=1, adj=1 )
+        mtext( paste(round(100*sum(data[data$snow==1,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=4, line=1.2, at=(loc+1), las=1, adj=1 )
     }
     
     
@@ -602,7 +612,7 @@
     yy = c(-2.5, 2.8)
     xx = c(2, 3*length(streams) + 1)
     plot.new()
-    par(mfcol=c(1,2), mar=c(4, 4, 1, 1), oma=c(0,0,0,0))
+    par(mfcol=c(1,2), mar=c(4, 4, 1, 1), oma=c(0,3,1,0))
     plot.window(xlim=yy, ylim=xx)
     
     par(mfg=c(1,1))
@@ -615,8 +625,8 @@
     {
         #Put in the count of rainfall and snowmelt events
         data = get(streams[i])
-        mtext(sum(data$snow), side=2, line=-1.6, at=3*i, las=1, adj=1 )
-        mtext(length(data$snow) - sum(data$snow), side=2, line=-1.6, at=(3*i+1), las=1, adj=1 )
+        mtext(paste("Rainfall: ", length(data$snow)-sum(data$snow), sep=""), side=2, line=-1.7, at=3*i-0.1, las=1, adj=1, cex=0.8 )
+        mtext(paste("Snowmelt: ", sum(data$snow), sep=""), side=2, line=-1.7, at=(3*i+1.1), las=1, adj=1, cex=0.8 )
         
         #Plot the boxplots of sediment yields
         site = stream_names[[streams[i]]]
@@ -624,9 +634,10 @@
     }
     mtext("count:", side=3, line=0, at=yy[1], adj=0.6 )
     mtext("proportion:", side=3, line=0, at=yy[2], adj=0.39 )
+    mtext("Sediment", side=3, line=0.8, at=mean(yy), cex=1.2 )
 
     yy = c(-2.5, 3.1)
-    par(mfg=c(1,2), mar=c(4, 1.6, 1, 2), oma=c(0,0,0,0))
+    par(mfg=c(1,2), mar=c(4, 1.6, 1, 3.5), oma=c(0,0,1,1.5))
     plot.window(xlim=yy, ylim=xx)
     title(xlab="log phosphorus yield (log pounds / mi^2)", line=2.2, cex=0.8)
     axis(side=1, cex=0.8)
@@ -639,6 +650,7 @@
     }
     
     mtext("proportion:", side=3, line=0, at=yy[2], adj=0.35 )
+    mtext("Phosphorus", side=3, line=0.8, at=mean(yy), cex=1.2 )
 @
 
 
@@ -658,69 +670,45 @@
 
 
 
-
-<<label=cumulative_sloading_by_rainfall, include=False, echo=False>>=
-    line_type=1
-    color=1
-    yy=c(0,1)
-    xx = c(0,max(aggregate[aggregate$snow==FALSE,]$theisen, na.rm=T))
-    
-    for(stream in streams)
+<<label=cumulative_loading_by_rainfall, include=False, echo=False>>=
+    cumulative <- function(cex.title=1.5, cex.lab=1.5, cex.legend=2, lwd=2, las=0, cex.axis=2, line.xaxis=1)
     {
-        stream_data = get(stream)
+        num_rows = ceiling(length(streams)/2)
+        layout(matrix(1:(2*num_rows), num_rows, 2))
+        par(mar=c(3,2,1,1)+0.1, oma=c(3,4,1,1))
         
-        non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot),]
-        non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
-        y = cumsum(non_snow_sorted$stot_tot)/sum(stream_data$stot_tot, na.rm=T)
+        line_type=1
+        color=1
+        yy=c(0,1)
+        xx = c(0,max(aggregate[aggregate$snow==FALSE,'theisen'], na.rm=T))
         
-        stream_data = get(stream)
-        plot( x=non_snow_sorted$theisen, y=y, type='l', xlab="Theisen rainfall",
-            ylab=paste('proportion of total sediment load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy, xlim=xx)
-        par(new=T, ann=F, xaxt='n', yaxt='n')
-        line_type = line_type+1
+        for(stream in streams)
+        {
+            stream_data = get(stream)
+            
+            non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot) & !is.na(stream_data$stot_tot),]
+            non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
+            sed = cumsum(non_snow_sorted$stot_tot)/sum(stream_data$stot_tot, na.rm=T)
+            phos = cumsum(non_snow_sorted$ptot_tot)/sum(stream_data$ptot_tot, na.rm=T)
+            
+            plot( x=non_snow_sorted$theisen, y=sed, type='l',lwd=lwd,
+                lty=1, col=color, bty='n', ylim=yy, xlim=xx, axes=FALSE)
+            par(new=T, ann=F)
+            plot( x=non_snow_sorted$theisen, y=phos, type='l', lwd=lwd,
+                lty=2, col=color, bty='n', ylim=yy, xlim=xx, axes=FALSE)
+            
+            legend(x='topleft', bty='n', legend=c("sediment", "phosphorus"), lty=1:2, cex=cex.legend, lwd=lwd)
+            mtext(stream_names[[stream]], side=3, line=-3, cex=cex.title, at=0.55*xx[2] )
+            par(new=F, ann=T, xaxt='s', yaxt='s')
+            
+            axis(side=1, at=seq(xx[1], xx[2], by=2), cex.axis=cex.axis, las=las, mgp=c(3,line.xaxis,0))
+            axis(side=2, at=c(0, 0.5, 1), cex.axis=cex.axis, las=las)
+        }
+        
+        mtext("Theisen rainfall (in)", side=1, line=1, cex=cex.lab, at=NA, outer=TRUE)
+        mtext("Proportion of total loading", side=2, line=2, cex=cex.lab, at=NA, outer=TRUE)
     }
-    legend(x='topleft', bty='n', legend=streams, lty=1:length(streams))
 @
-
-<<label=cumulative_ploading_by_rainfall, include=False, echo=False>>=
-    line_type=1
-    color=1
-    yy=c(0,1)
-    xx = c(0,max(aggregate[aggregate$snow==FALSE,]$theisen, na.rm=T))
-    
-    for(stream in streams)
-    {
-        stream_data = get(stream)
-        
-        non_snow = stream_data[stream_data$snow==FALSE & !is.na(stream_data$ptot_tot) & !is.na(stream_data$theisen),]
-        non_snow_sorted = non_snow[ order(non_snow$theisen) ,]
-        y = cumsum(non_snow_sorted$ptot_tot)/sum(stream_data$ptot_tot, na.rm=T)
-        
-        stream_data = get(stream)
-        plot( x=non_snow_sorted$theisen, y=y, type='l', xlab="Theisen rainfall",
-            ylab=paste('proportion of total phosphorus load'), lty=line_type, col=color, bty='n', lwd=2, ylim=yy, xlim=xx)
-        par(new=T, ann=F, xaxt='n', yaxt='n')
-        line_type = line_type+1
-    }
-    legend(x='topleft', bty='n', legend=streams, lty=1:length(streams))
-@
-
-
-<<label=cdf_plot, include=False, echo=False>>=
-    line_type=1
-    color=1
-    for(stream in streams)
-    {
-        stream_data = get(stream)
-        plot( y=cumsum(sort(stream_data[,'sstorm_tot'], decreasing=T)) / sum(stream_data[,'sstorm_tot']),
-              x=1:length(stream_data[,'sstorm_tot']) / length(stream_data[,'sstorm_tot']), type='l', 
-              xlab='fraction of events', ylab='fraction of loading', lty=line_type, col=color, bty='n', lwd=2)
-        par(new=T, ann=F, xaxt='n', yaxt='n')
-        line_type = line_type+1
-    }
-    legend(x='bottomright', bty='n', legend=streams, lty=c(1,2,3,4))
-@
-
 
 
 <<label=proportion, include=False, echo=False>>=
@@ -1008,6 +996,27 @@ At most sites, the most important predictor was a temperature measurement, eithe
     \end{center}
 \end{table}
 
+
+<<label=aggregate_sediment_model, echo=FALSE, results=tex>>=
+    print(xtable(lm(log_stot_tot~theisen+antecedent_qbase_quantile+slope, data=aggregate_nosnow), floating=FALSE, caption="Summary table for of model for log(sediment loading) during the rainfall period."))
+@
+
+
+<<label=aggregate_phosphorus_model, echo=FALSE, results=tex>>=
+    print(xtable(lm(log_ptot_tot~theisen+antecedent_qbase_quantile, data=aggregate_nosnow), floating=FALSE, caption="Summary table for of model for log(phosphorus loading) during the rainfall period."))
+@
+
+
+<<label=aggregate_sediment_model_snow, echo=FALSE, results=tex>>=
+    print(xtable(lm(log_stot_tot~tmax+antecedent_qbase_quantile+num_days+nws_prec, data=aggregate_snow), floating=FALSE, caption="Summary table for of model for log(sediment loading) during the snowmelt period."))
+@
+
+
+<<label=aggregate_phosphorus_model_snow, echo=FALSE, results=tex>>=
+    print(xtable(lm(log_ptot_tot~tmax+antecedent_qbase_quantile+num_days+nws_prec, data=aggregate_snow), floating=FALSE, caption="Summary table for of model for log(phosphorus loading) during the snowmelt period."))
+@
+
+
 \section{Conclusions}
 We have an accurate global model that describes the loading that will result from a rainstorm, based just on the base flow before the storm and on the amount of rain that falls during the storm. Antecedent base flow is a measurement of how much water is in the watershed before a storm and any new water comes as rainfall, so it seems that the sediment and phosphorus loads are driven mainly by the quantity of water moving through the watershed. The stream slope also seems to be important; that could be because steeper slopes give surface water less time to infiltrate and therefore increase the intensity of a rainfall event.\\
 
@@ -1018,30 +1027,33 @@ Most of the annual loading seems to be produced by a few major events. If the go
 
 \begin{figure}
     \begin{center}
-<<label=figure2, fig=True, echo=False, width=6, height=5>>=
-<<cumulative_sloading_by_rainfall>>
+<<label=figure2, fig=True, echo=False, width=12, height=15>>=
+    cumulative(lwd=2, las=1, line.xaxis=1.2)
 @
     \end{center}
-    \caption{Proportion of the total sediment load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-p}}
+    \caption{Proportion of the total load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
 \end{figure}
 
-\begin{figure}
-    \begin{center}
-<<label=figure3, fig=True, echo=False, width=6, height=5>>=
-<<cumulative_ploading_by_rainfall>>
-@
-    \end{center}
-    \caption{Proportion of the total phosphorus load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf-s}}
-\end{figure}
 
 \begin{figure}
     \begin{center}
 <<label=figure4, fig=True, echo=False, width=12, height=15>>=
-<<bubble_plots>>
+    bubble("stot_tot", scale=0.15, bg="grey65", fg="black", line.xaxis=1.2)
 @
     \end{center}
-    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load (in tons) contributed by that event. \label{bubbles}}
+    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load (in tons) contributed by that event. \label{sed_bubbles}}
 \end{figure}
+
+
+\begin{figure}
+    \begin{center}
+<<label=figure5, fig=True, echo=False, width=12, height=15>>=
+    bubble("ptot_tot", scale=0.15, bg="grey65", fg="black", line.xaxis=1.2)
+@
+    \end{center}
+    \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total phosphorus load (in pounds) contributed by that event. \label{phos_bubbles}}
+\end{figure}
+
 
 <<label=guide, echo=False, results=tex, include=False, eval=False>>=
     stream = "eagle"
