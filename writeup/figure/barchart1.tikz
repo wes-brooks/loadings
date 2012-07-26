@@ -1,0 +1,151 @@
+% Created by tikzDevice version 0.6.2 on 2012-06-18 14:57:57
+% !TEX encoding = UTF-8 Unicode
+\documentclass[10pt]{article}
+\nonstopmode
+
+\usepackage{tikz}
+
+\usepackage[active,tightpage,psfixbb]{preview}
+
+\PreviewEnvironment{pgfpicture}
+
+\setlength\PreviewBorder{0pt}
+
+\newcommand{\SweaveOpts}[1]{}  % do not interfere with LaTeX
+\newcommand{\SweaveInput}[1]{} % because they are not real TeX commands
+\newcommand{\Sexpr}[1]{}       % will only be parsed by R
+
+
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[cm]{fullpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage[margin=20pt, font=small, labelfont=sc, labelsep=endash]{caption}
+\usepackage{subfig}
+\usepackage{multirow}
+\usepackage{amstext}
+\usepackage{verbatim}
+%\usepackage{pstricks, pst-node,pst-tree}
+
+
+\title{Analysis of loadings}
+\author{Wesley Brooks}
+\date{}                                           % Activate to display a given date or no date
+
+
+\begin{document}
+
+\begin{tikzpicture}[x=1pt,y=1pt]
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+\definecolor[named]{fillColor}{rgb}{1.00,1.00,1.00}
+\fill[color=fillColor,fill opacity=0.00,] (0,0) rectangle (505.89,505.89);
+\begin{scope}
+\path[clip] (  0.00,252.94) rectangle (252.94,505.89);
+\definecolor[named]{drawColor}{rgb}{0.03,0.00,0.33}
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+\definecolor[named]{fillColor}{rgb}{0.30,0.30,0.30}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] ( 47.92,305.34) rectangle ( 58.33,377.15);
+\definecolor[named]{fillColor}{rgb}{0.45,0.45,0.45}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] ( 58.33,305.34) rectangle ( 68.74,386.01);
+\definecolor[named]{fillColor}{rgb}{0.56,0.56,0.56}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] ( 68.74,305.34) rectangle ( 79.16,403.71);
+\definecolor[named]{fillColor}{rgb}{0.64,0.64,0.64}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] ( 79.16,305.34) rectangle ( 89.57,419.57);
+\definecolor[named]{fillColor}{rgb}{0.72,0.72,0.72}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] ( 89.57,305.34) rectangle ( 99.99,431.44);
+\definecolor[named]{fillColor}{rgb}{0.78,0.78,0.78}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] ( 99.99,305.34) rectangle (110.40,446.38);
+\definecolor[named]{fillColor}{rgb}{0.84,0.84,0.84}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (110.40,305.34) rectangle (120.81,427.74);
+\definecolor[named]{fillColor}{rgb}{0.90,0.90,0.90}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (120.81,305.34) rectangle (131.23,449.36);
+\definecolor[named]{fillColor}{rgb}{0.30,0.30,0.30}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (141.64,305.34) rectangle (152.05,465.05);
+\definecolor[named]{fillColor}{rgb}{0.45,0.45,0.45}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (152.05,305.34) rectangle (162.47,456.19);
+\definecolor[named]{fillColor}{rgb}{0.56,0.56,0.56}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (162.47,305.34) rectangle (172.88,438.49);
+\definecolor[named]{fillColor}{rgb}{0.64,0.64,0.64}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (172.88,305.34) rectangle (183.29,422.63);
+\definecolor[named]{fillColor}{rgb}{0.72,0.72,0.72}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (183.29,305.34) rectangle (193.71,410.76);
+\definecolor[named]{fillColor}{rgb}{0.78,0.78,0.78}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (193.71,305.34) rectangle (204.12,395.82);
+\definecolor[named]{fillColor}{rgb}{0.84,0.84,0.84}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (204.12,305.34) rectangle (214.53,414.46);
+\definecolor[named]{fillColor}{rgb}{0.90,0.90,0.90}
+
+\draw[color=drawColor,line cap=round,line join=round,fill=fillColor,] (214.53,305.34) rectangle (224.95,392.84);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,505.89);
+\definecolor[named]{drawColor}{rgb}{0.03,0.00,0.33}
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 89.57,283.82) {snow};
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (183.29,283.82) {rain};
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,252.94) rectangle (252.94,505.89);
+\definecolor[named]{drawColor}{rgb}{0.03,0.00,0.33}
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 10.96,384.40) {proportion of phosphorus};
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,505.89);
+\definecolor[named]{drawColor}{rgb}{0.03,0.00,0.33}
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 40.84,305.34) -- ( 40.84,444.25);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 40.84,305.34) -- ( 35.86,305.34);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 40.84,328.49) -- ( 35.86,328.49);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 40.84,351.64) -- ( 35.86,351.64);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 40.84,374.80) -- ( 35.86,374.80);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 40.84,397.95) -- ( 35.86,397.95);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 40.84,421.10) -- ( 35.86,421.10);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 40.84,444.25) -- ( 35.86,444.25);
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 30.88,305.34) {0.0};
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 30.88,328.49) {0.1};
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 30.88,351.64) {0.2};
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 30.88,374.80) {0.3};
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 30.88,397.95) {0.4};
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 30.88,421.10) {0.5};
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 30.88,444.25) {0.6};
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

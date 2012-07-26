@@ -1,13 +1,21 @@
-This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2012.1.11)  6 JUN 2012 12:40
+This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2012.6.18)  25 JUL 2012 19:04
 entering extended mode
 **loadings.tex
 (C:\Users\wrbrooks\git\loadings\writeup\loadings.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
-rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\article.cls"
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
+vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
+an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
+romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
+sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
+senglishmax, welsh, loaded.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\size10.clo"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size10.clo"
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count80
@@ -22,371 +30,70 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\graphicx.sty"
-Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+Package: geometry 2010/09/12 v5.6 Page Geometry
 
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\keyval.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\graphics.sty"
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\trig.sty"
-Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-)
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
-)
-Package graphics Info: Driver file: xetex.def on input line 91.
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\xelatex\xetex-def\xetex.def"
-File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
-
-))
-\Gin@req@height=\dimen103
-\Gin@req@width=\dimen104
-)
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\color.sty"
-Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\00miktex\color.cfg"
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
-)
-Package color Info: Driver file: xetex.def on input line 130.
-)
-(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\upquote\upquote.sty
-Package: upquote 2003/08/11 v1.1 Covington's upright-quote modification to verb
-atim and verb
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\textcomp.sty"
-Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
-Package textcomp Info: Sub-encoding information:
-(textcomp)               5 = only ISO-Adobe without \textcurrency
-(textcomp)               4 = 5 + \texteuro
-(textcomp)               3 = 4 + \textohm
-(textcomp)               2 = 3 + \textestimated + \textcurrency
-(textcomp)               1 = TS1 - \textcircled - \t
-(textcomp)               0 = TS1 (full)
-(textcomp)             Font families with sub-encoding setting implement
-(textcomp)             only a restricted character set as indicated.
-(textcomp)             Family '?' is the default used for unknown fonts.
-(textcomp)             See the documentation for details.
-Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\ts1enc.def"
-File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
-)
-LaTeX Info: Redefining \oldstylenums on input line 266.
-Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 281.
-Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 282.
-Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 283.
-Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 284.
-Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 285.
-Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 286.
-Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 287.
-Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 288.
-Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 289.
-Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 290.
-Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 291.
-Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 292.
-Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 293.
-Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 294.
-Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 295.
-Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 296.
-Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 297.
-Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 298.
-Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 299.
-Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 300.
-Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 301.
-Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 302.
-Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 303.
-Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 304.
-
-Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 305.
-Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 306.
-Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 307.
-Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 308.
-Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 309.
-Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 310.
-Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 311.
-Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 312.
-Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 313.
-Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 314.
-Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 315.
-Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 316.
-Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 317.
-Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 318.
-Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 319.
-Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 320.
-Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 321.
-Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 322.
-Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 323.
-Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 324.
-Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 325.
-Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 326.
-Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 327.
-Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 328.
-Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 329.
-Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 330.
-Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 331.
-Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 332.
-Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 333.
-Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 334.
-Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 335.
-Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 336.
-Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 337.
-Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
-Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
-Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
-))
-\hlnormalsizeboxclosebrace=\box26
-\hlnormalsizeboxopenbrace=\box27
-\hlnormalsizeboxbackslash=\box28
-\hlnormalsizeboxlessthan=\box29
-\hlnormalsizeboxgreaterthan=\box30
-\hlnormalsizeboxdollar=\box31
-\hlnormalsizeboxunderscore=\box32
-\hlnormalsizeboxand=\box33
-\hlnormalsizeboxhash=\box34
-\hlnormalsizeboxat=\box35
-\hlnormalsizeboxpercent=\box36
-\hlnormalsizeboxhat=\box37
-\hlnormalsizeboxsinglequote=\box38
-\hlnormalsizeboxbacktick=\box39
-Requested font "cmtt10" at 10.0pt
- -> cmtt10
-LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 61.
-
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\ts1cmtt.fd"
-File: ts1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-Requested font "tctt1000" at 10.0pt
- -> tctt1000
-\hltinyboxclosebrace=\box40
-\hltinyboxopenbrace=\box41
-\hltinyboxbackslash=\box42
-\hltinyboxlessthan=\box43
-\hltinyboxgreaterthan=\box44
-\hltinyboxdollar=\box45
-\hltinyboxunderscore=\box46
-\hltinyboxand=\box47
-\hltinyboxhash=\box48
-\hltinyboxat=\box49
-\hltinyboxpercent=\box50
-\hltinyboxhat=\box51
-\hltinyboxsinglequote=\box52
-\hltinyboxbacktick=\box53
-Requested font "cmtt8" at 5.0pt
- -> cmtt8
-Requested font "tctt0800" at 5.0pt
- -> tctt0800
-\hlscriptsizeboxclosebrace=\box54
-\hlscriptsizeboxopenbrace=\box55
-\hlscriptsizeboxbackslash=\box56
-\hlscriptsizeboxlessthan=\box57
-\hlscriptsizeboxgreaterthan=\box58
-\hlscriptsizeboxdollar=\box59
-\hlscriptsizeboxunderscore=\box60
-\hlscriptsizeboxand=\box61
-\hlscriptsizeboxhash=\box62
-\hlscriptsizeboxat=\box63
-\hlscriptsizeboxpercent=\box64
-\hlscriptsizeboxhat=\box65
-\hlscriptsizeboxsinglequote=\box66
-\hlscriptsizeboxbacktick=\box67
-Requested font "cmtt8" at 7.0pt
- -> cmtt8
-Requested font "tctt0800" at 7.0pt
- -> tctt0800
-\hlfootnotesizeboxclosebrace=\box68
-\hlfootnotesizeboxopenbrace=\box69
-\hlfootnotesizeboxbackslash=\box70
-\hlfootnotesizeboxlessthan=\box71
-\hlfootnotesizeboxgreaterthan=\box72
-\hlfootnotesizeboxdollar=\box73
-\hlfootnotesizeboxunderscore=\box74
-\hlfootnotesizeboxand=\box75
-\hlfootnotesizeboxhash=\box76
-\hlfootnotesizeboxat=\box77
-\hlfootnotesizeboxpercent=\box78
-\hlfootnotesizeboxhat=\box79
-\hlfootnotesizeboxsinglequote=\box80
-\hlfootnotesizeboxbacktick=\box81
-Requested font "cmr8" at 8.0pt
- -> cmr8
-Requested font "cmtt8" at 8.0pt
- -> cmtt8
-Requested font "tctt0800" at 8.0pt
- -> tctt0800
-\hlsmallboxclosebrace=\box82
-\hlsmallboxopenbrace=\box83
-\hlsmallboxbackslash=\box84
-\hlsmallboxlessthan=\box85
-\hlsmallboxgreaterthan=\box86
-\hlsmallboxdollar=\box87
-\hlsmallboxunderscore=\box88
-\hlsmallboxand=\box89
-\hlsmallboxhash=\box90
-\hlsmallboxat=\box91
-\hlsmallboxpercent=\box92
-\hlsmallboxhat=\box93
-\hlsmallboxsinglequote=\box94
-\hlsmallboxbacktick=\box95
-Requested font "cmr9" at 9.0pt
- -> cmr9
-Requested font "cmtt9" at 9.0pt
- -> cmtt9
-Requested font "tctt0900" at 9.0pt
- -> tctt0900
-\hllargeboxclosebrace=\box96
-\hllargeboxopenbrace=\box97
-\hllargeboxbackslash=\box98
-\hllargeboxlessthan=\box99
-\hllargeboxgreaterthan=\box100
-\hllargeboxdollar=\box101
-\hllargeboxunderscore=\box102
-\hllargeboxand=\box103
-\hllargeboxhash=\box104
-\hllargeboxat=\box105
-\hllargeboxpercent=\box106
-\hllargeboxhat=\box107
-\hllargeboxsinglequote=\box108
-\hllargeboxbacktick=\box109
-Requested font "cmr12" at 12.0pt
- -> cmr12
-Requested font "cmtt12" at 12.0pt
- -> cmtt12
-Requested font "tctt1200" at 12.0pt
- -> tctt1200
-\hlLargeboxclosebrace=\box110
-\hlLargeboxopenbrace=\box111
-\hlLargeboxbackslash=\box112
-\hlLargeboxlessthan=\box113
-\hlLargeboxgreaterthan=\box114
-\hlLargeboxdollar=\box115
-\hlLargeboxunderscore=\box116
-\hlLargeboxand=\box117
-\hlLargeboxhash=\box118
-\hlLargeboxat=\box119
-\hlLargeboxpercent=\box120
-\hlLargeboxhat=\box121
-\hlLargeboxsinglequote=\box122
-\hlLargeboxbacktick=\box123
-Requested font "cmr12" at 14.4pt
- -> cmr12
-Requested font "cmtt12" at 14.4pt
- -> cmtt12
-Requested font "tctt1440" at 14.4pt
- -> tctt1440
-\hlLARGEboxclosebrace=\box124
-\hlLARGEboxopenbrace=\box125
-\hlLARGEboxbackslash=\box126
-\hlLARGEboxlessthan=\box127
-\hlLARGEboxgreaterthan=\box128
-\hlLARGEboxdollar=\box129
-\hlLARGEboxunderscore=\box130
-\hlLARGEboxand=\box131
-\hlLARGEboxhash=\box132
-\hlLARGEboxat=\box133
-\hlLARGEboxpercent=\box134
-\hlLARGEboxhat=\box135
-\hlLARGEboxsinglequote=\box136
-\hlLARGEboxbacktick=\box137
-Requested font "cmr17" at 17.28pt
- -> cmr17
-Requested font "cmtt12" at 17.28pt
- -> cmtt12
-Requested font "tctt1728" at 17.28pt
- -> tctt1728
-\hlhugeboxclosebrace=\box138
-\hlhugeboxopenbrace=\box139
-\hlhugeboxbackslash=\box140
-\hlhugeboxlessthan=\box141
-\hlhugeboxgreaterthan=\box142
-\hlhugeboxdollar=\box143
-\hlhugeboxunderscore=\box144
-\hlhugeboxand=\box145
-\hlhugeboxhash=\box146
-\hlhugeboxat=\box147
-\hlhugeboxpercent=\box148
-\hlhugeboxhat=\box149
-\hlhugeboxsinglequote=\box150
-\hlhugeboxbacktick=\box151
-Requested font "cmr17" at 20.74pt
- -> cmr17
-Requested font "cmtt12" at 20.74pt
- -> cmtt12
-Requested font "tctt2074" at 20.74pt
- -> tctt2074
-\hlHugeboxclosebrace=\box152
-\hlHugeboxopenbrace=\box153
-\hlHugeboxbackslash=\box154
-\hlHugeboxlessthan=\box155
-\hlHugeboxgreaterthan=\box156
-\hlHugeboxdollar=\box157
-\hlHugeboxunderscore=\box158
-\hlHugeboxand=\box159
-\hlHugeboxhash=\box160
-\hlHugeboxat=\box161
-\hlHugeboxpercent=\box162
-\hlHugeboxhat=\box163
-\hlHugeboxsinglequote=\box164
-\hlHugeboxbacktick=\box165
-Requested font "cmr17" at 24.88pt
- -> cmr17
-Requested font "cmtt12" at 24.88pt
- -> cmtt12
-Requested font "tctt2488" at 24.88pt
- -> tctt2488
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\framed\framed.sty"
-Package: framed 2007/10/04 v 0.95: framed or shaded text with page breaks
-\fb@frw=\dimen105
-\fb@frh=\dimen106
-\FrameRule=\dimen107
-\FrameSep=\dimen108
-)
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\geometry\geometry.sty"
-Package: geometry 2010/09/12 v5.6 Page Geometry
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\oberdiek\ifpdf.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in PDF mode is not detected.
 )
-("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\oberdiek\ifvtex.sty"
-Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\ifxetex\ifxetex.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 \Gm@cnth=\count88
 \Gm@cntv=\count89
 \c@Gm@tempcnt=\count90
-\Gm@bindingoffset=\dimen109
-\Gm@wd@mp=\dimen110
-\Gm@odd@mp=\dimen111
-\Gm@even@mp=\dimen112
-\Gm@layoutwidth=\dimen113
-\Gm@layoutheight=\dimen114
-\Gm@layouthoffset=\dimen115
-\Gm@layoutvoffset=\dimen116
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@layoutwidth=\dimen107
+\Gm@layoutheight=\dimen108
+\Gm@layouthoffset=\dimen109
+\Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks15
 
-("C:\Program Files (x86)\MiKTeX 2.8\tex\xelatex\xetexconfig\geometry.cfg"))
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ltxmisc\parskip.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\xelatex\xetexconfig\geometry.cfg"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\parskip.sty"
 Package: parskip 2001/04/09 non-zero parskip adjustments
 )
-(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\preprint\fullpage.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\preprint\fullpage.sty"
 Package: fullpage 1999/02/23 1.1 (PWD)
 \FP@margin=\skip43
 )
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\amssymb.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: xetex.def on input line 91.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\xelatex\xetex-def\xetex.def"
+File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
+
+))
+\Gin@req@height=\dimen111
+\Gin@req@width=\dimen112
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
 Package: amssymb 2009/06/22 v3.00
 
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\amsfonts.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
 Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \@emptytoks=\toks16
 \symAMSa=\mathgroup4
@@ -394,25 +101,25 @@ Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
-(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\caption\caption.sty
-Package: caption 2010/01/09 v3.1m Customizing captions (AR)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\caption\caption.sty"
+Package: caption 2012/02/19 v3.2f Customizing captions (AR)
 
-(C:\Users\wrbrooks\AppData\Roaming\MiKTeX\2.8\tex\latex\caption\caption3.sty
-Package: caption3 2010/01/14 v3.1m caption3 kernel (AR)
-\captionmargin=\dimen117
-\captionmargin@=\dimen118
-\captionwidth=\dimen119
-\caption@indent=\dimen120
-\caption@parindent=\dimen121
-\caption@hangindent=\dimen122
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\caption\caption3.sty"
+Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
+\captionmargin=\dimen113
+\captionmargin@=\dimen114
+\captionwidth=\dimen115
+\caption@indent=\dimen116
+\caption@parindent=\dimen117
+\caption@hangindent=\dimen118
 )
 \c@ContinuedFloat=\count91
 )
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\subfig\subfig.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\subfig\subfig.sty"
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 \c@KVtest=\count92
 \sf@farskip=\skip44
-\sf@captopadj=\dimen123
+\sf@captopadj=\dimen119
 \sf@capskip=\skip45
 \sf@nearskip=\skip46
 \c@subfigure=\count93
@@ -424,44 +131,86 @@ Package: subfig 2005/06/28 ver: 1.3 subfig package
 \sf@top=\skip47
 \sf@bottom=\skip48
 )
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\multirow\multirow.sty"
-\bigstrutjot=\dimen124
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\multirow\multirow.sty"
+\bigstrutjot=\dimen120
 )
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amstext.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amstext.sty"
 Package: amstext 2000/06/29 v2.01
 
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsgen.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks17
-\ex@=\dimen125
+\ex@=\dimen121
 ))
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\tools\verbatim.sty"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\verbatim.sty"
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks18
 \verbatim@line=\toks19
 \verbatim@in@stream=\read1
 )
-(C:\Users\wrbrooks\git\loadings\writeup\loadings.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 416.
-LaTeX Font Info:    ... okay on input line 416.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 416.
-LaTeX Font Info:    ... okay on input line 416.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 416.
-LaTeX Font Info:    ... okay on input line 416.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 416.
-LaTeX Font Info:    ... okay on input line 416.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 416.
-LaTeX Font Info:    ... okay on input line 416.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 416.
-LaTeX Font Info:    ... okay on input line 416.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 416.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 416.
+(C:\Users\wrbrooks\git\loadings\writeup\Sweave.sty
+Package: Sweave 
 
-
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\ts1cmr.fd"
-File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-LaTeX Font Info:    ... okay on input line 416.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\fancyvrb\fancyvrb.sty"
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count99
+\FV@InFile=\read2
+\FV@TabBox=\box26
+\c@FancyVerbLine=\count100
+\FV@StepNumber=\count101
+\FV@OutFile=\write3
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\upquote\upquote.sty"
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+)
+Requested font "ecrm1000" at 10.0pt
+ -> ecrm1000
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\ae.sty"
+Package: ae 2001/02/12 1.3 Almost European Computer Modern
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+)
+LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aer.fd"
+File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
+)
+Requested font "aer10" at 10.0pt
+ -> aer10
+)))
+(C:\Users\wrbrooks\git\loadings\writeup\loadings.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
 
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -497,9 +246,19 @@ LaTeX Font Info:    ... okay on input line 416.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package caption Info: Begin \AtBeginDocument code.
-Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
-LaTeX Info: Redefining \subref on input line 416.
+Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
+(C:\Users\wrbrooks\git\loadings\writeup\loadings-concordance.tex
+\pdfoutput=\count102
+)
+Requested font "aer17" at 17.28pt
+ -> aer17
+Requested font "aer12" at 12.0pt
+ -> aer12
+Requested font "cmr12" at 12.0pt
+ -> cmr12
+Requested font "cmr8" at 8.0pt
+ -> cmr8
 Requested font "cmr6" at 6.0pt
  -> cmr6
 Requested font "cmmi12" at 12.0pt
@@ -520,8 +279,9 @@ Requested font "cmex8" at 8.0pt
  -> cmex8
 Requested font "cmex7" at 6.0pt
  -> cmex7
-LaTeX Font Info:    Try loading font information for U+msa on input line 419.
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\umsa.fd"
+LaTeX Font Info:    Try loading font information for U+msa on input line 25.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 Requested font "msam10" at 12.0pt
@@ -530,9 +290,9 @@ Requested font "msam10" at 8.0pt
  -> msam10
 Requested font "msam7" at 6.0pt
  -> msam7
-LaTeX Font Info:    Try loading font information for U+msb on input line 419.
+LaTeX Font Info:    Try loading font information for U+msb on input line 25.
 
-("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\umsb.fd"
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 Requested font "msbm10" at 12.0pt
@@ -541,60 +301,55 @@ Requested font "msbm10" at 8.0pt
  -> msbm10
 Requested font "msbm7" at 6.0pt
  -> msbm7
-Package color Info: Redefining color shadecolor on input line 460.
-File: figure/fig21.pdf Graphic file (type QTm)
+File: loadings-fig2.pdf Graphic file (type QTm)
 
-<use  "figure/fig21.pdf" >
-File: figure/fig22.pdf Graphic file (type QTm)
- <use  "figure/fig22.pdf" >
-File: figure/fig23.pdf Graphic file (type QTm)
-
-<use  "figure/fig23.pdf" >
-File: figure/fig24.pdf Graphic file (type QTm)
- <use  "figure/fig24.pdf" >
-Requested font "cmcsc10" at 9.0pt
- -> cmcsc10
-
-
-LaTeX Warning: Float too large for page by 1772.07938pt on input line 466.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-Package color Info: Redefining color shadecolor on input line 481.
-File: figure/show_boxplots1.pdf Graphic file (type QTm)
-<use  "figure/show_boxplots1.pdf" >
-File: figure/show_boxplots2.pdf Graphic file (type QTm)
- <use  "figure/show_boxplots2.pdf" >
-
-LaTeX Warning: Float too large for page by 646.71895pt on input line 486.
-
+<use  "loadings-fig2.pdf" >
+Requested font "aer9" at 9.0pt
+ -> aer9
+Requested font "aecsc10" at 9.0pt
+ -> aecsc10
+File: loadings-show_boxplots.pdf Graphic file (type QTm)
+ <use  "loadings-show_boxplots.pdf" >
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-Requested font "cmbx12" at 14.4pt
- -> cmbx12
+File: loadings-show-cumulative-sediment-boxplots.pdf Graphic file (type QTm)
+<use  "loadings-show-cumulative-sediment-boxplots.pdf" >
 
-Underfull \hbox (badness 10000) in paragraph at lines 504--505
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: loadings-show-cumulative-phosphorus-boxplots.pdf Graphic file (type QTm)
+<use  "loadings-show-cumulative-phosphorus-boxplots.pdf" >
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+Requested font "aer12" at 14.4pt
+ -> aer12
+Requested font "aebx12" at 14.4pt
+ -> aebx12
+
+Underfull \hbox (badness 10000) in paragraph at lines 92--93
 
  []
 
+[1
 
-Underfull \hbox (badness 10000) in paragraph at lines 506--507
+]
+Underfull \hbox (badness 10000) in paragraph at lines 94--95
 
  []
 
-Requested font "cmbx10" at 10.0pt
- -> cmbx10
+Requested font "aebx10" at 10.0pt
+ -> aebx10
 
-Package caption Warning: \label before \caption on input line 525.
+Package caption Warning: \label without proper \caption on input line 113.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `table:dates' on page 1 undefined on input line 510.
+LaTeX Warning: Reference `table:dates' on page 2 undefined on input line 98.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 510--511
+Underfull \hbox (badness 10000) in paragraph at lines 98--99
 
  []
 
@@ -615,61 +370,62 @@ Requested font "msbm7" at 7.0pt
 Requested font "msbm5" at 5.0pt
  -> msbm5
 
-Underfull \hbox (badness 10000) in paragraph at lines 531--532
-
- []
-
-[1
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 533--534
+Underfull \hbox (badness 10000) in paragraph at lines 119--120
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 535--536
+Underfull \hbox (badness 10000) in paragraph at lines 121--122
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 537--538
+Underfull \hbox (badness 10000) in paragraph at lines 123--124
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 539--540
-
- []
-
-
-LaTeX Warning: Reference `tab:rainorsnow' on page 2 undefined on input line 545
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 545--546
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 548--549
+Underfull \hbox (badness 10000) in paragraph at lines 125--126
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 550--551
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 580--581
+LaTeX Warning: Reference `tab:rainorsnow' on page 3 undefined on input line 133
+.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 133--134
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 583--584
+Underfull \hbox (badness 10000) in paragraph at lines 136--137
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--164
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--167
+
+ []
+
+[3]
+Requested font "cmr9" at 9.0pt
+ -> cmr9
 Requested font "cmmi9" at 9.0pt
  -> cmmi9
 Requested font "cmsy9" at 9.0pt
@@ -680,8 +436,16 @@ Requested font "msam10" at 9.0pt
  -> msam10
 Requested font "msbm10" at 9.0pt
  -> msbm10
-Requested font "cmbx9" at 9.0pt
- -> cmbx9
+Requested font "aebx9" at 9.0pt
+ -> aebx9
+Requested font "aer6" at 6.0pt
+ -> aer6
+Requested font "aer5" at 5.0pt
+ -> aer5
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -691,101 +455,130 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+Requested font "aebx12" at 12.0pt
+ -> aebx12
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-Requested font "cmbx12" at 12.0pt
- -> cmbx12
-
-Underfull \hbox (badness 10000) in paragraph at lines 935--936
-
- []
-
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 939--940
+Underfull \hbox (badness 10000) in paragraph at lines 395--396
 
  []
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 970--971
+Underfull \hbox (badness 10000) in paragraph at lines 400--401
 
  []
 
+LaTeX Font Info:    Try loading font information for OMS+aer on input line 403.
 
-Underfull \hbox (badness 10000) in paragraph at lines 972--973
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 974--975
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 976--977
-
- []
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\omsaer.fd"
+File: omsaer.fd 1999/12/27
+)
+LaTeX Font Info:    Font shape `OMS/aer/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 403.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 403.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+)
+Requested font "aett10" at 10.0pt
+ -> aett10
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1102--1103
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1104--1105
-
- []
-
-
-LaTeX Warning: Reference `cdf-s' on page 4 undefined on input line 1106.
-
-
-LaTeX Warning: Reference `cdf-p' on page 4 undefined on input line 1106.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1106--1107
+Underfull \hbox (badness 10000) in paragraph at lines 407--408
 
  []
 
 [4]
-Package color Info: Redefining color shadecolor on input line 1112.
-File: figure/figure2.pdf Graphic file (type QTm)
- <use  "figure/figure2.pdf" >
+Underfull \hbox (badness 10000) in paragraph at lines 416--417
 
-LaTeX Warning: Float too large for page by 25.74309pt on input line 1117.
+ []
 
-Package color Info: Redefining color shadecolor on input line 1123.
-File: figure/figure4.pdf Graphic file (type QTm)
-<use  "figure/figure4.pdf" >
 
-LaTeX Warning: Float too large for page by 25.74309pt on input line 1128.
+Underfull \hbox (badness 10000) in paragraph at lines 423--424
 
-Package color Info: Redefining color shadecolor on input line 1134.
-File: figure/figure5.pdf Graphic file (type QTm)
-<use  "figure/figure5.pdf" >
+ []
 
-LaTeX Warning: Float too large for page by 25.74309pt on input line 1139.
 
-(C:\Users\wrbrooks\git\loadings\writeup\loadings.bbl) [5] [6] [7] [8] [9]
-[10] [11] [12] [13] [14] [15] [16]
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 454--455
+
+ []
+
+Requested font "aer7" at 7.0pt
+ -> aer7
+
+Overfull \hbox (47.47691pt too wide) in paragraph at lines 456--457
+[]\T1/aer/m/n/10 The per-for-mance of the global (ag-gre-gate) model is quite g
+ood: with just two pre-dic-tors (sed-i-ment: theisen, an-tecedent_qbase_quantil
+e,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 456--457
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 460--461
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 480--481
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--483
+
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 588--589
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 590--591
+
+ []
+
+
+LaTeX Warning: Reference `cdf-s' on page 6 undefined on input line 592.
+
+
+LaTeX Warning: Reference `cdf-p' on page 6 undefined on input line 592.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 592--593
+
+ []
+
+File: loadings-figure2.pdf Graphic file (type QTm)
+<use  "loadings-figure2.pdf" >
+File: loadings-figure4.pdf Graphic file (type QTm)
+ <use  "loadings-figure4.pdf" >
+File: loadings-figure5.pdf Graphic file (type QTm)
+
+<use  "loadings-figure5.pdf" >
+(C:\Users\wrbrooks\git\loadings\writeup\loadings.bbl) [6] [7] [8] [9] [10]
+[11] [12] [13] [14] [15] [16] [17] [18]
 (C:\Users\wrbrooks\git\loadings\writeup\loadings.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 3388 strings out of 430423
- 49859 string characters out of 3189389
- 163030 words of memory out of 3000000
- 6494 multiletter control sequences out of 15000+200000
- 18911 words of font info for 75 fonts, out of 3000000 for 9000
- 14 hyphenation exceptions out of 8191
- 36i,10n,38p,1352b,387s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 3433 strings out of 429156
+ 49140 string characters out of 3167929
+ 150198 words of memory out of 3000000
+ 6625 multiletter control sequences out of 15000+200000
+ 32288 words of font info for 61 fonts, out of 3000000 for 9000
+ 786 hyphenation exceptions out of 8191
+ 36i,9n,38p,1352b,419s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on loadings.pdf (16 pages).
+Output written on loadings.pdf (18 pages).

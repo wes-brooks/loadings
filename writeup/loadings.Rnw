@@ -19,7 +19,7 @@
 \date{}                                           % Activate to display a given date or no date
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
+\SweaveOpts{concordance=TRUE, echo=FALSE, include=FALSE}
 \setkeys{Gin}{width=0.9\textwidth}    %make figures a bit wider than the Sweave default.
 \maketitle
 
@@ -133,7 +133,8 @@
             antecedent_qbase[i] = ifelse(unmatched, NA, daily_flow[which( daily_flow$DV_date == stream$start_day[i]-86400 ), 'QGW_fixed']) }
         stream$antecedent_qbase = antecedent_qbase
     
-        flow_cdf[[stream_name]] = ecdf(antecedent_qbase)
+        #flow_cdf[[stream_name]] = ecdf(antecedent_qbase)
+        flow_cdf[[stream_name]] = ecdf(daily_flow$QGW_fixed)
         stream$antecedent_qbase_quantile = flow_cdf[[stream_name]](antecedent_qbase)
         stream$antecedent_qbase2 = antecedent_qbase / watersheds$area[watersheds$stream==stream_name]
         
@@ -461,15 +462,15 @@
     
     
     #Produce a boxplot of the per-event loading, showing rainfall- and snowmelt-driven events separately.
-    bplot <- function(formula, data, loc, classes, site, ylim, horizontal=FALSE, site.names=TRUE, ...) {
+    bplot <- function(formula, data, loc, classes, site, ylim, horizontal=FALSE, site.names=TRUE, log='', ...) {
         boxplot(formula, data=data, bty='n', ylim=ylim, cex=0.6, pch=4, horizontal=horizontal, 
-                boxwex=0.4, frame.plot=F, ann=F, names=classes, add=T, at=loc:(loc+1), yaxt='n', xaxt='n', ...)
+                boxwex=0.4, frame.plot=F, ann=F, names=classes, add=T, at=loc:(loc+1), yaxt='n', xaxt='n', log=log, ...)
         
         if (site.names)
             mtext(site, side=2, line=6.5, at=(loc+0.5), las=1, cex=0.9, adj=0)
         
         target = as.character(formula)[2]    
-        target = paste(strsplit(target, "_", fixed=TRUE)[[1]][2], "_tot", sep="")
+        target = paste(strsplit(target, "_", fixed=TRUE)[[1]][1], "_tot", sep="")
         mtext( paste(round(100*sum(data[data$snow==0,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=4, line=1.2, at=loc, las=1, adj=1 )
         mtext( paste(round(100*sum(data[data$snow==1,target], na.rm=TRUE)/sum(data[,target], na.rm=TRUE), 0), "%", sep=""), side=4, line=1.2, at=(loc+1), las=1, adj=1 )
     }
@@ -491,6 +492,8 @@
         }
         cat("\\vspace{2mm}\\\\ \n")
     }
+
+    
 @
 
 
@@ -602,7 +605,7 @@
 
 
 <<boxplots>>=
-    yy = c(-2.5, 2.8)
+    yy = c(10**-2.5, 10**2.8)
     xx = c(2, 3*length(streams) + 1)
     plot.new()
     par(mfcol=c(1,2), mar=c(4, 4, 1, 1), oma=c(0,3,1,0))
@@ -623,13 +626,13 @@
         
         #Plot the boxplots of sediment yields
         site = stream_names[[streams[i]]]
-        bplot(log_stot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy, horizontal=TRUE, site.names=TRUE)
+        bplot(stot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy, horizontal=TRUE, site.names=TRUE, log='y')
     }
     mtext("count:", side=3, line=0, at=yy[1], adj=0.6 )
     mtext("proportion:", side=3, line=0, at=yy[2], adj=0.39 )
     mtext("Sediment", side=3, line=0.8, at=mean(yy), cex=1.2 )
 
-    yy = c(-2.5, 3.1)
+    yy = c(10**-2.5, 10**3.1)
     par(mfg=c(1,2), mar=c(4, 1.6, 1, 3.5), oma=c(0,0,1,1.5))
     plot.window(xlim=yy, ylim=xx)
     title(xlab="log phosphorus yield (log pounds / mi^2)", line=2.2, cex=0.8)
@@ -639,28 +642,126 @@
     {
         data = get(streams[i])
         site = stream_names[[streams[i]]]
-        bplot(log_ptot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy, horizontal=TRUE, site.names=FALSE)
+        bplot(ptot_yield~snow, data=data, loc=3*i, classes=c("snow","rain"), site=site, xlim=xx, ylim=yy, horizontal=TRUE, site.names=FALSE, log='y')
     }
     
     mtext("proportion:", side=3, line=0, at=yy[2], adj=0.35 )
     mtext("Phosphorus", side=3, line=0.8, at=mean(yy), cex=1.2 )
 @
 
+<<cumulative-sediment-boxplots>>=
+    nsites = length(streams)
+    nrow = (nsites %/% 2) + (nsites %% 2)
+    ncol = 2
+    plot.new()
+    par(mar=c(4, 4, 2, 1), oma=c(0,3,1,0), cex.axis=0.8)
+    layout(matrix(1:(nrow*ncol), nrow, ncol))
+    
+    for (site.name in streams) {
+        site = get(site.name)
+        
+        tot = list()
+        for (y in unique(site[!is.na(site$stot_tot),'water_year'])) {
+            annual = site[site$water_year==y & !is.na(site$stot_tot),]
+            tot[[as.character(y)]] = cumsum(sort(annual$stot_tot, decreasing=TRUE))*100 / sum(annual$stot_tot)
+        }
+    
+        boxframe = data.frame()
+        for (i in 1:length(tot)) {
+            boxframe = rbind(boxframe, cbind(1:length(tot[[i]]), tot[[i]]))
+        }
+        names(boxframe) = c('rank', 'cumsum')
+        
+        depth = max(sapply(tot, length))
+        xx = c(1, depth)
+        yy = c(0,100)
+        ticks = seq(0, round(depth+0.1, -1), by=10)
+        ticks[1] = 1
+        
+        boxplot(cumsum~rank, data=boxframe, frame.plot=FALSE, xlim=xx, ylim=yy, range=0, xaxt='n', yaxt='n')
+        title(main=stream_names[[site.name]], line=0.2)
+        
+        axis(side=1, at=ticks, line=0)
+        title(xlab='event annual rank', line=2.2)
+        
+        axis(side=2, at=seq(0, 100, by=25), line=0)
+        title(ylab='percent annual load', line=2.2)    
+    }
+@
 
+<<cumulative-phosphorus-boxplots>>=    
+    nsites = length(streams)
+    nrow = (nsites %/% 2) + (nsites %% 2)
+    ncol = 2
+    plot.new()
+    par(mar=c(4, 4, 2, 1), oma=c(0,3,1,0), cex.axis=0.8)
+    layout(matrix(1:(nrow*ncol), nrow, ncol))
+    
+    for (site.name in streams) {
+        site = get(site.name)
+        
+        tot = list()
+        for (y in unique(site[!is.na(site$ptot_tot),'water_year'])) {
+            annual = site[site$water_year==y & !is.na(site$ptot_tot),]
+            tot[[as.character(y)]] = cumsum(sort(annual$ptot_tot, decreasing=TRUE))*100 / sum(annual$ptot_tot)
+        }
+    
+        boxframe = data.frame()
+        for (i in 1:length(tot)) {
+            boxframe = rbind(boxframe, cbind(1:length(tot[[i]]), tot[[i]]))
+        }
+        names(boxframe) = c('rank', 'cumsum')
+        
+        depth = max(sapply(tot, length))
+        xx = c(1, depth)
+        yy = c(0,100)
+        ticks = seq(0, round(depth+0.1, -1), by=10)
+        ticks[1] = 1
+        
+        boxplot(cumsum~rank, data=boxframe, frame.plot=FALSE, xlim=xx, ylim=yy, range=0, xaxt='n', yaxt='n')
+        title(main=stream_names[[site.name]], line=0.2)
+        
+        axis(side=1, at=ticks, line=0)
+        title(xlab='event annual rank', line=2.2)
+        
+        axis(side=2, at=seq(0, 100, by=25), line=0)
+        title(ylab='percent annual load', line=2.2)    
+    }
+@
 
 
 
 %Boxplots of the contribution from individual storm events
 \begin{figure}[h]
-    \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
     \begin{center}
-<<show_boxplots, fig=TRUE, fig.width=9, fig.height=11, include=TRUE>>=
+<<show_boxplots, fig=TRUE, fig.width=8, fig.height=10, include=TRUE>>=
 <<boxplots>>
 @
     \caption{Boxplots showing the sediment and phosphorus load produced by individual events at all four streams.\label{boxplots}}
     \end{center}
 \end{figure}
 
+
+%Cumulative sediment loading by event rank
+\begin{figure}[h]
+    \begin{center}
+<<show-cumulative-sediment-boxplots, fig=TRUE, fig.width=8, fig.height=10, include=TRUE>>=
+<<cumulative-sediment-boxplots>>
+@
+    \caption{Boxplots showing how the annual sediment loads were distributed by event rank at each site.\label{cumulative-sediment-boxplots}}
+    \end{center}
+\end{figure}
+
+
+%Cumulative phosphorus loading by event rank
+\begin{figure}[h]
+    \begin{center}
+<<show-cumulative-phosphorus-boxplots, fig=TRUE, fig.width=8, fig.height=10, include=TRUE>>=
+<<cumulative-phosphorus-boxplots>>
+@
+    \caption{Boxplots showing how the annual phosphorus loads were distributed by event rank at each site.\label{cumulative-phosphorus-boxplots}}
+    \end{center}
+\end{figure}
 
 
 <<cumulative_loading_by_rainfall>>=
@@ -713,40 +814,14 @@
         q=vector()
         for(stream_name in streams){
             stream = get(stream_name)
-            stream[output] <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
-            stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=T),1,0))
-            proportion = sum(stream[stream[output]==1,target], na.rm=T)/sum(stream[,target], na.rm=T)
+            stream[output] <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=TRUE),1,0))
+            stream$major <- with(stream, ifelse(get(target)>quantile(get(target), 0.9, na.rm=TRUE),1,0))
+            proportion = sum(stream[stream[output]==1,target], na.rm=TRUE)/sum(stream[,target], na.rm=T)
             q = c(q, proportion)
             assign(stream_name, stream) }
             
         names(q) = streams
         q_90[[target]] = q
-    }
-@
-    
-    
-<<by_year, eval=FALSE>>=
-    for (year in unique(bower$water_year))
-    {
-        annual = bower[bower$water_year==year,]
-        major_s <- with(annual, ifelse(get("stot_tot")>quantile(get("stot_tot"), 0.9, na.rm=T),1,0))
-        major_p <- with(annual, ifelse(get("ptot_tot")>quantile(get("ptot_tot"), 0.9, na.rm=T),1,0))
-        cat( paste(year, "\n") )
-        cat( paste("number of events: ", dim(annual)[1], "\n", sep="") )
-        cat( paste("sediment: total: ", sum(annual$stot_tot), ", rain: ", sum(annual$stot_tot[annual$snow==FALSE]),
-                   ", snow: ", sum(annual$stot_tot[annual$snow==TRUE]), "\n") )
-        cat( paste("proportion of sediment carried by year's biggest events: ", 
-                   round(sum(annual$stot_tot[major_s==1], na.rm=T)/sum(annual$stot_tot, na.rm=T), 3), "\n") )
-        cat( paste("proportion of sediment carried by year's biggest event: ", 
-                   round(max(annual$stot_tot, na.rm=T)/sum(annual$stot_tot, na.rm=T), 3), "\n") )
-        cat( paste("date of biggest sediment event: ",  annual$start_day[which.max(annual$stot_tot)], "\n") )
-        cat( paste("phosphorus: total: ", sum(annual$ptot_tot), ", rain: ", sum(annual$ptot_tot[annual$snow==FALSE]), 
-                   ", snow: ", sum(annual$ptot_tot[annual$snow==TRUE]), "\n") )
-        cat( paste("proportion of phosphorus carried by year's biggest events: ", 
-                   round(sum(annual$ptot_tot[major_p==1], na.rm=T)/sum(annual$ptot_tot, na.rm=T), 3), "\n") )
-        cat( paste("proportion of phosphorus carried by year's biggest event: ", 
-                   round(max(annual$ptot_tot, na.rm=T)/sum(annual$ptot_tot, na.rm=T), 3), "\n") )
-        cat( paste("date of biggest phosphorus event: ",  annual$start_day[which.max(annual$ptot_tot)], "\n") )
     }
 @
 
@@ -802,7 +877,7 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
 
-<<combined_table, include=TRUE, results='asis'>>=
+<<combined_table, include=TRUE, results=tex>>=
     library(xtable)
     print(xtable(cbind(stot_tot_percentages, ptot_tot_percentages), caption="Proportion of total loading contributed by each type of event", label="ab:rainorsnow", align=c('l', 'c', 'c', 'c', 'c')), caption.placement="bottom", hline.after=0, add.to.row=list(pos=list(-1), command=" & \\multicolumn{2}{c}{Sediment} & \\multicolumn{2}{c}{Phosphorus} \\\\\n") )
 @
@@ -813,12 +888,13 @@ Since sediment and phosphorus are carried into streams by runoff, it makes intui
 \subparagraph{Major events}
 Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between \Sexpr{round( 100*min(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$stot_tot))]]}) and \Sexpr{round( 100*max(q_90$stot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$stot_tot))]]}) of the total sediment load; the same events produced between \Sexpr{round( 100*min(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.min(q_90$ptot_tot))]]}) and \Sexpr{round( 100*max(q_90$ptot_tot), 1 )}\% (at \Sexpr{stream_names[[names(which.max(q_90$ptot_tot))]]}) of the total phosphorus load.\\
 
-<<major_table, include=TRUE, results='asis'>>=
+<<major_table, include=TRUE, results=tex>>=
     library(xtable)
     names(q_90) = c("sediment", "phosphorus")
+    n = sapply(streams, function(x) {sum(get(x)[['major']], na.rm=TRUE)})
     s = sapply(q_90$sediment, function(x) {paste(round(x*100, 0), "%", sep="")})
     p = sapply(q_90$phosphorus, function(x) {paste(round(x*100, 0), "%", sep="")})
-    print(xtable(cbind(sediment=s,phosphorus=p), caption="Percentage of loading that comes from the biggest ten percent of events at each site.", label="tab:majorload", align=c('l', 'c', 'c')), caption.placement="bottom", hline.after=0 )
+    print(xtable(cbind(count=n,sediment=s,phosphorus=p), caption="Percentage of loading that comes from the biggest ten percent of events at each site.", label="tab:majorload", align=c('l', 'c', 'c', 'c')), caption.placement="bottom", hline.after=0 )
 @
 
 
@@ -833,7 +909,7 @@ Over the course of the monitoring period, the majority of the total load (both o
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-<<sediment_selection_table, include=TRUE, results='asis'>>=
+<<sediment_selection_table, include=TRUE, results=tex>>=
 R2_table(es)
 R2_table(js)
 R2_table(os)
@@ -854,7 +930,7 @@ R2_table(as)
     \begin{tabular}{lrl}
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-<<phosphorus_selection_table, include=TRUE, results='asis'>>=
+<<phosphorus_selection_table, include=TRUE, results=tex>>=
 R2_table(ep)
 R2_table(jp)
 R2_table(op)
@@ -876,7 +952,7 @@ R2_table(ap)
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-<<sediment_selection_table-snow, include=TRUE, results='asis'>>=
+<<sediment_selection_table-snow, include=TRUE, results=tex>>=
 R2_table(es_snow2)
 R2_table(js_snow2)
 R2_table(os_snow2)
@@ -899,7 +975,7 @@ R2_table(as_snow2)
     \begin{tabular}{lrl}
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-<<phosphorus_selection_table-snow, include=TRUE, results='asis'>>=
+<<phosphorus_selection_table-snow, include=TRUE, results=tex>>=
 R2_table(ep_snow2)
 R2_table(jp_snow2)
 R2_table(op_snow2)
@@ -923,32 +999,56 @@ In order to make a model of the load carried by the stream, we need to select th
 
 \paragraph{Rainfall-driven events}
 
+
+The variables that were used in the variable selection step as potential predictors of the runoff (sediment or phosphorus) from rainfall-driven events are:\\
+
+\begin{itemize}
+    \item\verb!num_events! is the number of stormflow events that occurred between the hydrograph's initial rise from baseflow and its eventual settling to a new baseflow.
+    \item \verb!p5_max! is the maximum 5-minute rainfall intensity, and the other \verb!pXX_max! variables are similar measurements over a period of \verb!XX! minutes.
+    \item \verb!ei! is the erosivity index.
+    \item \verb!duration! is the length of the hydrograph event in days.
+    \item \verb!ap_1day! is the amount of rainfall in the day preceding the rise in the hydrograph. Other variables like \verb!ap_Xday! are similar but over different time   ranges.\\
+    \item \verb!tmax!, \verb!tmin!, and \verb!tmean! are the maximum, minimum, and mean temperatures during the hydrograph event.
+    \item \verb!antecedent_qbase_quantile! is the proportion of days during the study period when the baseflow at the site was lower than when this hydrograph event began.
+    \item \verb!nws_prec! is the rainfall measured by the nearest NWS gauge station.
+    \item \verb!melt_snow! is the amount of snowmelt during the event (estimated from change in snow depth, and the snow water equivalent).
+    \item \verb!cos_julian! and \verb!sin_julian! calculated by \verb!cos(julian*2*pi/365 - 0.35)! and \verb!sin(julian*2*pi/365 - 0.35)!, respectively.
+    \item \verb!antecedent_tmean! \verb!antecedent_tmin!, and \verb!antecedent_tmax! are the mean, maximum, and minimum air temperatures over the two days preceding the hydrograph event.
+\end{itemize}
+
+In addition to those variables, which were used in models for each individual watershed, the following were also included in the variable selection for a model that describes all the watersheds simultaneously:\\
+
+\begin{itemize}
+    \item \verb!slope! is the elevation loss per river mile upstream of the gauge station (note: I've forgotten the distance upstream that is used for the stream slope calculation - Wesley). This is a watershed-level variable - it can be used to compare data between watersheds but not multiple observations within the same watershed.
+    \item \verb!area! is the watershed area drained by the stream in question. Like \verb!slope!, it is a watershed-level measurement and so is only relevant as a predictor in the model that describes the combined data.
+\end{itemize}
+
 The predictors that survived the screening at each stream are listed in Table \ref{nosnow_predictor_list}. The variables are listed in the order of their importance to the model.\\
 
 \begin{table}[h!]\small
     \begin{center}
     \begin{tabular}{ll}
         \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ sanipaste(es$ranked, collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ sanipaste(js$ranked, collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ sanipaste(os$ranked, collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ sanipaste(bs$ranked, collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste(gs$ranked, collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste(ks$ranked, collapse=", ") }\\
-        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste(rs$ranked, collapse=", ") } \\
-        \hspace{5mm} Bower: & \Sexpr{ sanipaste(bows$ranked, collapse=", ") }\\
-        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste(as$ranked, collapse=", ") }
+        \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(es$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ sanipaste2(js$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ sanipaste2(os$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ sanipaste2(bs$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste2(gs$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(ks$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste2(rs$ranked, collapse=", ") } \\
+        \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bows$ranked, collapse=", ") }\\
+        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste2(as$ranked, collapse=", ") }
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ sanipaste(ep$ranked, collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ sanipaste(jp$ranked, collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ sanipaste(op$ranked, collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ sanipaste(bp$ranked, collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste(gp$ranked, collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste(kp$ranked, collapse=", ") }\\
-        \hspace{5mm} Rattlenake: & \Sexpr{ sanipaste(rp$ranked, collapse=", ") }\\
-        \hspace{5mm} Bower: & \Sexpr{ sanipaste(bowp$ranked, collapse=", ") }\\
-        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste(ap$ranked, collapse=", ") }\\
+        \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(ep$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ sanipaste2(jp$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ sanipaste2(op$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ sanipaste2(bp$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste2(gp$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(kp$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlenake: & \Sexpr{ sanipaste2(rp$ranked, collapse=", ") }\\
+        \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bowp$ranked, collapse=", ") }\\
+        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste2(ap$ranked, collapse=", ") }\\
     \end{tabular}
     \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the yield. \label{nosnow_predictor_list}}
     \end{center}
@@ -956,9 +1056,31 @@ The predictors that survived the screening at each stream are listed in Table \r
 
 In each case, the two most important predictors are the theisen rainfall and the antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (see Tables \ref{sed_r_square_nosnow} and \ref{phos_r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how much water is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water moving through the system. At Brewery Creek, the intensity of rainfall is a more important predictor than the total quantity of rain.\\
 
-The performance of the global (aggregate) model is quite good: with just two predictors (sediment: \Sexpr{sanipaste(as$ranked[1:2], collapse=", ")}, phosphorus: \Sexpr{sanipaste(ap$ranked[1:2], collapse=", ")}) the $\text{R}^2$ is \Sexpr{round(as$R2[2], 2)} and \Sexpr{round(ap$R2[2], 2)}, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to \Sexpr{round(ap$R2[3], 2)}.\\
+The performance of the global (aggregate) model is quite good: with just two predictors (sediment: \Sexpr{sanipaste2(as$ranked[1:2], collapse=", ")}, phosphorus: \Sexpr{sanipaste2(ap$ranked[1:2], collapse=", ")}) the $\text{R}^2$ is \Sexpr{round(as$R2[2], 2)} and \Sexpr{round(ap$R2[2], 2)}, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to \Sexpr{round(ap$R2[3], 2)}.\\
 
-\paragraph{Snowmelt-driven events} We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order (like they were for the rainfall-driven events). What's more, the models for snowmelt-driven events were less accurate than for rainfall-driven events, ranging in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
+\paragraph{Snowmelt-driven events} 
+
+The following are the varaibles from which we selected the models for each individual watershed's runoff from snowmelt-driven events:\\
+
+\begin{itemize}
+    \item \verb!num_days! is defined for its role in the snowmelt-driven events.
+    \item \verb!tmin!, \verb!tmax!, and \verb!tmean! are defined for their role in the snowmelt-driven events.
+    \item \verb!nws_snow! I am not certain exactly what this is - Wesley.
+    \item \verb!nws_prec! is defined for its role in the snowmelt-driven events.
+    \item \verb!melt_water! is an estimate of the amount of snowmelt, calculated from the change in snow depth and the estimated water content of the snowpack. Units are inches (like inches of rain).
+    \item \verb!total_water! is the sum of the measured rainfall and the estimated snowmelt. Units are inches (like inches of rain).
+    \item \verb!antecedent_tmean!, \verb!antecedent_tmin!, and \verb!antecedent_tmax! are defined for their role in the snowmelt-driven events.
+    \item \verb!antecedent_qbase_quantile! is defined for its role in the snowmelt-driven events.
+    \item \verb!cos_julian! and \verb!sin_julian! are defined for their role in the snowmelt-driven events.
+\end{itemize}
+
+In addition to all of those variables, the following were also used for selecting a model to describe the snowmelt-driven runoff from all watersheds simultaneously:
+
+\begin{itemize}
+    \item \verb!slope! and \verb!area! are watershed-level variables and are defined in the section about rainfall-driven runoff.
+\end{itemize}
+ 
+ We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order (like they were for the rainfall-driven events). What's more, the models for snowmelt-driven events were less accurate than for rainfall-driven events, ranging in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
 
 At most sites, the most important predictor was a temperature measurement, either the maximum or the mean temperature during the loading event. The antecedent baseflow also appears to be important at most sites. It seems likely that, as in the case of rainfall-driven events, the loading is driven by the quantity of water that moves through the watershed during the event.\\
 
@@ -966,48 +1088,48 @@ At most sites, the most important predictor was a temperature measurement, eithe
     \begin{center}
     \begin{tabular}{ll}
         \textbf{Solids} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ sanipaste(es_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ sanipaste(js_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ sanipaste(os_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ sanipaste(bs_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste(gs_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste(ks_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste(rs_snow2$ranked, collapse=", ") } \\
-        \hspace{5mm} Bower: & \Sexpr{ sanipaste(bows_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste(as_snow2$ranked, collapse=", ") }
+        \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(es_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ sanipaste2(js_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ sanipaste2(os_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ sanipaste2(bs_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste2(gs_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(ks_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste2(rs_snow2$ranked, collapse=", ") } \\
+        \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bows_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste2(as_snow2$ranked, collapse=", ") }
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & \Sexpr{ sanipaste(ep_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Joos: & \Sexpr{ sanipaste(jp_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Otter: & \Sexpr{ sanipaste(op_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Brewery: & \Sexpr{ sanipaste(bp_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste(gp_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste(kp_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste(rp_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Bower: & \Sexpr{ sanipaste(bowp_snow2$ranked, collapse=", ") }\\
-        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste(ap_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Eagle: & \Sexpr{ sanipaste2(ep_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Joos: & \Sexpr{ sanipaste2(jp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Otter: & \Sexpr{ sanipaste2(op_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Brewery: & \Sexpr{ sanipaste2(bp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Garfoot: & \Sexpr{ sanipaste2(gp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Kuenster: & \Sexpr{ sanipaste2(kp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Rattlesnake: & \Sexpr{ sanipaste2(rp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Bower: & \Sexpr{ sanipaste2(bowp_snow2$ranked, collapse=", ") }\\
+        \hspace{5mm} Aggregate: & \Sexpr{ sanipaste2(ap_snow2$ranked, collapse=", ") }\\
     \end{tabular}
     \caption{The most important variables in the models for snowmelt-driven loading. The variables are ordered by their importance to the model of the yield. \label{snow_predictor_list}}
     \end{center}
 \end{table}
 
 
-<<aggregate_sediment_model, include=TRUE, results='asis'>>=
+<<aggregate_sediment_model, include=TRUE, results=tex>>=
     print(xtable(lm(log_stot_yield~theisen+antecedent_qbase_quantile+slope, data=aggregate_nosnow), floating=FALSE, caption="Summary table for of model for log(sediment yield) during the rainfall period."))
 @
 
 
-<<aggregate_phosphorus_model, include=TRUE, results='asis'>>=
+<<aggregate_phosphorus_model, include=TRUE, results=tex>>=
     print(xtable(lm(log_ptot_yield~theisen+antecedent_qbase_quantile, data=aggregate_nosnow), floating=FALSE, caption="Summary table for of model for log(phosphorus yield) during the rainfall period."))
 @
 
 
-<<aggregate_sediment_model_snow, include=TRUE, results='asis'>>=
+<<aggregate_sediment_model_snow, include=TRUE, results=tex>>=
     print(xtable(lm(log_stot_yield~tmax+antecedent_qbase_quantile+num_days+nws_prec, data=aggregate_snow), floating=FALSE, caption="Summary table for of model for log(sediment yield) during the snowmelt period."))
 @
 
 
-<<aggregate_phosphorus_model_snow, include=TRUE, results='asis'>>=
+<<aggregate_phosphorus_model_snow, include=TRUE, results=tex>>=
     print(xtable(lm(log_ptot_yield~tmax+antecedent_qbase_quantile+num_days+nws_prec, data=aggregate_snow), floating=FALSE, caption="Summary table for of model for log(phosphorus yield) during the snowmelt period."))
 @
 
@@ -1050,7 +1172,7 @@ Most of the annual loading seems to be produced by a few major events. If the go
 \end{figure}
 
 
-<<guide, results='asis', eval=FALSE>>=
+<<guide, results=tex, eval=FALSE>>=
     stream = "eagle"
     stream = get(stream)
     

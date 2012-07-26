@@ -1,0 +1,86 @@
+% Created by tikzDevice version 0.6.2 on 2012-06-18 14:11:08
+% !TEX encoding = UTF-8 Unicode
+\documentclass[10pt]{article}
+\nonstopmode
+
+\usepackage{tikz}
+
+\usepackage[active,tightpage,psfixbb]{preview}
+
+\PreviewEnvironment{pgfpicture}
+
+\setlength\PreviewBorder{0pt}
+
+\newcommand{\SweaveOpts}[1]{}  % do not interfere with LaTeX
+\newcommand{\SweaveInput}[1]{} % because they are not real TeX commands
+\newcommand{\Sexpr}[1]{}       % will only be parsed by R
+
+
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[cm]{fullpage}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage[margin=20pt, font=small, labelfont=sc, labelsep=endash]{caption}
+\usepackage{subfig}
+\usepackage{multirow}
+\usepackage{amstext}
+\usepackage{verbatim}
+%\usepackage{pstricks, pst-node,pst-tree}
+
+
+\title{Analysis of loadings}
+\author{Wesley Brooks}
+\date{}                                           % Activate to display a given date or no date
+
+
+\begin{document}
+
+\begin{tikzpicture}[x=1pt,y=1pt]
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+\definecolor[named]{fillColor}{rgb}{1.00,1.00,1.00}
+\fill[color=fillColor,fill opacity=0.00,] (0,0) rectangle (505.89,505.89);
+\begin{scope}
+\path[clip] ( 84.00, 48.00) rectangle (258.94,481.89);
+\definecolor[named]{drawColor}{rgb}{0.03,0.00,0.33}
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,505.89);
+\definecolor[named]{drawColor}{rgb}{0.03,0.00,0.33}
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (105.76, 48.00) -- (258.58, 48.00);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (105.76, 48.00) -- (105.76, 42.00);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (136.32, 48.00) -- (136.32, 42.00);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (166.89, 48.00) -- (166.89, 42.00);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (197.45, 48.00) -- (197.45, 42.00);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (228.01, 48.00) -- (228.01, 42.00);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (258.58, 48.00) -- (258.58, 42.00);
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.20] at (105.76, 24.00) {-2};
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.20] at (136.32, 24.00) {-1};
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.20] at (166.89, 24.00) {0};
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.20] at (197.45, 24.00) {1};
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.20] at (228.01, 24.00) {2};
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.20] at (258.58, 24.00) {3};
+\end{scope}
+\begin{scope}
+\path[clip] ( 36.00,  0.00) rectangle (270.94,493.89);
+\definecolor[named]{drawColor}{rgb}{0.03,0.00,0.33}
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

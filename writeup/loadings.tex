@@ -1,399 +1,4 @@
 \documentclass[10pt]{article}
-\usepackage{graphicx, color}
-%% maxwidth is the original width if it is less than linewidth
-%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
-\makeatletter
-\def\maxwidth{ %
-  \ifdim\Gin@nat@width>\linewidth
-    \linewidth
-  \else
-    \Gin@nat@width
-  \fi
-}
-\makeatother
-
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\definecolor{fgcolor}{rgb}{0.267, 0.267, 0.267}
-\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
-\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
-\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
-\newcommand{\hlargument}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.180392156862745,0.6,0.341176470588235}{#1}}%
-\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0.43921568627451,0.47843137254902,0.701960784313725}{#1}}%
-\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hlassignement}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
-\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.709803921568627,0.145098039215686}{#1}}%
-\newcommand{\hlslot}[1]{\textit{#1}}%
-\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlprompt}[1]{\textcolor[rgb]{0.266666666666667,0.266666666666667,0.266666666666667}{#1}}%
-
-\usepackage{color}%
- 
-\newsavebox{\hlnormalsizeboxclosebrace}%
-\newsavebox{\hlnormalsizeboxopenbrace}%
-\newsavebox{\hlnormalsizeboxbackslash}%
-\newsavebox{\hlnormalsizeboxlessthan}%
-\newsavebox{\hlnormalsizeboxgreaterthan}%
-\newsavebox{\hlnormalsizeboxdollar}%
-\newsavebox{\hlnormalsizeboxunderscore}%
-\newsavebox{\hlnormalsizeboxand}%
-\newsavebox{\hlnormalsizeboxhash}%
-\newsavebox{\hlnormalsizeboxat}%
-\newsavebox{\hlnormalsizeboxpercent}% 
-\newsavebox{\hlnormalsizeboxhat}%
-\newsavebox{\hlnormalsizeboxsinglequote}%
-\newsavebox{\hlnormalsizeboxbacktick}%
-
-\setbox\hlnormalsizeboxopenbrace=\hbox{\begin{normalsize}\verb.{.\end{normalsize}}%
-\setbox\hlnormalsizeboxclosebrace=\hbox{\begin{normalsize}\verb.}.\end{normalsize}}%
-\setbox\hlnormalsizeboxlessthan=\hbox{\begin{normalsize}\verb.<.\end{normalsize}}%
-\setbox\hlnormalsizeboxdollar=\hbox{\begin{normalsize}\verb.$.\end{normalsize}}%
-\setbox\hlnormalsizeboxunderscore=\hbox{\begin{normalsize}\verb._.\end{normalsize}}%
-\setbox\hlnormalsizeboxand=\hbox{\begin{normalsize}\verb.&.\end{normalsize}}%
-\setbox\hlnormalsizeboxhash=\hbox{\begin{normalsize}\verb.#.\end{normalsize}}%
-\setbox\hlnormalsizeboxat=\hbox{\begin{normalsize}\verb.@.\end{normalsize}}%
-\setbox\hlnormalsizeboxbackslash=\hbox{\begin{normalsize}\verb.\.\end{normalsize}}%
-\setbox\hlnormalsizeboxgreaterthan=\hbox{\begin{normalsize}\verb.>.\end{normalsize}}%
-\setbox\hlnormalsizeboxpercent=\hbox{\begin{normalsize}\verb.%.\end{normalsize}}%
-\setbox\hlnormalsizeboxhat=\hbox{\begin{normalsize}\verb.^.\end{normalsize}}%
-\setbox\hlnormalsizeboxsinglequote=\hbox{\begin{normalsize}\verb.'.\end{normalsize}}%
-\setbox\hlnormalsizeboxbacktick=\hbox{\begin{normalsize}\verb.`.\end{normalsize}}%
-\setbox\hlnormalsizeboxhat=\hbox{\begin{normalsize}\verb.^.\end{normalsize}}%
-
-
-
-\newsavebox{\hltinyboxclosebrace}%
-\newsavebox{\hltinyboxopenbrace}%
-\newsavebox{\hltinyboxbackslash}%
-\newsavebox{\hltinyboxlessthan}%
-\newsavebox{\hltinyboxgreaterthan}%
-\newsavebox{\hltinyboxdollar}%
-\newsavebox{\hltinyboxunderscore}%
-\newsavebox{\hltinyboxand}%
-\newsavebox{\hltinyboxhash}%
-\newsavebox{\hltinyboxat}%
-\newsavebox{\hltinyboxpercent}% 
-\newsavebox{\hltinyboxhat}%
-\newsavebox{\hltinyboxsinglequote}%
-\newsavebox{\hltinyboxbacktick}%
-
-\setbox\hltinyboxopenbrace=\hbox{\begin{tiny}\verb.{.\end{tiny}}%
-\setbox\hltinyboxclosebrace=\hbox{\begin{tiny}\verb.}.\end{tiny}}%
-\setbox\hltinyboxlessthan=\hbox{\begin{tiny}\verb.<.\end{tiny}}%
-\setbox\hltinyboxdollar=\hbox{\begin{tiny}\verb.$.\end{tiny}}%
-\setbox\hltinyboxunderscore=\hbox{\begin{tiny}\verb._.\end{tiny}}%
-\setbox\hltinyboxand=\hbox{\begin{tiny}\verb.&.\end{tiny}}%
-\setbox\hltinyboxhash=\hbox{\begin{tiny}\verb.#.\end{tiny}}%
-\setbox\hltinyboxat=\hbox{\begin{tiny}\verb.@.\end{tiny}}%
-\setbox\hltinyboxbackslash=\hbox{\begin{tiny}\verb.\.\end{tiny}}%
-\setbox\hltinyboxgreaterthan=\hbox{\begin{tiny}\verb.>.\end{tiny}}%
-\setbox\hltinyboxpercent=\hbox{\begin{tiny}\verb.%.\end{tiny}}%
-\setbox\hltinyboxhat=\hbox{\begin{tiny}\verb.^.\end{tiny}}%
-\setbox\hltinyboxsinglequote=\hbox{\begin{tiny}\verb.'.\end{tiny}}%
-\setbox\hltinyboxbacktick=\hbox{\begin{tiny}\verb.`.\end{tiny}}%
-\setbox\hltinyboxhat=\hbox{\begin{tiny}\verb.^.\end{tiny}}%
-
-
-
-\newsavebox{\hlscriptsizeboxclosebrace}%
-\newsavebox{\hlscriptsizeboxopenbrace}%
-\newsavebox{\hlscriptsizeboxbackslash}%
-\newsavebox{\hlscriptsizeboxlessthan}%
-\newsavebox{\hlscriptsizeboxgreaterthan}%
-\newsavebox{\hlscriptsizeboxdollar}%
-\newsavebox{\hlscriptsizeboxunderscore}%
-\newsavebox{\hlscriptsizeboxand}%
-\newsavebox{\hlscriptsizeboxhash}%
-\newsavebox{\hlscriptsizeboxat}%
-\newsavebox{\hlscriptsizeboxpercent}% 
-\newsavebox{\hlscriptsizeboxhat}%
-\newsavebox{\hlscriptsizeboxsinglequote}%
-\newsavebox{\hlscriptsizeboxbacktick}%
-
-\setbox\hlscriptsizeboxopenbrace=\hbox{\begin{scriptsize}\verb.{.\end{scriptsize}}%
-\setbox\hlscriptsizeboxclosebrace=\hbox{\begin{scriptsize}\verb.}.\end{scriptsize}}%
-\setbox\hlscriptsizeboxlessthan=\hbox{\begin{scriptsize}\verb.<.\end{scriptsize}}%
-\setbox\hlscriptsizeboxdollar=\hbox{\begin{scriptsize}\verb.$.\end{scriptsize}}%
-\setbox\hlscriptsizeboxunderscore=\hbox{\begin{scriptsize}\verb._.\end{scriptsize}}%
-\setbox\hlscriptsizeboxand=\hbox{\begin{scriptsize}\verb.&.\end{scriptsize}}%
-\setbox\hlscriptsizeboxhash=\hbox{\begin{scriptsize}\verb.#.\end{scriptsize}}%
-\setbox\hlscriptsizeboxat=\hbox{\begin{scriptsize}\verb.@.\end{scriptsize}}%
-\setbox\hlscriptsizeboxbackslash=\hbox{\begin{scriptsize}\verb.\.\end{scriptsize}}%
-\setbox\hlscriptsizeboxgreaterthan=\hbox{\begin{scriptsize}\verb.>.\end{scriptsize}}%
-\setbox\hlscriptsizeboxpercent=\hbox{\begin{scriptsize}\verb.%.\end{scriptsize}}%
-\setbox\hlscriptsizeboxhat=\hbox{\begin{scriptsize}\verb.^.\end{scriptsize}}%
-\setbox\hlscriptsizeboxsinglequote=\hbox{\begin{scriptsize}\verb.'.\end{scriptsize}}%
-\setbox\hlscriptsizeboxbacktick=\hbox{\begin{scriptsize}\verb.`.\end{scriptsize}}%
-\setbox\hlscriptsizeboxhat=\hbox{\begin{scriptsize}\verb.^.\end{scriptsize}}%
-
-
-
-\newsavebox{\hlfootnotesizeboxclosebrace}%
-\newsavebox{\hlfootnotesizeboxopenbrace}%
-\newsavebox{\hlfootnotesizeboxbackslash}%
-\newsavebox{\hlfootnotesizeboxlessthan}%
-\newsavebox{\hlfootnotesizeboxgreaterthan}%
-\newsavebox{\hlfootnotesizeboxdollar}%
-\newsavebox{\hlfootnotesizeboxunderscore}%
-\newsavebox{\hlfootnotesizeboxand}%
-\newsavebox{\hlfootnotesizeboxhash}%
-\newsavebox{\hlfootnotesizeboxat}%
-\newsavebox{\hlfootnotesizeboxpercent}% 
-\newsavebox{\hlfootnotesizeboxhat}%
-\newsavebox{\hlfootnotesizeboxsinglequote}%
-\newsavebox{\hlfootnotesizeboxbacktick}%
-
-\setbox\hlfootnotesizeboxopenbrace=\hbox{\begin{footnotesize}\verb.{.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxclosebrace=\hbox{\begin{footnotesize}\verb.}.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxlessthan=\hbox{\begin{footnotesize}\verb.<.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxdollar=\hbox{\begin{footnotesize}\verb.$.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxunderscore=\hbox{\begin{footnotesize}\verb._.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxand=\hbox{\begin{footnotesize}\verb.&.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxhash=\hbox{\begin{footnotesize}\verb.#.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxat=\hbox{\begin{footnotesize}\verb.@.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxbackslash=\hbox{\begin{footnotesize}\verb.\.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxgreaterthan=\hbox{\begin{footnotesize}\verb.>.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxpercent=\hbox{\begin{footnotesize}\verb.%.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxhat=\hbox{\begin{footnotesize}\verb.^.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxsinglequote=\hbox{\begin{footnotesize}\verb.'.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxbacktick=\hbox{\begin{footnotesize}\verb.`.\end{footnotesize}}%
-\setbox\hlfootnotesizeboxhat=\hbox{\begin{footnotesize}\verb.^.\end{footnotesize}}%
-
-
-
-\newsavebox{\hlsmallboxclosebrace}%
-\newsavebox{\hlsmallboxopenbrace}%
-\newsavebox{\hlsmallboxbackslash}%
-\newsavebox{\hlsmallboxlessthan}%
-\newsavebox{\hlsmallboxgreaterthan}%
-\newsavebox{\hlsmallboxdollar}%
-\newsavebox{\hlsmallboxunderscore}%
-\newsavebox{\hlsmallboxand}%
-\newsavebox{\hlsmallboxhash}%
-\newsavebox{\hlsmallboxat}%
-\newsavebox{\hlsmallboxpercent}% 
-\newsavebox{\hlsmallboxhat}%
-\newsavebox{\hlsmallboxsinglequote}%
-\newsavebox{\hlsmallboxbacktick}%
-
-\setbox\hlsmallboxopenbrace=\hbox{\begin{small}\verb.{.\end{small}}%
-\setbox\hlsmallboxclosebrace=\hbox{\begin{small}\verb.}.\end{small}}%
-\setbox\hlsmallboxlessthan=\hbox{\begin{small}\verb.<.\end{small}}%
-\setbox\hlsmallboxdollar=\hbox{\begin{small}\verb.$.\end{small}}%
-\setbox\hlsmallboxunderscore=\hbox{\begin{small}\verb._.\end{small}}%
-\setbox\hlsmallboxand=\hbox{\begin{small}\verb.&.\end{small}}%
-\setbox\hlsmallboxhash=\hbox{\begin{small}\verb.#.\end{small}}%
-\setbox\hlsmallboxat=\hbox{\begin{small}\verb.@.\end{small}}%
-\setbox\hlsmallboxbackslash=\hbox{\begin{small}\verb.\.\end{small}}%
-\setbox\hlsmallboxgreaterthan=\hbox{\begin{small}\verb.>.\end{small}}%
-\setbox\hlsmallboxpercent=\hbox{\begin{small}\verb.%.\end{small}}%
-\setbox\hlsmallboxhat=\hbox{\begin{small}\verb.^.\end{small}}%
-\setbox\hlsmallboxsinglequote=\hbox{\begin{small}\verb.'.\end{small}}%
-\setbox\hlsmallboxbacktick=\hbox{\begin{small}\verb.`.\end{small}}%
-\setbox\hlsmallboxhat=\hbox{\begin{small}\verb.^.\end{small}}%
-
-
-
-\newsavebox{\hllargeboxclosebrace}%
-\newsavebox{\hllargeboxopenbrace}%
-\newsavebox{\hllargeboxbackslash}%
-\newsavebox{\hllargeboxlessthan}%
-\newsavebox{\hllargeboxgreaterthan}%
-\newsavebox{\hllargeboxdollar}%
-\newsavebox{\hllargeboxunderscore}%
-\newsavebox{\hllargeboxand}%
-\newsavebox{\hllargeboxhash}%
-\newsavebox{\hllargeboxat}%
-\newsavebox{\hllargeboxpercent}% 
-\newsavebox{\hllargeboxhat}%
-\newsavebox{\hllargeboxsinglequote}%
-\newsavebox{\hllargeboxbacktick}%
-
-\setbox\hllargeboxopenbrace=\hbox{\begin{large}\verb.{.\end{large}}%
-\setbox\hllargeboxclosebrace=\hbox{\begin{large}\verb.}.\end{large}}%
-\setbox\hllargeboxlessthan=\hbox{\begin{large}\verb.<.\end{large}}%
-\setbox\hllargeboxdollar=\hbox{\begin{large}\verb.$.\end{large}}%
-\setbox\hllargeboxunderscore=\hbox{\begin{large}\verb._.\end{large}}%
-\setbox\hllargeboxand=\hbox{\begin{large}\verb.&.\end{large}}%
-\setbox\hllargeboxhash=\hbox{\begin{large}\verb.#.\end{large}}%
-\setbox\hllargeboxat=\hbox{\begin{large}\verb.@.\end{large}}%
-\setbox\hllargeboxbackslash=\hbox{\begin{large}\verb.\.\end{large}}%
-\setbox\hllargeboxgreaterthan=\hbox{\begin{large}\verb.>.\end{large}}%
-\setbox\hllargeboxpercent=\hbox{\begin{large}\verb.%.\end{large}}%
-\setbox\hllargeboxhat=\hbox{\begin{large}\verb.^.\end{large}}%
-\setbox\hllargeboxsinglequote=\hbox{\begin{large}\verb.'.\end{large}}%
-\setbox\hllargeboxbacktick=\hbox{\begin{large}\verb.`.\end{large}}%
-\setbox\hllargeboxhat=\hbox{\begin{large}\verb.^.\end{large}}%
-
-
-
-\newsavebox{\hlLargeboxclosebrace}%
-\newsavebox{\hlLargeboxopenbrace}%
-\newsavebox{\hlLargeboxbackslash}%
-\newsavebox{\hlLargeboxlessthan}%
-\newsavebox{\hlLargeboxgreaterthan}%
-\newsavebox{\hlLargeboxdollar}%
-\newsavebox{\hlLargeboxunderscore}%
-\newsavebox{\hlLargeboxand}%
-\newsavebox{\hlLargeboxhash}%
-\newsavebox{\hlLargeboxat}%
-\newsavebox{\hlLargeboxpercent}% 
-\newsavebox{\hlLargeboxhat}%
-\newsavebox{\hlLargeboxsinglequote}%
-\newsavebox{\hlLargeboxbacktick}%
-
-\setbox\hlLargeboxopenbrace=\hbox{\begin{Large}\verb.{.\end{Large}}%
-\setbox\hlLargeboxclosebrace=\hbox{\begin{Large}\verb.}.\end{Large}}%
-\setbox\hlLargeboxlessthan=\hbox{\begin{Large}\verb.<.\end{Large}}%
-\setbox\hlLargeboxdollar=\hbox{\begin{Large}\verb.$.\end{Large}}%
-\setbox\hlLargeboxunderscore=\hbox{\begin{Large}\verb._.\end{Large}}%
-\setbox\hlLargeboxand=\hbox{\begin{Large}\verb.&.\end{Large}}%
-\setbox\hlLargeboxhash=\hbox{\begin{Large}\verb.#.\end{Large}}%
-\setbox\hlLargeboxat=\hbox{\begin{Large}\verb.@.\end{Large}}%
-\setbox\hlLargeboxbackslash=\hbox{\begin{Large}\verb.\.\end{Large}}%
-\setbox\hlLargeboxgreaterthan=\hbox{\begin{Large}\verb.>.\end{Large}}%
-\setbox\hlLargeboxpercent=\hbox{\begin{Large}\verb.%.\end{Large}}%
-\setbox\hlLargeboxhat=\hbox{\begin{Large}\verb.^.\end{Large}}%
-\setbox\hlLargeboxsinglequote=\hbox{\begin{Large}\verb.'.\end{Large}}%
-\setbox\hlLargeboxbacktick=\hbox{\begin{Large}\verb.`.\end{Large}}%
-\setbox\hlLargeboxhat=\hbox{\begin{Large}\verb.^.\end{Large}}%
-
-
-
-\newsavebox{\hlLARGEboxclosebrace}%
-\newsavebox{\hlLARGEboxopenbrace}%
-\newsavebox{\hlLARGEboxbackslash}%
-\newsavebox{\hlLARGEboxlessthan}%
-\newsavebox{\hlLARGEboxgreaterthan}%
-\newsavebox{\hlLARGEboxdollar}%
-\newsavebox{\hlLARGEboxunderscore}%
-\newsavebox{\hlLARGEboxand}%
-\newsavebox{\hlLARGEboxhash}%
-\newsavebox{\hlLARGEboxat}%
-\newsavebox{\hlLARGEboxpercent}% 
-\newsavebox{\hlLARGEboxhat}%
-\newsavebox{\hlLARGEboxsinglequote}%
-\newsavebox{\hlLARGEboxbacktick}%
-
-\setbox\hlLARGEboxopenbrace=\hbox{\begin{LARGE}\verb.{.\end{LARGE}}%
-\setbox\hlLARGEboxclosebrace=\hbox{\begin{LARGE}\verb.}.\end{LARGE}}%
-\setbox\hlLARGEboxlessthan=\hbox{\begin{LARGE}\verb.<.\end{LARGE}}%
-\setbox\hlLARGEboxdollar=\hbox{\begin{LARGE}\verb.$.\end{LARGE}}%
-\setbox\hlLARGEboxunderscore=\hbox{\begin{LARGE}\verb._.\end{LARGE}}%
-\setbox\hlLARGEboxand=\hbox{\begin{LARGE}\verb.&.\end{LARGE}}%
-\setbox\hlLARGEboxhash=\hbox{\begin{LARGE}\verb.#.\end{LARGE}}%
-\setbox\hlLARGEboxat=\hbox{\begin{LARGE}\verb.@.\end{LARGE}}%
-\setbox\hlLARGEboxbackslash=\hbox{\begin{LARGE}\verb.\.\end{LARGE}}%
-\setbox\hlLARGEboxgreaterthan=\hbox{\begin{LARGE}\verb.>.\end{LARGE}}%
-\setbox\hlLARGEboxpercent=\hbox{\begin{LARGE}\verb.%.\end{LARGE}}%
-\setbox\hlLARGEboxhat=\hbox{\begin{LARGE}\verb.^.\end{LARGE}}%
-\setbox\hlLARGEboxsinglequote=\hbox{\begin{LARGE}\verb.'.\end{LARGE}}%
-\setbox\hlLARGEboxbacktick=\hbox{\begin{LARGE}\verb.`.\end{LARGE}}%
-\setbox\hlLARGEboxhat=\hbox{\begin{LARGE}\verb.^.\end{LARGE}}%
-
-
-
-\newsavebox{\hlhugeboxclosebrace}%
-\newsavebox{\hlhugeboxopenbrace}%
-\newsavebox{\hlhugeboxbackslash}%
-\newsavebox{\hlhugeboxlessthan}%
-\newsavebox{\hlhugeboxgreaterthan}%
-\newsavebox{\hlhugeboxdollar}%
-\newsavebox{\hlhugeboxunderscore}%
-\newsavebox{\hlhugeboxand}%
-\newsavebox{\hlhugeboxhash}%
-\newsavebox{\hlhugeboxat}%
-\newsavebox{\hlhugeboxpercent}% 
-\newsavebox{\hlhugeboxhat}%
-\newsavebox{\hlhugeboxsinglequote}%
-\newsavebox{\hlhugeboxbacktick}%
-
-\setbox\hlhugeboxopenbrace=\hbox{\begin{huge}\verb.{.\end{huge}}%
-\setbox\hlhugeboxclosebrace=\hbox{\begin{huge}\verb.}.\end{huge}}%
-\setbox\hlhugeboxlessthan=\hbox{\begin{huge}\verb.<.\end{huge}}%
-\setbox\hlhugeboxdollar=\hbox{\begin{huge}\verb.$.\end{huge}}%
-\setbox\hlhugeboxunderscore=\hbox{\begin{huge}\verb._.\end{huge}}%
-\setbox\hlhugeboxand=\hbox{\begin{huge}\verb.&.\end{huge}}%
-\setbox\hlhugeboxhash=\hbox{\begin{huge}\verb.#.\end{huge}}%
-\setbox\hlhugeboxat=\hbox{\begin{huge}\verb.@.\end{huge}}%
-\setbox\hlhugeboxbackslash=\hbox{\begin{huge}\verb.\.\end{huge}}%
-\setbox\hlhugeboxgreaterthan=\hbox{\begin{huge}\verb.>.\end{huge}}%
-\setbox\hlhugeboxpercent=\hbox{\begin{huge}\verb.%.\end{huge}}%
-\setbox\hlhugeboxhat=\hbox{\begin{huge}\verb.^.\end{huge}}%
-\setbox\hlhugeboxsinglequote=\hbox{\begin{huge}\verb.'.\end{huge}}%
-\setbox\hlhugeboxbacktick=\hbox{\begin{huge}\verb.`.\end{huge}}%
-\setbox\hlhugeboxhat=\hbox{\begin{huge}\verb.^.\end{huge}}%
-
-
-
-\newsavebox{\hlHugeboxclosebrace}%
-\newsavebox{\hlHugeboxopenbrace}%
-\newsavebox{\hlHugeboxbackslash}%
-\newsavebox{\hlHugeboxlessthan}%
-\newsavebox{\hlHugeboxgreaterthan}%
-\newsavebox{\hlHugeboxdollar}%
-\newsavebox{\hlHugeboxunderscore}%
-\newsavebox{\hlHugeboxand}%
-\newsavebox{\hlHugeboxhash}%
-\newsavebox{\hlHugeboxat}%
-\newsavebox{\hlHugeboxpercent}% 
-\newsavebox{\hlHugeboxhat}%
-\newsavebox{\hlHugeboxsinglequote}%
-\newsavebox{\hlHugeboxbacktick}%
-
-\setbox\hlHugeboxopenbrace=\hbox{\begin{Huge}\verb.{.\end{Huge}}%
-\setbox\hlHugeboxclosebrace=\hbox{\begin{Huge}\verb.}.\end{Huge}}%
-\setbox\hlHugeboxlessthan=\hbox{\begin{Huge}\verb.<.\end{Huge}}%
-\setbox\hlHugeboxdollar=\hbox{\begin{Huge}\verb.$.\end{Huge}}%
-\setbox\hlHugeboxunderscore=\hbox{\begin{Huge}\verb._.\end{Huge}}%
-\setbox\hlHugeboxand=\hbox{\begin{Huge}\verb.&.\end{Huge}}%
-\setbox\hlHugeboxhash=\hbox{\begin{Huge}\verb.#.\end{Huge}}%
-\setbox\hlHugeboxat=\hbox{\begin{Huge}\verb.@.\end{Huge}}%
-\setbox\hlHugeboxbackslash=\hbox{\begin{Huge}\verb.\.\end{Huge}}%
-\setbox\hlHugeboxgreaterthan=\hbox{\begin{Huge}\verb.>.\end{Huge}}%
-\setbox\hlHugeboxpercent=\hbox{\begin{Huge}\verb.%.\end{Huge}}%
-\setbox\hlHugeboxhat=\hbox{\begin{Huge}\verb.^.\end{Huge}}%
-\setbox\hlHugeboxsinglequote=\hbox{\begin{Huge}\verb.'.\end{Huge}}%
-\setbox\hlHugeboxbacktick=\hbox{\begin{Huge}\verb.`.\end{Huge}}%
-\setbox\hlHugeboxhat=\hbox{\begin{Huge}\verb.^.\end{Huge}}%
- 
-
-\def\urltilda{\kern -.15em\lower .7ex\hbox{\~{}}\kern .04em}%
-
-\newcommand{\hlstd}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlnum}[1]{\textcolor[rgb]{0.16,0.16,1}{#1}}
-\newcommand{\hlesc}[1]{\textcolor[rgb]{1,0,1}{#1}}
-\newcommand{\hlstr}[1]{\textcolor[rgb]{1,0,0}{#1}}
-\newcommand{\hldstr}[1]{\textcolor[rgb]{0.51,0.51,0}{#1}}
-\newcommand{\hlslc}[1]{\textcolor[rgb]{0.51,0.51,0.51}{\it{#1}}}
-\newcommand{\hlcom}[1]{\textcolor[rgb]{0.51,0.51,0.51}{\it{#1}}}
-\newcommand{\hldir}[1]{\textcolor[rgb]{0,0.51,0}{#1}}
-\newcommand{\hlsym}[1]{\textcolor[rgb]{0,0,0}{#1}}
-\newcommand{\hlline}[1]{\textcolor[rgb]{0.33,0.33,0.33}{#1}}
-\newcommand{\hlkwa}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
-\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.51,0,0}{#1}}
-\newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
-\newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
-
-
-\usepackage{framed}
-\makeatletter
-\newenvironment{kframe}{%
- \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
- \colorbox{shadecolor}{##1}\hskip-\fboxsep
-     % There is no \\@totalrightmargin, so:
-     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
- \MakeFramed {\advance\hsize-\width
-   \@totalleftmargin\z@ \linewidth\hsize
-   \@setminipage}}%
- {\par\unskip\endMakeFramed}
-\makeatother
-
-\definecolor{shadecolor}{rgb}{.97, .97, .97}
-\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
-
 \usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
 %\geometry{landscape}                % Activate for for rotated page geometry
@@ -413,8 +18,9 @@
 \author{Wesley Brooks}
 \date{}                                           % Activate to display a given date or no date
 
+\usepackage{Sweave}
 \begin{document}
-
+\input{loadings-concordance}
 \setkeys{Gin}{width=0.9\textwidth}    %make figures a bit wider than the Sweave default.
 \maketitle
 
@@ -436,30 +42,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \begin{figure}[h!]
     \begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\includegraphics[width=\maxwidth]{figure/fig21} \includegraphics[width=\maxwidth]{figure/fig22} \includegraphics[width=\maxwidth]{figure/fig23} \includegraphics[width=\maxwidth]{figure/fig24} 
-\end{knitrout}
-
+\includegraphics{loadings-fig2}
     \end{center}
     \vspace{-10mm}
     \caption{Cumulative storm loadings at the four creeks.\label{bars}}
@@ -471,30 +56,33 @@
 
 
 
-
-
 %Boxplots of the contribution from individual storm events
 \begin{figure}[h]
-    \setkeys{Gin}{width=1\textwidth}    %make figures a bit wider than the Sweave default.
     \begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\includegraphics[width=\maxwidth]{figure/show_boxplots1} \includegraphics[width=\maxwidth]{figure/show_boxplots2} 
-\end{knitrout}
-
+\includegraphics{loadings-show_boxplots}
     \caption{Boxplots showing the sediment and phosphorus load produced by individual events at all four streams.\label{boxplots}}
     \end{center}
 \end{figure}
 
 
+%Cumulative sediment loading by event rank
+\begin{figure}[h]
+    \begin{center}
+\includegraphics{loadings-show-cumulative-sediment-boxplots}
+    \caption{Boxplots showing how the annual sediment loads were distributed by event rank at each site.\label{cumulative-sediment-boxplots}}
+    \end{center}
+\end{figure}
 
 
+%Cumulative phosphorus loading by event rank
+\begin{figure}[h]
+    \begin{center}
+\includegraphics{loadings-show-cumulative-phosphorus-boxplots}
+    \caption{Boxplots showing how the annual phosphorus loads were distributed by event rank at each site.\label{cumulative-phosphorus-boxplots}}
+    \end{center}
+\end{figure}
 
 
-
-
-
-    
-    
 
 
 
@@ -550,9 +138,8 @@ We investigated dividing the snow-free seasons into early and late subseasons, s
 The investigation was done by making linear models to describe the sediment and phosphorus loading during the two subseasons and comparing them to a single model fit to the entire snow-free period. Because the split makes the model more flexible, it will certainly improve the model's fit - the question is whether that improvement is enough to justify making the model more complex. At all four streams, the model improvement was statistically significant but too small to matter (the split models explained about 1\%-2\% more of the loads). We will not use the split in the rest of the analysis.\\
 
 
-
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Wed Jun 06 12:37:55 2012
+% latex table generated in R 2.15.1 by xtable 1.7-0 package
+% Wed Jul 25 19:03:59 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{lcccc}
@@ -572,32 +159,27 @@ Eagle & 26\% & 74\% & 31\% & 69\% \\
 \label{ab:rainorsnow}
 \end{center}
 \end{table}
-
-
-
-
 \subparagraph{Snowmelt-driven events}
 Since sediment and phosphorus are carried into streams by runoff, it makes intuitive sense that the amount of loading during an event should depend on the amount of runoff during that event. In the case of rainfall-driven loading events, it is straightforward to use rain gauges to measure the amount of water entering the stream system. In the case of snowmelt-driven loading events, though, it is not easy to measure how much water melts out of the snowpack, especially when there is also additional snow falling at the same time. There is a subset of events for which we are able to estimate the amount of melting water: Those are the events when we have a measurement of the snow's water content and of the snow depth both before and after the event, and no additional snow falls during the event.\\
 
 \subparagraph{Major events}
 Over the course of the monitoring period, the majority of the total load (both of sediment and of phosphorus) was carried during just a few major events. Just 10\% of the events carried between 73.1\% (at Otter) and 97.1\% (at Bower) of the total sediment load; the same events produced between 64.6\% (at Otter) and 88\% (at Joos) of the total phosphorus load.\\
 
-
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Wed Jun 06 12:37:55 2012
+% latex table generated in R 2.15.1 by xtable 1.7-0 package
+% Wed Jul 25 19:04:00 2012
 \begin{table}[ht]
 \begin{center}
-\begin{tabular}{lcc}
-  & sediment & phosphorus \\ 
+\begin{tabular}{lccc}
+  & count & sediment & phosphorus \\ 
   \hline
-eagle & 89\% & 84\% \\ 
-  joosvalley & 93\% & 88\% \\ 
-  otter & 73\% & 65\% \\ 
-  brewery & 90\% & 86\% \\ 
-  garfoot & 74\% & 68\% \\ 
-  kuenster & 94\% & 82\% \\ 
-  rattlesnake & 93\% & 82\% \\ 
-  bower & 97\% & 83\% \\ 
+eagle & 43 & 89\% & 84\% \\ 
+  joosvalley & 48 & 93\% & 88\% \\ 
+  otter & 43 & 73\% & 65\% \\ 
+  brewery & 57 & 90\% & 86\% \\ 
+  garfoot & 53 & 74\% & 68\% \\ 
+  kuenster & 22 & 94\% & 82\% \\ 
+  rattlesnake & 17 & 93\% & 82\% \\ 
+  bower & 38 & 97\% & 83\% \\ 
   \end{tabular}
 \caption{Percentage of loading that comes from the biggest ten percent of events at each site.}
 \label{tab:majorload}
@@ -606,86 +188,52 @@ eagle & 89\% & 84\% \\
 
 
 
-
-
-
-
-
-
 \begin{table}[h] \small
     \begin{center}
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-
 \multirow{7}{*}{Eagle} & 0.481 & theisen\\ 
- & 0.763 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.775 & theisen + antecedent\_qbase\_quantile + p30max\\ 
- & 0.78 & theisen + antecedent\_qbase\_quantile + p30max + duration\\ 
- & 0.785 & theisen + antecedent\_qbase\_quantile + p30max + duration + tmin\\ 
- & 0.788 & theisen + antecedent\_qbase\_quantile + p30max + duration + tmin + p15max\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Joos} & 0.483 & theisen\\ 
- & 0.711 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.733 & theisen + antecedent\_qbase\_quantile + p15max\\ 
- & 0.739 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Otter} & 0.447 & theisen\\ 
- & 0.782 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.792 & theisen + antecedent\_qbase\_quantile + ap\_1day\\ 
- & 0.798 & theisen + antecedent\_qbase\_quantile + ap\_1day + antecedent\_tmean\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Brewery} & 0.484 & theisen\\ 
- & 0.717 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.766 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.778 & theisen + antecedent\_qbase\_quantile + p30max\\ 
+ & 0.783 & theisen + antecedent\_qbase\_quantile + p30max + duration\\ 
+ & 0.788 & theisen + antecedent\_qbase\_quantile + p30max + duration + tmin\\ 
+ & 0.791 & theisen + antecedent\_qbase\_quantile + p30max + duration + tmin + p15max\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.483 & theisen\\ 
+ & 0.71 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.732 & theisen + antecedent\_qbase\_quantile + p15max\\ 
+ & 0.738 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day\\ 
+\vspace{2mm}\\ \multirow{6}{*}{Otter} & 0.447 & theisen\\ 
+ & 0.779 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.788 & theisen + antecedent\_qbase\_quantile + ap\_1day\\ 
+ & 0.795 & theisen + antecedent\_qbase\_quantile + ap\_1day + antecedent\_tmean\\ 
+ & 0.8 & theisen + antecedent\_qbase\_quantile + ap\_1day + antecedent\_tmean + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Brewery} & 0.484 & theisen\\ 
+ & 0.718 & theisen + antecedent\_qbase\_quantile\\ 
  & 0.734 & theisen + antecedent\_qbase\_quantile + p10max\\ 
- & 0.74 & theisen + antecedent\_qbase\_quantile + p10max + antecedent\_tmax\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Garfoot} & 0.448 & theisen\\ 
+ & 0.741 & theisen + antecedent\_qbase\_quantile + p10max + antecedent\_tmax\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Garfoot} & 0.448 & theisen\\ 
  & 0.674 & theisen + antecedent\_qbase\_quantile\\ 
  & 0.682 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
  & 0.697 & theisen + antecedent\_qbase\_quantile + ap\_3day + nws\_prec\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{3}{*}{Kuenster} & 0.411 & theisen\\ 
- & 0.768 & theisen + antecedent\_qbase\_quantile\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Rattlesnake} & 0.485 & antecedent\_qbase\_quantile\\ 
- & 0.761 & antecedent\_qbase\_quantile + theisen\\ 
- & 0.78 & antecedent\_qbase\_quantile + theisen + ap\_5day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Bower} & 0.36 & antecedent\_qbase\_quantile\\ 
- & 0.741 & antecedent\_qbase\_quantile + theisen\\ 
- & 0.748 & antecedent\_qbase\_quantile + theisen + ap\_5day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{10}{*}{Aggregate} & 0.399 & theisen\\ 
- & 0.68 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.698 & theisen + antecedent\_qbase\_quantile + slope\\ 
- & 0.703 & theisen + antecedent\_qbase\_quantile + slope + p30max\\ 
- & 0.712 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei\\ 
- & 0.717 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max\\ 
- & 0.719 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + num\_events\\ 
- & 0.723 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + num\_events + tmin\\ 
- & 0.724 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + num\_events + tmin + p5max\\ 
-\vspace{2mm}\\ 
-
-
-
-    \end{tabular}
+\vspace{2mm}\\ \multirow{3}{*}{Kuenster} & 0.411 & theisen\\ 
+ & 0.767 & theisen + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.479 & antecedent\_qbase\_quantile\\ 
+ & 0.759 & antecedent\_qbase\_quantile + theisen\\ 
+ & 0.778 & antecedent\_qbase\_quantile + theisen + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Bower} & 0.361 & antecedent\_qbase\_quantile\\ 
+ & 0.738 & antecedent\_qbase\_quantile + theisen\\ 
+ & 0.747 & antecedent\_qbase\_quantile + theisen + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{10}{*}{Aggregate} & 0.399 & theisen\\ 
+ & 0.659 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.687 & theisen + antecedent\_qbase\_quantile + slope\\ 
+ & 0.692 & theisen + antecedent\_qbase\_quantile + slope + p30max\\ 
+ & 0.702 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei\\ 
+ & 0.706 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max\\ 
+ & 0.71 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + tmin\\ 
+ & 0.712 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + tmin + num\_events\\ 
+ & 0.714 & theisen + antecedent\_qbase\_quantile + slope + p30max + ei + p15max + tmin + num\_events + p5max\\ 
+\vspace{2mm}\\     \end{tabular}
     \caption{Results of variable selection for a model of sediment yield (tons/$\text{mi}^2$) from rainfall-driven events\label{sed_r_square_nosnow}}
     \end{center}
 \end{table}
@@ -695,77 +243,47 @@ eagle & 89\% & 84\% \\
     \begin{tabular}{lrl}
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-
 \multirow{6}{*}{Eagle} & 0.542 & theisen\\ 
- & 0.759 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.77 & theisen + antecedent\_qbase\_quantile + p30max\\ 
- & 0.776 & theisen + antecedent\_qbase\_quantile + p30max + tmin\\ 
- & 0.78 & theisen + antecedent\_qbase\_quantile + p30max + tmin + p15max\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{6}{*}{Joos} & 0.525 & theisen\\ 
- & 0.735 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.748 & theisen + antecedent\_qbase\_quantile + p15max\\ 
- & 0.757 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day\\ 
- & 0.762 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day + antecedent\_tmax\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Otter} & 0.43 & theisen\\ 
- & 0.789 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.797 & theisen + antecedent\_qbase\_quantile + cos\_julian\\ 
- & 0.802 & theisen + antecedent\_qbase\_quantile + cos\_julian + ap\_1day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Brewery} & 0.596 & theisen\\ 
- & 0.756 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.763 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.774 & theisen + antecedent\_qbase\_quantile + p30max\\ 
+ & 0.779 & theisen + antecedent\_qbase\_quantile + p30max + tmin\\ 
+ & 0.782 & theisen + antecedent\_qbase\_quantile + p30max + tmin + p5max\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.525 & theisen\\ 
+ & 0.734 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.747 & theisen + antecedent\_qbase\_quantile + p15max\\ 
+ & 0.756 & theisen + antecedent\_qbase\_quantile + p15max + ap\_3day\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Otter} & 0.43 & theisen\\ 
+ & 0.787 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.795 & theisen + antecedent\_qbase\_quantile + cos\_julian\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Brewery} & 0.596 & theisen\\ 
+ & 0.757 & theisen + antecedent\_qbase\_quantile\\ 
  & 0.767 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Garfoot} & 0.541 & theisen\\ 
- & 0.669 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.7 & theisen + antecedent\_qbase\_quantile + nws\_prec\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Garfoot} & 0.541 & theisen\\ 
+ & 0.67 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.701 & theisen + antecedent\_qbase\_quantile + nws\_prec\\ 
  & 0.713 & theisen + antecedent\_qbase\_quantile + nws\_prec + ap\_5day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Kuenster} & 0.439 & theisen\\ 
- & 0.756 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.789 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Rattlesnake} & 0.372 & theisen\\ 
- & 0.613 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.67 & theisen + antecedent\_qbase\_quantile + ap\_5day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{7}{*}{Bower} & 0.53 & antecedent\_qbase\_quantile\\ 
- & 0.761 & antecedent\_qbase\_quantile + nws\_prec\\ 
- & 0.791 & antecedent\_qbase\_quantile + nws\_prec + theisen\\ 
- & 0.816 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin\\ 
- & 0.825 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin + tmean\\ 
- & 0.83 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin + tmean + ap\_5day\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{9}{*}{Aggregate} & 0.382 & theisen\\ 
- & 0.609 & theisen + antecedent\_qbase\_quantile\\ 
- & 0.612 & theisen + antecedent\_qbase\_quantile + tmin\\ 
- & 0.621 & theisen + antecedent\_qbase\_quantile + tmin + tmax\\ 
- & 0.627 & theisen + antecedent\_qbase\_quantile + tmin + tmax + p15max\\ 
- & 0.636 & theisen + antecedent\_qbase\_quantile + tmin + tmax + p15max + ei\\ 
- & 0.638 & theisen + antecedent\_qbase\_quantile + tmin + tmax + p15max + ei + slope\\ 
- & 0.64 & theisen + antecedent\_qbase\_quantile + tmin + tmax + p15max + ei + slope + p30max\\ 
-\vspace{2mm}\\ 
-
-
-
-    \end{tabular}
+\vspace{2mm}\\ \multirow{4}{*}{Kuenster} & 0.439 & theisen\\ 
+ & 0.753 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.788 & theisen + antecedent\_qbase\_quantile + ap\_3day\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.372 & theisen\\ 
+ & 0.612 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.669 & theisen + antecedent\_qbase\_quantile + ap\_5day\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Bower} & 0.549 & antecedent\_qbase\_quantile\\ 
+ & 0.771 & antecedent\_qbase\_quantile + nws\_prec\\ 
+ & 0.802 & antecedent\_qbase\_quantile + nws\_prec + theisen\\ 
+ & 0.824 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin\\ 
+ & 0.829 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin + ap\_5day\\ 
+ & 0.837 & antecedent\_qbase\_quantile + nws\_prec + theisen + tmin + ap\_5day + tmean\\ 
+\vspace{2mm}\\ \multirow{10}{*}{Aggregate} & 0.382 & theisen\\ 
+ & 0.585 & theisen + antecedent\_qbase\_quantile\\ 
+ & 0.592 & theisen + antecedent\_qbase\_quantile + slope\\ 
+ & 0.596 & theisen + antecedent\_qbase\_quantile + slope + tmin\\ 
+ & 0.605 & theisen + antecedent\_qbase\_quantile + slope + tmin + tmax\\ 
+ & 0.611 & theisen + antecedent\_qbase\_quantile + slope + tmin + tmax + p15max\\ 
+ & 0.62 & theisen + antecedent\_qbase\_quantile + slope + tmin + tmax + p15max + ei\\ 
+ & 0.622 & theisen + antecedent\_qbase\_quantile + slope + tmin + tmax + p15max + ei + nws\_prec\\ 
+ & 0.624 & theisen + antecedent\_qbase\_quantile + slope + tmin + tmax + p15max + ei + nws\_prec + p30max\\ 
+\vspace{2mm}\\     \end{tabular}
     \caption{Results of variable selection for a model of phosphorus yield (pounds/$\text{mi}^2$) from rainfall-driven events\label{phos_r_square_nosnow}}
     \end{center}
 \end{table}
@@ -776,73 +294,44 @@ eagle & 89\% & 84\% \\
     \begin{tabular}{lrl}
     \textbf{Sediment} & $R^2$ & Model terms \\
     \hline
-
 \multirow{3}{*}{Eagle} & 0.296 & tmax\\ 
- & 0.383 & tmax + antecedent\_qbase\_quantile\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Joos} & 0.228 & tmax\\ 
+ & 0.384 & tmax + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.228 & tmax\\ 
  & 0.259 & tmax + nws\_prec\\ 
  & 0.368 & tmax + nws\_prec + num\_days\\ 
- & 0.487 & tmax + nws\_prec + num\_days + antecedent\_qbase\_quantile\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Otter} & 0.278 & tmax\\ 
- & 0.299 & tmax + antecedent\_qbase\_quantile\\ 
- & 0.556 & tmax + antecedent\_qbase\_quantile + total\_water\\ 
- & 0.606 & tmax + antecedent\_qbase\_quantile + total\_water + sin\_julian\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Brewery} & 0.323 & antecedent\_qbase\_quantile\\ 
- & 0.472 & antecedent\_qbase\_quantile + num\_days\\ 
- & 0.48 & antecedent\_qbase\_quantile + num\_days + tmax\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{6}{*}{Garfoot} & 0.277 & num\_days\\ 
- & 0.448 & num\_days + antecedent\_qbase\_quantile\\ 
- & 0.589 & num\_days + antecedent\_qbase\_quantile + total\_water\\ 
- & 0.629 & num\_days + antecedent\_qbase\_quantile + total\_water + nws\_snow\\ 
- & 0.646 & num\_days + antecedent\_qbase\_quantile + total\_water + nws\_snow + nws\_prec\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Kuenster} & 0.467 & melt\_water\\ 
+ & 0.485 & tmax + nws\_prec + num\_days + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Otter} & 0.278 & tmax\\ 
+ & 0.297 & tmax + antecedent\_qbase\_quantile\\ 
+ & 0.551 & tmax + antecedent\_qbase\_quantile + total\_water\\ 
+ & 0.603 & tmax + antecedent\_qbase\_quantile + total\_water + sin\_julian\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Brewery} & 0.321 & antecedent\_qbase\_quantile\\ 
+ & 0.47 & antecedent\_qbase\_quantile + num\_days\\ 
+ & 0.478 & antecedent\_qbase\_quantile + num\_days + tmax\\ 
+\vspace{2mm}\\ \multirow{6}{*}{Garfoot} & 0.277 & num\_days\\ 
+ & 0.45 & num\_days + antecedent\_qbase\_quantile\\ 
+ & 0.59 & num\_days + antecedent\_qbase\_quantile + total\_water\\ 
+ & 0.63 & num\_days + antecedent\_qbase\_quantile + total\_water + nws\_snow\\ 
+ & 0.647 & num\_days + antecedent\_qbase\_quantile + total\_water + nws\_snow + nws\_prec\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Kuenster} & 0.467 & melt\_water\\ 
  & 0.573 & melt\_water + num\_days\\ 
  & 0.695 & melt\_water + num\_days + sin\_julian\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Rattlesnake} & 0.185 & num\_days\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.185 & num\_days\\ 
  & 0.193 & num\_days + antecedent\_tmax\\ 
  & 0.193 & num\_days + antecedent\_tmax + cos\_julian\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{7}{*}{Bower} & 0.46 & total\_water\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Bower} & 0.46 & total\_water\\ 
  & 0.504 & total\_water + nws\_snow\\ 
  & 0.562 & total\_water + nws\_snow + antecedent\_tmean\\ 
  & 0.633 & total\_water + nws\_snow + antecedent\_tmean + num\_days\\ 
  & 0.687 & total\_water + nws\_snow + antecedent\_tmean + num\_days + nws\_prec\\ 
- & 0.726 & total\_water + nws\_snow + antecedent\_tmean + num\_days + nws\_prec + antecedent\_qbase\_quantile\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{8}{*}{Aggregate} & 0.138 & tmax\\ 
- & 0.218 & tmax + antecedent\_qbase\_quantile\\ 
- & 0.311 & tmax + antecedent\_qbase\_quantile + num\_days\\ 
- & 0.37 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec\\ 
- & 0.39 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + slope\\ 
- & 0.416 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + slope + nws\_snow\\ 
- & 0.425 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + slope + nws\_snow + sin\_julian\\ 
-\vspace{2mm}\\ 
-
-
-
-    \end{tabular}
+ & 0.723 & total\_water + nws\_snow + antecedent\_tmean + num\_days + nws\_prec + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{8}{*}{Aggregate} & 0.138 & tmax\\ 
+ & 0.204 & tmax + antecedent\_qbase\_quantile\\ 
+ & 0.295 & tmax + antecedent\_qbase\_quantile + num\_days\\ 
+ & 0.317 & tmax + antecedent\_qbase\_quantile + num\_days + slope\\ 
+ & 0.379 & tmax + antecedent\_qbase\_quantile + num\_days + slope + nws\_prec\\ 
+ & 0.405 & tmax + antecedent\_qbase\_quantile + num\_days + slope + nws\_prec + nws\_snow\\ 
+ & 0.415 & tmax + antecedent\_qbase\_quantile + num\_days + slope + nws\_prec + nws\_snow + sin\_julian\\ 
+\vspace{2mm}\\     \end{tabular}
     \caption{Results of variable selection for a model of sediment yield (tons/$\text{mi}^2$) from snowmelt-driven events.\label{sed_r_square_snow}}
     \end{center}
 \end{table}
@@ -854,76 +343,47 @@ eagle & 89\% & 84\% \\
     \begin{tabular}{lrl}
     \textbf{Phosphorus} & $R^2$ & Model terms \\
     \hline
-
 \multirow{3}{*}{Eagle} & 0.338 & tmax\\ 
- & 0.41 & tmax + antecedent\_qbase\_quantile\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Joos} & 0.237 & tmax\\ 
+ & 0.411 & tmax + antecedent\_qbase\_quantile\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Joos} & 0.237 & tmax\\ 
  & 0.281 & tmax + nws\_prec\\ 
- & 0.328 & tmax + nws\_prec + antecedent\_qbase\_quantile\\ 
- & 0.48 & tmax + nws\_prec + antecedent\_qbase\_quantile + num\_days\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Otter} & 0.32 & tmax\\ 
- & 0.37 & tmax + antecedent\_qbase\_quantile\\ 
- & 0.616 & tmax + antecedent\_qbase\_quantile + total\_water\\ 
- & 0.658 & tmax + antecedent\_qbase\_quantile + total\_water + sin\_julian\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{5}{*}{Brewery} & 0.16 & num\_days\\ 
+ & 0.326 & tmax + nws\_prec + antecedent\_qbase\_quantile\\ 
+ & 0.478 & tmax + nws\_prec + antecedent\_qbase\_quantile + num\_days\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Otter} & 0.32 & tmax\\ 
+ & 0.367 & tmax + antecedent\_qbase\_quantile\\ 
+ & 0.611 & tmax + antecedent\_qbase\_quantile + total\_water\\ 
+ & 0.653 & tmax + antecedent\_qbase\_quantile + total\_water + sin\_julian\\ 
+\vspace{2mm}\\ \multirow{5}{*}{Brewery} & 0.16 & num\_days\\ 
  & 0.256 & num\_days + sin\_julian\\ 
  & 0.345 & num\_days + sin\_julian + antecedent\_qbase\_quantile\\ 
  & 0.357 & num\_days + sin\_julian + antecedent\_qbase\_quantile + tmax\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{7}{*}{Garfoot} & 0.236 & num\_days\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Garfoot} & 0.236 & num\_days\\ 
  & 0.391 & num\_days + total\_water\\ 
- & 0.449 & num\_days + total\_water + sin\_julian\\ 
- & 0.489 & num\_days + total\_water + sin\_julian + antecedent\_qbase\_quantile\\ 
- & 0.53 & num\_days + total\_water + sin\_julian + antecedent\_qbase\_quantile + nws\_snow\\ 
- & 0.564 & num\_days + total\_water + sin\_julian + antecedent\_qbase\_quantile + nws\_snow + melt\_water\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{7}{*}{Kuenster} & 0.553 & total\_water\\ 
+ & 0.446 & num\_days + total\_water + antecedent\_qbase\_quantile\\ 
+ & 0.49 & num\_days + total\_water + antecedent\_qbase\_quantile + sin\_julian\\ 
+ & 0.531 & num\_days + total\_water + antecedent\_qbase\_quantile + sin\_julian + nws\_snow\\ 
+ & 0.565 & num\_days + total\_water + antecedent\_qbase\_quantile + sin\_julian + nws\_snow + melt\_water\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Kuenster} & 0.553 & total\_water\\ 
  & 0.668 & total\_water + nws\_snow\\ 
  & 0.704 & total\_water + nws\_snow + sin\_julian\\ 
  & 0.77 & total\_water + nws\_snow + sin\_julian + num\_days\\ 
  & 0.81 & total\_water + nws\_snow + sin\_julian + num\_days + tmin\\ 
  & 0.868 & total\_water + nws\_snow + sin\_julian + num\_days + tmin + tmean\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{4}{*}{Rattlesnake} & 0.239 & num\_days\\ 
+\vspace{2mm}\\ \multirow{4}{*}{Rattlesnake} & 0.239 & num\_days\\ 
  & 0.25 & num\_days + antecedent\_tmax\\ 
  & 0.251 & num\_days + antecedent\_tmax + cos\_julian\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{6}{*}{Bower} & 0.394 & total\_water\\ 
- & 0.568 & total\_water + antecedent\_qbase\_quantile\\ 
- & 0.672 & total\_water + antecedent\_qbase\_quantile + num\_days\\ 
+\vspace{2mm}\\ \multirow{6}{*}{Bower} & 0.394 & total\_water\\ 
+ & 0.565 & total\_water + antecedent\_qbase\_quantile\\ 
+ & 0.668 & total\_water + antecedent\_qbase\_quantile + num\_days\\ 
  & 0.756 & total\_water + antecedent\_qbase\_quantile + num\_days + antecedent\_tmean\\ 
- & 0.778 & total\_water + antecedent\_qbase\_quantile + num\_days + antecedent\_tmean + nws\_snow\\ 
-\vspace{2mm}\\ 
-
-
-\multirow{7}{*}{Aggregate} & 0.166 & tmax\\ 
- & 0.258 & tmax + antecedent\_qbase\_quantile\\ 
- & 0.34 & tmax + antecedent\_qbase\_quantile + num\_days\\ 
- & 0.397 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec\\ 
- & 0.411 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + sin\_julian\\ 
- & 0.431 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + sin\_julian + nws\_snow\\ 
-\vspace{2mm}\\ 
-
-
-
-    \end{tabular}
+ & 0.779 & total\_water + antecedent\_qbase\_quantile + num\_days + antecedent\_tmean + nws\_snow\\ 
+\vspace{2mm}\\ \multirow{7}{*}{Aggregate} & 0.166 & tmax\\ 
+ & 0.253 & tmax + antecedent\_qbase\_quantile\\ 
+ & 0.335 & tmax + antecedent\_qbase\_quantile + num\_days\\ 
+ & 0.392 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec\\ 
+ & 0.406 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + sin\_julian\\ 
+ & 0.426 & tmax + antecedent\_qbase\_quantile + num\_days + nws\_prec + sin\_julian + nws\_snow\\ 
+\vspace{2mm}\\     \end{tabular}
     \caption{Results of variable selection for a model of phosphorus yield (pounds/$\text{mi}^2$) from snowmelt-driven events.\label{phos_r_square_snow}}
     \end{center}
 \end{table}
@@ -936,6 +396,30 @@ In order to make a model of the load carried by the stream, we need to select th
 
 \paragraph{Rainfall-driven events}
 
+
+The variables that were used in the variable selection step as potential predictors of the runoff (sediment or phosphorus) from rainfall-driven events are:\\
+
+\begin{itemize}
+    \item\verb!num_events! is the number of stormflow events that occurred between the hydrograph's initial rise from baseflow and its eventual settling to a new baseflow.
+    \item \verb!p5_max! is the maximum 5-minute rainfall intensity, and the other \verb!pXX_max! variables are similar measurements over a period of \verb!XX! minutes.
+    \item \verb!ei! is the erosivity index.
+    \item \verb!duration! is the length of the hydrograph event in days.
+    \item \verb!ap_1day! is the amount of rainfall in the day preceding the rise in the hydrograph. Other variables like \verb!ap_Xday! are similar but over different time   ranges.\\
+    \item \verb!tmax!, \verb!tmin!, and \verb!tmean! are the maximum, minimum, and mean temperatures during the hydrograph event.
+    \item \verb!antecedent_qbase_quantile! is the proportion of days during the study period when the baseflow at the site was lower than when this hydrograph event began.
+    \item \verb!nws_prec! is the rainfall measured by the nearest NWS gauge station.
+    \item \verb!melt_snow! is the amount of snowmelt during the event (estimated from change in snow depth, and the snow water equivalent).
+    \item \verb!cos_julian! and \verb!sin_julian! calculated by \verb!cos(julian*2*pi/365 - 0.35)! and \verb!sin(julian*2*pi/365 - 0.35)!, respectively.
+    \item \verb!antecedent_tmean! \verb!antecedent_tmin!, and \verb!antecedent_tmax! are the mean, maximum, and minimum air temperatures over the two days preceding the hydrograph event.
+\end{itemize}
+
+In addition to those variables, which were used in models for each individual watershed, the following were also included in the variable selection for a model that describes all the watersheds simultaneously:\\
+
+\begin{itemize}
+    \item \verb!slope! is the elevation loss per river mile upstream of the gauge station (note: I've forgotten the distance upstream that is used for the stream slope calculation - Wesley). This is a watershed-level variable - it can be used to compare data between watersheds but not multiple observations within the same watershed.
+    \item \verb!area! is the watershed area drained by the stream in question. Like \verb!slope!, it is a watershed-level measurement and so is only relevant as a predictor in the model that describes the combined data.
+\end{itemize}
+
 The predictors that survived the screening at each stream are listed in Table \ref{nosnow_predictor_list}. The variables are listed in the order of their importance to the model.\\
 
 \begin{table}[h!]\small
@@ -944,24 +428,24 @@ The predictors that survived the screening at each stream are listed in Table \r
         \textbf{Solids} & \\
         \hspace{5mm} Eagle: & theisen, antecedent\_qbase\_quantile, p30max, duration, tmin, p15max\\
         \hspace{5mm} Joos: & theisen, antecedent\_qbase\_quantile, p15max, ap\_3day\\
-        \hspace{5mm} Otter: & theisen, antecedent\_qbase\_quantile, ap\_1day, antecedent\_tmean\\
+        \hspace{5mm} Otter: & theisen, antecedent\_qbase\_quantile, ap\_1day, antecedent\_tmean, ap\_5day\\
         \hspace{5mm} Brewery: & theisen, antecedent\_qbase\_quantile, p10max, antecedent\_tmax\\
         \hspace{5mm} Garfoot: & theisen, antecedent\_qbase\_quantile, ap\_3day, nws\_prec\\
         \hspace{5mm} Kuenster: & theisen, antecedent\_qbase\_quantile\\
         \hspace{5mm} Rattlesnake: & antecedent\_qbase\_quantile, theisen, ap\_5day \\
         \hspace{5mm} Bower: & antecedent\_qbase\_quantile, theisen, ap\_5day\\
-        \hspace{5mm} Aggregate: & theisen, antecedent\_qbase\_quantile, slope, p30max, ei, p15max, num\_events, tmin, p5max
+        \hspace{5mm} Aggregate: & theisen, antecedent\_qbase\_quantile, slope, p30max, ei, p15max, tmin, num\_events, p5max
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
-        \hspace{5mm} Eagle: & theisen, antecedent\_qbase\_quantile, p30max, tmin, p15max\\
-        \hspace{5mm} Joos: & theisen, antecedent\_qbase\_quantile, p15max, ap\_3day, antecedent\_tmax\\
-        \hspace{5mm} Otter: & theisen, antecedent\_qbase\_quantile, cos\_julian, ap\_1day\\
+        \hspace{5mm} Eagle: & theisen, antecedent\_qbase\_quantile, p30max, tmin, p5max\\
+        \hspace{5mm} Joos: & theisen, antecedent\_qbase\_quantile, p15max, ap\_3day\\
+        \hspace{5mm} Otter: & theisen, antecedent\_qbase\_quantile, cos\_julian\\
         \hspace{5mm} Brewery: & theisen, antecedent\_qbase\_quantile, ap\_3day\\
         \hspace{5mm} Garfoot: & theisen, antecedent\_qbase\_quantile, nws\_prec, ap\_5day\\
         \hspace{5mm} Kuenster: & theisen, antecedent\_qbase\_quantile, ap\_3day\\
         \hspace{5mm} Rattlenake: & theisen, antecedent\_qbase\_quantile, ap\_5day\\
-        \hspace{5mm} Bower: & antecedent\_qbase\_quantile, nws\_prec, theisen, tmin, tmean, ap\_5day\\
-        \hspace{5mm} Aggregate: & theisen, antecedent\_qbase\_quantile, tmin, tmax, p15max, ei, slope, p30max\\
+        \hspace{5mm} Bower: & antecedent\_qbase\_quantile, nws\_prec, theisen, tmin, ap\_5day, tmean\\
+        \hspace{5mm} Aggregate: & theisen, antecedent\_qbase\_quantile, slope, tmin, tmax, p15max, ei, nws\_prec, p30max\\
     \end{tabular}
     \caption{The most important variables in the models for rainfall-driven loading. The variables are ordered by their importance to the model of the yield. \label{nosnow_predictor_list}}
     \end{center}
@@ -969,9 +453,31 @@ The predictors that survived the screening at each stream are listed in Table \r
 
 In each case, the two most important predictors are the theisen rainfall and the antecedent baseflow. Using just those two predictors results in an $R^2$ greater than 0.7 in most models (see Tables \ref{sed_r_square_nosnow} and \ref{phos_r_square_nosnow}.) Since the antecedent baseflow is considered an indicator of how much water is in the watershed before each event, we conclude that the amount of sediment and phosphorus washed into a stream by each event is mainly a function of the quantity of water moving through the system. At Brewery Creek, the intensity of rainfall is a more important predictor than the total quantity of rain.\\
 
-The performance of the global (aggregate) model is quite good: with just two predictors (sediment: theisen, antecedent\_qbase\_quantile, phosphorus: theisen, antecedent\_qbase\_quantile) the $\text{R}^2$ is 0.68 and 0.61, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to 0.61.\\
+The performance of the global (aggregate) model is quite good: with just two predictors (sediment: theisen, antecedent\_qbase\_quantile, phosphorus: theisen, antecedent\_qbase\_quantile) the $\text{R}^2$ is 0.66 and 0.59, respectively. In the case of sediment, the next-most-important predictor is the stream slope. Including it in the model pushes the $\text{R}^2$ to 0.59.\\
 
-\paragraph{Snowmelt-driven events} We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order (like they were for the rainfall-driven events). What's more, the models for snowmelt-driven events were less accurate than for rainfall-driven events, ranging in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
+\paragraph{Snowmelt-driven events} 
+
+The following are the varaibles from which we selected the models for each individual watershed's runoff from snowmelt-driven events:\\
+
+\begin{itemize}
+    \item \verb!num_days! is defined for its role in the snowmelt-driven events.
+    \item \verb!tmin!, \verb!tmax!, and \verb!tmean! are defined for their role in the snowmelt-driven events.
+    \item \verb!nws_snow! I am not certain exactly what this is - Wesley.
+    \item \verb!nws_prec! is defined for its role in the snowmelt-driven events.
+    \item \verb!melt_water! is an estimate of the amount of snowmelt, calculated from the change in snow depth and the estimated water content of the snowpack. Units are inches (like inches of rain).
+    \item \verb!total_water! is the sum of the measured rainfall and the estimated snowmelt. Units are inches (like inches of rain).
+    \item \verb!antecedent_tmean!, \verb!antecedent_tmin!, and \verb!antecedent_tmax! are defined for their role in the snowmelt-driven events.
+    \item \verb!antecedent_qbase_quantile! is defined for its role in the snowmelt-driven events.
+    \item \verb!cos_julian! and \verb!sin_julian! are defined for their role in the snowmelt-driven events.
+\end{itemize}
+
+In addition to all of those variables, the following were also used for selecting a model to describe the snowmelt-driven runoff from all watersheds simultaneously:
+
+\begin{itemize}
+    \item \verb!slope! and \verb!area! are watershed-level variables and are defined in the section about rainfall-driven runoff.
+\end{itemize}
+ 
+ We had less success modeling the loading produced by the snowmelt-driven events. The predictors that survived the screening process were different from stream to stream and those variables that did survive at most sites weren't always selected in the same order (like they were for the rainfall-driven events). What's more, the models for snowmelt-driven events were less accurate than for rainfall-driven events, ranging in $R^2$ from 0.24 to 0.53, with most in the 0.45 range.\\
 
 At most sites, the most important predictor was a temperature measurement, either the maximum or the mean temperature during the loading event. The antecedent baseflow also appears to be important at most sites. It seems likely that, as in the case of rainfall-driven events, the loading is driven by the quantity of water that moves through the watershed during the event.\\
 
@@ -987,14 +493,14 @@ At most sites, the most important predictor was a temperature measurement, eithe
         \hspace{5mm} Kuenster: & melt\_water, num\_days, sin\_julian\\
         \hspace{5mm} Rattlesnake: & num\_days, antecedent\_tmax, cos\_julian \\
         \hspace{5mm} Bower: & total\_water, nws\_snow, antecedent\_tmean, num\_days, nws\_prec, antecedent\_qbase\_quantile\\
-        \hspace{5mm} Aggregate: & tmax, antecedent\_qbase\_quantile, num\_days, nws\_prec, slope, nws\_snow, sin\_julian
+        \hspace{5mm} Aggregate: & tmax, antecedent\_qbase\_quantile, num\_days, slope, nws\_prec, nws\_snow, sin\_julian
     \vspace{2mm}\\
         \textbf{Phosphorus} & \\
         \hspace{5mm} Eagle: & tmax, antecedent\_qbase\_quantile\\
         \hspace{5mm} Joos: & tmax, nws\_prec, antecedent\_qbase\_quantile, num\_days\\
         \hspace{5mm} Otter: & tmax, antecedent\_qbase\_quantile, total\_water, sin\_julian\\
         \hspace{5mm} Brewery: & num\_days, sin\_julian, antecedent\_qbase\_quantile, tmax\\
-        \hspace{5mm} Garfoot: & num\_days, total\_water, sin\_julian, antecedent\_qbase\_quantile, nws\_snow, melt\_water\\
+        \hspace{5mm} Garfoot: & num\_days, total\_water, antecedent\_qbase\_quantile, sin\_julian, nws\_snow, melt\_water\\
         \hspace{5mm} Kuenster: & total\_water, nws\_snow, sin\_julian, num\_days, tmin, tmean\\
         \hspace{5mm} Rattlesnake: & num\_days, antecedent\_tmax, cos\_julian\\
         \hspace{5mm} Bower: & total\_water, antecedent\_qbase\_quantile, num\_days, antecedent\_tmean, nws\_snow\\
@@ -1005,98 +511,78 @@ At most sites, the most important predictor was a temperature measurement, eithe
 \end{table}
 
 
-
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Wed Jun 06 12:37:55 2012
+% latex table generated in R 2.15.1 by xtable 1.7-0 package
+% Wed Jul 25 19:04:00 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rrrrr}
   \hline
  & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
   \hline
-(Intercept) & -2.3514 & 0.0341 & -68.98 & 0.0000 \\ 
-  theisen & 0.6776 & 0.0149 & 45.56 & 0.0000 \\ 
-  antecedent\_qbase\_quantile & 1.6064 & 0.0423 & 37.99 & 0.0000 \\ 
-  slope & 0.0049 & 0.0005 & 10.07 & 0.0000 \\ 
+(Intercept) & -2.4175 & 0.0359 & -67.32 & 0.0000 \\ 
+  theisen & 0.6797 & 0.0151 & 44.90 & 0.0000 \\ 
+  antecedent\_qbase\_quantile & 1.5727 & 0.0431 & 36.52 & 0.0000 \\ 
+  slope & 0.0062 & 0.0005 & 12.54 & 0.0000 \\ 
    \hline
 \end{tabular}
 \caption{Summary table for of model for log(sediment yield) during the rainfall period.}
 \end{center}
 \end{table}
 
-
-
-
-
-
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Wed Jun 06 12:37:55 2012
+% latex table generated in R 2.15.1 by xtable 1.7-0 package
+% Wed Jul 25 19:04:00 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rrrrr}
   \hline
  & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
   \hline
-(Intercept) & -1.1976 & 0.0310 & -38.63 & 0.0000 \\ 
-  theisen & 0.6858 & 0.0177 & 38.72 & 0.0000 \\ 
-  antecedent\_qbase\_quantile & 1.4592 & 0.0472 & 30.89 & 0.0000 \\ 
+(Intercept) & -1.1851 & 0.0326 & -36.34 & 0.0000 \\ 
+  theisen & 0.6896 & 0.0182 & 37.84 & 0.0000 \\ 
+  antecedent\_qbase\_quantile & 1.3927 & 0.0490 & 28.42 & 0.0000 \\ 
    \hline
 \end{tabular}
 \caption{Summary table for of model for log(phosphorus yield) during the rainfall period.}
 \end{center}
 \end{table}
 
-
-
-
-
-
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Wed Jun 06 12:37:55 2012
+% latex table generated in R 2.15.1 by xtable 1.7-0 package
+% Wed Jul 25 19:04:00 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rrrrr}
   \hline
  & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
   \hline
-(Intercept) & -2.3158 & 0.0641 & -36.14 & 0.0000 \\ 
-  tmax & 0.0115 & 0.0014 & 8.01 & 0.0000 \\ 
-  antecedent\_qbase\_quantile & 0.8894 & 0.0602 & 14.77 & 0.0000 \\ 
-  num\_days & 0.1229 & 0.0096 & 12.79 & 0.0000 \\ 
-  nws\_prec & 0.4522 & 0.0376 & 12.01 & 0.0000 \\ 
+(Intercept) & -2.3008 & 0.0652 & -35.28 & 0.0000 \\ 
+  tmax & 0.0121 & 0.0015 & 8.33 & 0.0000 \\ 
+  antecedent\_qbase\_quantile & 0.7956 & 0.0600 & 13.26 & 0.0000 \\ 
+  num\_days & 0.1219 & 0.0097 & 12.53 & 0.0000 \\ 
+  nws\_prec & 0.4535 & 0.0381 & 11.89 & 0.0000 \\ 
    \hline
 \end{tabular}
 \caption{Summary table for of model for log(sediment yield) during the snowmelt period.}
 \end{center}
 \end{table}
 
-
-
-
-
-
-% latex table generated in R 2.14.1 by xtable 1.6-0 package
-% Wed Jun 06 12:37:55 2012
+% latex table generated in R 2.15.1 by xtable 1.7-0 package
+% Wed Jul 25 19:04:00 2012
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rrrrr}
   \hline
  & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
   \hline
-(Intercept) & -1.5140 & 0.0640 & -23.65 & 0.0000 \\ 
-  tmax & 0.0142 & 0.0014 & 9.83 & 0.0000 \\ 
-  antecedent\_qbase\_quantile & 0.9487 & 0.0605 & 15.69 & 0.0000 \\ 
-  num\_days & 0.1154 & 0.0096 & 12.06 & 0.0000 \\ 
-  nws\_prec & 0.4447 & 0.0375 & 11.85 & 0.0000 \\ 
+(Intercept) & -1.5218 & 0.0646 & -23.55 & 0.0000 \\ 
+  tmax & 0.0146 & 0.0014 & 10.05 & 0.0000 \\ 
+  antecedent\_qbase\_quantile & 0.9088 & 0.0597 & 15.22 & 0.0000 \\ 
+  num\_days & 0.1154 & 0.0096 & 12.00 & 0.0000 \\ 
+  nws\_prec & 0.4444 & 0.0377 & 11.79 & 0.0000 \\ 
    \hline
 \end{tabular}
 \caption{Summary table for of model for log(phosphorus yield) during the snowmelt period.}
 \end{center}
 \end{table}
-
-
-
-
 
 \section{Conclusions}
 We have an accurate global model that describes the loading that will result from a rainstorm, based just on the base flow before the storm and on the amount of rain that falls during the storm. Antecedent base flow is a measurement of how much water is in the watershed before a storm and any new water comes as rainfall, so it seems that the sediment and phosphorus loads are driven mainly by the quantity of water moving through the watershed. The stream slope also seems to be important; that could be because steeper slopes give surface water less time to infiltrate and therefore increase the intensity of a rainfall event.\\
@@ -1108,10 +594,7 @@ Most of the annual loading seems to be produced by a few major events. If the go
 
 \begin{figure}
     \begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\includegraphics[width=\maxwidth]{figure/figure2} 
-\end{knitrout}
-
+\includegraphics{loadings-figure2}
     \end{center}
     \caption{Proportion of the total load contributed by rainfall events up to the size shown. Snowmelt-driven events are excluded.\label{cdf}}
 \end{figure}
@@ -1119,10 +602,7 @@ Most of the annual loading seems to be produced by a few major events. If the go
 
 \begin{figure}
     \begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\includegraphics[width=\maxwidth]{figure/figure4} 
-\end{knitrout}
-
+\includegraphics{loadings-figure4}
     \end{center}
     \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total sediment load (in tons) contributed by that event. \label{sed_bubbles}}
 \end{figure}
@@ -1130,15 +610,10 @@ Most of the annual loading seems to be produced by a few major events. If the go
 
 \begin{figure}
     \begin{center}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\includegraphics[width=\maxwidth]{figure/figure5} 
-\end{knitrout}
-
+\includegraphics{loadings-figure5}
     \end{center}
     \caption{Antecedent base flow is the horizontal axis; theisen rainfall is the vertical axis. Each dot represents one event. The size of the dot shows the total phosphorus load (in pounds) contributed by that event. \label{phos_bubbles}}
 \end{figure}
-
-
 
 
 
