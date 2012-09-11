@@ -1,6 +1,6 @@
-This is XeTeX, Version 3.1415926-2.3-0.9997.5 (MiKTeX 2.9) (preloaded format=xelatex 2012.6.18)  25 JUL 2012 19:04
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.6.18)  10 SEP 2012 19:59
 entering extended mode
-**loadings.tex
+**loadings
 (C:\Users\wrbrooks\git\loadings\writeup\loadings.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
@@ -18,14 +18,14 @@ Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size10.clo"
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
-\c@part=\count80
-\c@section=\count81
-\c@subsection=\count82
-\c@subsubsection=\count83
-\c@paragraph=\count84
-\c@subparagraph=\count85
-\c@figure=\count86
-\c@table=\count87
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
@@ -39,7 +39,7 @@ Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is not detected.
+Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
 Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
@@ -48,9 +48,9 @@ Package ifvtex Info: VTeX not detected.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count88
-\Gm@cntv=\count89
-\c@Gm@tempcnt=\count90
+\Gm@cnth=\count87
+\Gm@cntv=\count88
+\c@Gm@tempcnt=\count89
 \Gm@bindingoffset=\dimen103
 \Gm@wd@mp=\dimen104
 \Gm@odd@mp=\dimen105
@@ -61,7 +61,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks15
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\xelatex\xetexconfig\geometry.cfg"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\parskip.sty"
 Package: parskip 2001/04/09 non-zero parskip adjustments
 )
@@ -81,11 +81,18 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: xetex.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\xelatex\xetex-def\xetex.def"
-File: xetex.def 2009/11/22 v0.94 LaTeX color/graphics driver for XeTeX (RRM/JK)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count90
 ))
 \Gin@req@height=\dimen111
 \Gin@req@width=\dimen112
@@ -176,10 +183,7 @@ Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.def"
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
-)
-Requested font "ecrm1000" at 10.0pt
- -> ecrm1000
-)
+))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\ae.sty"
 Package: ae 2001/02/12 1.3 Almost European Computer Modern
 
@@ -194,10 +198,7 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aer.fd"
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-)
-Requested font "aer10" at 10.0pt
- -> aer10
-)))
+))))
 (C:\Users\wrbrooks\git\loadings\writeup\loadings.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
 LaTeX Font Info:    ... okay on input line 22.
@@ -212,6 +213,7 @@ LaTeX Font Info:    ... okay on input line 22.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
 LaTeX Font Info:    ... okay on input line 22.
 
+*geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
@@ -245,88 +247,72 @@ LaTeX Font Info:    ... okay on input line 22.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count102
+\scratchdimen=\dimen122
+\scratchbox=\box27
+\nofMPsegments=\count103
+\nofMParguments=\count104
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count105
+\MPscratchDim=\dimen123
+\MPnumerator=\count106
+\makeMPintoPDFobject=\count107
+\everyMPtoPDFconversion=\toks21
+)
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-(C:\Users\wrbrooks\git\loadings\writeup\loadings-concordance.tex
-\pdfoutput=\count102
-)
-Requested font "aer17" at 17.28pt
- -> aer17
-Requested font "aer12" at 12.0pt
- -> aer12
-Requested font "cmr12" at 12.0pt
- -> cmr12
-Requested font "cmr8" at 8.0pt
- -> cmr8
-Requested font "cmr6" at 6.0pt
- -> cmr6
-Requested font "cmmi12" at 12.0pt
- -> cmmi12
-Requested font "cmmi8" at 8.0pt
- -> cmmi8
-Requested font "cmmi6" at 6.0pt
- -> cmmi6
-Requested font "cmsy10" at 12.0pt
- -> cmsy10
-Requested font "cmsy8" at 8.0pt
- -> cmsy8
-Requested font "cmsy6" at 6.0pt
- -> cmsy6
-Requested font "cmex10" at 12.0pt
- -> cmex10
-Requested font "cmex8" at 8.0pt
- -> cmex8
-Requested font "cmex7" at 6.0pt
- -> cmex7
+ (C:\Users\wrbrooks\git\loadings\writeup\loadings-concordance.tex)
 LaTeX Font Info:    Try loading font information for U+msa on input line 25.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-Requested font "msam10" at 12.0pt
- -> msam10
-Requested font "msam10" at 8.0pt
- -> msam10
-Requested font "msam7" at 6.0pt
- -> msam7
 LaTeX Font Info:    Try loading font information for U+msb on input line 25.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-Requested font "msbm10" at 12.0pt
- -> msbm10
-Requested font "msbm10" at 8.0pt
- -> msbm10
-Requested font "msbm7" at 6.0pt
- -> msbm7
-File: loadings-fig2.pdf Graphic file (type QTm)
+<loadings-fig2.pdf, id=2, 433.62pt x 433.62pt>
+File: loadings-fig2.pdf Graphic file (type pdf)
+ <use loadings-fig2.pdf>
+Package pdftex.def Info: loadings-fig2.pdf used on input line 47.
+(pdftex.def)             Requested size: 476.03984pt x 476.06378pt.
 
-<use  "loadings-fig2.pdf" >
-Requested font "aer9" at 9.0pt
- -> aer9
-Requested font "aecsc10" at 9.0pt
- -> aecsc10
-File: loadings-show_boxplots.pdf Graphic file (type QTm)
- <use  "loadings-show_boxplots.pdf" >
+<loadings-show_boxplots.pdf, id=3, 433.62pt x 433.62pt>
+File: loadings-show_boxplots.pdf Graphic file (type pdf)
+
+<use loadings-show_boxplots.pdf>
+Package pdftex.def Info: loadings-show_boxplots.pdf used on input line 62.
+(pdftex.def)             Requested size: 476.03984pt x 476.06378pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-File: loadings-show-cumulative-sediment-boxplots.pdf Graphic file (type QTm)
-<use  "loadings-show-cumulative-sediment-boxplots.pdf" >
+<loadings-show-cumulative-sediment-boxplots.pdf, id=4, 433.62pt x 433.62pt>
+File: loadings-show-cumulative-sediment-boxplots.pdf Graphic file (type pdf)
+
+<use loadings-show-cumulative-sediment-boxplots.pdf>
+Package pdftex.def Info: loadings-show-cumulative-sediment-boxplots.pdf used on
+ input line 71.
+(pdftex.def)             Requested size: 476.03984pt x 476.06378pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-File: loadings-show-cumulative-phosphorus-boxplots.pdf Graphic file (type QTm)
-<use  "loadings-show-cumulative-phosphorus-boxplots.pdf" >
+<loadings-show-cumulative-phosphorus-boxplots.pdf, id=5, 433.62pt x 433.62pt>
+File: loadings-show-cumulative-phosphorus-boxplots.pdf Graphic file (type pdf)
+
+<use loadings-show-cumulative-phosphorus-boxplots.pdf>
+Package pdftex.def Info: loadings-show-cumulative-phosphorus-boxplots.pdf used 
+on input line 80.
+(pdftex.def)             Requested size: 476.03984pt x 476.06378pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-Requested font "aer12" at 14.4pt
- -> aer12
-Requested font "aebx12" at 14.4pt
- -> aebx12
 
 Underfull \hbox (badness 10000) in paragraph at lines 92--93
 
@@ -334,13 +320,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 92--93
 
 [1
 
-]
+{C:/Users/wrbrooks/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <C:/Users
+/wrbrooks/git/loadings/writeup/loadings-fig2.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 94--95
 
  []
 
-Requested font "aebx10" at 10.0pt
- -> aebx10
 
 Package caption Warning: \label without proper \caption on input line 113.
 See the caption package documentation for explanation.
@@ -353,22 +338,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 98--99
 
  []
 
-Requested font "cmex7" at 7.0pt
- -> cmex7
-Requested font "cmex7" at 5.0pt
- -> cmex7
-Requested font "msam10" at 10.0pt
- -> msam10
-Requested font "msam7" at 7.0pt
- -> msam7
-Requested font "msam5" at 5.0pt
- -> msam5
-Requested font "msbm10" at 10.0pt
- -> msbm10
-Requested font "msbm7" at 7.0pt
- -> msbm7
-Requested font "msbm5" at 5.0pt
- -> msbm5
 
 Underfull \hbox (badness 10000) in paragraph at lines 119--120
 
@@ -424,76 +393,57 @@ Underfull \hbox (badness 10000) in paragraph at lines 166--167
  []
 
 [3]
-Requested font "cmr9" at 9.0pt
- -> cmr9
-Requested font "cmmi9" at 9.0pt
- -> cmmi9
-Requested font "cmsy9" at 9.0pt
- -> cmsy9
-Requested font "cmex9" at 9.0pt
- -> cmex9
-Requested font "msam10" at 9.0pt
- -> msam10
-Requested font "msbm10" at 9.0pt
- -> msbm10
-Requested font "aebx9" at 9.0pt
- -> aebx9
-Requested font "aer6" at 6.0pt
- -> aer6
-Requested font "aer5" at 5.0pt
- -> aer5
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-Requested font "aebx12" at 12.0pt
- -> aebx12
-
-Underfull \hbox (badness 10000) in paragraph at lines 395--396
-
+Overfull \hbox (18.52353pt too wide) in paragraph at lines 245--292
+ [] 
  []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 400--401
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+aer on input line 403.
+
+Underfull \hbox (badness 10000) in paragraph at lines 405--406
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+aer on input line 408.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\omsaer.fd"
 File: omsaer.fd 1999/12/27
 )
 LaTeX Font Info:    Font shape `OMS/aer/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 403.
-LaTeX Font Info:    Try loading font information for T1+aett on input line 403.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 408.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 408.
 
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )
-Requested font "aett10" at 10.0pt
- -> aett10
-
-Underfull \hbox (badness 10000) in paragraph at lines 407--408
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 416--417
+Underfull \hbox (badness 10000) in paragraph at lines 421--422
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 423--424
+Underfull \hbox (badness 10000) in paragraph at lines 428--429
 
  []
 
@@ -501,36 +451,34 @@ Underfull \hbox (badness 10000) in paragraph at lines 423--424
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 454--455
+Underfull \hbox (badness 10000) in paragraph at lines 459--460
 
  []
 
-Requested font "aer7" at 7.0pt
- -> aer7
 
-Overfull \hbox (47.47691pt too wide) in paragraph at lines 456--457
+Overfull \hbox (47.47691pt too wide) in paragraph at lines 461--462
 []\T1/aer/m/n/10 The per-for-mance of the global (ag-gre-gate) model is quite g
 ood: with just two pre-dic-tors (sed-i-ment: theisen, an-tecedent_qbase_quantil
 e,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 456--457
+Underfull \hbox (badness 10000) in paragraph at lines 461--462
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 460--461
+Underfull \hbox (badness 10000) in paragraph at lines 465--466
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 480--481
+Underfull \hbox (badness 10000) in paragraph at lines 485--486
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 482--483
+Underfull \hbox (badness 10000) in paragraph at lines 487--488
 
  []
 
@@ -538,47 +486,81 @@ Underfull \hbox (badness 10000) in paragraph at lines 482--483
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 588--589
+Underfull \hbox (badness 10000) in paragraph at lines 593--594
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 590--591
+Underfull \hbox (badness 10000) in paragraph at lines 595--596
 
  []
 
 
-LaTeX Warning: Reference `cdf-s' on page 6 undefined on input line 592.
+LaTeX Warning: Reference `cdf-s' on page 6 undefined on input line 597.
 
 
-LaTeX Warning: Reference `cdf-p' on page 6 undefined on input line 592.
+LaTeX Warning: Reference `cdf-p' on page 6 undefined on input line 597.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 592--593
+Underfull \hbox (badness 10000) in paragraph at lines 597--598
 
  []
 
-File: loadings-figure2.pdf Graphic file (type QTm)
-<use  "loadings-figure2.pdf" >
-File: loadings-figure4.pdf Graphic file (type QTm)
- <use  "loadings-figure4.pdf" >
-File: loadings-figure5.pdf Graphic file (type QTm)
+<figure2.pdf, id=38, 433.62pt x 433.62pt>
+File: figure2.pdf Graphic file (type pdf)
+ <use figure2.pdf>
+Package pdftex.def Info: figure2.pdf used on input line 609.
+(pdftex.def)             Requested size: 216.81pt x 216.80946pt.
 
-<use  "loadings-figure5.pdf" >
-(C:\Users\wrbrooks\git\loadings\writeup\loadings.bbl) [6] [7] [8] [9] [10]
-[11] [12] [13] [14] [15] [16] [17] [18]
+<stot_bubbles.pdf, id=39, 433.62pt x 433.62pt>
+File: stot_bubbles.pdf Graphic file (type pdf)
+ <use stot_bubbles.pdf>
+Package pdftex.def Info: stot_bubbles.pdf used on input line 624.
+(pdftex.def)             Requested size: 216.81pt x 216.80946pt.
+
+<ptot_bubbles.pdf, id=40, 433.62pt x 433.62pt>
+File: ptot_bubbles.pdf Graphic file (type pdf)
+ <use ptot_bubbles.pdf>
+Package pdftex.def Info: ptot_bubbles.pdf used on input line 639.
+(pdftex.def)             Requested size: 216.81pt x 216.80946pt.
+
+(C:\Users\wrbrooks\git\loadings\writeup\loadings.bbl [6]) [7] [8 <C:/Users/wrbr
+ooks/git/loadings/writeup/loadings-show_boxplots.pdf>] [9 <C:/Users/wrbrooks/gi
+t/loadings/writeup/loadings-show-cumulative-sediment-boxplots.pdf>] [10 <C:/Use
+rs/wrbrooks/git/loadings/writeup/loadings-show-cumulative-phosphorus-boxplots.p
+df>] [11] [12] [13] [14] [15] [16 <C:/Users/wrbrooks/git/loadings/writeup/figur
+e2.pdf>] [17 <C:/Users/wrbrooks/git/loadings/writeup/stot_bubbles.pdf> <C:/User
+s/wrbrooks/git/loadings/writeup/ptot_bubbles.pdf>]
 (C:\Users\wrbrooks\git\loadings\writeup\loadings.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 3433 strings out of 429156
- 49140 string characters out of 3167929
- 150198 words of memory out of 3000000
- 6625 multiletter control sequences out of 15000+200000
- 32288 words of font info for 61 fonts, out of 3000000 for 9000
- 786 hyphenation exceptions out of 8191
- 36i,9n,38p,1352b,419s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 4060 strings out of 494045
+ 61453 string characters out of 3145960
+ 169464 words of memory out of 3000000
+ 7227 multiletter control sequences out of 15000+200000
+ 44108 words of font info for 98 fonts, out of 3000000 for 9000
+ 715 hyphenation exceptions out of 8191
+ 36i,9n,38p,1348b,419s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Pr
+ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Prog
+ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program
+ Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Fi
+les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files
+ (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files (x
+86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on loadings.pdf (17 pages, 374196 bytes).
+PDF statistics:
+ 160 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 40 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-Output written on loadings.pdf (18 pages).
